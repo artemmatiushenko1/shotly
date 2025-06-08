@@ -1,1 +1,1 @@
-# shutrly
+# shotly
