@@ -10,7 +10,7 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "build": "turbo build",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
+    "format": "turbo format"
   },
   "devDependencies": {
     "typescript": "^5.7.3",
