@@ -22,7 +22,9 @@ function AuthLayout(props: AuthLayoutProps) {
             capture moments that <br />
             last forever.
           </h2>
-          <div className="w-full h-60 backdrop:blur-2xl"></div>
+          <p className="text-sm text-background absolute bottom-5 right-10">
+            2025 Shotly, All rights reserved
+          </p>
         </div>
       </div>
       <div className="flex-1/2 p-5">
