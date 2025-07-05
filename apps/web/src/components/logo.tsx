@@ -7,7 +7,7 @@ const Logo = () => (
     xmlns="http://www.w3.org/2000/svg"
   >
     <rect width="289" height="82" rx="41" fill="url(#paint0_linear_31_28)" />
-    <g clip-path="url(#clip0_31_28)">
+    <g clipPath="url(#clip0_31_28)">
       <g data-figma-bg-blur-radius="42">
         <path
           d="M45.1554 40.5249C51.0321 42.6684 54.3217 49.2575 52.4178 55.2697C50.5139 61.2819 44.0313 64.7753 37.992 63.1453L45.1554 40.5249ZM44.1941 40.2092C42.0506 46.0859 35.4624 49.3758 29.4503 47.4719C23.4381 45.568 19.9447 39.0854 21.5747 33.0461L44.1941 40.2092ZM60.2156 32.3022C66.2277 34.2061 69.7212 40.6887 68.0912 46.7279L45.4717 39.5649C47.6152 33.6882 54.2034 30.3982 60.2156 32.3022ZM44.5107 39.2482C38.6341 37.1047 35.3441 30.5165 37.248 24.5044C39.152 18.4922 45.6348 14.9978 51.6741 16.6278L44.5107 39.2482Z"
@@ -43,8 +43,8 @@ const Logo = () => (
         y2="41"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#CE36E5" />
-        <stop offset="1" stop-color="#721E7F" />
+        <stop stopColor="#CE36E5" />
+        <stop offset="1" stopColor="#721E7F" />
       </linearGradient>
       <radialGradient
         id="paint1_radial_31_28"
@@ -54,8 +54,8 @@ const Logo = () => (
         gradientUnits="userSpaceOnUse"
         gradientTransform="translate(28.6897 10.3582) rotate(61.646) scale(67.2223 107.512)"
       >
-        <stop stop-color="white" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="white" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </radialGradient>
       <radialGradient
         id="paint2_radial_31_28"
@@ -65,8 +65,8 @@ const Logo = () => (
         gradientUnits="userSpaceOnUse"
         gradientTransform="translate(28.6897 10.3582) rotate(61.646) scale(67.2223 107.512)"
       >
-        <stop stop-color="white" stop-opacity="0" />
-        <stop offset="1" stop-color="white" />
+        <stop stopColor="white" stopOpacity="0" />
+        <stop offset="1" stopColor="white" />
       </radialGradient>
       <radialGradient
         id="paint3_radial_31_28"
@@ -76,8 +76,8 @@ const Logo = () => (
         gradientUnits="userSpaceOnUse"
         gradientTransform="translate(14.8719 54.7727) rotate(-26.4917) scale(66.8823 106.856)"
       >
-        <stop stop-color="white" stop-opacity="0" />
-        <stop offset="1" stop-color="white" />
+        <stop stopColor="white" stopOpacity="0" />
+        <stop offset="1" stopColor="white" />
       </radialGradient>
       <linearGradient
         id="paint4_linear_31_28"
@@ -87,8 +87,8 @@ const Logo = () => (
         y2="52.6272"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="white" />
-        <stop offset="1" stop-color="white" stop-opacity="0" />
+        <stop stopColor="white" />
+        <stop offset="1" stopColor="white" stopOpacity="0" />
       </linearGradient>
       <clipPath id="clip0_31_28">
         <rect
