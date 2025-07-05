@@ -18,10 +18,16 @@ function AuthLayout(props: AuthLayoutProps) {
             src="/auth-banner.jpg"
             fill
           />
+          <h2 className="absolute top-5 left-5 text-5xl font-bold text-black mix-blend-overlay">
+            capture moments that <br />
+            last forever.
+          </h2>
         </div>
       </div>
       <div className="flex-1/2 p-5">
-        <div className="w-md m-auto mt-20 mb-15">{children}</div>
+        <div className="w-md m-auto mb-15 flex flex-col justify-center h-full">
+          {children}
+        </div>
       </div>
     </div>
   );
