@@ -18,7 +18,7 @@ function AuthLayout(props: AuthLayoutProps) {
             src="/auth-banner.jpg"
             fill
           />
-          <h2 className="absolute top-5 left-5 text-5xl font-bold text-black mix-blend-overlay">
+          <h2 className="absolute top-8 left-10 text-5xl font-bold text-black mix-blend-overlay">
             capture moments that <br />
             last forever.
           </h2>
