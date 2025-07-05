@@ -1,19 +1,15 @@
+import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import Image from 'next/image';
 import React from 'react';
 
 function SignIn() {
   return (
     <div className="w-md m-auto">
-      <Image
-        src="/logo.png"
-        width={50}
-        height={50}
-        alt="logo"
-        className="rounded-md m-auto mt-20"
-      />
+      <div className="flex items-center justify-center">
+        <Logo />
+      </div>
       <div className="text-center mt-15 mb-15">
         <h1 className="text-3xl font-bold">Welcome Back</h1>
         <p>Enter your email and password to access your account</p>
