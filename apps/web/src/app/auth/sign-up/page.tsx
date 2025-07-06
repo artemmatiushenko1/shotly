@@ -1,10 +1,9 @@
-import GoogleIcon from '@/components/google-icon';
-import { Logo } from '@/components/logo';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from '@shotly/ui/components/button';
+import { Label } from '@shotly/ui/components/label';
+import { Input } from '@shotly/ui/components/input';
 import Link from 'next/link';
-import React from 'react';
+import { GoogleIcon } from '@shotly/ui/components/google-icon';
+import { Logo } from '@shotly/ui/components/logo';
 
 function SignUp() {
   return (
