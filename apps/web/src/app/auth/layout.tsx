@@ -15,12 +15,15 @@ function AuthLayout(props: AuthLayoutProps) {
           <Image
             alt="3d camera render"
             className="object-cover object-center"
-            src="/auth-banner.jpg"
+            src="/auth-banner-5.jpg"
             fill
           />
-          <h2 className="absolute top-8 left-10 text-5xl font-bold text-black mix-blend-overlay">
-            capture moments that <br />
-            last forever.
+          <h2 className="absolute top-8 left-10 text-5xl font-bold text-white mix-blend-overlay">
+            capture <br />
+            moments
+            <br />
+            that last <br />
+            forever.
           </h2>
           <p className="text-sm text-background absolute bottom-5 right-10">
             2025 Shotly, All rights reserved
