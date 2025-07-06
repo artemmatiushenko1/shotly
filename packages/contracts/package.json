@@ -3,7 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm build --watch",
-    "build": "tsc -b -v"
+    "build": "tsc -b -v",
+    "format": "prettier --write \"src/**/*.{ts,tsx,md,json,js}\""
   },
   "exports": {
     "./auth": {
