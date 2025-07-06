@@ -1,0 +1,22 @@
+{
+  "name": "@shotly/contracts",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm build --watch",
+    "build": "tsc -b -v"
+  },
+  "exports": {
+    "./auth": {
+      "types": "./src/auth.ts",
+      "default": "./dist/auth.js"
+    }
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "@shotly/typescript-config": "workspace:*"
+  },
+  "dependencies": {
+    "@ts-rest/core": "^3.52.1",
+    "zod": "^3.25.74"
+  }
+}
