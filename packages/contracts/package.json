@@ -6,10 +6,24 @@
     "build": "tsc -b -v",
     "format": "prettier --write \"src/**/*.{ts,tsx,md,json,js}\""
   },
+  "files": [
+    "./dist/**"
+  ],
+  "typesVersions": {
+    "*": {
+      "*": [
+        "src/*"
+      ]
+    }
+  },
   "exports": {
-    "./auth": {
-      "types": "./src/auth.ts",
-      "default": "./dist/auth.js"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "require": "./dist/*.js"
     }
   },
   "devDependencies": {
