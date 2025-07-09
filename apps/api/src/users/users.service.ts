@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { IUsersRepository } from './repository/users-repository.interface';
 
 @Injectable()
 export class UsersService {
+  constructor(private readonly usersRepository: IUsersRepository) {}
+
   create() {
     return 'This action adds a new user';
   }
