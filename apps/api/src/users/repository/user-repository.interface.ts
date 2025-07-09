@@ -1,6 +1,6 @@
 import { User } from '@shotly/contracts/users';
 
-export abstract class IUsersRepository {
+export abstract class IUserRepository {
   abstract create(user: User): Promise<User>;
 
   abstract findAll(): Promise<User[]>;

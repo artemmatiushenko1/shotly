@@ -1,27 +1,25 @@
+import {
+  CreateUserRequestDto,
+  CreateUserResponseDto,
+} from './dto/create-user.dto';
 import { Injectable } from '@nestjs/common';
-import { IUsersRepository } from './repository/users-repository.interface';
+import { IUserRepository } from './repository/user-repository.interface';
+import { User } from '@shotly/contracts/users';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: IUsersRepository) {}
+  constructor(private readonly userRepository: IUserRepository) {}
 
-  create() {
-    return 'This action adds a new user';
-  }
+  async create(
+    createUserRequestDto: CreateUserRequestDto,
+  ): Promise<CreateUserResponseDto> {
+    const user = new User();
+    user.email = createUserRequestDto.email;
+    user.firstName = createUserRequestDto.firstName;
+    user.lastName = createUserRequestDto.lastName;
 
-  findAll() {
-    return `This action returns all users`;
-  }
+    const result = await this.userRepository.create(user);
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+    return result;
   }
 }
