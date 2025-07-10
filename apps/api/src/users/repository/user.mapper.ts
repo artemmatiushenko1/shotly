@@ -8,6 +8,8 @@ export class UserMapper {
     domainEntity.firstName = persistenceEntity.lastName;
     domainEntity.lastName = persistenceEntity.lastName;
     domainEntity.id = persistenceEntity.id;
+    // TODO: rename password to passwordHash, hash directly in user service
+    domainEntity.password = persistenceEntity.password;
     return domainEntity;
   };
 
@@ -17,6 +19,7 @@ export class UserMapper {
     persistenceEntity.firstName = domainEntity.lastName;
     persistenceEntity.lastName = domainEntity.lastName;
     persistenceEntity.id = domainEntity.id;
+    persistenceEntity.password = domainEntity.password;
     return persistenceEntity;
   };
 }

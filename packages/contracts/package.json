@@ -1,6 +1,5 @@
 {
   "name": "@shotly/contracts",
-  "type": "module",
   "scripts": {
     "dev": "pnpm build --watch",
     "build": "tsc -b -v",

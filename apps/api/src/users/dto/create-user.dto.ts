@@ -2,6 +2,7 @@ export class CreateUserRequestDto {
   email: string = '';
   lastName: string = '';
   firstName: string = '';
+  password: string = '';
 }
 
 export class CreateUserResponseDto {
