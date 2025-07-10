@@ -1,39 +1,44 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Request,
-  UseGuards,
-} from '@nestjs/common';
+import { authContract } from '@shotly/contracts/auth';
+import { Controller, Get, Req, Request, UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
-import { AuthenticatedUserDto } from './dto/authenticated-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { SignUpRequestDto } from './dto/sign-up.dto';
 import { Request as ExpressRequest } from 'express';
+import { tsRestHandler, TsRestHandler } from '@ts-rest/nest';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @TsRestHandler(authContract.signIn)
   @UseGuards(LocalAuthGuard)
-  @Post('sign-in')
-  signIn(@Request() req: ExpressRequest) {
-    // TODO: augument ExpressRequest with user (make AuthenticatedUser type)
-    return this.authService.signIn(
-      (req as unknown as { user: AuthenticatedUserDto }).user,
-    );
+  signIn(@Req() req: ExpressRequest) {
+    // TODO: signIn body is not validated because passport is executed first
+    return tsRestHandler(authContract.signIn, () => {
+      const response = this.authService.signIn(req.user);
+
+      return Promise.resolve({
+        status: 200,
+        body: response,
+      });
+    });
   }
 
-  @Post('sign-up')
-  signUp(@Body() signUpRequestDto: SignUpRequestDto) {
-    return this.authService.signUp(signUpRequestDto);
+  @TsRestHandler(authContract.signUp)
+  signUp() {
+    return tsRestHandler(authContract.signUp, async ({ body }) => {
+      const response = await this.authService.signUp(body);
+
+      return {
+        status: 200,
+        body: response,
+      };
+    });
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req: ExpressRequest) {
-    return (req as unknown as { user: AuthenticatedUserDto }).user;
+    return req.user;
   }
 }

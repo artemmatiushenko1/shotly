@@ -87,7 +87,7 @@ importers:
         specifier: ^0.3.25
         version: 0.3.25(pg@8.16.3)(reflect-metadata@0.2.2)(ts-node@10.9.2(@swc/core@1.12.7)(@types/node@22.15.34)(typescript@5.8.3))
       zod:
-        specifier: ^3.25.76
+        specifier: ^3.25.10
         version: 3.25.76
     devDependencies:
       '@eslint/eslintrc':
@@ -234,10 +234,10 @@ importers:
     dependencies:
       '@ts-rest/core':
         specifier: ^3.52.1
-        version: 3.52.1(@types/node@22.15.34)(zod@3.25.74)
+        version: 3.52.1(@types/node@22.15.34)(zod@3.25.76)
       zod:
-        specifier: ^3.25.74
-        version: 3.25.74
+        specifier: ^3.25.10
+        version: 3.25.76
     devDependencies:
       '@shotly/typescript-config':
         specifier: workspace:*
@@ -6697,11 +6697,6 @@ snapshots:
   '@tokenizer/token@0.3.0': {}
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
-
-  '@ts-rest/core@3.52.1(@types/node@22.15.34)(zod@3.25.74)':
-    optionalDependencies:
-      '@types/node': 22.15.34
-      zod: 3.25.74
 
   '@ts-rest/core@3.52.1(@types/node@22.15.34)(zod@3.25.76)':
     optionalDependencies:

@@ -29,6 +29,7 @@ export class UserRepository implements IUserRepository {
     const savedEntity = await this._userRepository.save(
       UserMapper.toPersistence(user),
     );
+
     return UserMapper.toDomain(savedEntity);
   }
 

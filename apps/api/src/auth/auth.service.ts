@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { SignUpRequestDto, SignUpResponseDto } from '@shotly/contracts/auth';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
-import { AuthenticatedUserDto } from './dto/authenticated-user.dto';
 import { JwtService } from '@nestjs/jwt';
-import { SignUpRequestDto, SignUpResponseDto } from './dto/sign-up.dto';
 import { CreateUserRequestDto } from 'src/users/dto/create-user.dto';
+import { AuthUser } from './types/auth-user.type';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +16,9 @@ export class AuthService {
   async validateUser(
     email: string,
     password: string,
-  ): Promise<AuthenticatedUserDto | null> {
+  ): Promise<AuthUser | null> {
+    console.log({ email, password });
+
     const { user } = await this.usersService.getUserByEmail({ email });
 
     if (!user) return null;
@@ -27,16 +29,19 @@ export class AuthService {
     return isPasswordsMatch ? user : null;
   }
 
-  signIn(user: AuthenticatedUserDto) {
+  signIn(user?: AuthUser) {
+    if (!user) throw new UnauthorizedException();
+
     const payload = { sub: user.id };
 
     // TODO: attach access token to http only cookie
     return {
-      access_token: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload),
     };
   }
 
   async signUp(request: SignUpRequestDto): Promise<SignUpResponseDto> {
+    console.log(request);
     const dto = new CreateUserRequestDto();
     dto.email = request.email;
     dto.password = request.password;

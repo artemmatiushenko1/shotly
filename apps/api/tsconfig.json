@@ -2,6 +2,8 @@
   "extends": "@shotly/typescript-config/nestjs.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "declaration": false,
+    "declarationMap": false
   }
 }

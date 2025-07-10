@@ -18,8 +18,12 @@ export class UserMapper {
     persistenceEntity.email = domainEntity.email;
     persistenceEntity.firstName = domainEntity.lastName;
     persistenceEntity.lastName = domainEntity.lastName;
-    persistenceEntity.id = domainEntity.id;
     persistenceEntity.password = domainEntity.password;
+
+    if (domainEntity.id) {
+      persistenceEntity.id = domainEntity.id;
+    }
+
     return persistenceEntity;
   };
 }
