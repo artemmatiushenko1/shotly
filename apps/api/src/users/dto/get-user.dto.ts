@@ -7,3 +7,11 @@ export class GetUserByEmailRequestDto {
 export class GetUserByEmailResponseDto {
   user: User | null = null;
 }
+
+export class GetUserByIdRequestDto {
+  id: string = '';
+}
+
+export class GetUserByIdResponseDto {
+  user!: User;
+}

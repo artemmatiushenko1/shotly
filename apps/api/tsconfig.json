@@ -4,6 +4,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "declaration": false,
-    "declarationMap": false
+    "declarationMap": false,
+    "esModuleInterop": false
   }
 }

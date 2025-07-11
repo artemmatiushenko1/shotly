@@ -2,13 +2,15 @@ import {
   CreateUserRequestDto,
   CreateUserResponseDto,
 } from './dto/create-user.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { IUserRepository } from './repository/user-repository.interface';
 import { User } from '@shotly/contracts/users';
 import {
   GetUserByEmailRequestDto,
   GetUserByEmailResponseDto,
-} from './dto/get-user-by-email.dto';
+  GetUserByIdRequestDto,
+  GetUserByIdResponseDto,
+} from './dto/get-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -29,11 +31,22 @@ export class UsersService {
   }
 
   async getUserByEmail(
-    getUserByEmailRequestDto: GetUserByEmailRequestDto,
+    requestDto: GetUserByEmailRequestDto,
   ): Promise<GetUserByEmailResponseDto> {
-    const user = await this.userRepository.findOneByEmail(
-      getUserByEmailRequestDto.email,
-    );
+    const user = await this.userRepository.findOneByEmail(requestDto.email);
+
+    return { user };
+  }
+
+  async getUserById(
+    requestDto: GetUserByIdRequestDto,
+  ): Promise<GetUserByIdResponseDto> {
+    const user = await this.userRepository.findOne(requestDto.id);
+    if (!user) {
+      throw new NotFoundException(
+        `User with id ${requestDto.id} is not found.`,
+      );
+    }
 
     return { user };
   }

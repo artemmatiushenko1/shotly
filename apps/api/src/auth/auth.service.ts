@@ -1,4 +1,7 @@
-import { SignUpRequestDto, SignUpResponseDto } from '@shotly/contracts/auth';
+import {
+  GetProfileResponseDto,
+  SignUpRequestDto,
+} from '@shotly/contracts/auth';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
@@ -40,16 +43,26 @@ export class AuthService {
     };
   }
 
-  async signUp(request: SignUpRequestDto): Promise<SignUpResponseDto> {
-    console.log(request);
+  async signUp(requestDto: SignUpRequestDto): Promise<{ accessToken: string }> {
+    console.log(requestDto);
     const dto = new CreateUserRequestDto();
-    dto.email = request.email;
-    dto.password = request.password;
-    dto.firstName = request.firstName;
-    dto.lastName = request.lastName;
+    dto.email = requestDto.email;
+    dto.password = requestDto.password;
+    dto.firstName = requestDto.firstName;
+    dto.lastName = requestDto.lastName;
 
     const user = await this.usersService.create(dto);
 
     return this.signIn(user);
+  }
+
+  async getProfile(userId: string): Promise<GetProfileResponseDto> {
+    const { user } = await this.usersService.getUserById({ id: userId });
+    return {
+      userId,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    };
   }
 }
