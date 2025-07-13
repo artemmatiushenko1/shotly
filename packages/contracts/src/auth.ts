@@ -23,6 +23,14 @@ export type SignUpRequestDto = z.infer<typeof signUpRequestDtoSchema>;
 const signUpResponseDtoSchema = z.object({});
 export type SignUpResponseDto = z.infer<typeof signUpResponseDtoSchema>;
 
+const getProfileResponseDtoSchema = z.object({
+  userId: z.string().uuid(),
+  email: z.string().email().nonempty(),
+  firstName: z.string().nonempty(),
+  lastName: z.string().nonempty(),
+});
+export type GetProfileResponseDto = z.infer<typeof getProfileResponseDtoSchema>;
+
 export const authContract = c.router({
   signIn: {
     method: 'POST',
@@ -38,6 +46,13 @@ export const authContract = c.router({
     body: signUpRequestDtoSchema,
     responses: {
       200: signUpResponseDtoSchema,
+    },
+  },
+  getProfile: {
+    method: 'GET',
+    path: 'auth/profile',
+    responses: {
+      200: getProfileResponseDtoSchema,
     },
   },
 });
