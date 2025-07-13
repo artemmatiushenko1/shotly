@@ -2,7 +2,6 @@
 
 import { db } from '@/db/drizzle';
 import { usersTable } from '@/db/schema';
-import { redirect } from 'next/navigation';
 import { hash } from 'bcrypt';
 
 const SALT_OR_ROUNDS = 10;

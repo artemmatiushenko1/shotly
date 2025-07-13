@@ -14,7 +14,6 @@
   "dependencies": {
     "@shotly/contracts": "workspace:*",
     "@shotly/ui": "workspace:*",
-    "@ts-rest/core": "^3.52.1",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.1.0",
