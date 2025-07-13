@@ -3,8 +3,11 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"],
+      "@/auth": ["./auth"],
       "@shotly/ui/*": ["../../packages/ui/src/*"]
-    }
+    },
+    "declaration": false,
+    "declarationMap": false
   },
   "include": [
     "next-env.d.ts",

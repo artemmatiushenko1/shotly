@@ -4,6 +4,7 @@ import { Input } from '@shotly/ui/components/input';
 import Link from 'next/link';
 import { GoogleIcon } from '@shotly/ui/components/google-icon';
 import { Logo } from '@shotly/ui/components/logo';
+import { signIn } from './sign-in.action';
 
 const SignInForm = () => {
   return (
@@ -15,31 +16,37 @@ const SignInForm = () => {
         <h1 className="text-3xl font-bold">Welcome Back</h1>
         <p className="text-sm">Enter your credentials to access your account</p>
       </div>
-      <form>
+      <form action={signIn}>
         <div className="flex flex-col gap-3 mb-6">
           <Label htmlFor="email">Email</Label>
-          <Input type="email" id="email" placeholder="e.g email@example.com" />
+          <Input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="e.g email@example.com"
+          />
         </div>
         <div className="flex flex-col gap-3 mb-6">
           <Label htmlFor="password">Password</Label>
           <Input
             type="password"
             id="password"
+            name="password"
             placeholder="Enter your password"
           />
         </div>
         <Button className="w-full mb-8 font-bold" size="lg">
           Sign In
         </Button>
-      </form>
-      <div className="w-full h-[1px] bg-gray-200 relative mb-8">
-        <div className="absolute text-sm left-1/2 bottom-1/2 leading-1 bg-background text-foreground size-8 translate-y-1/2 -translate-x-1/2 p-1 flex items-center justify-center">
-          Or
+        <div className="w-full h-[1px] bg-gray-200 relative mb-8">
+          <div className="absolute text-sm left-1/2 bottom-1/2 leading-1 bg-background text-foreground size-8 translate-y-1/2 -translate-x-1/2 p-1 flex items-center justify-center">
+            Or
+          </div>
         </div>
-      </div>
-      <Button variant="outline" className="w-full mb-8" size="lg">
-        <GoogleIcon /> Sign In with Google
-      </Button>
+        <Button variant="outline" className="w-full mb-8" size="lg">
+          <GoogleIcon /> Sign In with Google
+        </Button>
+      </form>
 
       <p className="text-sm text-center text-muted-foreground">
         Don&apos;t have an account?{' '}
