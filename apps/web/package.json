@@ -8,13 +8,16 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"src/**/*.{ts,tsx,md,json}\"",
-    "makemigrations": "npx drizzle-kit generate",
-    "migratedb": "npx drizzle-kit migrate"
+    "db:makemigrations": "npx drizzle-kit generate",
+    "db:migrate": "npx drizzle-kit migrate",
+    "db:studio": "npx drizzle-kit studio"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.10.0",
     "@shotly/contracts": "workspace:*",
     "@shotly/ui": "workspace:*",
     "@types/bcrypt": "^5.0.2",
+    "@types/pg-pool": "^2.0.6",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.1.0",
     "drizzle-orm": "^0.44.2",
@@ -22,6 +25,7 @@
     "next": "15.3.3",
     "next-auth": "5.0.0-beta.29",
     "pg": "^8.16.3",
+    "pg-pool": "^3.10.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
