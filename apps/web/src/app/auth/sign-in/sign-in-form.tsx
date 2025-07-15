@@ -10,11 +10,9 @@ import { signInWithGoogle, signInWithPassword } from './sign-in.action';
 import { useActionState } from 'react';
 
 const SignInForm = () => {
-  const [state, formAction, pending] = useActionState(signInWithPassword, {
-    error: undefined,
-  });
-
-  const { error, errors } = state;
+  const [state, formAction, pending] = useActionState(signInWithPassword, {});
+  const { formError, validationErrors } = state;
+  const { fieldErrors } = validationErrors ?? {};
 
   return (
     <div>
@@ -25,12 +23,12 @@ const SignInForm = () => {
         <h1 className="text-3xl font-bold">Welcome Back</h1>
         <p className="text-sm">Enter your credentials to access your account</p>
       </div>
-      {error && (
+      {formError && (
         <div className="mb-5 flex items-center space-x-2 text-red-500 text-sm mt-1 bg-red-50 border-red-200 rounded-md p-3">
           <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
             <span className="text-white text-xs font-bold">!</span>
           </div>
-          <span>{error}</span>
+          <span>{formError}</span>
         </div>
       )}
       <form action={formAction}>
@@ -41,7 +39,7 @@ const SignInForm = () => {
             id="email"
             name="email"
             placeholder="e.g email@example.com"
-            error={errors?.properties?.email?.errors.join(',')}
+            error={fieldErrors?.email?.toString()}
           />
         </div>
         <div className="flex flex-col gap-3 mb-6">
@@ -51,7 +49,7 @@ const SignInForm = () => {
             id="password"
             name="password"
             placeholder="Enter your password"
-            error={errors?.properties?.password?.errors.join(',')}
+            error={fieldErrors?.password?.toString()}
           />
         </div>
         <Button disabled={pending} className="w-full mb-8 font-bold" size="lg">

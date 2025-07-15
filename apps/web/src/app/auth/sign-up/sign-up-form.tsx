@@ -1,18 +1,19 @@
 'use client';
 
 import { Logo } from '@shotly/ui/components/logo';
-import React from 'react';
+import React, { useActionState } from 'react';
 import { signUp } from './sign-up.action';
 import { Label } from '@shotly/ui/components/label';
 import { Input } from '@shotly/ui/components/input';
 import { Button } from '@shotly/ui/components/button';
-import { useFormStatus } from 'react-dom';
 import { GoogleIcon } from '@shotly/ui/components/google-icon';
 import Link from 'next/link';
 import { signInWithGoogle } from '../sign-in/sign-in.action';
 
 const SignUpForm = () => {
-  const { pending } = useFormStatus();
+  const [state, formAction, pending] = useActionState(signUp, {});
+  const { validationErrors, formError } = state ?? {};
+  const { fieldErrors } = validationErrors ?? {};
 
   return (
     <div>
@@ -25,15 +26,33 @@ const SignUpForm = () => {
           Enter your personal data to create your account.
         </p>
       </div>
-      <form action={signUp}>
+      {formError && (
+        <div className="mb-5 flex items-center space-x-2 text-red-500 text-sm mt-1 bg-red-50 border-red-200 rounded-md p-3">
+          <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
+            <span className="text-white text-xs font-bold">!</span>
+          </div>
+          <span>{formError}</span>
+        </div>
+      )}
+      <form action={formAction}>
         <div className="flex gap-6">
           <div className="flex flex-col gap-3 mb-6 flex-1/2">
             <Label htmlFor="email">First Name</Label>
-            <Input id="firstName" name="firstName" placeholder="e.g John" />
+            <Input
+              id="firstName"
+              name="firstName"
+              placeholder="e.g John"
+              error={fieldErrors?.firstName?.toString() ?? ''}
+            />
           </div>
           <div className="flex flex-col gap-3 mb-6 flex-1/2">
             <Label htmlFor="lastName">Last Name</Label>
-            <Input name="lastName" id="lastName" placeholder="e.g Francisco" />
+            <Input
+              name="lastName"
+              id="lastName"
+              placeholder="e.g Francisco"
+              error={fieldErrors?.lastName?.toString() ?? ''}
+            />
           </div>
         </div>
         <div className="flex flex-col gap-3 mb-6">
@@ -43,6 +62,7 @@ const SignUpForm = () => {
             id="email"
             name="email"
             placeholder="e.g email@example.com"
+            error={fieldErrors?.email?.toString() ?? ''}
           />
         </div>
         <div className="flex flex-col gap-3 mb-6">
@@ -52,9 +72,15 @@ const SignUpForm = () => {
             id="password"
             name="password"
             placeholder="Enter your password"
+            error={fieldErrors?.password?.toString() ?? ''}
           />
         </div>
-        <Button type="submit" className="w-full mb-8 font-bold" size="lg">
+        <Button
+          disabled={pending}
+          type="submit"
+          className="w-full mb-8 font-bold"
+          size="lg"
+        >
           Sign Up {pending && 'Loading...'}
         </Button>
       </form>

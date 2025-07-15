@@ -23,8 +23,12 @@ const validationSchema = z.object({
   password: z.string().nonempty({ error: 'Password is required' }),
 });
 
+type ValidationErrors = z.core.$ZodFlattenedError<
+  z.infer<typeof validationSchema>
+>;
+
 export const signInWithPassword = async (
-  _: { error?: string },
+  _: { formError?: string; validationErrors?: ValidationErrors },
   formData: FormData,
 ) => {
   const validatedFields = validationSchema.safeParse({
@@ -34,17 +38,19 @@ export const signInWithPassword = async (
 
   if (!validatedFields.success) {
     return {
-      errors: z.treeifyError(validatedFields.error),
+      validationErrors: z.flattenError(validatedFields.error),
     };
   }
 
   let redirectUrl: string = '';
 
   try {
+    const { data } = validatedFields;
+
     const res = await auth.api.signInEmail({
       body: {
-        email: formData.get('email')?.toString() ?? '',
-        password: formData.get('password')?.toString() ?? '',
+        email: data.email,
+        password: data.password,
         callbackURL: 'http://localhost:3000/',
       },
     });
@@ -54,7 +60,7 @@ export const signInWithPassword = async (
     }
   } catch (e: unknown) {
     if (e instanceof APIError) {
-      return { error: e.message };
+      return { formError: e.message };
     }
 
     return {};
