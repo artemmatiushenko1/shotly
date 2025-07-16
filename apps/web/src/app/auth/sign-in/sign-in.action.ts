@@ -42,7 +42,7 @@ export const signInWithPassword = async (
     };
   }
 
-  let redirectUrl: string = '';
+  let redirectUrl = '';
 
   try {
     const { data } = validatedFields;
@@ -51,7 +51,7 @@ export const signInWithPassword = async (
       body: {
         email: data.email,
         password: data.password,
-        callbackURL: 'http://localhost:3000/',
+        callbackURL: '/',
       },
     });
 

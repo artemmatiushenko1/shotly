@@ -75,13 +75,8 @@ const SignUpForm = () => {
             error={fieldErrors?.password?.toString() ?? ''}
           />
         </div>
-        <Button
-          disabled={pending}
-          type="submit"
-          className="w-full mb-8 font-bold"
-          size="lg"
-        >
-          Sign Up {pending && 'Loading...'}
+        <Button loading={pending} className="w-full mb-8 font-bold" size="lg">
+          Sign Up
         </Button>
       </form>
       <div className="w-full h-[1px] bg-gray-200 relative mb-8">

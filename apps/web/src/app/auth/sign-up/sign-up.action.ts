@@ -5,6 +5,9 @@ import { APIError } from 'better-auth/api';
 import { redirect } from 'next/navigation';
 import z from 'zod';
 
+// TODO: store actions in actions.ts
+// create, validated action https://github.com/nextjs/saas-starter/blob/main/app/(login)/actions.ts
+// return formData from action and then use state to set default values to form fields, so it's not reset
 const validationSchema = z.object({
   firstName: z.string().nonempty({ error: 'First name is required' }),
   lastName: z.string().nonempty({ error: 'Last name is required' }),
@@ -43,12 +46,11 @@ export const signUp = async (
         email: data.email,
         password: data.password,
         name: `${data.firstName} ${data.lastName}`,
-        callbackURL: 'http://localhost:3000/',
       },
     });
 
     if (response.token) {
-      redirectUrl = 'http://localhost:3000/';
+      redirectUrl = '/';
     }
   } catch (e: unknown) {
     if (e instanceof APIError) {

@@ -52,9 +52,8 @@ const SignInForm = () => {
             error={fieldErrors?.password?.toString()}
           />
         </div>
-        <Button disabled={pending} className="w-full mb-8 font-bold" size="lg">
+        <Button loading={pending} size="lg" className="w-full mb-8 font-bold">
           Sign In
-          {pending && <div>Loading...</div>}
         </Button>
         <div className="w-full h-[1px] bg-gray-200 relative mb-8">
           <div className="absolute text-sm left-1/2 bottom-1/2 leading-1 bg-background text-foreground size-8 translate-y-1/2 -translate-x-1/2 p-1 flex items-center justify-center">
