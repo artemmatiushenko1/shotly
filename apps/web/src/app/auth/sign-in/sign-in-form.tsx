@@ -6,7 +6,7 @@ import { Input } from '@shotly/ui/components/input';
 import Link from 'next/link';
 import { GoogleIcon } from '@shotly/ui/components/google-icon';
 import { Logo } from '@shotly/ui/components/logo';
-import { signInWithGoogle, signInWithPassword } from './sign-in.action';
+import { signInWithGoogle, signInWithPassword } from '../actions';
 import { useActionState } from 'react';
 
 const SignInForm = () => {

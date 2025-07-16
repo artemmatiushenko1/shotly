@@ -2,13 +2,12 @@
 
 import { Logo } from '@shotly/ui/components/logo';
 import React, { useActionState } from 'react';
-import { signUp } from './sign-up.action';
 import { Label } from '@shotly/ui/components/label';
 import { Input } from '@shotly/ui/components/input';
 import { Button } from '@shotly/ui/components/button';
 import { GoogleIcon } from '@shotly/ui/components/google-icon';
 import Link from 'next/link';
-import { signInWithGoogle } from '../sign-in/sign-in.action';
+import { signInWithGoogle, signUp } from '../actions';
 
 const SignUpForm = () => {
   const [state, formAction, pending] = useActionState(signUp, {});
