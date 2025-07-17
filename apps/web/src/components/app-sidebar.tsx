@@ -37,7 +37,7 @@ import { authClient } from '@/lib/auth-client';
 
 const items = [
   {
-    title: 'Overview',
+    title: 'Dashboard',
     url: '/dashboard',
     icon: LayoutGrid,
   },
@@ -75,14 +75,10 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar>
-      <SidebarHeader>
+    <Sidebar variant="inset">
+      <SidebarHeader className="pt-1">
         <div className="flex gap-3 items-center justify-center rounded-md bg-gradient-to-r from-[#CE36E5] to-[#721E7F]">
           <Logo />
-          {/* <div className="flex text-sm flex-col">
-            <span className="text-xs">Welcome to </span>
-            <span>Shotly</span>
-          </div> */}
         </div>
       </SidebarHeader>
       <SidebarContent>
