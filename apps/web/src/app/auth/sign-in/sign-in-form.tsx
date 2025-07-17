@@ -5,7 +5,6 @@ import { Label } from '@shotly/ui/components/label';
 import { Input } from '@shotly/ui/components/input';
 import Link from 'next/link';
 import { GoogleIcon } from '@shotly/ui/components/google-icon';
-import { Logo } from '@shotly/ui/components/logo';
 import { signInWithGoogle, signInWithPassword } from '../actions';
 import { useActionState } from 'react';
 
@@ -16,9 +15,6 @@ const SignInForm = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-center">
-        <Logo />
-      </div>
       <div className="text-center mt-10 mb-15">
         <h1 className="text-3xl font-bold">Welcome Back</h1>
         <p className="text-sm">Enter your credentials to access your account</p>

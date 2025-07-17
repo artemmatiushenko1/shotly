@@ -1,6 +1,5 @@
 'use client';
 
-import { Logo } from '@shotly/ui/components/logo';
 import React, { useActionState } from 'react';
 import { Label } from '@shotly/ui/components/label';
 import { Input } from '@shotly/ui/components/input';
@@ -16,9 +15,6 @@ const SignUpForm = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-center">
-        <Logo />
-      </div>
       <div className="text-center mt-10 mb-15">
         <h1 className="text-3xl font-bold">Create an account</h1>
         <p className="text-sm">
