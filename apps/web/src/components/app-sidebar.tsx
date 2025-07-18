@@ -14,10 +14,10 @@ import {
   SidebarMenuItem,
 } from '@shotly/ui/components/sidebar';
 import {
-  BriefcaseBusiness,
   ChevronRight,
   ChevronsUpDown,
   Handshake,
+  Image,
   LayoutGrid,
 } from 'lucide-react';
 import {
@@ -34,6 +34,7 @@ import {
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
+import { User } from 'better-auth';
 
 const items = [
   {
@@ -44,7 +45,7 @@ const items = [
   {
     title: 'Portfolio',
     url: '/portfolio',
-    icon: BriefcaseBusiness,
+    icon: Image,
   },
   {
     title: 'Services',
@@ -53,12 +54,15 @@ const items = [
   },
 ];
 
-export function AppSidebar() {
+type AppSidebarProps = {
+  user: User;
+};
+
+export function AppSidebar(props: AppSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const { data } = authClient.useSession();
-  const user = data?.user;
+  const user = props?.user;
 
   const getIsActiveMenuItem = (url: string) => {
     return pathname === url || (pathname.startsWith(url) && pathname !== '/');
@@ -119,7 +123,7 @@ export function AppSidebar() {
                 >
                   <Avatar className="h-8 w-8 rounded-md">
                     <AvatarImage src={user?.image ?? ''} alt={user?.name} />
-                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                    <AvatarFallback className="rounded-md">CN</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-xs leading-tight">
                     <span className="truncate font-semibold text-foreground mb-1">

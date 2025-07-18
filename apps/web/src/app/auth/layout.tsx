@@ -9,7 +9,7 @@ function AuthLayout(props: AuthLayoutProps) {
   const { children } = props;
 
   return (
-    <div className="flex h-dvh">
+    <div className="flex h-dvh bg-card">
       <div className="flex-2/3 p-5 h-full">
         <div className="h-full rounded-2xl bg-gray-200 relative overflow-hidden">
           <Image
