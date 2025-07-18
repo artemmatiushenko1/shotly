@@ -5,7 +5,7 @@ import { cn } from '@shotly/ui/lib/utils';
 import { Calendar, EllipsisVertical, Globe, Images, Lock } from 'lucide-react';
 import Image from 'next/image';
 
-type AlbumCardProps = {
+type CollectionCardProps = {
   isPublic?: boolean;
   title: string;
   description: string;
@@ -14,7 +14,7 @@ type AlbumCardProps = {
   coverSrc: string;
 };
 
-function AlbumCard(props: AlbumCardProps) {
+function CollectionCard(props: CollectionCardProps) {
   const {
     isPublic = false,
     title,
@@ -89,4 +89,4 @@ function AlbumCard(props: AlbumCardProps) {
   );
 }
 
-export default AlbumCard;
+export default CollectionCard;
