@@ -81,7 +81,7 @@ export function AppSidebar(props: AppSidebarProps) {
   return (
     <Sidebar variant="inset">
       <SidebarHeader className="pt-1">
-        <div className="flex gap-3 items-center justify-center rounded-md bg-gradient-to-r from-[#CE36E5] to-[#721E7F]">
+        <div className="flex gap-3 items-center justify-center rounded-md bg-gradient-to-r from-primary to-[#005DDB]">
           <Logo />
         </div>
       </SidebarHeader>
