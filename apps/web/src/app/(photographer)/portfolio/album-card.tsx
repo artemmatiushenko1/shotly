@@ -25,7 +25,7 @@ function AlbumCard(props: AlbumCardProps) {
   } = props;
 
   return (
-    <Card className="bg-white rounded-xl shadow-none overflow-hidden p-0 gap-0">
+    <Card className="bg-white rounded-xl shadow-none overflow-hidden p-0 gap-0 cursor-pointer hover:bg-background">
       <div className="relative">
         <div className="p-2">
           <Image
