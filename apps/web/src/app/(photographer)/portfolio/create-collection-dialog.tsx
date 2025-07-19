@@ -12,7 +12,6 @@ import {
 } from '@shotly/ui/components/dialog';
 import { Input } from '@shotly/ui/components/input';
 import { Label } from '@shotly/ui/components/label';
-import { Separator } from '@shotly/ui/components/separator';
 import { Textarea } from '@shotly/ui/components/textarea';
 import { Folder, Plus } from 'lucide-react';
 
@@ -39,7 +38,6 @@ const CreateCollectionDialog = () => {
               </DialogDescription>
             </div>
           </DialogHeader>
-          <Separator className="-ml-6 -mr-6" />
           <div className="pt-1">
             <div className="grid gap-4">
               <div className="grid gap-3">
