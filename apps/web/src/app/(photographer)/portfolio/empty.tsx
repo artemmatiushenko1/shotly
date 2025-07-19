@@ -84,7 +84,7 @@ function Empty() {
         <h2 className="font-bold">Start building your portfolio</h2>
         <p className="text-muted-foreground text-sm">
           Create your first collection to professionally organize your <br />
-          photos and present your work to potential clients with ease.
+          photos and present your work to potential clients with ease
         </p>
         <div className="mt-4">
           <CreateCollectionDialog />
