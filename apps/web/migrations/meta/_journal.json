@@ -8,6 +8,13 @@
       "when": 1752516871697,
       "tag": "0000_handy_crystal",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1752934346453,
+      "tag": "0001_skinny_justice",
+      "breakpoints": true
     }
   ]
 }
