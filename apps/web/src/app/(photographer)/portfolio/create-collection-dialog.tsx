@@ -40,16 +40,16 @@ const CreateCollectionDialog = () => {
             New Collection
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader className="flex-row space-x-2">
+        <DialogContent className="sm:max-w-[550px]">
+          <DialogHeader className="flex-row space-x-2 mb-2">
             <div className="size-8 p-2 bg-primary/15 rounded-md ">
               <Folder className="text-primary size-4" />
             </div>
             <div>
               <DialogTitle className="mb-1">Create new collection</DialogTitle>
               <DialogDescription>
-                Make changes to your profile here. Click save when you&apos;re
-                done.
+                A collection is a group of photos from a single project. Fill in
+                the details below to add a new one to your portfolio.
               </DialogDescription>
             </div>
           </DialogHeader>
@@ -78,40 +78,42 @@ const CreateCollectionDialog = () => {
                 placeholder="Add description for your collection"
               />
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">
-                <TagIcon className="size-4" /> Category
-              </Label>
-              <Select>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Categories</SelectLabel>
-                    <SelectItem value="Wedding">Wedding</SelectItem>
-                    <SelectItem value="Portrait">Portrait</SelectItem>
-                    <SelectItem value="Love Story">Love Story</SelectItem>
-                    <SelectItem value="Family">Family</SelectItem>
-                    <SelectItem value="Reportage">Reportage</SelectItem>
-                    <SelectItem value="Commercial">Commercial</SelectItem>
-                    <SelectItem value="Fashion">Fashion</SelectItem>
-                    <SelectItem value="Architecture">Architecture</SelectItem>
-                    <SelectItem value="Content">Content</SelectItem>
-                    {/* TODO: show text input if other selected */}
-                    <SelectItem value="Other">Other</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">
-                <MapPinIcon className="size-4" /> Location{' '}
-                <span className="text-xs text-muted-foreground">
-                  (optional)
-                </span>
-              </Label>
-              <Input placeholder="Add location (e.g. Kyiv, Ukraine)" />
+            <div className="flex space-x-3">
+              <div className="grid gap-3 w-full">
+                <Label htmlFor="username-1">
+                  <TagIcon className="size-4" /> Category
+                </Label>
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Categories</SelectLabel>
+                      <SelectItem value="Wedding">Wedding</SelectItem>
+                      <SelectItem value="Portrait">Portrait</SelectItem>
+                      <SelectItem value="Love Story">Love Story</SelectItem>
+                      <SelectItem value="Family">Family</SelectItem>
+                      <SelectItem value="Reportage">Reportage</SelectItem>
+                      <SelectItem value="Commercial">Commercial</SelectItem>
+                      <SelectItem value="Fashion">Fashion</SelectItem>
+                      <SelectItem value="Architecture">Architecture</SelectItem>
+                      <SelectItem value="Content">Content</SelectItem>
+                      {/* TODO: show text input if other selected */}
+                      <SelectItem value="Other">Other</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-3 w-full">
+                <Label htmlFor="username-1">
+                  <MapPinIcon className="size-4" /> Location{' '}
+                  <span className="text-xs text-muted-foreground">
+                    (optional)
+                  </span>
+                </Label>
+                <Input placeholder="Add location (e.g. Kyiv, Ukraine)" />
+              </div>
             </div>
           </div>
           <DialogFooter className="mt-2">
