@@ -6,6 +6,7 @@ type InputProps = {
   error?: string;
 } & React.ComponentProps<'input'>;
 
+// TODO: create filled variant
 function Input({ className, type, error, ...props }: InputProps) {
   return (
     <div>

@@ -1,8 +1,7 @@
 import MainHeader from '@/components/main-header';
-import { Button } from '@shotly/ui/components/button';
-import { Plus } from 'lucide-react';
 import React from 'react';
 import { cardsData } from './data';
+import { CreateCollectionDialog } from './create-collection-dialog';
 
 function PortfolioLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,10 +14,9 @@ function PortfolioLayout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
         {cardsData.length > 0 && (
-          <Button className="ml-auto">
-            <Plus />
-            New Collection
-          </Button>
+          <div className="ml-auto">
+            <CreateCollectionDialog />
+          </div>
         )}
       </MainHeader>
       {children}
