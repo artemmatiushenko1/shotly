@@ -8,7 +8,11 @@ import { CreateCollectionDialog } from './create-collection-dialog';
 
 function Portfolio() {
   if (cardsData.length === 0) {
-    return <Empty />;
+    return (
+      <div className="h-full flex items-center justify-center">
+        <Empty />
+      </div>
+    );
   }
 
   return (

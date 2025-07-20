@@ -3,10 +3,20 @@ import { Badge } from '@shotly/ui/components/badge';
 import { Button, buttonVariants } from '@shotly/ui/components/button';
 import { Separator } from '@shotly/ui/components/separator';
 import { cn } from '@shotly/ui/lib/utils';
-import { ChevronLeft, Globe, ImagesIcon, Lock, UploadIcon } from 'lucide-react';
+import {
+  ChevronLeft,
+  Globe,
+  GridIcon,
+  ImagesIcon,
+  ListIcon,
+  Lock,
+  UploadIcon,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
+import { Input } from '@shotly/ui/components/input';
+import Empty from '../../empty';
 
 async function CollectionDetails({
   params,
@@ -90,19 +100,33 @@ async function CollectionDetails({
             <p className="text-sm">Kyiv, Ukraine</p>
           </div>
           <div className="items-center space-x-2 px-5">
-            <p className="flex items-center space-x-2 text-muted-foreground text-xs">
+            <p className="flex items-center text-muted-foreground text-xs">
               Category
             </p>
             <p className="text-sm">Landspace</p>
           </div>
-          <div className="ml-auto items-center space-x-2 px-5">
-            <p className="flex items-center space-x-2 text-muted-foreground text-xs">
+          <div className="ml-auto items-center space-x-2">
+            <p className="flex items-center text-muted-foreground text-xs">
               Views
             </p>
             <p className="text-sm">1,109</p>
           </div>
         </div>
         <Separator />
+        <div className="flex space-x-3 justify-end">
+          <Input placeholder="Search photos..." />
+          <Tabs defaultValue="account">
+            <TabsList>
+              <TabsTrigger value="account">
+                <GridIcon />
+              </TabsTrigger>
+              <TabsTrigger value="password">
+                <ListIcon />
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+        <Empty />
       </div>
     </div>
   );
