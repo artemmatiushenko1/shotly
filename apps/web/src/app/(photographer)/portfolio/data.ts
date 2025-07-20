@@ -37,4 +37,4 @@ export let cardsData = [
   },
 ];
 
-cardsData = [];
+// cardsData = [];

@@ -1,3 +1,4 @@
+import { Separator } from '@shotly/ui/components/separator';
 import { SidebarTrigger } from '@shotly/ui/components/sidebar';
 
 type MainHeadrProps = {
@@ -8,7 +9,8 @@ function MainHeader({ children }: MainHeadrProps) {
   return (
     <div className="text-md border-b -ml-2 -mr-2 p-4 flex items-center gap-3">
       <SidebarTrigger />
-      <div className="flex w-full">{children}</div>
+      <Separator orientation="vertical" />
+      <div className="flex w-full items-center">{children}</div>
     </div>
   );
 }
