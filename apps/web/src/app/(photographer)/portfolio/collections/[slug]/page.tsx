@@ -1,11 +1,13 @@
 import { Badge } from '@shotly/ui/components/badge';
 import { Button, buttonVariants } from '@shotly/ui/components/button';
+import { Card } from '@shotly/ui/components/card';
 import { cn } from '@shotly/ui/lib/utils';
 import {
   CalendarIcon,
   ChevronLeft,
   EllipsisIcon,
   Globe,
+  Heart,
   ImagesIcon,
   Lock,
   MapPinIcon,
@@ -13,6 +15,81 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+
+const photos = [
+  {
+    id: '1',
+    filename: 'ceremony_001.jpg',
+    url: '/auth-banner.jpg',
+    thumbnail: '/auth-banner.jpg',
+    uploadDate: '2024-01-15',
+    size: '2.4 MB',
+    dimensions: '4000x3000',
+    isFavorite: true,
+    isSelected: false,
+    tags: ['ceremony', 'bride', 'groom'],
+  },
+  {
+    id: '2',
+    filename: 'reception_045.jpg',
+    url: '/auth-banner.jpg',
+    thumbnail: '/auth-banner.jpg',
+    uploadDate: '2024-01-15',
+    size: '3.1 MB',
+    dimensions: '4000x3000',
+    isFavorite: false,
+    isSelected: false,
+    tags: ['reception', 'dancing', 'celebration'],
+  },
+  {
+    id: '3',
+    filename: 'portraits_012.jpg',
+    url: '/auth-banner-2.jpg',
+    thumbnail: '/auth-banner-2.jpg',
+    uploadDate: '2024-01-15',
+    size: '2.8 MB',
+    dimensions: '3000x4000',
+    isFavorite: true,
+    isSelected: false,
+    tags: ['portraits', 'couple', 'romantic'],
+  },
+  {
+    id: '4',
+    filename: 'details_008.jpg',
+    url: '/auth-banner-3.jpg',
+    thumbnail: '/auth-banner-3.jpg',
+    uploadDate: '2024-01-15',
+    size: '1.9 MB',
+    dimensions: '4000x3000',
+    isFavorite: false,
+    isSelected: false,
+    tags: ['details', 'rings', 'flowers'],
+  },
+  {
+    id: '5',
+    filename: 'family_023.jpg',
+    url: '/auth-banner-3.jpg',
+    thumbnail: '/auth-banner-3.jpg',
+    uploadDate: '2024-01-15',
+    size: '2.6 MB',
+    dimensions: '4000x3000',
+    isFavorite: false,
+    isSelected: false,
+    tags: ['family', 'group', 'formal'],
+  },
+  {
+    id: '6',
+    filename: 'candid_067.jpg',
+    url: '/auth-banner-4.jpg',
+    thumbnail: '/auth-banner-4.jpg',
+    uploadDate: '2024-01-15',
+    size: '2.2 MB',
+    dimensions: '4000x3000',
+    isFavorite: false,
+    isSelected: false,
+    tags: ['candid', 'laughter', 'guests'],
+  },
+];
 
 async function CollectionDetails({
   params,
@@ -28,7 +105,7 @@ async function CollectionDetails({
         <div className="w-full h-60 relative">
           <Image
             className="w-full h-full object-cover rounded-md mt-2 border"
-            src="/auth-banner-2.jpg"
+            src="/auth-banner.jpg"
             width={400}
             height={200}
             alt="Cover image of the collection"
@@ -95,6 +172,40 @@ async function CollectionDetails({
               )}
             </Badge>
           </div>
+        </div>
+      </div>
+      <div className="max-w-7xl px-4 sm:px-6 lg:px-4 py-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {/* TODO: display upload area as first element */}
+          {photos.map((photo) => (
+            <Card
+              key={photo.id}
+              className="overflow-hidden shadow-none group cursor-pointer hover:shadow-lg transition-shadow p-0"
+            >
+              <div className="relative">
+                <Image
+                  src={photo.thumbnail || '/placeholder.svg'}
+                  alt={photo.filename}
+                  width={300}
+                  height={300}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="absolute top-2 right-2">
+                  <Button variant="secondary" size="icon" className="h-8 w-8">
+                    <Heart
+                      className={`h-4 w-4 ${photo.isFavorite ? 'fill-red-500 text-red-500' : ''}`}
+                    />
+                  </Button>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <p className="text-white text-sm font-medium truncate">
+                    {photo.filename}
+                  </p>
+                  <p className="text-white/80 text-xs">{photo.size}</p>
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
       </div>
     </div>
