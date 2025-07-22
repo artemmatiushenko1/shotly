@@ -12,6 +12,7 @@ import {
   Lock,
   MapPinIcon,
   TagIcon,
+  Upload,
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -180,7 +181,17 @@ async function CollectionDetails({
       ) : (
         <div className="max-w-7xl px-4 sm:px-6 lg:px-4 py-6">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {/* TODO: display upload area as first element */}
+            <Card className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow border-2 border-dashed border-accent hover:border-primary h-48 p-0 shadow-none">
+              <div className="relative h-48 flex flex-col items-center justify-center bg-gray-50 hover:bg-primary/5 transition-colors">
+                <Upload className="size-8 mb-2 text-muted-foreground" />
+                <p className="text-sm font-medium text-muted-foreground">
+                  Upload Photos
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Click to add new photos
+                </p>
+              </div>
+            </Card>
             {photos.map((photo) => (
               <Card
                 key={photo.id}
