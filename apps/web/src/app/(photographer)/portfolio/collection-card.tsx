@@ -1,16 +1,9 @@
 import { IconWithText } from '@/components/icon-with-text';
-import { Badge } from '@shotly/ui/components/badge';
 import { Button } from '@shotly/ui/components/button';
 import { Card, CardContent } from '@shotly/ui/components/card';
-import { cn } from '@shotly/ui/lib/utils';
-import {
-  CalendarIcon,
-  EllipsisVertical,
-  Globe,
-  ImagesIcon,
-  Lock,
-} from 'lucide-react';
+import { CalendarIcon, EllipsisVertical, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
+import { VisibilityBadge } from './visibility-badge';
 
 type CollectionCardProps = {
   isPublic?: boolean;
@@ -43,25 +36,10 @@ function CollectionCard(props: CollectionCardProps) {
             className="object-cover w-full h-48 rounded-md"
           />
         </div>
-        <Badge className="absolute text-xs top-4 left-4 bg-white text-gray-700 rounded-full px-3 py-1 border">
-          <span
-            className={cn(
-              'size-1 rounded-full',
-              isPublic ? 'bg-green-400' : 'bg-destructive',
-            )}
-          >
-            &nbsp;
-          </span>
-          {isPublic ? (
-            <>
-              <Globe /> Public
-            </>
-          ) : (
-            <>
-              <Lock /> Private
-            </>
-          )}
-        </Badge>
+        <VisibilityBadge
+          isPublic={isPublic}
+          className="absolute top-4 left-4"
+        />
         <div className="absolute top-4 right-4 flex gap-2">
           <Button
             size="icon"
