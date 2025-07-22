@@ -1,8 +1,15 @@
+import { IconWithText } from '@/components/icon-with-text';
 import { Badge } from '@shotly/ui/components/badge';
 import { Button } from '@shotly/ui/components/button';
 import { Card, CardContent } from '@shotly/ui/components/card';
 import { cn } from '@shotly/ui/lib/utils';
-import { Calendar, EllipsisVertical, Globe, Images, Lock } from 'lucide-react';
+import {
+  CalendarIcon,
+  EllipsisVertical,
+  Globe,
+  ImagesIcon,
+  Lock,
+} from 'lucide-react';
 import Image from 'next/image';
 
 type CollectionCardProps = {
@@ -74,14 +81,8 @@ function CollectionCard(props: CollectionCardProps) {
             </div>
           </div>
           <div className="flex justify-between gap-6 text-xs text-gray-600">
-            <div className="flex items-center gap-1">
-              <Images className="w-4 h-4" />
-              <span>{imagesCount} images</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <Calendar className="w-4 h-4" />
-              <span>{createdAt}</span>
-            </div>
+            <IconWithText icon={ImagesIcon} text={`${imagesCount} images`} />
+            <IconWithText icon={CalendarIcon} text={createdAt} />
           </div>
         </div>
       </CardContent>

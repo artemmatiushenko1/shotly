@@ -17,6 +17,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { Empty } from './empty';
+import { IconWithText } from '@/components/icon-with-text';
 
 const photos = [
   {
@@ -136,18 +137,10 @@ async function CollectionDetails({
               Photos from our European journey through Italy and France
             </p>
             <div className="flex space-x-4 text-muted-foreground mb-3">
-              <p className="flex space-x-2 text-xs mt-2">
-                <ImagesIcon className="size-4" /> <span>{10} assets</span>
-              </p>
-              <p className="flex space-x-2 text-xs mt-2">
-                <MapPinIcon className="size-4" /> <span>Kyiv, Ukraine</span>
-              </p>
-              <p className="flex space-x-2 text-xs mt-2">
-                <CalendarIcon className="size-4" /> <span>Aug 15, 2023</span>
-              </p>
-              <p className="flex space-x-2 text-xs mt-2">
-                <TagIcon className="size-4" /> <span>Landspace</span>
-              </p>
+              <IconWithText icon={ImagesIcon} text="10 assets" />
+              <IconWithText icon={MapPinIcon} text="Kyiv, Ukraine" />
+              <IconWithText icon={CalendarIcon} text="Aug 15, 2023" />
+              <IconWithText icon={TagIcon} text="Landspace" />
             </div>
           </div>
           <div className="space-y-1">
