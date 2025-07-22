@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Empty } from './empty';
 
 const photos = [
   {
@@ -174,42 +175,46 @@ async function CollectionDetails({
           </div>
         </div>
       </div>
-      <div className="max-w-7xl px-4 sm:px-6 lg:px-4 py-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {/* TODO: display upload area as first element */}
-          {photos.map((photo) => (
-            <Card
-              key={photo.id}
-              className="overflow-hidden shadow-none group cursor-pointer hover:shadow-lg transition-shadow p-0"
-            >
-              <div className="relative">
-                <Image
-                  src={photo.thumbnail || '/placeholder.svg'}
-                  alt={photo.filename}
-                  width={300}
-                  height={300}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="absolute top-2 right-2">
-                  <Button
-                    variant="secondary"
-                    size="icon"
-                    className="size-8 rounded-full opacity-0 group-hover:opacity-100"
-                  >
-                    <EllipsisVerticalIcon className="size-4" />
-                  </Button>
+      {photos.length === 0 ? (
+        <Empty />
+      ) : (
+        <div className="max-w-7xl px-4 sm:px-6 lg:px-4 py-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {/* TODO: display upload area as first element */}
+            {photos.map((photo) => (
+              <Card
+                key={photo.id}
+                className="overflow-hidden shadow-none group cursor-pointer hover:shadow-lg transition-shadow p-0"
+              >
+                <div className="relative">
+                  <Image
+                    src={photo.thumbnail || '/placeholder.svg'}
+                    alt={photo.filename}
+                    width={300}
+                    height={300}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <Button
+                      variant="secondary"
+                      size="icon"
+                      className="size-8 rounded-full opacity-0 group-hover:opacity-100"
+                    >
+                      <EllipsisVerticalIcon className="size-4" />
+                    </Button>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <p className="text-white text-sm font-medium truncate">
+                      {photo.filename}
+                    </p>
+                    <p className="text-white/80 text-xs">{photo.size}</p>
+                  </div>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <p className="text-white text-sm font-medium truncate">
-                    {photo.filename}
-                  </p>
-                  <p className="text-white/80 text-xs">{photo.size}</p>
-                </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
