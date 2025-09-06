@@ -92,6 +92,7 @@ async function CollectionDetails({
         <CollectionMetadata isPublic />
       </div>
       {photos.length === 0 ? <Empty /> : <PhotosGrid photos={photos} />}
+      {slug}
     </div>
   );
 }

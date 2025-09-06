@@ -1,4 +1,4 @@
-export let cardsData = [
+export const cardsData = [
   {
     id: '1',
     title: 'Karra Loft',
@@ -36,5 +36,3 @@ export let cardsData = [
     coverSrc: '/auth-banner-2.jpg',
   },
 ];
-
-// cardsData = [];
