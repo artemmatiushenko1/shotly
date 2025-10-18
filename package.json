@@ -9,15 +9,27 @@
   "scripts": {
     "dev": "turbo dev",
     "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
     "build": "turbo build",
     "clean": "chmod +x ./clean.sh && ./clean.sh",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "turbo": "2.5.4",
-    "prettier": "^3.6.2",
+    "@shotly/eslint-config": "workspace:*",
     "@shotly/typescript-config": "workspace:*",
-    "@shotly/eslint-config": "workspace:*"
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
+    "turbo": "2.5.4",
+    "prettier": "^3.6.2"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "pnpm turbo lint"
+    ],
+    "*.{ts,tsx,md,json}": [
+      "pnpm format"
+    ]
   },
   "engines": {
     "node": ">=20"
