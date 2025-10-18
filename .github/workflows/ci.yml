@@ -45,7 +45,7 @@ jobs:
         run: pnpm turbo run lint
 
       - name: Build shared packages
-        run: pnpm turbo run build --filter=!apps/web
+        run: pnpm turbo run build --filter="\!web"
 
       - name: Build web (Turbopack)
         run: pnpm turbo run build --filter web
