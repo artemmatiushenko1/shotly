@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches:
-      - "*"
+      - '*'
 
 env:
   NEXT_TELEMETRY_DISABLED: 1
@@ -48,4 +48,4 @@ jobs:
         run: pnpm turbo run build --filter=!apps/web
 
       - name: Build web (Turbopack)
-        run: pnpm --filter web run build -- --turbo
+        run: pnpm turbo run build --filter web
