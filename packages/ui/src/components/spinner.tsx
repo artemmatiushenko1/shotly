@@ -16,7 +16,7 @@ const spinnerVariants = cva(
     defaultVariants: {
       size: 'md',
     },
-  }
+  },
 );
 
 export interface SpinnerProps
@@ -34,7 +34,7 @@ const Spinner = React.forwardRef<HTMLDivElement, SpinnerProps>(
         {...props}
       />
     );
-  }
+  },
 );
 Spinner.displayName = 'Spinner';
 
