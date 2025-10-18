@@ -12,7 +12,7 @@
     "lint:fix": "turbo lint:fix",
     "build": "turbo build",
     "clean": "chmod +x ./clean.sh && ./clean.sh",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json}\"",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -24,10 +24,13 @@
     "prettier": "^3.6.2"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,mjs,cjs}": [
-      "pnpm exec eslint apps packages --fix"
+    "/apps/**/*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "eslint --fix"
     ],
-    "*.{ts,tsx,md,json}": [
+    "/packages/**/*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "eslint --fix"
+    ],
+    "*.{js,jsx,ts,tsx,md,json}": [
       "pnpm format"
     ]
   },
