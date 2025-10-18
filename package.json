@@ -25,7 +25,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [
-      "pnpm turbo lint"
+      "pnpm exec eslint apps packages --fix"
     ],
     "*.{ts,tsx,md,json}": [
       "pnpm format"
