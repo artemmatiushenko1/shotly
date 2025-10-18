@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@shotly/typescript-config": "workspace:*",
+    "@shotly/eslint-config": "workspace:*",
     "@tailwindcss/postcss": "^4.0.8",
     "@turbo/gen": "^2.4.2",
     "@types/node": "^20",
