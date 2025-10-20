@@ -10,11 +10,7 @@ on:
 
 env:
   NEXT_TELEMETRY_DISABLED: 1
-  BETTER_AUTH_SECRET: 'test-auth-secret'
-  GOOGLE_AUTH_CLIENT_ID: test-client-id
-  GOOGLE_AUTH_CLIENT_SECRET: test-client-secret
-  DATABASE_URL: test-database-url
-  NEXT_PUBLIC_BETTER_AUTH_URL: test-public-better-auth-url
+  NODE_ENV: test
 
 jobs:
   lint-and-build:

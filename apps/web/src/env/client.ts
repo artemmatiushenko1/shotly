@@ -8,4 +8,5 @@ export const clientEnv = createEnv({
   experimental__runtimeEnv: {
     NEXT_PUBLIC_BETTER_AUTH_URL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
   },
+  skipValidation: process.env.NODE_ENV === 'test',
 });
