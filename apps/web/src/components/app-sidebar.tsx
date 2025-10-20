@@ -17,22 +17,18 @@ import {
   Blocks,
   CalendarRangeIcon,
   ChevronRight,
-  ChevronsUpDown,
   Handshake,
   Image,
   LayoutGrid,
+  LogOutIcon,
+  SettingsIcon,
 } from 'lucide-react';
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@shotly/ui/components/avatar';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@shotly/ui/components/dropdown-menu';
+import { DropdownMenu } from '@shotly/ui/components/dropdown-menu';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
@@ -132,35 +128,31 @@ export function AppSidebar(props: AppSidebarProps) {
           <Separator />
           <SidebarMenuItem>
             <DropdownMenu>
-              <DropdownMenuTrigger asChild className="h-13">
-                <SidebarMenuButton
-                  size="lg"
-                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                >
-                  <Avatar className="h-8 w-8 rounded-md">
-                    <AvatarImage src={user?.image ?? ''} alt={user?.name} />
-                    <AvatarFallback className="rounded-md">CN</AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-xs leading-tight">
-                    <span className="truncate font-semibold text-foreground mb-1">
-                      {user?.name}
-                    </span>
-                    <span className="truncate text-xs">{user?.email}</span>
-                  </div>
-                  <ChevronsUpDown className="ml-auto size-4" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-              >
-                <DropdownMenuItem>
-                  <span>My Profile</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSignOut}>
-                  <span>Sign out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
+              <SidebarMenuButton asChild size="lg">
+                <Link href="/settings">
+                  <SettingsIcon />
+                  <span className="mr-auto text-sm">Settings</span>
+                </Link>
+              </SidebarMenuButton>
+              <SidebarMenuButton asChild size="lg" onClick={handleSignOut}>
+                <Link href="/settings">
+                  <LogOutIcon />
+                  <span className="mr-auto text-sm">Log Out</span>
+                </Link>
+              </SidebarMenuButton>
+              <Separator />
+              <div className="flex gap-2 p-2 py-3">
+                <Avatar className="h-8 w-8 rounded-md">
+                  <AvatarImage src={user?.image ?? ''} alt={user?.name} />
+                  <AvatarFallback className="rounded-md">CN</AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-left text-xs leading-tight">
+                  <span className="truncate font-semibold text-foreground mb-1">
+                    {user?.name}
+                  </span>
+                  <span className="truncate text-xs">{user?.email}</span>
+                </div>
+              </div>
             </DropdownMenu>
           </SidebarMenuItem>
         </SidebarMenu>
