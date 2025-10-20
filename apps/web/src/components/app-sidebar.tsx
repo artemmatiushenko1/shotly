@@ -14,6 +14,8 @@ import {
   SidebarMenuItem,
 } from '@shotly/ui/components/sidebar';
 import {
+  Blocks,
+  CalendarRangeIcon,
   ChevronRight,
   ChevronsUpDown,
   Handshake,
@@ -35,6 +37,8 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
 import { User } from 'better-auth';
+import { Separator } from '@shotly/ui/components/separator';
+import { StorageUsage } from './storage-usage';
 
 const items = [
   {
@@ -46,6 +50,16 @@ const items = [
     title: 'Portfolio',
     url: '/portfolio',
     icon: Image,
+  },
+  {
+    title: 'Orders',
+    url: '/orders',
+    icon: Blocks,
+  },
+  {
+    title: 'Calendar',
+    url: '/calendar',
+    icon: CalendarRangeIcon,
   },
   {
     title: 'Services',
@@ -114,6 +128,8 @@ export function AppSidebar(props: AppSidebarProps) {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
+          <StorageUsage />
+          <Separator />
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild className="h-13">
