@@ -1,4 +1,4 @@
-import { env } from '@/env';
+import { serverEnv } from '@/env/server';
 import { config } from 'dotenv';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import Pool from 'pg-pool';
@@ -7,7 +7,7 @@ import Pool from 'pg-pool';
 config({ path: '.env' });
 
 const pool = new Pool({
-  connectionString: env.database.url,
+  connectionString: serverEnv.DATABASE_URL,
   max: 20,
 });
 
