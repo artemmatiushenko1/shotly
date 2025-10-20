@@ -15,7 +15,7 @@ import { LabeledControl } from './labeled-control';
 
 const ProfileSettings = () => {
   return (
-    <div className="space-y-8 pb-4">
+    <div className="space-y-8 pb-8">
       <div className="flex">
         <div>
           <h2 className="text-lg font-semibold text-foreground">Profile</h2>
@@ -97,13 +97,11 @@ const ProfileSettings = () => {
         title="Connect with work socials"
         description="Add social links"
         controlNode={
-          <div className="space-y-3">
-            <SocialLinkInput
-              socialIcon={<InstagramIcon />}
-              socialHandle="_artemko"
-              socialBaseUrl="instagram.com/"
-            />
-          </div>
+          <SocialLinkInput
+            socialIcon={<InstagramIcon />}
+            socialHandle="_artemko"
+            socialBaseUrl="instagram.com/"
+          />
         }
       />
     </div>
