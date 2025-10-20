@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${interSans.variable} antialiased font-[family-name:var(--font-inter-sans)]`}
+        className={`${interSans.variable} antialiased font-[family-name:var(--font-inter-sans)] bg-sidebar`}
       >
         {children}
       </body>

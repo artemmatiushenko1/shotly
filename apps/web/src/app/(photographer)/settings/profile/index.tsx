@@ -1,0 +1,113 @@
+'use client';
+
+import { Button } from '@shotly/ui/components/button';
+import { Input } from '@shotly/ui/components/input';
+import { Textarea } from '@shotly/ui/components/textarea';
+import {
+  ImageIcon,
+  Trash2,
+  Upload,
+  InstagramIcon,
+  GlobeIcon,
+} from 'lucide-react';
+import { SocialLinkInput } from './social-link-input';
+import { LabeledControl } from './labeled-control';
+
+const ProfileSettings = () => {
+  return (
+    <div className="space-y-8 pb-4">
+      <div className="flex">
+        <div>
+          <h2 className="text-lg font-semibold text-foreground">Profile</h2>
+          <p className="text-sm text-muted-foreground">
+            Update your photo and personal details
+          </p>
+        </div>
+        <Button variant="outline" size="sm" className="ml-auto">
+          <GlobeIcon /> View public profile
+        </Button>
+      </div>
+
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-yellow-200 via-cyan-200 to-pink-300 p-8 h-48">
+        <div className="absolute bottom-4 right-4 flex gap-3">
+          <Button
+            size="sm"
+            variant="secondary"
+            className="bg-white/90 hover:bg-white"
+          >
+            <ImageIcon className="mr-2 h-4 w-4" />
+            Edit your cover image
+          </Button>
+        </div>
+        <div className="absolute bottom-4 left-4">
+          <div className="h-32 w-32 rounded-2xl bg-gradient-to-br from-yellow-200 via-cyan-200 to-pink-300" />
+        </div>
+      </div>
+      <LabeledControl
+        title="Full name"
+        description="Your display name"
+        controlId="fullname"
+        controlNode={<Input id="fullname" defaultValue="Monique Wu" />}
+      />
+      <LabeledControl
+        title="Profile photo"
+        description="This photo will be visible to others"
+        controlNode={
+          <div className="flex items-start gap-6">
+            <div className="h-24 w-24 rounded-xl bg-gradient-to-br from-yellow-200 via-cyan-200 to-pink-300" />
+            <div className="flex flex-col gap-2">
+              <Button variant="outline" size="sm">
+                <Upload className="mr-2 h-4 w-4" />
+                Upload new image
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground"
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete current image
+              </Button>
+            </div>
+          </div>
+        }
+      />
+
+      <LabeledControl
+        title="About you"
+        description="Write a description for your profile"
+        controlId="about"
+        controlNode={
+          <Textarea
+            id="about"
+            defaultValue="A product designer and UX researcher based in the Czechia. I have a deep passion for technology and thrive as a problem solver.&#10;&#10;My ultimate aim is to blend logical solution with creative expression."
+            className="min-h-32 resize-none"
+          />
+        }
+      />
+
+      <LabeledControl
+        title="Personal website"
+        description="Your online page, blog, or company site"
+        controlId="website"
+        controlNode={<Input id="website" defaultValue="medium.com/monique" />}
+      />
+
+      <LabeledControl
+        title="Connect with work socials"
+        description="Add social links"
+        controlNode={
+          <div className="space-y-3">
+            <SocialLinkInput
+              socialIcon={<InstagramIcon />}
+              socialHandle="_artemko"
+              socialBaseUrl="instagram.com/"
+            />
+          </div>
+        }
+      />
+    </div>
+  );
+};
+
+export { ProfileSettings };

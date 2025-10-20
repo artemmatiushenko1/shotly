@@ -16,19 +16,17 @@ function Portfolio() {
 
   return (
     <div className="h-full flex flex-col">
-      <MainHeader>
-        <div>
-          <h2 className="font-medium">Portfolio</h2>
-          <div className="text-muted-foreground text-xs">
-            Organize your photography work into collections
-          </div>
-        </div>
-        {cardsData.length > 0 && (
-          <div className="ml-auto">
-            <CreateCollectionDialog />
-          </div>
-        )}
-      </MainHeader>
+      <MainHeader
+        title="Portfolio"
+        caption="Organize your photography work into collections"
+        extra={
+          cardsData.length > 0 && (
+            <div className="ml-auto">
+              <CreateCollectionDialog />
+            </div>
+          )
+        }
+      />
       <div className="p-2 pt-4">
         <CollectionsGrid collections={cardsData} />
       </div>
