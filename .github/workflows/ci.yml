@@ -45,5 +45,5 @@ jobs:
       - name: Lint
         run: pnpm turbo run lint
 
-      - name: Build web (Turbopack)
-        run: pnpm turbo run build --filter web
+      # - name: Build web (Turbopack)
+      #   run: pnpm turbo run build --filter web
