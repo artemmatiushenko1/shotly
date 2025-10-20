@@ -12,10 +12,12 @@ import {
 } from 'lucide-react';
 import { SocialLinkInput } from './social-link-input';
 import { LabeledControl } from './labeled-control';
+import { ProfileImagePlaceholder } from './profile-image-placeholder';
+import { CoverImagePlaceholder } from './cover-image-placeholder';
 
 const ProfileSettings = () => {
   return (
-    <div className="space-y-8 pb-8">
+    <div className="space-y-8 pb-4">
       <div className="flex">
         <div>
           <h2 className="text-lg font-semibold text-foreground">Profile</h2>
@@ -23,12 +25,16 @@ const ProfileSettings = () => {
             Update your photo and personal details
           </p>
         </div>
-        <Button variant="outline" size="sm" className="ml-auto">
-          <GlobeIcon /> View public profile
-        </Button>
+        <div className="ml-auto space-y-1">
+          <Button variant="outline" size="sm">
+            <GlobeIcon /> View public profile
+          </Button>
+          <p className="text-xs text-muted-foreground">
+            www.shotly.com/ph/artemko
+          </p>
+        </div>
       </div>
-
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-yellow-200 via-cyan-200 to-pink-300 p-8 h-48">
+      <CoverImagePlaceholder className="p-8">
         <div className="absolute bottom-4 right-4 flex gap-3">
           <Button
             size="sm"
@@ -39,10 +45,7 @@ const ProfileSettings = () => {
             Edit your cover image
           </Button>
         </div>
-        <div className="absolute bottom-4 left-4">
-          <div className="h-32 w-32 rounded-2xl bg-gradient-to-br from-yellow-200 via-cyan-200 to-pink-300" />
-        </div>
-      </div>
+      </CoverImagePlaceholder>
       <LabeledControl
         title="Full name"
         description="Your display name"
@@ -54,7 +57,7 @@ const ProfileSettings = () => {
         description="This photo will be visible to others"
         controlNode={
           <div className="flex items-start gap-6">
-            <div className="h-24 w-24 rounded-xl bg-gradient-to-br from-yellow-200 via-cyan-200 to-pink-300" />
+            <ProfileImagePlaceholder />
             <div className="flex flex-col gap-2">
               <Button variant="outline" size="sm">
                 <Upload className="mr-2 h-4 w-4" />
