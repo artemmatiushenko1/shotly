@@ -90,6 +90,3 @@ export const schema = {
   session,
   collection,
 };
-
-// TODO: use zod
-// const userSelectSchema = createSelectSchema();
