@@ -12,14 +12,10 @@ async function Dashboard() {
   }
 
   return (
-    <MainHeader>
-      <div>
-        <h2 className="font-medium">Overview</h2>
-        <div className="text-muted-foreground text-xs">
-          Welcome back, {session.user.name}!
-        </div>
-      </div>
-    </MainHeader>
+    <MainHeader
+      title="Overview"
+      caption={`Welcome back, ${session.user.name}!`}
+    />
   );
 }
 
