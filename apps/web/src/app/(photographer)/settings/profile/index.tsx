@@ -12,9 +12,10 @@ import {
 } from 'lucide-react';
 import { SocialLinkInput } from './social-link-input';
 import { LabeledControl } from './labeled-control';
-import { ProfileImagePlaceholder } from './profile-image-placeholder';
 import { CoverImagePlaceholder } from './cover-image-placeholder';
+import { ProfileImagePlaceholder } from './profile-image-placeholder';
 import { LocationSelector } from './location-selector';
+import { LanguageSelector } from './language-selector';
 
 const ProfileSettings = () => {
   return (
@@ -95,6 +96,13 @@ const ProfileSettings = () => {
         description="Specify the cities or regions where clients can book you"
         controlId="locations"
         controlNode={<LocationSelector inputId="locations" />}
+      />
+
+      <LabeledControl
+        title="Languages"
+        description="List the languages you can comfortably use with clients"
+        controlId="languages"
+        controlNode={<LanguageSelector inputId="languages" />}
       />
 
       <LabeledControl

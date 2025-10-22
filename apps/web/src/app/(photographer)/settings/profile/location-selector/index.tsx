@@ -117,20 +117,12 @@ const LocationSelector = (props: LocationSelectorProps) => {
               <CommandEmpty>No locations found.</CommandEmpty>
               <CommandGroup>
                 {SUGGESTED_LOCATIONS.map((location) => {
-                  // const isSelected = selectedLocations.includes(location);
-
                   return (
                     <CommandItem
                       key={location}
                       value={location}
                       onSelect={() => toggleLocation(location)}
                     >
-                      {/* <CheckIcon
-                        className={cn(
-                          'mr-2 h-4 w-4',
-                          isSelected ? 'opacity-100' : 'opacity-0',
-                        )}
-                      /> */}
                       {location}
                     </CommandItem>
                   );
