@@ -101,14 +101,14 @@ const ProfileSettings = () => {
 
       <LabeledControl
         title="Locations"
-        description="Specify the cities or regions where clients can book you"
+        description="Cities or regions where clients can book you"
         controlId="locations"
         controlNode={<LocationSelector inputId="locations" />}
       />
 
       <LabeledControl
         title="Languages"
-        description="List the languages you can comfortably use with clients"
+        description="Languages you can comfortably use with clients"
         controlId="languages"
         controlNode={<LanguageSelector inputId="languages" />}
       />
