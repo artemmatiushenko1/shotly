@@ -33,7 +33,6 @@ const POPULAR_LANGUAGES: LanguageOption[] = [
   { value: 'French', label: 'French', flag: '🇫🇷' },
   { value: 'Italian', label: 'Italian', flag: '🇮🇹' },
   { value: 'Portuguese', label: 'Portuguese', flag: '🇵🇹' },
-  { value: 'Russian', label: 'Russian', flag: '🇷🇺' },
   { value: 'Polish', label: 'Polish', flag: '🇵🇱' },
   { value: 'Ukrainian', label: 'Ukrainian', flag: '🇺🇦' },
   { value: 'Czech', label: 'Czech', flag: '🇨🇿' },
