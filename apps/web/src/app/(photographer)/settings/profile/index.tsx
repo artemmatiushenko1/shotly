@@ -14,6 +14,7 @@ import { SocialLinkInput } from './social-link-input';
 import { LabeledControl } from './labeled-control';
 import { ProfileImagePlaceholder } from './profile-image-placeholder';
 import { CoverImagePlaceholder } from './cover-image-placeholder';
+import { LocationSelector } from './location-selector';
 
 const ProfileSettings = () => {
   return (
@@ -87,6 +88,13 @@ const ProfileSettings = () => {
             className="min-h-32 resize-none"
           />
         }
+      />
+
+      <LabeledControl
+        title="Locations"
+        description="Specify the cities or regions where clients can book you"
+        controlId="locations"
+        controlNode={<LocationSelector inputId="locations" />}
       />
 
       <LabeledControl
