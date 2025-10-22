@@ -78,13 +78,7 @@ const photos = [
   },
 ];
 
-async function CollectionDetails({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-
+async function CollectionDetails() {
   return (
     <div className="h-full flex flex-col">
       <div className="p-3 space-y-6">
@@ -92,7 +86,6 @@ async function CollectionDetails({
         <CollectionMetadata isPublic />
       </div>
       {photos.length === 0 ? <Empty /> : <PhotosGrid photos={photos} />}
-      {slug}
     </div>
   );
 }
