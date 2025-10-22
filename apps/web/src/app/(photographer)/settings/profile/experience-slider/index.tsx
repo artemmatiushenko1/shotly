@@ -1,0 +1,55 @@
+'use client';
+
+import * as React from 'react';
+
+import { Slider } from '@shotly/ui/components/slider';
+
+type ExperienceSliderProps = {
+  inputId?: string;
+  defaultYears?: number;
+  minYears?: number;
+  maxYears?: number;
+};
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
+
+const ExperienceSlider = (props: ExperienceSliderProps) => {
+  const { inputId, defaultYears = 0, minYears = 0, maxYears = 10 } = props;
+
+  const normalizedDefault = clamp(defaultYears, minYears, maxYears);
+  const [years, setYears] = React.useState<number>(normalizedDefault);
+
+  const displayValue =
+    years >= maxYears
+      ? `${maxYears}+ years`
+      : years === 0
+        ? 'Less than 1 year'
+        : `${years} year${years > 1 ? 's' : ''}`;
+
+  return (
+    <div className="space-y-3 max-w-sm">
+      <div className="flex items-center justify-between text-sm text-muted-foreground">
+        <span className="font-medium text-foreground">{displayValue}</span>
+      </div>
+      <Slider
+        value={[years]}
+        min={minYears}
+        max={maxYears}
+        step={1}
+        onValueChange={(value) => {
+          const [next] = value;
+          setYears(next ?? minYears);
+        }}
+        aria-labelledby={inputId}
+        id={inputId}
+      />
+      <div className="flex justify-between text-xs text-muted-foreground">
+        <span>{minYears === 0 ? '0 years' : `${minYears} year`}</span>
+        <span>{maxYears}+ years</span>
+      </div>
+    </div>
+  );
+};
+
+export { ExperienceSlider };

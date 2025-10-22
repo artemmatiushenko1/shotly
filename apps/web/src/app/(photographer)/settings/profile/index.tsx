@@ -16,6 +16,7 @@ import { CoverImagePlaceholder } from './cover-image-placeholder';
 import { ProfileImagePlaceholder } from './profile-image-placeholder';
 import { LocationSelector } from './location-selector';
 import { LanguageSelector } from './language-selector';
+import { ExperienceSlider } from './experience-slider';
 
 const ProfileSettings = () => {
   return (
@@ -89,6 +90,13 @@ const ProfileSettings = () => {
             className="min-h-32 resize-none"
           />
         }
+      />
+
+      <LabeledControl
+        title="Experience"
+        description="How many years you've been shooting"
+        controlId="experience"
+        controlNode={<ExperienceSlider inputId="experience" />}
       />
 
       <LabeledControl
