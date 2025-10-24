@@ -56,6 +56,12 @@ const ProfileSettings = () => {
         controlNode={<Input id="fullname" defaultValue="Monique Wu" />}
       />
       <LabeledControl
+        title="Username"
+        description="Your display username"
+        controlId="fullname"
+        controlNode={<Input id="username" defaultValue="_artemko" />}
+      />
+      <LabeledControl
         title="Profile photo"
         description="This photo will be visible to others"
         controlNode={
