@@ -1,9 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { CheckIcon, ChevronsUpDownIcon, Languages, XIcon } from 'lucide-react';
+import { CheckIcon, ChevronsUpDownIcon, Languages } from 'lucide-react';
 
-import { Badge } from '@shotly/ui/components/badge';
 import { Button } from '@shotly/ui/components/button';
 import {
   Command,
@@ -19,43 +18,38 @@ import {
   PopoverTrigger,
 } from '@shotly/ui/components/popover';
 import { cn } from '@shotly/ui/lib/utils';
+import LanguageTag, { Language, LanguageInfo } from '@/components/language-tag';
 
-type LanguageOption = {
-  value: string;
-  label: string;
-  flag: string;
-};
-
-const POPULAR_LANGUAGES: LanguageOption[] = [
-  { value: 'English', label: 'English', flag: '🇬🇧' },
-  { value: 'Spanish', label: 'Spanish', flag: '🇪🇸' },
-  { value: 'German', label: 'German', flag: '🇩🇪' },
-  { value: 'French', label: 'French', flag: '🇫🇷' },
-  { value: 'Italian', label: 'Italian', flag: '🇮🇹' },
-  { value: 'Portuguese', label: 'Portuguese', flag: '🇵🇹' },
-  { value: 'Polish', label: 'Polish', flag: '🇵🇱' },
-  { value: 'Ukrainian', label: 'Ukrainian', flag: '🇺🇦' },
-  { value: 'Czech', label: 'Czech', flag: '🇨🇿' },
-  { value: 'Slovak', label: 'Slovak', flag: '🇸🇰' },
-  { value: 'Hungarian', label: 'Hungarian', flag: '🇭🇺' },
-  { value: 'Dutch', label: 'Dutch', flag: '🇳🇱' },
-  { value: 'Swedish', label: 'Swedish', flag: '🇸🇪' },
-  { value: 'Norwegian', label: 'Norwegian', flag: '🇳🇴' },
+const SUPPORTED_LANGUAGES = [
+  Language.ENGLISH,
+  Language.SPANISH,
+  Language.GERMAN,
+  Language.FRENCH,
+  Language.ITALIAN,
+  Language.PORTUGUESE,
+  Language.POLISH,
+  Language.UKRAINIAN,
+  Language.CZECH,
+  Language.SLOVAK,
+  Language.HUNGARIAN,
+  Language.DUTCH,
+  Language.SWEDISH,
+  Language.NORWEGIAN,
 ];
 
 type LanguageSelectorProps = {
   inputId?: string;
-  defaultLanguages?: string[];
+  defaultLanguages?: Language[];
 };
 
 const LanguageSelector = (props: LanguageSelectorProps) => {
-  const { inputId, defaultLanguages = ['English'] } = props;
+  const { inputId, defaultLanguages = [Language.ENGLISH] } = props;
 
   const [open, setOpen] = React.useState(false);
   const [selectedLanguages, setSelectedLanguages] =
-    React.useState<string[]>(defaultLanguages);
+    React.useState<Language[]>(defaultLanguages);
 
-  const toggleLanguage = React.useCallback((language: string) => {
+  const toggleLanguage = React.useCallback((language: Language) => {
     setSelectedLanguages((prev) =>
       prev.includes(language)
         ? prev.filter((item) => item !== language)
@@ -63,20 +57,11 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
     );
   }, []);
 
-  const removeLanguage = React.useCallback((language: string) => {
+  const removeLanguage = React.useCallback((language: Language) => {
     setSelectedLanguages((prev) => prev.filter((item) => item !== language));
   }, []);
 
   const hasLanguages = selectedLanguages.length > 0;
-
-  const getLanguageOption = React.useCallback(
-    (language: string) =>
-      POPULAR_LANGUAGES.find((option) => option.value === language),
-    [],
-  );
-
-  const renderFlag = (language: string) =>
-    getLanguageOption(language)?.flag ?? '🏳️';
 
   return (
     <div className="space-y-3">
@@ -97,8 +82,8 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          className="w-[var(--radix-popover-trigger-width)] p-0"
           align="start"
+          className="w-[var(--radix-popover-trigger-width)] p-0"
         >
           <Command>
             <CommandInput
@@ -109,13 +94,16 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
             <CommandList>
               <CommandEmpty>No languages found.</CommandEmpty>
               <CommandGroup>
-                {POPULAR_LANGUAGES.map((language) => {
-                  const isSelected = selectedLanguages.includes(language.value);
+                {SUPPORTED_LANGUAGES.map((language) => {
+                  const languageInfo = LanguageInfo.for(language);
+
+                  const isSelected = selectedLanguages.includes(language);
+
                   return (
                     <CommandItem
-                      key={language.value}
-                      value={language.value}
-                      onSelect={() => toggleLanguage(language.value)}
+                      key={language}
+                      value={language}
+                      onSelect={() => toggleLanguage(language)}
                     >
                       <CheckIcon
                         className={cn(
@@ -123,8 +111,8 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
                           isSelected ? 'opacity-100' : 'opacity-0',
                         )}
                       />
-                      <span className="mr-2">{language.flag}</span>
-                      {language.label}
+                      <span className="mr-2">{languageInfo.flag}</span>
+                      {languageInfo.name}
                     </CommandItem>
                   );
                 })}
@@ -133,30 +121,15 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
           </Command>
         </PopoverContent>
       </Popover>
-
       {hasLanguages && (
         <div className="flex flex-wrap gap-2">
           {selectedLanguages.map((language) => (
-            <Badge
+            <LanguageTag
               key={language}
-              variant="secondary"
-              className="flex items-center gap-1"
-            >
-              <span>{renderFlag(language)}</span>
-              {language}
-              <button
-                type="button"
-                onClick={(event) => {
-                  event.preventDefault();
-                  event.stopPropagation();
-                  removeLanguage(language);
-                }}
-                className="rounded-full p-1 text-muted-foreground transition-colors hover:text-foreground"
-                aria-label={`Remove ${language}`}
-              >
-                <XIcon className="h-3 w-3" />
-              </button>
-            </Badge>
+              removable
+              language={language}
+              onRemove={removeLanguage}
+            />
           ))}
         </div>
       )}

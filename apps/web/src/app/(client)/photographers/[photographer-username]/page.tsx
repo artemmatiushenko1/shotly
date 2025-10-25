@@ -1,5 +1,13 @@
+import LanguageTag, { Language } from '@/components/language-tag';
 import { Avatar, AvatarImage } from '@shotly/ui/components/avatar';
+import { Badge } from '@shotly/ui/components/badge';
 import { Button, buttonVariants } from '@shotly/ui/components/button';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@shotly/ui/components/card';
 import { Logo } from '@shotly/ui/components/logo';
 import { Separator } from '@shotly/ui/components/separator';
 import {
@@ -14,7 +22,9 @@ import {
   GlobeIcon,
   HeartIcon,
   InstagramIcon,
+  LanguagesIcon,
   LogInIcon,
+  MapPinIcon,
   StarIcon,
 } from 'lucide-react';
 import Image from 'next/image';
@@ -129,7 +139,41 @@ const PhotographerPublicProfile = () => {
             </div>
           </div>
         </div>
-        <Separator className="mt-5" />
+        <Separator className="my-5" />
+        <Card className="shadow-none">
+          <CardHeader>
+            <CardTitle>Additonal Info</CardTitle>
+          </CardHeader>
+          <CardContent className="flex">
+            <div className="flex-1/2">
+              <p className="font-medium text-xs text-muted-foreground mb-2 inline-flex gap-1 items-center">
+                <LanguagesIcon className="w-4" /> Languages
+              </p>
+              <div className="flex gap-3 mb-4 flex-wrap">
+                {[
+                  Language.ENGLISH,
+                  Language.UKRAINIAN,
+                  Language.POLISH,
+                  Language.DUTCH,
+                ].map((language) => (
+                  <LanguageTag key={language} language={language} />
+                ))}
+              </div>
+            </div>
+            <div className="flex-1/2">
+              <p className="font-medium text-xs text-muted-foreground mb-2 inline-flex gap-1 items-center">
+                <MapPinIcon className="w-4" /> Locations
+              </p>
+              <div className="flex gap-3">
+                {['Kyiv, Ukraine', 'Cherkasy, Ukraine'].map((location) => (
+                  <Badge variant="outline" key={location}>
+                    {location}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
