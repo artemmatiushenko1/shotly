@@ -5,32 +5,65 @@ import { VisibilityBadge } from '../portfolio/visibility-badge';
 import { ClockIcon, EditIcon, PackageIcon, TrashIcon } from 'lucide-react';
 import { Button } from '@shotly/ui/components/button';
 
-function ServiceCard() {
+type ServiceCardProps = {
+  coverUrl: string;
+  name: string;
+  description: string;
+  price: string;
+  priceUnit?: string;
+  category: string;
+  deliveryTime: string;
+  deliverables: string[];
+  isPublic: boolean;
+  onEdit?: () => void;
+  onDelete?: () => void;
+};
+
+function ServiceCard(props: ServiceCardProps) {
+  const {
+    coverUrl,
+    name,
+    description,
+    price,
+    priceUnit = '',
+    category,
+    deliveryTime,
+    deliverables,
+    isPublic,
+    onEdit,
+    onDelete,
+  } = props;
+
+  const deliverablesLabel =
+    deliverables.length === 0
+      ? '—'
+      : deliverables.length === 1
+        ? deliverables[0]
+        : `${deliverables[0]}, +${deliverables.length - 1} more`;
+
   return (
     <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 cursor-pointer gap-4">
       <div className="relative p-2 overflow-hidden">
         <Image
-          alt=""
-          src="/auth-banner-2.jpg"
+          alt={name}
+          src={coverUrl}
           width={200}
           height={200}
-          className="w-full h-40 object-cover rounded-lg border"
+          className="size-40 w-50 object-cover rounded-lg border"
         />
       </div>
       <div className="p-3 flex flex-col justify-between flex-1">
         <div>
-          <h2 className="font-bold text-lg">Family photoset</h2>
+          <h2 className="font-bold text-lg">{name}</h2>
           <CardDescription className="mb-2 max-w-lg">
-            Photo on a plain background. From 20 photos. Minimal editing: Basic
-            cleaning of photo from 20 photos. Minimal editing: Basic cleaning of
-            photo...
+            {description}
           </CardDescription>
         </div>
         <div className="flex items-center justify-start gap-10">
           <div className="flex flex-col">
             <p className="text-muted-foreground text-xs mb-1">Price</p>
             <p className="text-lg font-bold">
-              ₴ 2500
+              {priceUnit} {price}
               <span className="text-muted-foreground text-sm font-normal">
                 /hour
               </span>
@@ -38,32 +71,33 @@ function ServiceCard() {
           </div>
           <div className="flex flex-col items-start">
             <p className="text-muted-foreground text-xs mb-1">Category</p>
-            <p className="font-medium text-sm">Family</p>
+            <p className="font-medium text-sm">{category}</p>
           </div>
           <div className="flex flex-col items-start">
             <p className="text-muted-foreground text-xs mb-1">Delivery time</p>
             <p className="inline-flex gap-1 items-center font-medium text-sm">
-              <ClockIcon className="w-4 text-muted-foreground" />5 days
+              <ClockIcon className="w-4 text-muted-foreground" />
+              {deliveryTime} days
             </p>
           </div>
           <div className="flex flex-col items-start">
             <p className="text-muted-foreground text-xs mb-1">Deliverables</p>
             <p className="inline-flex gap-1 items-center font-medium text-sm">
-              <PackageIcon className="text-muted-foreground w-4" /> 100 edited
-              photos, +2 more
+              <PackageIcon className="text-muted-foreground w-4" />{' '}
+              {deliverablesLabel}
             </p>
           </div>
           <div className="flex flex-col items-start">
             <p className="text-muted-foreground text-sm mb-1">Status</p>
-            <VisibilityBadge isPublic />
+            <VisibilityBadge isPublic={isPublic} />
           </div>
         </div>
       </div>
       <div className="flex flex-col gap-2 p-3">
-        <Button variant="outline">
+        <Button variant="outline" onClick={onEdit}>
           <EditIcon /> Edit
         </Button>
-        <Button variant="ghost">
+        <Button variant="ghost" onClick={onDelete}>
           <TrashIcon /> Delete
         </Button>
       </div>
