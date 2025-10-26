@@ -25,7 +25,7 @@ function CollectionCard(props: CollectionCardProps) {
   } = props;
 
   return (
-    <Card className="bg-white rounded-xl shadow-none overflow-hidden p-0 gap-0 cursor-pointer hover:bg-accent/50">
+    <Card className="bg-muted/20 rounded-xl shadow-none overflow-hidden p-0 gap-0 cursor-pointer hover:bg-accent/50">
       <div className="relative">
         <div className="p-2">
           <Image

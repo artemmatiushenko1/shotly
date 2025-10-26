@@ -1,68 +1,72 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardTitle,
-} from '@shotly/ui/components/card';
+import { Card, CardDescription } from '@shotly/ui/components/card';
 import Image from 'next/image';
 import React from 'react';
 import { VisibilityBadge } from '../portfolio/visibility-badge';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@shotly/ui/components/tooltip';
-import { ClockIcon, EllipsisVerticalIcon } from 'lucide-react';
-import { Badge } from '@shotly/ui/components/badge';
+import { ClockIcon, EditIcon, PackageIcon, TrashIcon } from 'lucide-react';
 import { Button } from '@shotly/ui/components/button';
 
 function ServiceCard() {
   return (
-    <Card className="shadow-none pt-0 overflow-hidden">
-      <div className="relative">
+    <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 cursor-pointer">
+      <div className="relative p-2 overflow-hidden">
         <Image
           alt=""
           src="/auth-banner-2.jpg"
           width={200}
           height={200}
-          className="w-full h-50 object-cover"
+          className="w-full h-40 object-cover rounded-lg border"
         />
-        <VisibilityBadge isPublic className="absolute top-6 left-6" />
-        <div className="absolute top-4 right-4 flex gap-2">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full w-10 h-10 p-0 text-background size-8"
-          >
-            <EllipsisVerticalIcon className="w-4 h-4" />
-          </Button>
+      </div>
+      <div className="p-3 flex flex-col justify-between flex-1">
+        <div>
+          <h2 className="font-bold text-lg">Family photoset</h2>
+          <CardDescription className="mb-2 max-w-lg">
+            Photo on a plain background. From 20 photos. Minimal editing: Basic
+            cleaning of photo from 20 photos. Minimal editing: Basic cleaning of
+            photo...
+          </CardDescription>
+        </div>
+        <div className="flex items-center justify-start gap-10">
+          <div className="flex flex-col">
+            <p className="text-muted-foreground text-sm mb-1">Price</p>
+            <p className="text-lg font-bold">
+              ₴ 2500
+              <span className="text-muted-foreground text-sm font-normal">
+                /hour
+              </span>
+            </p>
+          </div>
+          <div className="flex flex-col items-start">
+            <p className="text-muted-foreground text-sm mb-1">Category</p>
+            <p className="font-medium">Family</p>
+          </div>
+          <div className="flex flex-col items-start">
+            <p className="text-muted-foreground text-sm mb-1">Delivery time</p>
+            <p className="inline-flex gap-1 items-center font-medium">
+              <ClockIcon className="w-4 text-muted-foreground" />5 days
+            </p>
+          </div>
+          <div className="flex flex-col items-start">
+            <p className="text-muted-foreground text-sm mb-1">Deliverables</p>
+            <p className="inline-flex gap-1 items-center font-medium">
+              <PackageIcon className="text-muted-foreground w-4" /> 100 edited
+              photos, +2 more
+            </p>
+          </div>
+          <div className="flex flex-col items-start">
+            <p className="text-muted-foreground text-sm mb-1">Status</p>
+            <VisibilityBadge isPublic />
+          </div>
         </div>
       </div>
-      <CardContent>
-        <CardTitle>Family photoset</CardTitle>
-        <CardDescription className="mb-2">
-          Photo on a plain background. From 20 photos. Minimal editing: Basic
-          cleaning of photo...
-        </CardDescription>
-
-        <div className="flex items-center justify-between">
-          <p className="text-lg font-bold">
-            ₴ 2500
-            <span className="text-muted-foreground text-sm font-normal">
-              /hour
-            </span>
-          </p>
-          <Tooltip>
-            <TooltipContent>Deliverables receive duration</TooltipContent>
-            <TooltipTrigger className="items-start">
-              <p className="text-sm inline-flex gap-1 items-center">
-                <ClockIcon className="w-4 text-muted-foreground" />5 days
-              </p>
-            </TooltipTrigger>
-          </Tooltip>
-          <Badge variant="outline">Family</Badge>
-        </div>
-      </CardContent>
+      <div className="flex flex-col gap-2 p-3">
+        <Button variant="outline">
+          <EditIcon /> Edit
+        </Button>
+        <Button variant="ghost">
+          <TrashIcon /> Delete
+        </Button>
+      </div>
     </Card>
   );
 }

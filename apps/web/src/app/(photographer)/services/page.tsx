@@ -17,7 +17,10 @@ function Services() {
           </Button>
         }
       />
-      <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="p-4 flex flex-col gap-4">
+        <ServiceCard />
+        <ServiceCard />
+        <ServiceCard />
         <ServiceCard />
       </div>
     </>
