@@ -1,7 +1,9 @@
+'use client';
+
 import MainHeader from '@/components/main-header';
 import { Button } from '@shotly/ui/components/button';
 import { PlusIcon } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
 import ServiceCard from './service-card';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 import { Badge } from '@shotly/ui/components/badge';
@@ -62,12 +64,15 @@ const MOCK_SERVICES: React.ComponentProps<typeof ServiceCard>[] = [
 ];
 
 function Services() {
-  const totalCount = MOCK_SERVICES.length;
-  const publicCount = MOCK_SERVICES.filter(
-    (service) => service.isPublic,
-  ).length;
-  const privateCount = totalCount - publicCount;
-  const archivedCount = 0;
+  const [selectedTab, setSelectedTab] = useState('All');
+
+  const tabs = ['All', 'Public', 'Private', 'Archived'];
+  const counts = {
+    'All': MOCK_SERVICES.length,
+    'Public': MOCK_SERVICES.filter((s) => s.isPublic).length,
+    'Private': MOCK_SERVICES.filter((s) => !s.isPublic).length,
+    'Archived': '0',
+  };
 
   return (
     <>
@@ -82,41 +87,23 @@ function Services() {
         }
       />
       <div className="p-4 flex flex-col gap-4">
-        <Tabs defaultValue="All">
+        <Tabs
+          defaultValue="All"
+          value={selectedTab}
+          onValueChange={(value) => setSelectedTab(value)}
+        >
           <TabsList>
-            <TabsTrigger value="All">
-              All{' '}
-              <Badge className="h-5 min-w-5 rounded-full px-1">
-                {totalCount}
-              </Badge>
-            </TabsTrigger>
-            <TabsTrigger value="Public">
-              Public{' '}
-              <Badge
-                variant="secondary"
-                className="h-5 min-w-5 rounded-full px-1"
-              >
-                {publicCount}
-              </Badge>
-            </TabsTrigger>
-            <TabsTrigger value="Private">
-              Private{' '}
-              <Badge
-                variant="secondary"
-                className="h-5 min-w-5 rounded-full px-1"
-              >
-                {privateCount}
-              </Badge>
-            </TabsTrigger>
-            <TabsTrigger value="Archived">
-              Archived{' '}
-              <Badge
-                variant="secondary"
-                className="h-5 min-w-5 rounded-full px-1"
-              >
-                {archivedCount}
-              </Badge>
-            </TabsTrigger>
+            {tabs.map((tab) => (
+              <TabsTrigger key={tab} value={tab}>
+                {tab}{' '}
+                <Badge
+                  variant={tab === selectedTab ? 'default' : 'secondary'}
+                  className="h-5 min-w-5 rounded-full px-1"
+                >
+                  {counts[tab as keyof typeof counts]}
+                </Badge>
+              </TabsTrigger>
+            ))}
           </TabsList>
         </Tabs>
         {MOCK_SERVICES.map((service) => (
