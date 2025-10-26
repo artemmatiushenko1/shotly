@@ -3,6 +3,7 @@ import { Button } from '@shotly/ui/components/button';
 import { PlusIcon } from 'lucide-react';
 import React from 'react';
 import ServiceCard from './service-card';
+import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 
 function Services() {
   return (
@@ -18,6 +19,14 @@ function Services() {
         }
       />
       <div className="p-4 flex flex-col gap-4">
+        <Tabs defaultValue="All">
+          <TabsList>
+            <TabsTrigger value="All">All</TabsTrigger>
+            <TabsTrigger value="Public">Public</TabsTrigger>
+            <TabsTrigger value="Private">Private</TabsTrigger>
+            <TabsTrigger value="Archived">Archived</TabsTrigger>
+          </TabsList>
+        </Tabs>
         <ServiceCard />
         <ServiceCard />
         <ServiceCard />

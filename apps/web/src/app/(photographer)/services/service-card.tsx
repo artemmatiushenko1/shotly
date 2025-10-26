@@ -7,7 +7,7 @@ import { Button } from '@shotly/ui/components/button';
 
 function ServiceCard() {
   return (
-    <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 cursor-pointer">
+    <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 cursor-pointer gap-4">
       <div className="relative p-2 overflow-hidden">
         <Image
           alt=""
