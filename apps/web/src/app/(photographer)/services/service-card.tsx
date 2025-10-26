@@ -82,13 +82,13 @@ function ServiceCard(props: ServiceCardProps) {
           </div>
           <div className="flex flex-col items-start">
             <p className="text-muted-foreground text-xs mb-1">Deliverables</p>
-            <p className="inline-flex gap-1 items-center font-medium text-sm">
+            <p className="inline-flex gap-1 items-center font-medium text-sm w-56">
               <PackageIcon className="text-muted-foreground w-4" />{' '}
               {deliverablesLabel}
             </p>
           </div>
           <div className="flex flex-col items-start">
-            <p className="text-muted-foreground text-sm mb-1">Status</p>
+            <p className="text-muted-foreground text-xs mb-1">Status</p>
             <VisibilityBadge isPublic={isPublic} />
           </div>
         </div>
