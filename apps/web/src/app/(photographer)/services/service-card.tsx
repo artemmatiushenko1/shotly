@@ -28,7 +28,7 @@ function ServiceCard() {
         </div>
         <div className="flex items-center justify-start gap-10">
           <div className="flex flex-col">
-            <p className="text-muted-foreground text-sm mb-1">Price</p>
+            <p className="text-muted-foreground text-xs mb-1">Price</p>
             <p className="text-lg font-bold">
               ₴ 2500
               <span className="text-muted-foreground text-sm font-normal">
@@ -37,18 +37,18 @@ function ServiceCard() {
             </p>
           </div>
           <div className="flex flex-col items-start">
-            <p className="text-muted-foreground text-sm mb-1">Category</p>
-            <p className="font-medium">Family</p>
+            <p className="text-muted-foreground text-xs mb-1">Category</p>
+            <p className="font-medium text-sm">Family</p>
           </div>
           <div className="flex flex-col items-start">
-            <p className="text-muted-foreground text-sm mb-1">Delivery time</p>
-            <p className="inline-flex gap-1 items-center font-medium">
+            <p className="text-muted-foreground text-xs mb-1">Delivery time</p>
+            <p className="inline-flex gap-1 items-center font-medium text-sm">
               <ClockIcon className="w-4 text-muted-foreground" />5 days
             </p>
           </div>
           <div className="flex flex-col items-start">
-            <p className="text-muted-foreground text-sm mb-1">Deliverables</p>
-            <p className="inline-flex gap-1 items-center font-medium">
+            <p className="text-muted-foreground text-xs mb-1">Deliverables</p>
+            <p className="inline-flex gap-1 items-center font-medium text-sm">
               <PackageIcon className="text-muted-foreground w-4" /> 100 edited
               photos, +2 more
             </p>
