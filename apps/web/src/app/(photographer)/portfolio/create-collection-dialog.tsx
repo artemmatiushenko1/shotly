@@ -37,7 +37,7 @@ const CreateCollectionDialog = () => {
         <DialogTrigger asChild>
           <Button className="ml-auto">
             <Plus />
-            New Collection
+            Collection
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[550px]">
