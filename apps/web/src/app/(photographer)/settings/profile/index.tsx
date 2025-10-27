@@ -17,6 +17,7 @@ import { ProfileImagePlaceholder } from './profile-image-placeholder';
 import { LocationSelector } from './location-selector';
 import { LanguageSelector } from './language-selector';
 import { ExperienceSlider } from './experience-slider';
+import { redirect } from 'next/navigation';
 
 const ProfileSettings = () => {
   return (
@@ -29,7 +30,11 @@ const ProfileSettings = () => {
           </p>
         </div>
         <div className="ml-auto space-y-1">
-          <Button variant="outline" size="sm">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => redirect('/photographers/artemko')}
+          >
             <GlobeIcon /> View public profile
           </Button>
           <p className="text-xs text-muted-foreground">
