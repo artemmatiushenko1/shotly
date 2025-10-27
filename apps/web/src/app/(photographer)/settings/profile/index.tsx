@@ -3,21 +3,15 @@
 import { Button } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';
 import { Textarea } from '@shotly/ui/components/textarea';
-import {
-  ImageIcon,
-  Trash2,
-  Upload,
-  InstagramIcon,
-  GlobeIcon,
-} from 'lucide-react';
+import { Trash2, Upload, InstagramIcon, GlobeIcon } from 'lucide-react';
 import { SocialLinkInput } from './social-link-input';
 import { LabeledControl } from './labeled-control';
-import { CoverImagePlaceholder } from './cover-image-placeholder';
 import { ProfileImagePlaceholder } from './profile-image-placeholder';
 import { LocationSelector } from './location-selector';
 import { LanguageSelector } from './language-selector';
 import { ExperienceSlider } from './experience-slider';
 import { redirect } from 'next/navigation';
+import CoverUpload from '@/components/cover-upload/cover-upload';
 
 const ProfileSettings = () => {
   return (
@@ -42,18 +36,7 @@ const ProfileSettings = () => {
           </p>
         </div>
       </div>
-      <CoverImagePlaceholder className="p-8">
-        <div className="absolute bottom-4 right-4 flex gap-3">
-          <Button
-            size="sm"
-            variant="secondary"
-            className="bg-white/90 hover:bg-white"
-          >
-            <ImageIcon className="mr-2 h-4 w-4" />
-            Edit your cover image
-          </Button>
-        </div>
-      </CoverImagePlaceholder>
+      <CoverUpload />
       <LabeledControl
         title="Full name"
         description="Your display name"
