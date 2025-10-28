@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import ServiceCard from './service-card';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 import { Badge } from '@shotly/ui/components/badge';
+import CreateServiceDialog from './create-service/create-service-dialog';
 
 const MOCK_SERVICES: React.ComponentProps<typeof ServiceCard>[] = [
   {
@@ -80,10 +81,12 @@ function Services() {
         title="Services"
         caption="Create service packages available to your clients"
         extra={
-          <Button className="ml-auto">
-            <PlusIcon />
-            Service
-          </Button>
+          <CreateServiceDialog>
+            <Button className="ml-auto">
+              <PlusIcon />
+              Service
+            </Button>
+          </CreateServiceDialog>
         }
       />
       <div className="p-4 flex flex-col gap-4">
