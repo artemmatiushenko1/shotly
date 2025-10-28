@@ -9,7 +9,7 @@ type InputProps = {
 // TODO: create filled variant
 function Input({ className, type, error, ...props }: InputProps) {
   return (
-    <div>
+    <>
       <input
         type={type}
         data-slot="input"
@@ -23,7 +23,7 @@ function Input({ className, type, error, ...props }: InputProps) {
         {...props}
       />
       {error && <div className="text-sm text-destructive mt-2">{error}</div>}
-    </div>
+    </>
   );
 }
 

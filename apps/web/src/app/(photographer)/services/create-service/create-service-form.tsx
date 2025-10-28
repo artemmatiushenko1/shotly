@@ -12,16 +12,22 @@ import {
   SelectValue,
 } from '@shotly/ui/components/select';
 import { Textarea } from '@shotly/ui/components/textarea';
-import React, { useId } from 'react';
+import React, { useId, useState } from 'react';
+import { Button } from '@shotly/ui/components/button';
+import { PlusCircleIcon } from 'lucide-react';
+import { Badge } from '@shotly/ui/components/badge';
 
-// TODO: idea is to add list features,
+// TODO: idea is to add list of features,
 // user can select which ones are included in base price, and what might be included additionally
 function CreateServiceForm() {
+  const [deliverables, setDeliverables] = useState<string[]>([]);
+  const [deliverable, setDeliverable] = useState('');
+
   const nameId = useId();
   const descriptionId = useId();
 
   return (
-    <form className="space-y-5">
+    <form className="space-y-5 pb-10">
       <div className="grid gap-3">
         <Label htmlFor={nameId}>
           Service Name <span className="text-destructive">*</span>
@@ -71,13 +77,37 @@ function CreateServiceForm() {
           </Select>
         </div>
         <div className="grid gap-3 w-full">
-          <Label htmlFor="username-1">Delivery Time (days) </Label>
-          <Input placeholder="Add location (e.g. Kyiv, Ukraine)" />
+          <Label htmlFor="username-1">Price </Label>
+          <Input placeholder="Enter price" />
         </div>
       </div>
       <div className="grid gap-3 w-full">
-        <Label htmlFor="username-1">Price </Label>
-        <Input placeholder="Enter price" />
+        <Label htmlFor="username-1">Deliverables</Label>
+        <div className="w-full flex gap-3">
+          <Input
+            placeholder="Specify deliverables"
+            value={deliverable}
+            onChange={(e) => setDeliverable(e.target.value)}
+            className="flex-1"
+          />
+          <Button
+            type="button"
+            onClick={() => setDeliverables((prev) => [...prev, deliverable])}
+          >
+            <PlusCircleIcon />
+          </Button>
+        </div>
+        <div className="flex gap-2 flex-wrap">
+          {deliverables.map((deliverable) => (
+            <Badge key={deliverable} variant="secondary">
+              {deliverable}
+            </Badge>
+          ))}
+        </div>
+      </div>
+      <div className="grid gap-3 w-full">
+        <Label htmlFor="username-1">Delivery Time (days) </Label>
+        <Input placeholder="Add location (e.g. Kyiv, Ukraine)" />
       </div>
       <div className="w-full flex justify-between">
         <div>

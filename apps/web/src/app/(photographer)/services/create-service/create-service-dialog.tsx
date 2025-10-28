@@ -2,6 +2,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -9,6 +10,7 @@ import {
 import { HandshakeIcon } from 'lucide-react';
 import React from 'react';
 import CreateServiceForm from './create-service-form';
+import { Button } from '@shotly/ui/components/button';
 
 type CreateServiceDialogProps = {
   children: React.ReactNode;
@@ -20,7 +22,7 @@ function CreateServiceDialog(props: CreateServiceDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-[650px] max-h-[600px] overflow-hidden flex flex-col">
+      <DialogContent className="sm:max-w-[650px] h-[600px] overflow-y-scroll flex flex-col">
         <DialogHeader className="flex-row space-x-2 mb-2">
           <div className="size-8 p-2 bg-primary/15 rounded-md ">
             <HandshakeIcon className="text-primary size-4" />
@@ -33,9 +35,13 @@ function CreateServiceDialog(props: CreateServiceDialogProps) {
             </DialogDescription>
           </div>
         </DialogHeader>
-        <div className="overflow-y-scroll flex-1 h-0">
+        <div className="flex-1">
           <CreateServiceForm />
         </div>
+        <DialogFooter>
+          <Button variant="ghost">Cancel</Button>
+          <Button>Save Changes</Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
