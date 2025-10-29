@@ -12,8 +12,22 @@ import { LanguageSelector } from './language-selector';
 import { ExperienceSlider } from './experience-slider';
 import { redirect } from 'next/navigation';
 import CoverUpload from '@/components/cover-upload/cover-upload';
+import { useId } from 'react';
+import { updateProfileAction } from './actions';
+
+enum FormField {
+  NAME = 'name',
+  USERNAME = 'username',
+  BIO = 'bio',
+  WEBSITE_URL = 'websiteUrl',
+}
 
 const ProfileSettings = () => {
+  const bioId = useId();
+  const fullNameId = useId();
+  const usernameId = useId();
+  const personalWebsiteUrlId = useId();
+
   return (
     <div className="space-y-8 pb-4">
       <div className="flex">
@@ -36,95 +50,124 @@ const ProfileSettings = () => {
           </p>
         </div>
       </div>
-      <CoverUpload />
-      <LabeledControl
-        title="Full name"
-        description="Your display name"
-        controlId="fullname"
-        controlNode={<Input id="fullname" defaultValue="Monique Wu" />}
-      />
-      <LabeledControl
-        title="Username"
-        description="Your display username"
-        controlId="fullname"
-        controlNode={<Input id="username" defaultValue="_artemko" />}
-      />
-      <LabeledControl
-        title="Profile photo"
-        description="This photo will be visible to others"
-        controlNode={
-          <div className="flex items-start gap-6">
-            <ProfileImagePlaceholder />
-            <div className="flex flex-col gap-2">
-              <Button variant="outline" size="sm">
-                <Upload className="mr-2 h-4 w-4" />
-                Upload new image
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground"
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete current image
-              </Button>
+      <form className="space-y-8" action={updateProfileAction}>
+        <CoverUpload />
+        <LabeledControl
+          title="Full name"
+          description="Your display name"
+          controlId={fullNameId}
+          controlNode={
+            <Input
+              id={fullNameId}
+              name={FormField.NAME}
+              defaultValue="Monique Wu"
+            />
+          }
+        />
+        <LabeledControl
+          title="Username"
+          description="Your display username"
+          controlId={usernameId}
+          controlNode={
+            <Input
+              id={usernameId}
+              name={FormField.USERNAME}
+              defaultValue="_artemko"
+            />
+          }
+        />
+        <LabeledControl
+          title="Profile photo"
+          description="This photo will be visible to others"
+          controlNode={
+            <div className="flex items-start gap-6">
+              <ProfileImagePlaceholder />
+              <div className="flex flex-col gap-2">
+                <Button variant="outline" size="sm">
+                  <Upload className="mr-2 h-4 w-4" />
+                  Upload new image
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground"
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete current image
+                </Button>
+              </div>
             </div>
-          </div>
-        }
-      />
+          }
+        />
+        <LabeledControl
+          title="About you"
+          description="Write a description for your profile"
+          controlId={bioId}
+          controlNode={
+            <Textarea
+              id={bioId}
+              name={FormField.BIO}
+              defaultValue="A product designer and UX researcher based in the Czechia. I have a deep passion for technology and thrive as a problem solver.&#10;&#10;My ultimate aim is to blend logical solution with creative expression."
+              className="min-h-32 resize-none"
+            />
+          }
+        />
 
-      <LabeledControl
-        title="About you"
-        description="Write a description for your profile"
-        controlId="about"
-        controlNode={
-          <Textarea
-            id="about"
-            defaultValue="A product designer and UX researcher based in the Czechia. I have a deep passion for technology and thrive as a problem solver.&#10;&#10;My ultimate aim is to blend logical solution with creative expression."
-            className="min-h-32 resize-none"
-          />
-        }
-      />
+        <LabeledControl
+          title="Experience"
+          description="How many years you've been shooting"
+          controlId="experience"
+          controlNode={<ExperienceSlider inputId="experience" />}
+        />
 
-      <LabeledControl
-        title="Experience"
-        description="How many years you've been shooting"
-        controlId="experience"
-        controlNode={<ExperienceSlider inputId="experience" />}
-      />
+        <LabeledControl
+          title="Locations"
+          description="Cities or regions where clients can book you"
+          controlId="locations"
+          controlNode={<LocationSelector inputId="locations" />}
+        />
 
-      <LabeledControl
-        title="Locations"
-        description="Cities or regions where clients can book you"
-        controlId="locations"
-        controlNode={<LocationSelector inputId="locations" />}
-      />
+        <LabeledControl
+          title="Languages"
+          description="Languages you can comfortably use with clients"
+          controlId="languages"
+          controlNode={<LanguageSelector inputId="languages" />}
+        />
 
-      <LabeledControl
-        title="Languages"
-        description="Languages you can comfortably use with clients"
-        controlId="languages"
-        controlNode={<LanguageSelector inputId="languages" />}
-      />
+        <LabeledControl
+          title="Personal website"
+          description="Your online page, blog, or company site"
+          controlId={personalWebsiteUrlId}
+          controlNode={
+            <Input
+              id={personalWebsiteUrlId}
+              name={FormField.WEBSITE_URL}
+              defaultValue="https://www.medium.com/monique"
+            />
+          }
+        />
 
-      <LabeledControl
-        title="Personal website"
-        description="Your online page, blog, or company site"
-        controlId="website"
-        controlNode={<Input id="website" defaultValue="medium.com/monique" />}
-      />
+        <LabeledControl
+          title="Connect with work socials"
+          description="Add social links"
+          controlNode={
+            <SocialLinkInput
+              socialIcon={<InstagramIcon />}
+              socialHandle="_artemko"
+              socialBaseUrl="instagram.com/"
+            />
+          }
+        />
 
-      <LabeledControl
-        title="Connect with work socials"
-        description="Add social links"
-        controlNode={
-          <SocialLinkInput
-            socialIcon={<InstagramIcon />}
-            socialHandle="_artemko"
-            socialBaseUrl="instagram.com/"
-          />
-        }
-      />
+        <div className="flex gap-3 justify-end">
+          <Button type="button" variant="ghost">
+            Cancel
+          </Button>
+          <Button type="submit" loading>
+            Save changes
+          </Button>
+        </div>
+      </form>
     </div>
   );
 };
