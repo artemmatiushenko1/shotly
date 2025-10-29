@@ -15,6 +15,20 @@
       "when": 1752934346453,
       "tag": "0001_skinny_justice",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1761747400785,
+      "tag": "0002_melodic_screwball",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1761747598941,
+      "tag": "0003_perfect_manta",
+      "breakpoints": true
     }
   ]
 }

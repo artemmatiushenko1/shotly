@@ -1,4 +1,11 @@
-import { pgTable, text, timestamp, boolean, pgEnum } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  pgEnum,
+  integer,
+} from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
@@ -14,6 +21,12 @@ export const user = pgTable('user', {
   updatedAt: timestamp('updated_at')
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
+  username: text('username').unique(),
+  websiteUrl: text('website_url'),
+  instagramTag: text('instagram_tag'),
+  coverImageUrl: text('cover_image_url'),
+  yearsOfExperience: integer('years_of_experience').default(0),
+  bio: text('bio'),
 });
 
 export const session = pgTable('session', {
