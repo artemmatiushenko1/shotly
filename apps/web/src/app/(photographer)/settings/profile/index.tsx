@@ -163,9 +163,7 @@ const ProfileSettings = () => {
           <Button type="button" variant="ghost">
             Cancel
           </Button>
-          <Button type="submit" loading>
-            Save changes
-          </Button>
+          <Button type="submit">Save changes</Button>
         </div>
       </form>
     </div>
