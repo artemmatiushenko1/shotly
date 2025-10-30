@@ -12,7 +12,7 @@ import { LanguageSelector } from './language-selector';
 import { ExperienceSlider } from './experience-slider';
 import { redirect } from 'next/navigation';
 import CoverUpload from '@/components/cover-upload/cover-upload';
-import { useId } from 'react';
+import { useActionState, useId } from 'react';
 import { updateProfileAction } from './actions';
 
 enum FormField {
@@ -23,6 +23,8 @@ enum FormField {
 }
 
 const ProfileSettings = () => {
+  const [state, formAction, pending] = useActionState(updateProfileAction, {});
+
   const bioId = useId();
   const fullNameId = useId();
   const usernameId = useId();
@@ -50,7 +52,7 @@ const ProfileSettings = () => {
           </p>
         </div>
       </div>
-      <form className="space-y-8" action={updateProfileAction}>
+      <form className="space-y-8" action={formAction}>
         <CoverUpload />
         <LabeledControl
           title="Full name"
@@ -61,6 +63,7 @@ const ProfileSettings = () => {
               id={fullNameId}
               name={FormField.NAME}
               defaultValue="Monique Wu"
+              error={state.validationErrors?.fieldErrors.name?.toString()}
             />
           }
         />
@@ -73,6 +76,7 @@ const ProfileSettings = () => {
               id={usernameId}
               name={FormField.USERNAME}
               defaultValue="_artemko"
+              error={state.validationErrors?.fieldErrors.username?.toString()}
             />
           }
         />
@@ -143,6 +147,7 @@ const ProfileSettings = () => {
               id={personalWebsiteUrlId}
               name={FormField.WEBSITE_URL}
               defaultValue="https://www.medium.com/monique"
+              error={state.validationErrors?.fieldErrors.websiteUrl?.toString()}
             />
           }
         />
@@ -163,7 +168,9 @@ const ProfileSettings = () => {
           <Button type="button" variant="ghost">
             Cancel
           </Button>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit" loading={pending}>
+            Save changes
+          </Button>
         </div>
       </form>
     </div>

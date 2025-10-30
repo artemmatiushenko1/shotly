@@ -1,7 +1,6 @@
 'use server';
 
 import { UnauthenticatedError } from '@/domain/errors/auth';
-import { InputParseError } from '@/domain/errors/common';
 import { auth } from '@/lib/auth';
 import usersRepository from '@/repositories/users.repository';
 import { revalidatePath } from 'next/cache';
@@ -9,13 +8,22 @@ import { headers } from 'next/headers';
 import z from 'zod';
 
 const inputSchema = z.object({
-  name: z.string(),
-  bio: z.string(),
-  username: z.string(),
+  name: z.string().min(1, { error: 'Name must not be empty.' }),
+  bio: z.string().max(500),
+  username: z.string().min(1, { error: 'Username must not be empty.' }),
   websiteUrl: z.url(),
 });
 
-export const updateProfileAction = async (form: FormData) => {
+type UodateProfileValidationErrors = z.core.$ZodFlattenedError<
+  z.infer<typeof inputSchema>
+>;
+
+export const updateProfileAction = async (
+  initialState: {
+    validationErrors?: UodateProfileValidationErrors;
+  },
+  form: FormData,
+) => {
   const session = await auth.api.getSession({ headers: await headers() });
   const userId = session?.user.id;
 
@@ -29,10 +37,12 @@ export const updateProfileAction = async (form: FormData) => {
     inputSchema.safeParse(data);
 
   if (inputParseError) {
-    throw new InputParseError('Invalid data', { cause: inputParseError });
+    return { validationErrors: z.flattenError(inputParseError) };
   }
 
   await usersRepository.updateUser(userId, validatedInput);
 
   revalidatePath('/settings');
+
+  return {};
 };
