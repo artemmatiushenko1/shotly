@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { languages } from './schema';
+import { languagesTable } from './schema';
 import { Pool } from 'pg';
 import { config } from 'dotenv';
 
@@ -14,7 +14,7 @@ const main = async () => {
   const db = drizzle(pool, { logger: true });
 
   await db
-    .insert(languages)
+    .insert(languagesTable)
     .values([
       { code: 'en', name: 'English', flag: '🇬🇧' },
       { code: 'es', name: 'Spanish', flag: '🇪🇸' },

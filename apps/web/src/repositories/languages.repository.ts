@@ -1,11 +1,11 @@
 import { db } from '@/db/drizzle';
-import { languages, userLanguages } from '@/db/schema';
+import { languagesTable, userLanguagesTable } from '@/db/schema';
 import { Language, languageSchema } from '@/domain/language';
 import { eq } from 'drizzle-orm';
 
 class LanguagesRepository {
   getAllLanguages = async (): Promise<Language[]> => {
-    const query = await db.select().from(languages);
+    const query = await db.select().from(languagesTable);
 
     return query.map((language) => languageSchema.parse(language));
   };
@@ -13,13 +13,16 @@ class LanguagesRepository {
   getUserLanguages = async (userId: string): Promise<Language[]> => {
     const query = await db
       .select({
-        code: languages.code,
-        name: languages.name,
-        flag: languages.flag,
+        code: languagesTable.code,
+        name: languagesTable.name,
+        flag: languagesTable.flag,
       })
-      .from(userLanguages)
-      .innerJoin(languages, eq(userLanguages.languageCode, languages.code))
-      .where(eq(userLanguages.userId, userId));
+      .from(userLanguagesTable)
+      .innerJoin(
+        languagesTable,
+        eq(userLanguagesTable.languageCode, languagesTable.code),
+      )
+      .where(eq(userLanguagesTable.userId, userId));
 
     return query.map((language) => languageSchema.parse(language));
   };

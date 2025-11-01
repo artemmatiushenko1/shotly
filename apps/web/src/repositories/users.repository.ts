@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { db } from '@/db/drizzle';
-import { languages, user, userLanguages } from '@/db/schema';
+import { languagesTable, usersTable, userLanguagesTable } from '@/db/schema';
 import {
   User,
   UserProfile,
@@ -14,16 +14,18 @@ import { eq, inArray } from 'drizzle-orm';
 class UsersRepository {
   async updateUserLanguages(userId: string, languageCodes: string[]) {
     const newLanguageRows = await db
-      .select({ code: languages.code })
-      .from(languages)
-      .where(inArray(languages.code, languageCodes));
+      .select({ code: languagesTable.code })
+      .from(languagesTable)
+      .where(inArray(languagesTable.code, languageCodes));
 
     const newLanguageCodes = newLanguageRows.map((l) => l.code);
 
-    await db.delete(userLanguages).where(eq(userLanguages.userId, userId));
+    await db
+      .delete(userLanguagesTable)
+      .where(eq(userLanguagesTable.userId, userId));
 
     if (newLanguageCodes.length > 0) {
-      await db.insert(userLanguages).values(
+      await db.insert(userLanguagesTable).values(
         newLanguageCodes.map((code) => ({
           userId,
           languageCode: code,
@@ -34,9 +36,9 @@ class UsersRepository {
 
   async updateUser(id: string, input: Partial<UserUpdate>): Promise<User> {
     const [query] = await db
-      .update(user)
+      .update(usersTable)
       .set(input)
-      .where(eq(user.id, id))
+      .where(eq(usersTable.id, id))
       .returning();
 
     return userSchema.parse(query);
@@ -45,19 +47,22 @@ class UsersRepository {
   async getUserProfile(userId: string): Promise<UserProfile> {
     const [userQuery] = await db
       .select()
-      .from(user)
-      .where(eq(user.id, userId))
+      .from(usersTable)
+      .where(eq(usersTable.id, userId))
       .limit(1);
 
     const languagesQuery = await db
       .select({
-        code: languages.code,
-        name: languages.name,
-        flag: languages.flag,
+        code: languagesTable.code,
+        name: languagesTable.name,
+        flag: languagesTable.flag,
       })
-      .from(userLanguages)
-      .innerJoin(languages, eq(userLanguages.languageCode, languages.code))
-      .where(eq(userLanguages.userId, userId));
+      .from(userLanguagesTable)
+      .innerJoin(
+        languagesTable,
+        eq(userLanguagesTable.languageCode, languagesTable.code),
+      )
+      .where(eq(userLanguagesTable.userId, userId));
 
     return userProfileSchema.parse({ ...userQuery, languages: languagesQuery });
   }

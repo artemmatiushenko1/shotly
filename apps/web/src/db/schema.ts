@@ -8,7 +8,7 @@ import {
   uuid,
 } from 'drizzle-orm/pg-core';
 
-export const user = pgTable('user', {
+export const usersTable = pgTable('user', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
@@ -30,7 +30,7 @@ export const user = pgTable('user', {
   bio: text('bio'),
 });
 
-export const session = pgTable('session', {
+export const sessionsTable = pgTable('session', {
   id: text('id').primaryKey(),
   expiresAt: timestamp('expires_at').notNull(),
   token: text('token').notNull().unique(),
@@ -40,16 +40,16 @@ export const session = pgTable('session', {
   userAgent: text('user_agent'),
   userId: text('user_id')
     .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
+    .references(() => usersTable.id, { onDelete: 'cascade' }),
 });
 
-export const account = pgTable('account', {
+export const accountsTable = pgTable('account', {
   id: text('id').primaryKey(),
   accountId: text('account_id').notNull(),
   providerId: text('provider_id').notNull(),
   userId: text('user_id')
     .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
+    .references(() => usersTable.id, { onDelete: 'cascade' }),
   accessToken: text('access_token'),
   refreshToken: text('refresh_token'),
   idToken: text('id_token'),
@@ -61,7 +61,7 @@ export const account = pgTable('account', {
   updatedAt: timestamp('updated_at').notNull(),
 });
 
-export const verification = pgTable('verification', {
+export const verificationsTable = pgTable('verification', {
   id: text('id').primaryKey(),
   identifier: text('identifier').notNull(),
   value: text('value').notNull(),
@@ -79,7 +79,7 @@ export const collectionViewStatus = pgEnum('view_status', [
   'private',
 ]);
 
-export const collection = pgTable('collection', {
+export const collectionsTable = pgTable('collection', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   description: text('description'),
@@ -97,23 +97,23 @@ export const collection = pgTable('collection', {
   ),
 });
 
-export const languages = pgTable('languages', {
+export const languagesTable = pgTable('languages', {
   code: text('code').primaryKey(), // ISO 639-1 code
   name: text('name').notNull(),
   flag: text('flag').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
-export const userLanguages = pgTable('user_languages', {
+export const userLanguagesTable = pgTable('user_languages', {
   id: uuid('id').primaryKey().defaultRandom(),
-  userId: text('user_id').references(() => user.id),
-  languageCode: text('language_code').references(() => languages.code),
+  userId: text('user_id').references(() => usersTable.id),
+  languageCode: text('language_code').references(() => languagesTable.code),
 });
 
 export const schema = {
-  user,
-  account,
-  verification,
-  session,
-  collection,
+  usersTable,
+  accountsTable,
+  verificationsTable,
+  sessionsTable,
+  collectionsTable,
 };
