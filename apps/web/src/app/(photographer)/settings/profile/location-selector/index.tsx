@@ -1,39 +1,29 @@
 'use client';
 
-import * as React from 'react';
-import { ChevronsUpDownIcon, MapPinPlus, XIcon } from 'lucide-react';
+import {
+  ChevronsUpDownIcon,
+  MapPinPlus,
+  SearchIcon,
+  XIcon,
+} from 'lucide-react';
 
 import { Badge } from '@shotly/ui/components/badge';
 import { Button } from '@shotly/ui/components/button';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@shotly/ui/components/command';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@shotly/ui/components/popover';
 import { cn } from '@shotly/ui/lib/utils';
+import { useState } from 'react';
+import { GeocodingService, LocationDetails } from '@/lib/geocoding.service';
+import debounce from 'debounce';
+import { Input } from '@shotly/ui/components/input';
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@shotly/ui/components/dropdown-menu';
 
-const SUGGESTED_LOCATIONS = [
-  'Prague, Czechia',
-  'Brno, Czechia',
-  'Ostrava, Czechia',
-  'Ceske Budejovice, Czechia',
-  'Pilsen, Czechia',
-  'Bratislava, Slovakia',
-  'Vienna, Austria',
-  'Berlin, Germany',
-  'Munich, Germany',
-  'Budapest, Hungary',
-  'Warsaw, Poland',
-  'Krakow, Poland',
-];
+const geocodingService = new GeocodingService();
 
 type LocationSelectorProps = {
   inputId?: string;
@@ -45,23 +35,33 @@ const LocationSelector = (props: LocationSelectorProps) => {
     inputId,
     defaultLocations = ['Prague, Czechia', 'Budapest, Hungary'],
   } = props;
-  const [open, setOpen] = React.useState(false);
-  const [selectedLocations, setSelectedLocations] =
-    React.useState<string[]>(defaultLocations);
 
-  const toggleLocation = React.useCallback((location: string) => {
+  const [searchResults, setSearchResults] = useState<LocationDetails[]>([]);
+
+  const [open, setOpen] = useState(false);
+  const [selectedLocations, setSelectedLocations] =
+    useState<string[]>(defaultLocations);
+
+  const toggleLocation = (location: string) => {
     setSelectedLocations((prev) =>
       prev.includes(location)
         ? prev.filter((item) => item !== location)
         : [...prev, location],
     );
-  }, []);
+  };
 
-  const removeLocation = React.useCallback((location: string) => {
+  const removeLocation = (location: string) => {
     setSelectedLocations((prev) => prev.filter((item) => item !== location));
-  }, []);
+  };
 
   const hasSelectedLocations = selectedLocations.length > 0;
+
+  const searchLocations = debounce(async (searchString: string) => {
+    if (searchString.trim().length === 0) return;
+
+    const response = await geocodingService.searchLocationByName(searchString);
+    setSearchResults(response);
+  }, 1000);
 
   const renderTag = (location: string) => (
     <Badge
@@ -87,8 +87,8 @@ const LocationSelector = (props: LocationSelectorProps) => {
 
   return (
     <div className="space-y-3">
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
+        <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
@@ -102,36 +102,42 @@ const LocationSelector = (props: LocationSelectorProps) => {
             </span>
             <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          className="w-[var(--radix-popover-trigger-width)] p-0"
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          className="w-[var(--radix-dropdown-menu-trigger-width)]"
           align="start"
         >
-          <Command>
-            <CommandInput
+          <div className="flex items-center pl-2">
+            <SearchIcon className="size-4 text-muted-foreground" />
+            <Input
               id={inputId}
-              placeholder="Search locations..."
+              className="border-none focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none h-7 p-0 pl-3"
+              onChange={(e) => searchLocations(e.target.value)}
+              placeholder="Start typing..."
               autoFocus
             />
-            <CommandList>
-              <CommandEmpty>No locations found.</CommandEmpty>
-              <CommandGroup>
-                {SUGGESTED_LOCATIONS.map((location) => {
+          </div>
+          {searchResults.length > 0 && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                {searchResults.map((location) => {
                   return (
-                    <CommandItem
-                      key={location}
-                      value={location}
-                      onSelect={() => toggleLocation(location)}
-                    >
-                      {location}
-                    </CommandItem>
+                    <DropdownMenuCheckboxItem key={location.externalId}>
+                      <div>
+                        <p>{location.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {location.displayName}
+                        </p>
+                      </div>
+                    </DropdownMenuCheckboxItem>
                   );
                 })}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
+              </DropdownMenuGroup>
+            </>
+          )}
+        </DropdownMenuContent>
+      </DropdownMenu>
       {hasSelectedLocations && (
         <div className="flex flex-wrap gap-2">
           {selectedLocations.map(renderTag)}
