@@ -1,13 +1,15 @@
 import { Input } from '@shotly/ui/components/input';
 
 type SocialLinkInputProps = {
+  id: string;
+  name: string;
   socialIcon: React.ReactNode;
   socialBaseUrl: string;
-  socialHandle?: string;
+  defaultValue?: string;
 };
 
 const SocialLinkInput = (props: SocialLinkInputProps) => {
-  const { socialBaseUrl, socialIcon, socialHandle } = props;
+  const { id, socialBaseUrl, socialIcon, defaultValue, name } = props;
 
   return (
     <div className="flex items-center gap-2">
@@ -19,8 +21,10 @@ const SocialLinkInput = (props: SocialLinkInputProps) => {
           <span className="text-muted-foreground text-sm">{socialBaseUrl}</span>
         </div>
         <Input
-          defaultValue={socialHandle}
-          className="border-none focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
+          id={id}
+          name={name}
+          defaultValue={defaultValue}
+          className="border-none rounded-l-none focus-visible:ring-0 focus-visible:ring-offset-0"
         />
       </div>
     </div>

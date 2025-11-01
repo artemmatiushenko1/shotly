@@ -35,6 +35,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
   const bioId = useId();
   const fullNameId = useId();
   const usernameId = useId();
+  const instagramTagId = useId();
   const personalWebsiteUrlId = useId();
 
   return (
@@ -164,9 +165,11 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           description="Add social links"
           controlNode={
             <SocialLinkInput
+              id={instagramTagId}
+              name="instagramTag"
               socialIcon={<InstagramIcon />}
-              socialHandle={profile.instagramTag ?? undefined}
               socialBaseUrl="instagram.com/"
+              defaultValue={profile.instagramTag ?? undefined}
             />
           }
         />

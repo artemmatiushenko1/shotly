@@ -12,6 +12,7 @@ const inputSchema = z.object({
   bio: z.string().max(500),
   username: z.string().min(1, { error: 'Username must not be empty.' }),
   websiteUrl: z.url(),
+  instagramTag: z.string(),
 });
 
 type UodateProfileValidationErrors = z.core.$ZodFlattenedError<
