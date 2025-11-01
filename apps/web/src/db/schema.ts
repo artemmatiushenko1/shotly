@@ -6,6 +6,11 @@ import {
   pgEnum,
   integer,
   uuid,
+  varchar,
+  decimal,
+  primaryKey,
+  unique,
+  index,
 } from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('user', {
@@ -109,6 +114,42 @@ export const userLanguagesTable = pgTable('user_languages', {
   userId: text('user_id').references(() => usersTable.id),
   languageCode: text('language_code').references(() => languagesTable.code),
 });
+
+export const locationsTable = pgTable(
+  'locations',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    // An external ID from geocoding provider (e.g., OpenStreetMap ID)
+    // This is useful for preventing duplicates and updating location data.
+    providerId: varchar('provider_id', { length: 256 }).notNull(),
+    name: varchar('name', { length: 256 }).notNull(), // e.g., "Warsaw"
+    country: varchar('country', { length: 256 }).notNull(), // e.g., "Poland"
+    latitude: decimal('latitude', { precision: 9, scale: 6 }).notNull(),
+    longitude: decimal('longitude', { precision: 9, scale: 6 }).notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (table) => [unique('provider_id_idx').on(table.id, table.name)],
+);
+
+export const usersToLocationsTable = pgTable(
+  'users_to_locations',
+  {
+    userId: text('user_id')
+      .notNull()
+      .references(() => usersTable.id, { onDelete: 'cascade' }),
+    locationId: uuid('location_id')
+      .notNull()
+      .references(() => locationsTable.id, { onDelete: 'cascade' }),
+  },
+  (table) => {
+    return [
+      // This composite primary key ensures a user can't save the same location twice.
+      primaryKey({ columns: [table.userId, table.locationId] }),
+      index('users_to_locations_user_idx').on(table.userId),
+      index('users_to_locations_location_idx').on(table.locationId),
+    ];
+  },
+);
 
 export const schema = {
   usersTable,

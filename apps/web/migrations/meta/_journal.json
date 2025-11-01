@@ -43,6 +43,13 @@
       "when": 1762001095086,
       "tag": "0005_optimal_boomer",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1762016277203,
+      "tag": "0006_zippy_silver_fox",
+      "breakpoints": true
     }
   ]
 }
