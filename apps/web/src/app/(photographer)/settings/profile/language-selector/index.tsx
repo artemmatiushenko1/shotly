@@ -50,6 +50,8 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
 
   const hasLanguages = value.length > 0;
 
+  const selectedLanguageCodes = value.map((language) => language.code);
+
   return (
     <div className="space-y-3">
       <Popover open={open} onOpenChange={setOpen}>
@@ -82,12 +84,14 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
               <CommandEmpty>No languages found.</CommandEmpty>
               <CommandGroup>
                 {languageOptions.map((language) => {
-                  const isSelected = value.includes(language);
+                  const isSelected = selectedLanguageCodes.includes(
+                    language.code,
+                  );
 
                   return (
                     <CommandItem
                       key={language.code}
-                      value={language.code}
+                      value={language.name}
                       onSelect={() => toggleLanguage(language)}
                     >
                       <CheckIcon
