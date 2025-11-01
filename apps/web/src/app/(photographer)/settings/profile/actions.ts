@@ -14,6 +14,7 @@ const inputSchema = z.object({
   websiteUrl: z.url(),
   instagramTag: z.string(),
   yearsOfExperience: z.coerce.number().min(0),
+  languages: z.string().transform((str) => str.split(',')),
 });
 
 type UpdateProfileValidationErrors = z.core.$ZodFlattenedError<

@@ -18,7 +18,7 @@ import { LanguageSelector } from './language-selector';
 import { ExperienceSlider } from './experience-slider';
 import { redirect } from 'next/navigation';
 import CoverUpload from '@/components/cover-upload/cover-upload';
-import { useActionState, useId } from 'react';
+import { useActionState, useId, useState } from 'react';
 import { updateProfileAction } from './actions';
 import { UserProfile } from '@/domain/user';
 import { Language } from '@/domain/language';
@@ -30,19 +30,22 @@ enum FormField {
   WEBSITE_URL = 'websiteUrl',
   INSTAGRAM_TAG = 'instagramTag',
   EXPERIENCE_YEARS = 'yearsOfExperience',
+  LANGUAGES = 'languages',
 }
 
 type ProfileSettingsProps = {
   profile: UserProfile;
-  languages: Language[];
+  languageOptions: Language[];
 };
 
 const ProfileSettings = (props: ProfileSettingsProps) => {
-  const { profile, languages } = props;
+  const { profile, languageOptions } = props;
 
   const [state, formAction, pending] = useActionState(updateProfileAction, {
     hasErrors: false,
   });
+
+  const [languages, setLanguages] = useState<Language[]>([]);
 
   const { validationErrors } = state;
 
@@ -167,10 +170,20 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           description="Languages you can comfortably use with clients"
           controlId={languagesId}
           controlNode={
-            <LanguageSelector
-              inputId={languagesId}
-              languageOptions={languages}
-            />
+            <>
+              <LanguageSelector
+                value={languages}
+                inputId={languagesId}
+                languageOptions={languageOptions}
+                onChange={(newLanguages) => setLanguages(newLanguages)}
+                error={validationErrors?.fieldErrors.languages?.toString()}
+              />
+              <input
+                type="hidden"
+                name={FormField.LANGUAGES}
+                value={languages.map((language) => language.code)}
+              />
+            </>
           }
         />
 

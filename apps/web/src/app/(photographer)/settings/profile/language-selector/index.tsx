@@ -22,34 +22,33 @@ import { Language } from '@/domain/language';
 import { useState } from 'react';
 
 type LanguageSelectorProps = {
+  value: Language[];
+  onChange: (languages: Language[]) => void;
+
   inputId?: string;
   languageOptions: Language[];
-  defaultLanguages?: Language[];
+  error?: string;
 };
 
 const LanguageSelector = (props: LanguageSelectorProps) => {
-  const { inputId, defaultLanguages, languageOptions } = props;
+  const { value, inputId, languageOptions, onChange, error } = props;
 
   const [open, setOpen] = useState(false);
-  const [selectedLanguages, setSelectedLanguages] = useState<Language[]>(
-    defaultLanguages ?? [],
-  );
 
   const toggleLanguage = (language: Language) => {
-    setSelectedLanguages((prev) =>
-      prev.includes(language)
-        ? prev.filter((item) => item !== language)
-        : [...prev, language],
-    );
+    const newLanguages = value.includes(language)
+      ? value.filter((item) => item !== language)
+      : [...value, language];
+
+    onChange(newLanguages);
   };
 
   const removeLanguage = (languageCode: string) => {
-    setSelectedLanguages((prev) =>
-      prev.filter((item) => item.code !== languageCode),
-    );
+    const newLanguages = value.filter((item) => item.code !== languageCode);
+    onChange(newLanguages);
   };
 
-  const hasLanguages = selectedLanguages.length > 0;
+  const hasLanguages = value.length > 0;
 
   return (
     <div className="space-y-3">
@@ -83,7 +82,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
               <CommandEmpty>No languages found.</CommandEmpty>
               <CommandGroup>
                 {languageOptions.map((language) => {
-                  const isSelected = selectedLanguages.includes(language);
+                  const isSelected = value.includes(language);
 
                   return (
                     <CommandItem
@@ -109,7 +108,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
       </Popover>
       {hasLanguages && (
         <div className="flex flex-wrap gap-2">
-          {selectedLanguages.map((language) => (
+          {value.map((language) => (
             <LanguageTag
               removable
               key={language.code}
@@ -121,6 +120,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
           ))}
         </div>
       )}
+      {error && <div className="text-sm text-destructive mt-2">{error}</div>}
     </div>
   );
 };

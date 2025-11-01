@@ -59,7 +59,7 @@ const Settings = async () => {
             <GeneralSettings />
           </TabsContent>
           <TabsContent value="profile">
-            <ProfileSettings profile={profile} languages={languages} />
+            <ProfileSettings profile={profile} languageOptions={languages} />
           </TabsContent>
           <TabsContent value="privacy-and-security">
             <PrivacyAndSecuritySettings />

@@ -1,4 +1,5 @@
 import LanguageTag from '@/components/language-tag';
+import { Language } from '@/domain/language';
 import { Avatar, AvatarImage } from '@shotly/ui/components/avatar';
 import { Badge } from '@shotly/ui/components/badge';
 import { Button, buttonVariants } from '@shotly/ui/components/button';
@@ -150,8 +151,13 @@ const PhotographerPublicProfile = () => {
                 <LanguagesIcon className="w-4" /> Languages
               </p>
               <div className="flex gap-3 mb-4 flex-wrap">
-                {[].map((language) => (
-                  <LanguageTag key={language} language={language} />
+                {[{} as Language].map((language) => (
+                  <LanguageTag
+                    key={language.code}
+                    name={language.name}
+                    flag={language.flag}
+                    code={language.code}
+                  />
                 ))}
               </div>
             </div>
