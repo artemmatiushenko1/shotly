@@ -3,7 +3,7 @@ import { Input } from '@shotly/ui/components/input';
 type SocialLinkInputProps = {
   socialIcon: React.ReactNode;
   socialBaseUrl: string;
-  socialHandle: string;
+  socialHandle?: string;
 };
 
 const SocialLinkInput = (props: SocialLinkInputProps) => {

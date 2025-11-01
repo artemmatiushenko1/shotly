@@ -14,6 +14,7 @@ import { redirect } from 'next/navigation';
 import CoverUpload from '@/components/cover-upload/cover-upload';
 import { useActionState, useId } from 'react';
 import { updateProfileAction } from './actions';
+import { UserProfile } from '@/domain/user';
 
 enum FormField {
   NAME = 'name',
@@ -22,7 +23,13 @@ enum FormField {
   WEBSITE_URL = 'websiteUrl',
 }
 
-const ProfileSettings = () => {
+type ProfileSettingsProps = {
+  profile: UserProfile;
+};
+
+const ProfileSettings = (props: ProfileSettingsProps) => {
+  const { profile } = props;
+
   const [state, formAction, pending] = useActionState(updateProfileAction, {});
 
   const bioId = useId();
@@ -62,7 +69,7 @@ const ProfileSettings = () => {
             <Input
               id={fullNameId}
               name={FormField.NAME}
-              defaultValue="Monique Wu"
+              defaultValue={profile.name}
               error={state.validationErrors?.fieldErrors.name?.toString()}
             />
           }
@@ -75,7 +82,7 @@ const ProfileSettings = () => {
             <Input
               id={usernameId}
               name={FormField.USERNAME}
-              defaultValue="_artemko"
+              defaultValue={profile.username ?? undefined}
               error={state.validationErrors?.fieldErrors.username?.toString()}
             />
           }
@@ -111,7 +118,7 @@ const ProfileSettings = () => {
             <Textarea
               id={bioId}
               name={FormField.BIO}
-              defaultValue="A product designer and UX researcher based in the Czechia. I have a deep passion for technology and thrive as a problem solver.&#10;&#10;My ultimate aim is to blend logical solution with creative expression."
+              defaultValue={profile.bio ?? undefined}
               className="min-h-32 resize-none"
             />
           }
@@ -146,7 +153,7 @@ const ProfileSettings = () => {
             <Input
               id={personalWebsiteUrlId}
               name={FormField.WEBSITE_URL}
-              defaultValue="https://www.medium.com/monique"
+              defaultValue={profile.websiteUrl ?? undefined}
               error={state.validationErrors?.fieldErrors.websiteUrl?.toString()}
             />
           }
@@ -158,7 +165,7 @@ const ProfileSettings = () => {
           controlNode={
             <SocialLinkInput
               socialIcon={<InstagramIcon />}
-              socialHandle="_artemko"
+              socialHandle={profile.instagramTag ?? undefined}
               socialBaseUrl="instagram.com/"
             />
           }

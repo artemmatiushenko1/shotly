@@ -9,8 +9,27 @@ import { ProfileSettings } from './profile';
 import { PrivacyAndSecuritySettings } from './privacy-and-security';
 import { GeneralSettings } from './general';
 import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
+import usersRepository from '@/repositories/users.repository';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { UnauthenticatedError } from '@/domain/errors/auth';
 
-const Settings = () => {
+const getUserProfile = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    throw new UnauthenticatedError('User is not authenticated!');
+  }
+
+  const userId = session.user.id;
+  return usersRepository.getUserProfile(userId);
+};
+
+const Settings = async () => {
+  const profile = await getUserProfile();
+
   return (
     <>
       <MainHeader
@@ -31,12 +50,11 @@ const Settings = () => {
               Privacy & Security
             </TabsTrigger>
           </TabsList>
-          {/* <Separator /> */}
           <TabsContent value="general">
             <GeneralSettings />
           </TabsContent>
           <TabsContent value="profile">
-            <ProfileSettings />
+            <ProfileSettings profile={profile} />
           </TabsContent>
           <TabsContent value="privacy-and-security">
             <PrivacyAndSecuritySettings />

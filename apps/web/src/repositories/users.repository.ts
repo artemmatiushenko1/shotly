@@ -1,6 +1,12 @@
 import { db } from '@/db/drizzle';
 import { user } from '@/db/schema';
-import { User, userSchema, UserUpdate } from '@/domain/user';
+import {
+  User,
+  UserProfile,
+  userProfileSchema,
+  userSchema,
+  UserUpdate,
+} from '@/domain/user';
 import { eq } from 'drizzle-orm';
 
 class UsersRepository {
@@ -12,6 +18,16 @@ class UsersRepository {
       .returning();
 
     return userSchema.parse(query);
+  }
+
+  async getUserProfile(id: string): Promise<UserProfile> {
+    const [query] = await db
+      .select()
+      .from(user)
+      .where(eq(user.id, id))
+      .limit(1);
+
+    return userProfileSchema.parse(query);
   }
 }
 

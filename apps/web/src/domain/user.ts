@@ -8,7 +8,7 @@ export const userSchema = z.object({
   coverImageUrl: z.url().nullable(),
   image: z.url().nullable(), // profile picture
   yearsOfExperience: z.number().nullable(),
-  bio: z.string().optional(),
+  bio: z.string().nullable(),
   websiteUrl: z.url().nullable(),
   instagramTag: z.string().nullable(),
   createdAt: z.date(),
@@ -28,3 +28,16 @@ export const updateUserSchema = userSchema.pick({
 });
 
 export type UserUpdate = z.infer<typeof updateUserSchema>;
+
+export const userProfileSchema = userSchema.pick({
+  name: true,
+  username: true,
+  coverImageUrl: true,
+  image: true,
+  yearsOfExperience: true,
+  bio: true,
+  websiteUrl: true,
+  instagramTag: true,
+});
+
+export type UserProfile = z.infer<typeof userProfileSchema>;
