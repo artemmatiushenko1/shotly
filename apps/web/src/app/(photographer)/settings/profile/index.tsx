@@ -21,6 +21,7 @@ import CoverUpload from '@/components/cover-upload/cover-upload';
 import { useActionState, useId } from 'react';
 import { updateProfileAction } from './actions';
 import { UserProfile } from '@/domain/user';
+import { Language } from '@/domain/language';
 
 enum FormField {
   NAME = 'name',
@@ -33,10 +34,11 @@ enum FormField {
 
 type ProfileSettingsProps = {
   profile: UserProfile;
+  languages: Language[];
 };
 
 const ProfileSettings = (props: ProfileSettingsProps) => {
-  const { profile } = props;
+  const { profile, languages } = props;
 
   const [state, formAction, pending] = useActionState(updateProfileAction, {
     hasErrors: false,
@@ -47,6 +49,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
   const bioId = useId();
   const fullNameId = useId();
   const usernameId = useId();
+  const languagesId = useId();
   const instagramTagId = useId();
   const experienceYearsId = useId();
   const personalWebsiteUrlId = useId();
@@ -162,8 +165,13 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
         <LabeledControl
           title="Languages"
           description="Languages you can comfortably use with clients"
-          controlId="languages"
-          controlNode={<LanguageSelector inputId="languages" />}
+          controlId={languagesId}
+          controlNode={
+            <LanguageSelector
+              inputId={languagesId}
+              languageOptions={languages}
+            />
+          }
         />
 
         <LabeledControl

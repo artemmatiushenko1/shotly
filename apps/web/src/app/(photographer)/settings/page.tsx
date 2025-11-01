@@ -13,8 +13,16 @@ import usersRepository from '@/repositories/users.repository';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { UnauthenticatedError } from '@/domain/errors/auth';
+import languagesRepository from '@/repositories/languages.repository';
 
-const getUserProfile = async () => {
+const getProfileTabData = (userId: string) => {
+  return Promise.all([
+    usersRepository.getUserProfile(userId),
+    languagesRepository.getAllLanguages(),
+  ]);
+};
+
+const Settings = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -24,11 +32,8 @@ const getUserProfile = async () => {
   }
 
   const userId = session.user.id;
-  return usersRepository.getUserProfile(userId);
-};
 
-const Settings = async () => {
-  const profile = await getUserProfile();
+  const [profile, languages] = await getProfileTabData(userId);
 
   return (
     <>
@@ -54,7 +59,7 @@ const Settings = async () => {
             <GeneralSettings />
           </TabsContent>
           <TabsContent value="profile">
-            <ProfileSettings profile={profile} />
+            <ProfileSettings profile={profile} languages={languages} />
           </TabsContent>
           <TabsContent value="privacy-and-security">
             <PrivacyAndSecuritySettings />

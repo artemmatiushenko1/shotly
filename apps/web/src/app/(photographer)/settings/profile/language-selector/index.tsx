@@ -1,6 +1,5 @@
 'use client';
 
-import * as React from 'react';
 import { CheckIcon, ChevronsUpDownIcon, Languages } from 'lucide-react';
 
 import { Button } from '@shotly/ui/components/button';
@@ -18,48 +17,37 @@ import {
   PopoverTrigger,
 } from '@shotly/ui/components/popover';
 import { cn } from '@shotly/ui/lib/utils';
-import LanguageTag, { Language, LanguageInfo } from '@/components/language-tag';
-
-const SUPPORTED_LANGUAGES = [
-  Language.ENGLISH,
-  Language.SPANISH,
-  Language.GERMAN,
-  Language.FRENCH,
-  Language.ITALIAN,
-  Language.PORTUGUESE,
-  Language.POLISH,
-  Language.UKRAINIAN,
-  Language.CZECH,
-  Language.SLOVAK,
-  Language.HUNGARIAN,
-  Language.DUTCH,
-  Language.SWEDISH,
-  Language.NORWEGIAN,
-];
+import LanguageTag from '@/components/language-tag';
+import { Language } from '@/domain/language';
+import { useState } from 'react';
 
 type LanguageSelectorProps = {
   inputId?: string;
+  languageOptions: Language[];
   defaultLanguages?: Language[];
 };
 
 const LanguageSelector = (props: LanguageSelectorProps) => {
-  const { inputId, defaultLanguages = [Language.ENGLISH] } = props;
+  const { inputId, defaultLanguages, languageOptions } = props;
 
-  const [open, setOpen] = React.useState(false);
-  const [selectedLanguages, setSelectedLanguages] =
-    React.useState<Language[]>(defaultLanguages);
+  const [open, setOpen] = useState(false);
+  const [selectedLanguages, setSelectedLanguages] = useState<Language[]>(
+    defaultLanguages ?? [],
+  );
 
-  const toggleLanguage = React.useCallback((language: Language) => {
+  const toggleLanguage = (language: Language) => {
     setSelectedLanguages((prev) =>
       prev.includes(language)
         ? prev.filter((item) => item !== language)
         : [...prev, language],
     );
-  }, []);
+  };
 
-  const removeLanguage = React.useCallback((language: Language) => {
-    setSelectedLanguages((prev) => prev.filter((item) => item !== language));
-  }, []);
+  const removeLanguage = (languageCode: string) => {
+    setSelectedLanguages((prev) =>
+      prev.filter((item) => item.code !== languageCode),
+    );
+  };
 
   const hasLanguages = selectedLanguages.length > 0;
 
@@ -87,22 +75,20 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
         >
           <Command>
             <CommandInput
+              autoFocus
               id={inputId}
               placeholder="Search languages..."
-              autoFocus
             />
             <CommandList>
               <CommandEmpty>No languages found.</CommandEmpty>
               <CommandGroup>
-                {SUPPORTED_LANGUAGES.map((language) => {
-                  const languageInfo = LanguageInfo.for(language);
-
+                {languageOptions.map((language) => {
                   const isSelected = selectedLanguages.includes(language);
 
                   return (
                     <CommandItem
-                      key={language}
-                      value={language}
+                      key={language.code}
+                      value={language.code}
                       onSelect={() => toggleLanguage(language)}
                     >
                       <CheckIcon
@@ -111,8 +97,8 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
                           isSelected ? 'opacity-100' : 'opacity-0',
                         )}
                       />
-                      <span className="mr-2">{languageInfo.flag}</span>
-                      {languageInfo.name}
+                      <span className="mr-2">{language.flag}</span>
+                      {language.name}
                     </CommandItem>
                   );
                 })}
@@ -125,9 +111,11 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
         <div className="flex flex-wrap gap-2">
           {selectedLanguages.map((language) => (
             <LanguageTag
-              key={language}
               removable
-              language={language}
+              key={language.code}
+              code={language.code}
+              flag={language.flag}
+              name={language.name}
               onRemove={removeLanguage}
             />
           ))}
