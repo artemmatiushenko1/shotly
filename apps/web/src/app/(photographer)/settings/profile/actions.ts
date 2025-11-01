@@ -13,15 +13,17 @@ const inputSchema = z.object({
   username: z.string().min(1, { error: 'Username must not be empty.' }),
   websiteUrl: z.url(),
   instagramTag: z.string(),
+  yearsOfExperience: z.coerce.number().min(0),
 });
 
-type UodateProfileValidationErrors = z.core.$ZodFlattenedError<
+type UpdateProfileValidationErrors = z.core.$ZodFlattenedError<
   z.infer<typeof inputSchema>
 >;
 
 export const updateProfileAction = async (
   initialState: {
-    validationErrors?: UodateProfileValidationErrors;
+    hasErrors: boolean;
+    validationErrors?: UpdateProfileValidationErrors;
   },
   form: FormData,
 ) => {
@@ -38,12 +40,15 @@ export const updateProfileAction = async (
     inputSchema.safeParse(data);
 
   if (inputParseError) {
-    return { validationErrors: z.flattenError(inputParseError) };
+    return {
+      hasErrors: true,
+      validationErrors: z.flattenError(inputParseError),
+    };
   }
 
   await usersRepository.updateUser(userId, validatedInput);
 
   revalidatePath('/settings');
 
-  return {};
+  return { hasErrors: false };
 };

@@ -9,13 +9,22 @@ type ExperienceSliderProps = {
   defaultYears?: number;
   minYears?: number;
   maxYears?: number;
+  name: string;
+  error?: string;
 };
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max);
 
 const ExperienceSlider = (props: ExperienceSliderProps) => {
-  const { inputId, defaultYears = 0, minYears = 0, maxYears = 10 } = props;
+  const {
+    name,
+    inputId,
+    defaultYears = 0,
+    minYears = 0,
+    maxYears = 10,
+    error,
+  } = props;
 
   const normalizedDefault = clamp(defaultYears, minYears, maxYears);
   const [years, setYears] = React.useState<number>(normalizedDefault);
@@ -33,6 +42,7 @@ const ExperienceSlider = (props: ExperienceSliderProps) => {
         <span className="font-medium text-foreground">{displayValue}</span>
       </div>
       <Slider
+        name={name}
         value={[years]}
         min={minYears}
         max={maxYears}
@@ -48,6 +58,7 @@ const ExperienceSlider = (props: ExperienceSliderProps) => {
         <span>{minYears === 0 ? '0 years' : `${minYears} year`}</span>
         <span>{maxYears}+ years</span>
       </div>
+      {error && <div className="text-sm text-destructive mt-2">{error}</div>}
     </div>
   );
 };

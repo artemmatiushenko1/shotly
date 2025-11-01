@@ -3,7 +3,13 @@
 import { Button } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';
 import { Textarea } from '@shotly/ui/components/textarea';
-import { Trash2, Upload, InstagramIcon, GlobeIcon } from 'lucide-react';
+import {
+  Trash2,
+  Upload,
+  InstagramIcon,
+  GlobeIcon,
+  CircleXIcon,
+} from 'lucide-react';
 import { SocialLinkInput } from './social-link-input';
 import { LabeledControl } from './labeled-control';
 import { ProfileImagePlaceholder } from './profile-image-placeholder';
@@ -21,6 +27,8 @@ enum FormField {
   USERNAME = 'username',
   BIO = 'bio',
   WEBSITE_URL = 'websiteUrl',
+  INSTAGRAM_TAG = 'instagramTag',
+  EXPERIENCE_YEARS = 'yearsOfExperience',
 }
 
 type ProfileSettingsProps = {
@@ -30,12 +38,17 @@ type ProfileSettingsProps = {
 const ProfileSettings = (props: ProfileSettingsProps) => {
   const { profile } = props;
 
-  const [state, formAction, pending] = useActionState(updateProfileAction, {});
+  const [state, formAction, pending] = useActionState(updateProfileAction, {
+    hasErrors: false,
+  });
+
+  const { validationErrors } = state;
 
   const bioId = useId();
   const fullNameId = useId();
   const usernameId = useId();
   const instagramTagId = useId();
+  const experienceYearsId = useId();
   const personalWebsiteUrlId = useId();
 
   return (
@@ -71,7 +84,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
               id={fullNameId}
               name={FormField.NAME}
               defaultValue={profile.name}
-              error={state.validationErrors?.fieldErrors.name?.toString()}
+              error={validationErrors?.fieldErrors.name?.toString()}
             />
           }
         />
@@ -84,7 +97,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
               id={usernameId}
               name={FormField.USERNAME}
               defaultValue={profile.username ?? undefined}
-              error={state.validationErrors?.fieldErrors.username?.toString()}
+              error={validationErrors?.fieldErrors.username?.toString()}
             />
           }
         />
@@ -128,8 +141,15 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
         <LabeledControl
           title="Experience"
           description="How many years you've been shooting"
-          controlId="experience"
-          controlNode={<ExperienceSlider inputId="experience" />}
+          controlId={experienceYearsId}
+          controlNode={
+            <ExperienceSlider
+              name={FormField.EXPERIENCE_YEARS}
+              inputId={experienceYearsId}
+              defaultYears={profile.yearsOfExperience ?? undefined}
+              error={validationErrors?.fieldErrors.yearsOfExperience?.toString()}
+            />
+          }
         />
 
         <LabeledControl
@@ -155,7 +175,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
               id={personalWebsiteUrlId}
               name={FormField.WEBSITE_URL}
               defaultValue={profile.websiteUrl ?? undefined}
-              error={state.validationErrors?.fieldErrors.websiteUrl?.toString()}
+              error={validationErrors?.fieldErrors.websiteUrl?.toString()}
             />
           }
         />
@@ -166,21 +186,30 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           controlNode={
             <SocialLinkInput
               id={instagramTagId}
-              name="instagramTag"
+              name={FormField.INSTAGRAM_TAG}
               socialIcon={<InstagramIcon />}
               socialBaseUrl="instagram.com/"
               defaultValue={profile.instagramTag ?? undefined}
+              error={validationErrors?.fieldErrors.instagramTag?.toString()}
             />
           }
         />
 
-        <div className="flex gap-3 justify-end">
-          <Button type="button" variant="ghost">
-            Cancel
-          </Button>
-          <Button type="submit" loading={pending}>
-            Save changes
-          </Button>
+        <div className="flex gap-3 justify-between items-center">
+          {state.hasErrors && (
+            <p className="text-sm inline-flex gap-2 items-center text-destructive">
+              <CircleXIcon className="size-4" />
+              Failed to save changes. Please check the errors above.
+            </p>
+          )}
+          <div className="space-x-3 ml-auto">
+            <Button type="button" variant="ghost">
+              Cancel
+            </Button>
+            <Button type="submit" loading={pending}>
+              Save changes
+            </Button>
+          </div>
         </div>
       </form>
     </div>
