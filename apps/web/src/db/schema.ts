@@ -96,6 +96,13 @@ export const collection = pgTable('collection', {
   ),
 });
 
+export const languages = pgTable('languages', {
+  code: text('code').primaryKey(), // ISO 639-1 code
+  name: text('name').notNull(),
+  flag: text('flag').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 export const schema = {
   user,
   account,

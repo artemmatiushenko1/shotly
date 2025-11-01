@@ -9,5 +9,4 @@ export const serverEnv = createEnv({
     DATABASE_URL: z.url(),
   },
   experimental__runtimeEnv: process.env,
-  skipValidation: process.env.NODE_ENV === 'test',
 });
