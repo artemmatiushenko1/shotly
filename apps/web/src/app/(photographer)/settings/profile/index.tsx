@@ -45,7 +45,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
     hasErrors: false,
   });
 
-  const [languages, setLanguages] = useState<Language[]>([]);
+  const [languages, setLanguages] = useState<Language[]>(profile.languages);
 
   const { validationErrors } = state;
 

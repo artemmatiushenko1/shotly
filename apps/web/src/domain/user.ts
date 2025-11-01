@@ -1,4 +1,5 @@
 import z from 'zod';
+import { languageSchema } from './language';
 
 export const userSchema = z.object({
   id: z.string().min(1),
@@ -29,15 +30,17 @@ export const updateUserSchema = userSchema.pick({
 
 export type UserUpdate = z.infer<typeof updateUserSchema>;
 
-export const userProfileSchema = userSchema.pick({
-  name: true,
-  username: true,
-  coverImageUrl: true,
-  image: true,
-  yearsOfExperience: true,
-  bio: true,
-  websiteUrl: true,
-  instagramTag: true,
-});
+export const userProfileSchema = userSchema
+  .pick({
+    name: true,
+    username: true,
+    coverImageUrl: true,
+    image: true,
+    yearsOfExperience: true,
+    bio: true,
+    websiteUrl: true,
+    instagramTag: true,
+  })
+  .and(z.object({ languages: z.array(languageSchema) }));
 
 export type UserProfile = z.infer<typeof userProfileSchema>;

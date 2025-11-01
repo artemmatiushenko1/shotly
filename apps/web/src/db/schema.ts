@@ -5,6 +5,7 @@ import {
   boolean,
   pgEnum,
   integer,
+  uuid,
 } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
@@ -101,6 +102,12 @@ export const languages = pgTable('languages', {
   name: text('name').notNull(),
   flag: text('flag').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const userLanguages = pgTable('user_languages', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: text('user_id').references(() => user.id),
+  languageCode: text('language_code').references(() => languages.code),
 });
 
 export const schema = {
