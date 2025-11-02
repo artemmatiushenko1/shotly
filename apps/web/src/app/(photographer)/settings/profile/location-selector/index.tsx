@@ -11,7 +11,6 @@ import { Badge } from '@shotly/ui/components/badge';
 import { Button } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
 import { useState } from 'react';
-import { GeocodingService } from '@/lib/geocoding.service';
 import debounce from 'debounce';
 import { Input } from '@shotly/ui/components/input';
 import {
@@ -23,8 +22,13 @@ import {
   DropdownMenuTrigger,
 } from '@shotly/ui/components/dropdown-menu';
 import { LocationDetails } from '@/domain/locations';
+import { NovaPostGeocodingService } from '@/lib/geocoding/nova-post/nova-post-geocoding.service';
+import { clientEnv } from '@/env/client';
 
-const geocodingService = new GeocodingService();
+const geocodingService = new NovaPostGeocodingService(
+  clientEnv.NEXT_PUBLIC_NOVA_POST_API_URL,
+  clientEnv.NEXT_PUBLIC_NOVA_POST_API_KEY,
+);
 
 type LocationSelectorProps = {
   value: LocationDetails[];
@@ -68,7 +72,8 @@ const LocationSelector = (props: LocationSelectorProps) => {
   const searchLocations = debounce(async (searchString: string) => {
     if (searchString.trim().length === 0) return;
 
-    const response = await geocodingService.searchLocationByName(searchString);
+    const response =
+      await geocodingService.searchUkrainianSettlementByName(searchString);
     setSearchResults(response);
   }, 1000);
 
