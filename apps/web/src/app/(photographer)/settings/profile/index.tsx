@@ -79,11 +79,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           </p>
         </div>
       </div>
-      <form
-        className="space-y-8"
-        action={formAction}
-        encType="multipart/form-data"
-      >
+      <form className="space-y-8" action={formAction}>
         <CoverUpload />
         <LabeledControl
           title="Full name"
