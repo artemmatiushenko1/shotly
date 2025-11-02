@@ -50,6 +50,13 @@
       "when": 1762016277203,
       "tag": "0006_zippy_silver_fox",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1762078936923,
+      "tag": "0007_windy_leader",
+      "breakpoints": true
     }
   ]
 }

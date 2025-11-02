@@ -53,8 +53,9 @@ export const updateProfileAction = async (
   }
 
   // TODO: should be a single transaction
-  await usersRepository.updateUserLanguages(userId, validatedInput.languages);
   await usersRepository.updateUser(userId, validatedInput);
+  await usersRepository.updateUserLanguages(userId, validatedInput.languages);
+  await usersRepository.updateUserLocations(userId, validatedInput.locations);
 
   revalidatePath('/settings');
 

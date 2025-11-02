@@ -1,7 +1,14 @@
 import 'server-only';
 
 import { db } from '@/db/drizzle';
-import { languagesTable, usersTable, userLanguagesTable } from '@/db/schema';
+import {
+  languagesTable,
+  locationsTable,
+  usersTable,
+  userLanguagesTable,
+  usersToLocationsTable,
+} from '@/db/schema';
+import { LocationDetails } from '@/domain/locations';
 import {
   User,
   UserProfile,
@@ -29,6 +36,63 @@ class UsersRepository {
         newLanguageCodes.map((code) => ({
           userId,
           languageCode: code,
+        })),
+      );
+    }
+  }
+
+  async updateUserLocations(userId: string, locations: LocationDetails[]) {
+    // Get all location IDs, creating locations if they don't exist
+    const locationIds: string[] = [];
+
+    for (const location of locations) {
+      // Check if location with this externalId already exists
+      const existingLocation = await db
+        .select({ id: locationsTable.id })
+        .from(locationsTable)
+        .where(eq(locationsTable.externalId, location.externalId))
+        .limit(1);
+
+      let locationId: string;
+
+      if (existingLocation.length > 0 && existingLocation[0]) {
+        locationId = existingLocation[0].id;
+      } else {
+        // Insert new location
+        const [newLocation] = await db
+          .insert(locationsTable)
+          .values({
+            externalId: location.externalId,
+            name: location.name,
+            country: location.country,
+            latitude: location.lat,
+            longitude: location.lon,
+          })
+          .returning({ id: locationsTable.id });
+
+        if (!newLocation) {
+          throw new Error(
+            `Failed to create location with externalId: ${location.externalId}`,
+          );
+        }
+
+        locationId = newLocation.id;
+      }
+
+      locationIds.push(locationId);
+    }
+
+    // Delete all existing user-location relationships
+    await db
+      .delete(usersToLocationsTable)
+      .where(eq(usersToLocationsTable.userId, userId));
+
+    // Insert new user-location relationships
+    if (locationIds.length > 0) {
+      await db.insert(usersToLocationsTable).values(
+        locationIds.map((locationId) => ({
+          userId,
+          locationId,
         })),
       );
     }

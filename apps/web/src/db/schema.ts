@@ -121,7 +121,7 @@ export const locationsTable = pgTable(
     id: uuid('id').primaryKey().defaultRandom(),
     // An external ID from geocoding provider (e.g., OpenStreetMap ID)
     // This is useful for preventing duplicates and updating location data.
-    providerId: varchar('provider_id', { length: 256 }).notNull(),
+    externalId: varchar('external_id', { length: 256 }).notNull(),
     name: varchar('name', { length: 256 }).notNull(), // e.g., "Warsaw"
     country: varchar('country', { length: 256 }).notNull(), // e.g., "Poland"
     latitude: decimal('latitude', { precision: 9, scale: 6 }).notNull(),

@@ -1,0 +1,1 @@
+ALTER TABLE "locations" RENAME COLUMN "provider_id" TO "external_id";
