@@ -26,36 +26,44 @@ import {
 const geocodingService = new GeocodingService();
 
 type LocationSelectorProps = {
+  value: LocationDetails[];
+  onChange: (locations: LocationDetails[]) => void;
+
   inputId?: string;
   defaultLocations?: string[];
 };
 
 const LocationSelector = (props: LocationSelectorProps) => {
-  const {
-    inputId,
-    defaultLocations = ['Prague, Czechia', 'Budapest, Hungary'],
-  } = props;
+  const { inputId, value, onChange } = props;
 
   const [searchResults, setSearchResults] = useState<LocationDetails[]>([]);
 
   const [open, setOpen] = useState(false);
-  const [selectedLocations, setSelectedLocations] =
-    useState<string[]>(defaultLocations);
 
-  const toggleLocation = (location: string) => {
-    setSelectedLocations((prev) =>
-      prev.includes(location)
-        ? prev.filter((item) => item !== location)
-        : [...prev, location],
+  const selectedLocationExternalIds = value.map(
+    (locationDetails) => locationDetails.externalId,
+  );
+
+  const toggleLocation = (location: LocationDetails) => {
+    const newLocations = selectedLocationExternalIds.includes(
+      location.externalId,
+    )
+      ? value.filter((item) => item !== location)
+      : [...value, location];
+
+    onChange(newLocations);
+  };
+
+  const removeLocation = (location: LocationDetails) => {
+    const newLocations = value.filter(
+      (item) => item.externalId !== location.externalId,
     );
+    onChange(newLocations);
   };
 
-  const removeLocation = (location: string) => {
-    setSelectedLocations((prev) => prev.filter((item) => item !== location));
-  };
+  const hasSelectedLocations = value.length > 0;
 
-  const hasSelectedLocations = selectedLocations.length > 0;
-
+  // TODO: move to hook
   const searchLocations = debounce(async (searchString: string) => {
     if (searchString.trim().length === 0) return;
 
@@ -63,13 +71,14 @@ const LocationSelector = (props: LocationSelectorProps) => {
     setSearchResults(response);
   }, 1000);
 
-  const renderTag = (location: string) => (
+  // TODO: add removable prop to badge
+  const renderTag = (location: LocationDetails) => (
     <Badge
-      key={location}
+      key={location.externalId}
       variant="secondary"
       className="flex items-center gap-1"
     >
-      {location}
+      {location.name}
       <button
         type="button"
         onClick={(event) => {
@@ -78,7 +87,7 @@ const LocationSelector = (props: LocationSelectorProps) => {
           removeLocation(location);
         }}
         className="rounded-full p-1 text-muted-foreground transition-colors hover:text-foreground"
-        aria-label={`Remove ${location}`}
+        aria-label={`Remove ${location.name}`}
       >
         <XIcon className="h-3 w-3" />
       </button>
@@ -123,7 +132,13 @@ const LocationSelector = (props: LocationSelectorProps) => {
               <DropdownMenuGroup>
                 {searchResults.map((location) => {
                   return (
-                    <DropdownMenuCheckboxItem key={location.externalId}>
+                    <DropdownMenuCheckboxItem
+                      key={location.externalId}
+                      checked={selectedLocationExternalIds.includes(
+                        location.externalId,
+                      )}
+                      onCheckedChange={() => toggleLocation(location)}
+                    >
                       <div>
                         <p>{location.name}</p>
                         <p className="text-xs text-muted-foreground">
@@ -139,9 +154,7 @@ const LocationSelector = (props: LocationSelectorProps) => {
         </DropdownMenuContent>
       </DropdownMenu>
       {hasSelectedLocations && (
-        <div className="flex flex-wrap gap-2">
-          {selectedLocations.map(renderTag)}
-        </div>
+        <div className="flex flex-wrap gap-2">{value.map(renderTag)}</div>
       )}
     </div>
   );

@@ -22,6 +22,7 @@ import { useActionState, useId, useState } from 'react';
 import { updateProfileAction } from './actions';
 import { UserProfile } from '@/domain/user';
 import { Language } from '@/domain/language';
+import { LocationDetails } from '@/lib/geocoding.service';
 
 enum FormField {
   NAME = 'name',
@@ -46,6 +47,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
   });
 
   const [languages, setLanguages] = useState<Language[]>(profile.languages);
+  const [locations, setLocations] = useState<LocationDetails[]>([]);
 
   const { validationErrors } = state;
 
@@ -162,7 +164,13 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           title="Locations"
           description="Cities or regions where clients can book you"
           controlId="locations"
-          controlNode={<LocationSelector inputId="locations" />}
+          controlNode={
+            <LocationSelector
+              inputId="locations"
+              value={locations}
+              onChange={setLocations}
+            />
+          }
         />
 
         <LabeledControl
