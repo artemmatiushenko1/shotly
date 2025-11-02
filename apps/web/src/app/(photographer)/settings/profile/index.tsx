@@ -242,6 +242,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             </p>
           )}
           <div className="space-x-3 ml-auto">
+            {/* TODO: implement form reset */}
             <Button type="button" variant="ghost">
               Cancel
             </Button>
