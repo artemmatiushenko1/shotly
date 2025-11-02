@@ -1,7 +1,7 @@
 import React from 'react';
 import { SidebarProvider } from '@shotly/ui/components/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
-import { auth } from '@/lib/auth';
+import { auth } from '@/lib/auth/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 

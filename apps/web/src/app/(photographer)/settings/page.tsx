@@ -10,7 +10,7 @@ import { PrivacyAndSecuritySettings } from './privacy-and-security';
 import { GeneralSettings } from './general';
 import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
 import usersRepository from '@/repositories/users.repository';
-import { auth } from '@/lib/auth';
+import { auth } from '@/lib/auth/auth';
 import { headers } from 'next/headers';
 import { UnauthenticatedError } from '@/domain/errors/auth';
 import languagesRepository from '@/repositories/languages.repository';

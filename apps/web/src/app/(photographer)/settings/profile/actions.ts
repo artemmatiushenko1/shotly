@@ -1,7 +1,7 @@
 'use server';
 
 import { UnauthenticatedError } from '@/domain/errors/auth';
-import { auth } from '@/lib/auth';
+import { auth } from '@/lib/auth/auth';
 import usersRepository from '@/repositories/users.repository';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';

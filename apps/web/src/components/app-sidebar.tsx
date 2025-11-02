@@ -31,7 +31,7 @@ import {
 import { DropdownMenu } from '@shotly/ui/components/dropdown-menu';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { authClient } from '@/lib/auth-client';
+import { authClient } from '@/lib/auth/auth-client';
 import { User } from 'better-auth';
 import { Separator } from '@shotly/ui/components/separator';
 import { StorageUsage } from './storage-usage';
