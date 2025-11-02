@@ -26,12 +26,13 @@ import { LocationDetails } from '@/domain/locations';
 
 enum FormField {
   NAME = 'name',
-  USERNAME = 'username',
   BIO = 'bio',
+  USERNAME = 'username',
+  LANGUAGES = 'languages',
+  LOCATIONS = 'locations',
   WEBSITE_URL = 'websiteUrl',
   INSTAGRAM_TAG = 'instagramTag',
   EXPERIENCE_YEARS = 'yearsOfExperience',
-  LANGUAGES = 'languages',
 }
 
 type ProfileSettingsProps = {
@@ -45,11 +46,10 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
   const [state, formAction, pending] = useActionState(updateProfileAction, {
     hasErrors: false,
   });
+  const { validationErrors } = state;
 
   const [languages, setLanguages] = useState<Language[]>(profile.languages);
   const [locations, setLocations] = useState<LocationDetails[]>([]);
-
-  const { validationErrors } = state;
 
   const bioId = useId();
   const fullNameId = useId();
@@ -165,11 +165,19 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           description="Cities or regions where clients can book you"
           controlId="locations"
           controlNode={
-            <LocationSelector
-              inputId="locations"
-              value={locations}
-              onChange={setLocations}
-            />
+            <>
+              <LocationSelector
+                inputId="locations"
+                value={locations}
+                onChange={setLocations}
+                error={validationErrors?.fieldErrors.locations?.toString()}
+              />
+              <input
+                type="hidden"
+                name={FormField.LOCATIONS}
+                value={JSON.stringify(locations)}
+              />
+            </>
           }
         />
 

@@ -35,11 +35,11 @@ type LocationSelectorProps = {
   onChange: (locations: LocationDetails[]) => void;
 
   inputId?: string;
-  defaultLocations?: string[];
+  error?: string;
 };
 
 const LocationSelector = (props: LocationSelectorProps) => {
-  const { inputId, value, onChange } = props;
+  const { inputId, value, onChange, error } = props;
 
   const [searchResults, setSearchResults] = useState<LocationDetails[]>([]);
 
@@ -162,6 +162,7 @@ const LocationSelector = (props: LocationSelectorProps) => {
       {hasSelectedLocations && (
         <div className="flex flex-wrap gap-2">{value.map(renderTag)}</div>
       )}
+      {error && <div className="text-sm text-destructive mt-2">{error}</div>}
     </div>
   );
 };

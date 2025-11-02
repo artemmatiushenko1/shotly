@@ -1,6 +1,7 @@
 'use server';
 
 import { UnauthenticatedError } from '@/domain/errors/auth';
+import { locationDetailsSchema } from '@/domain/locations';
 import { auth } from '@/lib/auth/auth';
 import usersRepository from '@/repositories/users.repository';
 import { revalidatePath } from 'next/cache';
@@ -15,6 +16,10 @@ const inputSchema = z.object({
   instagramTag: z.string(),
   yearsOfExperience: z.coerce.number().min(0),
   languages: z.string().transform((str) => str.split(',')),
+  locations: z
+    .string()
+    .transform((str) => JSON.parse(str))
+    .pipe(z.array(locationDetailsSchema)),
 });
 
 type UpdateProfileValidationErrors = z.core.$ZodFlattenedError<
