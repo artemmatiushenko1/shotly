@@ -1,19 +1,6 @@
+import { LocationDetails, locationDetailsSchema } from '@/domain/locations';
 import { clientEnv } from '@/env/client';
 import { z } from 'zod';
-
-export const LocationDetailsSchema = z.object({
-  lat: z
-    .string()
-    .regex(/^[-+]?\d+(\.\d+)?$/, 'lat must be a number-like string'),
-  lon: z
-    .string()
-    .regex(/^[-+]?\d+(\.\d+)?$/, 'lon must be a number-like string'),
-  externalId: z.string().min(1),
-  name: z.string().min(1),
-  displayName: z.string().min(1),
-  country: z.string().min(1),
-});
-export type LocationDetails = z.infer<typeof LocationDetailsSchema>;
 
 const NovaSettlementSchema = z.object({
   Ref: z.string(),
@@ -30,9 +17,9 @@ const NovaBaseResponseSchema = z.object({
   data: z.array(NovaSettlementSchema),
 });
 
-function mapSettlementToLocationDetails(
+const mapSettlementToLocationDetails = (
   item: z.infer<typeof NovaSettlementSchema>,
-): LocationDetails {
+): LocationDetails => {
   const parts = [
     item.Description,
     item.RegionsDescription,
@@ -41,17 +28,16 @@ function mapSettlementToLocationDetails(
     .filter(Boolean)
     .join(', ');
 
-  return LocationDetailsSchema.parse({
-    lat: item.Latitude, // already coerced to string
-    lon: item.Longitude, // already coerced to string
-    externalId: item.Ref, // stable identifier
-    name: item.Description, // short name
-    displayName: parts, // "Kyiv, Kyivska"
-    country: 'Ukraine', // getSettlements covers UA directory
+  return locationDetailsSchema.parse({
+    lat: item.Latitude,
+    lon: item.Longitude,
+    externalId: item.Ref,
+    name: item.Description,
+    displayName: parts,
+    country: 'Ukraine',
   });
-}
+};
 
-// ---------- Service ----------
 export interface IGeocodingService {
   searchLocationByName: (name: string) => Promise<LocationDetails[]>;
 }

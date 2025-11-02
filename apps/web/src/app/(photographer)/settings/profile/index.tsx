@@ -22,7 +22,7 @@ import { useActionState, useId, useState } from 'react';
 import { updateProfileAction } from './actions';
 import { UserProfile } from '@/domain/user';
 import { Language } from '@/domain/language';
-import { LocationDetails } from '@/lib/geocoding.service';
+import { LocationDetails } from '@/domain/locations';
 
 enum FormField {
   NAME = 'name',

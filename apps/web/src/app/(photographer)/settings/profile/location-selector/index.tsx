@@ -11,7 +11,7 @@ import { Badge } from '@shotly/ui/components/badge';
 import { Button } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
 import { useState } from 'react';
-import { GeocodingService, LocationDetails } from '@/lib/geocoding.service';
+import { GeocodingService } from '@/lib/geocoding.service';
 import debounce from 'debounce';
 import { Input } from '@shotly/ui/components/input';
 import {
@@ -22,6 +22,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@shotly/ui/components/dropdown-menu';
+import { LocationDetails } from '@/domain/locations';
 
 const geocodingService = new GeocodingService();
 
