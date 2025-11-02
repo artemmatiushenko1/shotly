@@ -7,6 +7,7 @@ export const serverEnv = createEnv({
     GOOGLE_AUTH_CLIENT_ID: z.string().nonempty(),
     GOOGLE_AUTH_CLIENT_SECRET: z.string().nonempty(),
     DATABASE_URL: z.url(),
+    IMAGE_STORAGE_BASE_URL: z.url(),
   },
   experimental__runtimeEnv: process.env,
 });

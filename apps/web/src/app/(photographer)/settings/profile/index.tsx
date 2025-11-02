@@ -3,16 +3,9 @@
 import { Button } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';
 import { Textarea } from '@shotly/ui/components/textarea';
-import {
-  Trash2,
-  Upload,
-  InstagramIcon,
-  GlobeIcon,
-  CircleXIcon,
-} from 'lucide-react';
+import { InstagramIcon, GlobeIcon, CircleXIcon } from 'lucide-react';
 import { SocialLinkInput } from './social-link-input';
 import { LabeledControl } from './labeled-control';
-import { ProfileImagePlaceholder } from './profile-image-placeholder';
 import { LocationSelector } from './location-selector';
 import { LanguageSelector } from './language-selector';
 import { ExperienceSlider } from './experience-slider';
@@ -23,6 +16,7 @@ import { updateProfileAction } from './actions';
 import { UserProfile } from '@/domain/user';
 import { Language } from '@/domain/language';
 import { LocationDetails } from '@/domain/locations';
+import { ProfileImageUpload } from './profile-image-upload';
 
 enum FormField {
   NAME = 'name',
@@ -33,6 +27,7 @@ enum FormField {
   WEBSITE_URL = 'websiteUrl',
   INSTAGRAM_TAG = 'instagramTag',
   EXPERIENCE_YEARS = 'yearsOfExperience',
+  PROFILE_IMG = 'profileImg',
 }
 
 type ProfileSettingsProps = {
@@ -60,6 +55,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
   const instagramTagId = useId();
   const experienceYearsId = useId();
   const personalWebsiteUrlId = useId();
+  const profileImageId = useId();
 
   return (
     <div className="space-y-8 pb-4">
@@ -83,7 +79,11 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           </p>
         </div>
       </div>
-      <form className="space-y-8" action={formAction}>
+      <form
+        className="space-y-8"
+        action={formAction}
+        encType="multipart/form-data"
+      >
         <CoverUpload />
         <LabeledControl
           title="Full name"
@@ -115,23 +115,15 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           title="Profile photo"
           description="This photo will be visible to others"
           controlNode={
-            <div className="flex items-start gap-6">
-              <ProfileImagePlaceholder />
-              <div className="flex flex-col gap-2">
-                <Button variant="outline" size="sm">
-                  <Upload className="mr-2 h-4 w-4" />
-                  Upload new image
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground"
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  Delete current image
-                </Button>
-              </div>
-            </div>
+            <ProfileImageUpload
+              existingImageUrl={profile.image}
+              inputName={FormField.PROFILE_IMG}
+              inputId={profileImageId}
+              error={validationErrors?.fieldErrors.profileImg?.toString()}
+              onDeleteExisting={() => {
+                // TODO: implement delete functionality for existing image
+              }}
+            />
           }
         />
         <LabeledControl
