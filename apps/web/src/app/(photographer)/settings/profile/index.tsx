@@ -49,7 +49,9 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
   const { validationErrors } = state;
 
   const [languages, setLanguages] = useState<Language[]>(profile.languages);
-  const [locations, setLocations] = useState<LocationDetails[]>([]);
+  const [locations, setLocations] = useState<LocationDetails[]>(
+    profile.locations,
+  );
 
   const bioId = useId();
   const fullNameId = useId();

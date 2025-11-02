@@ -1,5 +1,6 @@
 import z from 'zod';
 import { languageSchema } from './language';
+import { locationDetailsSchema } from './locations';
 
 export const userSchema = z.object({
   id: z.string().min(1),
@@ -41,6 +42,11 @@ export const userProfileSchema = userSchema
     websiteUrl: true,
     instagramTag: true,
   })
-  .and(z.object({ languages: z.array(languageSchema) }));
+  .and(
+    z.object({
+      languages: z.array(languageSchema),
+      locations: z.array(locationDetailsSchema),
+    }),
+  );
 
 export type UserProfile = z.infer<typeof userProfileSchema>;

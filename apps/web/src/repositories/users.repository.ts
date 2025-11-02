@@ -128,7 +128,33 @@ class UsersRepository {
       )
       .where(eq(userLanguagesTable.userId, userId));
 
-    return userProfileSchema.parse({ ...userQuery, languages: languagesQuery });
+    const locationsQuery = await db
+      .select({
+        externalId: locationsTable.externalId,
+        name: locationsTable.name,
+        country: locationsTable.country,
+        latitude: locationsTable.latitude,
+        longitude: locationsTable.longitude,
+      })
+      .from(usersToLocationsTable)
+      .innerJoin(
+        locationsTable,
+        eq(usersToLocationsTable.locationId, locationsTable.id),
+      )
+      .where(eq(usersToLocationsTable.userId, userId));
+
+    return userProfileSchema.parse({
+      ...userQuery,
+      languages: languagesQuery,
+      locations: locationsQuery.map((location) => ({
+        externalId: location.externalId,
+        name: location.name,
+        country: location.country,
+        lat: location.latitude,
+        lon: location.longitude,
+        displayName: `${location.name}, ${location.country}`,
+      })),
+    });
   }
 }
 
