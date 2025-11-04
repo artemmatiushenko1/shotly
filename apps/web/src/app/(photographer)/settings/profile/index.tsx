@@ -28,6 +28,7 @@ enum FormField {
   INSTAGRAM_TAG = 'instagramTag',
   EXPERIENCE_YEARS = 'yearsOfExperience',
   PROFILE_IMG = 'profileImg',
+  COVER_IMG = 'coverImg',
 }
 
 type ProfileSettingsProps = {
@@ -80,7 +81,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
         </div>
       </div>
       <form className="space-y-8" action={formAction}>
-        <CoverUpload />
+        <CoverUpload name={FormField.COVER_IMG} />
         <LabeledControl
           title="Full name"
           description="Your display name"
