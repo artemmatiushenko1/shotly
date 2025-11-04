@@ -15,7 +15,7 @@ type SeeServicesProps = {
     category: string;
     deliveryTime: string;
     isPublic: boolean;
-    deliverables: string[];
+    features: string[];
   }[];
 };
 

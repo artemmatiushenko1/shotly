@@ -13,7 +13,7 @@ type ServiceCardProps = {
   priceUnit: string;
   category: string;
   deliveryTime: string;
-  deliverables: string[];
+  features: string[];
   isPublic: boolean;
   onEdit?: () => void;
   onDelete?: () => void;
@@ -28,19 +28,19 @@ function ServiceCard(props: ServiceCardProps) {
     priceUnit = '',
     category,
     deliveryTime,
-    deliverables,
+    features,
     isPublic,
     onEdit,
     onDelete,
   } = props;
 
   // TODO: refactor this to use a more elegant solution
-  const deliverablesLabel =
-    deliverables.length === 0
+  const featuresLabel =
+    features.length === 0
       ? '—'
-      : deliverables.length === 1
-        ? deliverables[0]
-        : `${deliverables[0]}, +${deliverables.length - 1} more`;
+      : features.length === 1
+        ? features[0]
+        : `${features[0]}, +${features.length - 1} more`;
 
   return (
     <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 cursor-pointer gap-4">
@@ -82,10 +82,10 @@ function ServiceCard(props: ServiceCardProps) {
             </p>
           </div>
           <div className="flex flex-col items-start">
-            <p className="text-muted-foreground text-xs mb-1">Deliverables</p>
+            <p className="text-muted-foreground text-xs mb-1">features</p>
             <p className="inline-flex gap-1 items-center font-medium text-sm w-56">
               <PackageIcon className="text-muted-foreground w-4" />{' '}
-              {deliverablesLabel}
+              {featuresLabel}
             </p>
           </div>
           <div className="flex flex-col items-start">

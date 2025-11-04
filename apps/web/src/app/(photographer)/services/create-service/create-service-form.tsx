@@ -29,8 +29,8 @@ type CreateServiceFormProps = {
 function CreateServiceForm(props: CreateServiceFormProps) {
   const { categories } = props;
 
-  const [deliverables, setDeliverables] = useState<string[]>([]);
-  const [deliverable, setDeliverable] = useState('');
+  const [features, setFeatures] = useState<string[]>([]);
+  const [feature, setfeature] = useState('');
 
   const nameId = useId();
   const descriptionId = useId();
@@ -86,25 +86,25 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         </div>
       </div>
       <div className="grid gap-3 w-full">
-        <Label htmlFor="username-1">Deliverables</Label>
+        <Label htmlFor="username-1">features</Label>
         <div className="w-full flex gap-3">
           <Input
-            placeholder="Specify deliverables"
-            value={deliverable}
-            onChange={(e) => setDeliverable(e.target.value)}
+            placeholder="Specify features"
+            value={feature}
+            onChange={(e) => setfeature(e.target.value)}
             className="flex-1"
           />
           <Button
             type="button"
-            onClick={() => setDeliverables((prev) => [...prev, deliverable])}
+            onClick={() => setFeatures((prev) => [...prev, feature])}
           >
             <PlusCircleIcon />
           </Button>
         </div>
         <div className="flex gap-2 flex-wrap">
-          {deliverables.map((deliverable) => (
-            <Badge key={deliverable} variant="secondary">
-              {deliverable}
+          {features.map((feature) => (
+            <Badge key={feature} variant="secondary">
+              {feature}
             </Badge>
           ))}
         </div>

@@ -17,7 +17,7 @@ const MOCK_SERVICES: React.ComponentProps<typeof ServiceCard>[] = [
     priceUnit: '₴',
     category: 'Family',
     deliveryTime: '5',
-    deliverables: ['100 edited photos', '10 printed copies'],
+    features: ['100 edited photos', '10 printed copies'],
     isPublic: true,
   },
   {
@@ -30,7 +30,7 @@ const MOCK_SERVICES: React.ComponentProps<typeof ServiceCard>[] = [
     priceUnit: '₴',
     category: 'Wedding',
     deliveryTime: '14',
-    deliverables: ['300 edited photos', 'Highlight slideshow'],
+    features: ['300 edited photos', 'Highlight slideshow'],
     isPublic: true,
   },
   {
@@ -43,7 +43,7 @@ const MOCK_SERVICES: React.ComponentProps<typeof ServiceCard>[] = [
     priceUnit: '₴',
     category: 'Corporate',
     deliveryTime: '3',
-    deliverables: ['15 retouched portraits'],
+    features: ['15 retouched portraits'],
     isPublic: false,
   },
   {
@@ -56,7 +56,7 @@ const MOCK_SERVICES: React.ComponentProps<typeof ServiceCard>[] = [
     priceUnit: '₴',
     category: 'Newborn',
     deliveryTime: '7',
-    deliverables: ['60 edited photos', 'Framed print'],
+    features: ['60 edited photos', 'Framed print'],
     isPublic: true,
   },
 ];
