@@ -19,35 +19,55 @@ import { Button } from '@shotly/ui/components/button';
 import { PlusCircleIcon } from 'lucide-react';
 import { Badge } from '@shotly/ui/components/badge';
 import { Category } from '@/domain/category';
+import { ServiceStatus } from '@/domain/service';
+import { createService } from '../actions';
+
+enum FormField {
+  NAME = 'name',
+  COVER_IMAGE = 'coverImage',
+  DESCRIPTION = 'description',
+  CATEGORY = 'category',
+  PRICE = 'price',
+  FEATURES = 'features',
+  DELIVERY_TIME = 'deliveryTime',
+  STATUS = 'status',
+}
 
 // TODO: idea is to add list of features,
 // user can select which ones are included in base price, and what might be included additionally
 type CreateServiceFormProps = {
   categories: Category[];
+  onCancel: () => void;
 };
 
 function CreateServiceForm(props: CreateServiceFormProps) {
-  const { categories } = props;
+  const { categories, onCancel } = props;
 
   const [features, setFeatures] = useState<string[]>([]);
   const [feature, setfeature] = useState('');
+  const [categoryId, setCategoryId] = useState<string | null>(null);
+  const [status, setStatus] = useState<ServiceStatus>(ServiceStatus.PRIVATE);
 
   const nameId = useId();
   const descriptionId = useId();
 
   return (
-    <form className="space-y-5 pb-10">
+    <form className="space-y-5" action={createService}>
       <div className="grid gap-3">
         <Label htmlFor={nameId}>
           Service Name <span className="text-destructive">*</span>
         </Label>
-        <Input id={nameId} name="name" placeholder="Enter service name" />
+        <Input
+          id={nameId}
+          name={FormField.NAME}
+          placeholder="Enter service name"
+        />
       </div>
       <div className="grid gap-3">
         <Label>
           Upload cover image <span className="text-destructive">*</span>
         </Label>
-        <CoverUpload name="cover-image" />
+        <CoverUpload name={FormField.COVER_IMAGE} />
       </div>
       <div className="grid gap-3">
         <Label htmlFor={descriptionId}>
@@ -55,8 +75,9 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           <span className="text-xs text-muted-foreground">(optional)</span>
         </Label>
         <Textarea
-          id={descriptionId}
           showCharsCount
+          name={FormField.DESCRIPTION}
+          id={descriptionId}
           maxChars={500}
           placeholder="Add description for your collection"
         />
@@ -64,7 +85,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
       <div className="flex space-x-3">
         <div className="grid gap-3 w-full">
           <Label htmlFor="username-1">Category</Label>
-          <Select>
+          <Select value={categoryId ?? undefined} onValueChange={setCategoryId}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
@@ -72,17 +93,22 @@ function CreateServiceForm(props: CreateServiceFormProps) {
               <SelectGroup>
                 <SelectLabel>Categories</SelectLabel>
                 {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.name}>
+                  <SelectItem key={category.id} value={category.id}>
                     {category.name}
                   </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
           </Select>
+          <input
+            type="hidden"
+            name={FormField.CATEGORY}
+            value={categoryId ?? undefined}
+          />
         </div>
         <div className="grid gap-3 w-full">
           <Label htmlFor="username-1">Price </Label>
-          <Input placeholder="Enter price" />
+          <Input placeholder="Enter price" name={FormField.PRICE} />
         </div>
       </div>
       <div className="grid gap-3 w-full">
@@ -108,10 +134,21 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             </Badge>
           ))}
         </div>
+        <input
+          type="hidden"
+          name={FormField.FEATURES}
+          value={features.join(',')}
+        />
       </div>
       <div className="grid gap-3 w-full">
-        <Label htmlFor="username-1">Delivery Time (days) </Label>
-        <Input placeholder="Add location (e.g. Kyiv, Ukraine)" />
+        <Label htmlFor="username-1">Delivery Time (full days) </Label>
+        <Input
+          type="number"
+          min={1}
+          max={60}
+          placeholder="Enter delivery time"
+          name={FormField.DELIVERY_TIME}
+        />
       </div>
       <div className="w-full flex justify-between">
         <div>
@@ -123,7 +160,19 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             of the platflorm
           </p>
         </div>
-        <Switch />
+        <Switch
+          name={FormField.STATUS}
+          checked={status === ServiceStatus.PUBLIC}
+          onCheckedChange={(checked) =>
+            setStatus(checked ? ServiceStatus.PUBLIC : ServiceStatus.PRIVATE)
+          }
+        />
+      </div>
+      <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
+        <Button type="button" variant="ghost" onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button type="submit">Save Changes</Button>
       </div>
     </form>
   );
