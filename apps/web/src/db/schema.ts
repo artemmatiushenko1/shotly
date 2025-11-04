@@ -151,10 +151,17 @@ export const usersToLocationsTable = pgTable(
   },
 );
 
+export const categoriesTable = pgTable('categories', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull().unique(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 export const schema = {
   usersTable,
   accountsTable,
   verificationsTable,
   sessionsTable,
   collectionsTable,
+  categoriesTable,
 };

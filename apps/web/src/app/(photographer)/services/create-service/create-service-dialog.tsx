@@ -11,13 +11,15 @@ import { HandshakeIcon } from 'lucide-react';
 import React from 'react';
 import CreateServiceForm from './create-service-form';
 import { Button } from '@shotly/ui/components/button';
+import { Category } from '@/domain/category';
 
 type CreateServiceDialogProps = {
+  categories: Category[];
   children: React.ReactNode;
 };
 
 function CreateServiceDialog(props: CreateServiceDialogProps) {
-  const { children: trigger } = props;
+  const { children: trigger, categories } = props;
 
   return (
     <Dialog>
@@ -36,7 +38,7 @@ function CreateServiceDialog(props: CreateServiceDialogProps) {
           </div>
         </DialogHeader>
         <div className="flex-1">
-          <CreateServiceForm />
+          <CreateServiceForm categories={categories} />
         </div>
         <DialogFooter>
           <Button variant="ghost">Cancel</Button>

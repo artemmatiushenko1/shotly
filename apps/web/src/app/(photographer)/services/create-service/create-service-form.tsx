@@ -1,3 +1,5 @@
+'use client';
+
 import CoverUpload from '@/components/cover-upload/cover-upload';
 import { Input } from '@shotly/ui/components/input';
 import { Label } from '@shotly/ui/components/label';
@@ -16,10 +18,17 @@ import React, { useId, useState } from 'react';
 import { Button } from '@shotly/ui/components/button';
 import { PlusCircleIcon } from 'lucide-react';
 import { Badge } from '@shotly/ui/components/badge';
+import { Category } from '@/domain/category';
 
 // TODO: idea is to add list of features,
 // user can select which ones are included in base price, and what might be included additionally
-function CreateServiceForm() {
+type CreateServiceFormProps = {
+  categories: Category[];
+};
+
+function CreateServiceForm(props: CreateServiceFormProps) {
+  const { categories } = props;
+
   const [deliverables, setDeliverables] = useState<string[]>([]);
   const [deliverable, setDeliverable] = useState('');
 
@@ -38,7 +47,7 @@ function CreateServiceForm() {
         <Label>
           Upload cover image <span className="text-destructive">*</span>
         </Label>
-        <CoverUpload />
+        <CoverUpload name="cover-image" />
       </div>
       <div className="grid gap-3">
         <Label htmlFor={descriptionId}>
@@ -62,16 +71,11 @@ function CreateServiceForm() {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Categories</SelectLabel>
-                <SelectItem value="Wedding">Wedding</SelectItem>
-                <SelectItem value="Portrait">Portrait</SelectItem>
-                <SelectItem value="Love Story">Love Story</SelectItem>
-                <SelectItem value="Family">Family</SelectItem>
-                <SelectItem value="Reportage">Reportage</SelectItem>
-                <SelectItem value="Commercial">Commercial</SelectItem>
-                <SelectItem value="Fashion">Fashion</SelectItem>
-                <SelectItem value="Architecture">Architecture</SelectItem>
-                <SelectItem value="Content">Content</SelectItem>
-                <SelectItem value="Other">Other</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.name}>
+                    {category.name}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>

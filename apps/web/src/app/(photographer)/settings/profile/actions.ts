@@ -73,9 +73,9 @@ export const updateProfileAction = async (
 
   const data = Object.fromEntries(form.entries());
 
-  // Handle files separately since FormData.get() returns File | null
   const profileImgFile = form.get('profileImg') as File | null;
   const coverImgFile = form.get('coverImg') as File | null;
+
   const formDataWithoutFiles = { ...data };
   delete formDataWithoutFiles.profileImg;
   delete formDataWithoutFiles.coverImg;
@@ -123,7 +123,7 @@ export const updateProfileAction = async (
   const { profileImg, coverImg, ...baseUpdateData } = validatedInput;
 
   // Build the update object, including image URLs only if new ones were uploaded
-  const userUpdateData: Parameters<typeof usersRepository.updateUser>[1] = {
+  const userUpdateData = {
     ...baseUpdateData,
     ...(profileImageUrl ? { image: profileImageUrl } : {}),
     ...(coverImageUrl ? { coverImageUrl } : {}),

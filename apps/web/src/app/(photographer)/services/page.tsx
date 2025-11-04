@@ -1,13 +1,10 @@
-'use client';
-
 import MainHeader from '@/components/main-header';
 import { Button } from '@shotly/ui/components/button';
 import { PlusIcon } from 'lucide-react';
-import React, { useState } from 'react';
 import ServiceCard from './service-card';
-import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
-import { Badge } from '@shotly/ui/components/badge';
 import CreateServiceDialog from './create-service/create-service-dialog';
+import SeeServices from './see-services';
+import categoriesRepository from '@/repositories/categories.repository';
 
 const MOCK_SERVICES: React.ComponentProps<typeof ServiceCard>[] = [
   {
@@ -64,16 +61,8 @@ const MOCK_SERVICES: React.ComponentProps<typeof ServiceCard>[] = [
   },
 ];
 
-function Services() {
-  const [selectedTab, setSelectedTab] = useState('All');
-
-  const tabs = ['All', 'Public', 'Private', 'Archived'];
-  const counts = {
-    'All': MOCK_SERVICES.length,
-    'Public': MOCK_SERVICES.filter((s) => s.isPublic).length,
-    'Private': MOCK_SERVICES.filter((s) => !s.isPublic).length,
-    'Archived': '0',
-  };
+async function Services() {
+  const categories = await categoriesRepository.getCategories();
 
   return (
     <>
@@ -81,7 +70,7 @@ function Services() {
         title="Services"
         caption="Create service packages available to your clients"
         extra={
-          <CreateServiceDialog>
+          <CreateServiceDialog categories={categories}>
             <Button className="ml-auto">
               <PlusIcon />
               Service
@@ -89,29 +78,8 @@ function Services() {
           </CreateServiceDialog>
         }
       />
-      <div className="p-4 flex flex-col gap-4">
-        <Tabs
-          defaultValue="All"
-          value={selectedTab}
-          onValueChange={(value) => setSelectedTab(value)}
-        >
-          <TabsList>
-            {tabs.map((tab) => (
-              <TabsTrigger key={tab} value={tab}>
-                {tab}{' '}
-                <Badge
-                  variant={tab === selectedTab ? 'default' : 'secondary'}
-                  className="h-5 min-w-5 rounded-full px-1"
-                >
-                  {counts[tab as keyof typeof counts]}
-                </Badge>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-        {MOCK_SERVICES.map((service) => (
-          <ServiceCard key={service.name} {...service} />
-        ))}
+      <div className="p-4">
+        <SeeServices services={MOCK_SERVICES} />
       </div>
     </>
   );

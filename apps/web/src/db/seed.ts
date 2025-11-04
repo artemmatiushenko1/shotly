@@ -1,5 +1,5 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { languagesTable } from './schema';
+import { categoriesTable, languagesTable } from './schema';
 import { Pool } from 'pg';
 import { config } from 'dotenv';
 
@@ -32,6 +32,23 @@ const main = async () => {
       { code: 'no', name: 'Norwegian', flag: '🇳🇴' },
     ])
     .onConflictDoNothing(); // prevents duplicates if you rerun
+
+  await db
+    .insert(categoriesTable)
+    .values([
+      { name: 'Wedding' },
+      { name: 'Portrait' },
+      { name: 'Event' },
+      { name: 'Love Story' },
+      { name: 'Family' },
+      { name: 'Reportage' },
+      { name: 'Commercial' },
+      { name: 'Fashion' },
+      { name: 'Architecture' },
+      { name: 'Content' },
+      { name: 'Other' },
+    ])
+    .onConflictDoNothing();
 };
 
 main();

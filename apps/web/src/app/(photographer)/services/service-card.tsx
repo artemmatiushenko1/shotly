@@ -10,7 +10,7 @@ type ServiceCardProps = {
   name: string;
   description: string;
   price: string;
-  priceUnit?: string;
+  priceUnit: string;
   category: string;
   deliveryTime: string;
   deliverables: string[];
@@ -34,6 +34,7 @@ function ServiceCard(props: ServiceCardProps) {
     onDelete,
   } = props;
 
+  // TODO: refactor this to use a more elegant solution
   const deliverablesLabel =
     deliverables.length === 0
       ? '—'
