@@ -5,12 +5,14 @@ import { cn } from '@shotly/ui/lib/utils';
 type TextareaProps = {
   showCharsCount?: boolean;
   maxChars?: number;
+  error?: string;
 } & React.ComponentProps<'textarea'>;
 
 function Textarea({
   className,
   showCharsCount = false,
   maxChars = Infinity,
+  error,
   ...props
 }: TextareaProps) {
   return (
@@ -30,6 +32,7 @@ function Textarea({
           {maxChars}
         </p>
       )}
+      {error && <div className="text-sm text-destructive mt-2">{error}</div>}
     </>
   );
 }

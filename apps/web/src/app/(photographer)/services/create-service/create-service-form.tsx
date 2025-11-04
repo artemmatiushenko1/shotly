@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from '@shotly/ui/components/select';
 import { Textarea } from '@shotly/ui/components/textarea';
-import React, { useId, useState } from 'react';
+import React, { useActionState, useId, useState } from 'react';
 import { Button } from '@shotly/ui/components/button';
 import { PlusCircleIcon } from 'lucide-react';
 import { Badge } from '@shotly/ui/components/badge';
@@ -26,7 +26,7 @@ enum FormField {
   NAME = 'name',
   COVER_IMAGE = 'coverImage',
   DESCRIPTION = 'description',
-  CATEGORY = 'category',
+  CATEGORY_ID = 'categoryId',
   PRICE = 'price',
   FEATURES = 'features',
   DELIVERY_TIME = 'deliveryTime',
@@ -42,6 +42,12 @@ type CreateServiceFormProps = {
 
 function CreateServiceForm(props: CreateServiceFormProps) {
   const { categories, onCancel } = props;
+  const [state, formAction, pending] = useActionState(createService, {
+    hasErrors: false,
+    validationErrors: undefined,
+  });
+
+  const { validationErrors } = state;
 
   const [features, setFeatures] = useState<string[]>([]);
   const [feature, setfeature] = useState('');
@@ -52,7 +58,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
   const descriptionId = useId();
 
   return (
-    <form className="space-y-5" action={createService}>
+    <form className="space-y-5" action={formAction}>
       <div className="grid gap-3">
         <Label htmlFor={nameId}>
           Service Name <span className="text-destructive">*</span>
@@ -61,13 +67,17 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           id={nameId}
           name={FormField.NAME}
           placeholder="Enter service name"
+          error={validationErrors?.fieldErrors.name?.toString()}
         />
       </div>
       <div className="grid gap-3">
         <Label>
           Upload cover image <span className="text-destructive">*</span>
         </Label>
-        <CoverUpload name={FormField.COVER_IMAGE} />
+        <CoverUpload
+          name={FormField.COVER_IMAGE}
+          error={validationErrors?.fieldErrors.coverImage?.toString()}
+        />
       </div>
       <div className="grid gap-3">
         <Label htmlFor={descriptionId}>
@@ -80,9 +90,10 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           id={descriptionId}
           maxChars={500}
           placeholder="Add description for your collection"
+          error={validationErrors?.fieldErrors.description?.toString() ?? ''}
         />
       </div>
-      <div className="flex space-x-3">
+      <div className="flex space-x-3 items-start">
         <div className="grid gap-3 w-full">
           <Label htmlFor="username-1">Category</Label>
           <Select value={categoryId ?? undefined} onValueChange={setCategoryId}>
@@ -100,15 +111,25 @@ function CreateServiceForm(props: CreateServiceFormProps) {
               </SelectGroup>
             </SelectContent>
           </Select>
+          {validationErrors?.fieldErrors.categoryId?.toString() && (
+            // TODO: create common component for this form error
+            <div className="text-sm text-destructive mt-2">
+              {validationErrors?.fieldErrors.categoryId?.toString()}
+            </div>
+          )}
           <input
             type="hidden"
-            name={FormField.CATEGORY}
+            name={FormField.CATEGORY_ID}
             value={categoryId ?? undefined}
           />
         </div>
         <div className="grid gap-3 w-full">
           <Label htmlFor="username-1">Price </Label>
-          <Input placeholder="Enter price" name={FormField.PRICE} />
+          <Input
+            placeholder="Enter price"
+            name={FormField.PRICE}
+            error={validationErrors?.fieldErrors.price?.toString()}
+          />
         </div>
       </div>
       <div className="grid gap-3 w-full">
@@ -119,6 +140,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             value={feature}
             onChange={(e) => setfeature(e.target.value)}
             className="flex-1"
+            error={validationErrors?.fieldErrors.features?.toString()}
           />
           <Button
             type="button"
@@ -148,6 +170,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           max={60}
           placeholder="Enter delivery time"
           name={FormField.DELIVERY_TIME}
+          error={validationErrors?.fieldErrors.deliveryTime?.toString()}
         />
       </div>
       <div className="w-full flex justify-between">
@@ -172,7 +195,9 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         <Button type="button" variant="ghost" onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="submit">Save Changes</Button>
+        <Button type="submit" loading={pending}>
+          Save Changes
+        </Button>
       </div>
     </form>
   );
