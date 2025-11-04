@@ -36,6 +36,21 @@ const inputSchema = z.object({
         ),
       'Image must be JPEG, PNG, or WebP',
     ),
+  coverImg: z
+    .instanceof(File)
+    .optional()
+    .refine(
+      (file) => !file || file.size <= 5 * 1024 * 1024,
+      'Image must be less than 5MB',
+    )
+    .refine(
+      (file) =>
+        !file ||
+        ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(
+          file.type,
+        ),
+      'Image must be JPEG, PNG, or WebP',
+    ),
 });
 
 type UpdateProfileValidationErrors = z.core.$ZodFlattenedError<
@@ -58,16 +73,20 @@ export const updateProfileAction = async (
 
   const data = Object.fromEntries(form.entries());
 
-  // Handle file separately since FormData.get() returns File | null
+  // Handle files separately since FormData.get() returns File | null
   const profileImgFile = form.get('profileImg') as File | null;
-  const formDataWithoutFile = { ...data };
-  delete formDataWithoutFile.profileImg;
+  const coverImgFile = form.get('coverImg') as File | null;
+  const formDataWithoutFiles = { ...data };
+  delete formDataWithoutFiles.profileImg;
+  delete formDataWithoutFiles.coverImg;
 
   const { data: validatedInput, error: inputParseError } =
     inputSchema.safeParse({
-      ...formDataWithoutFile,
+      ...formDataWithoutFiles,
       profileImg:
         profileImgFile && profileImgFile.size > 0 ? profileImgFile : undefined,
+      coverImg:
+        coverImgFile && coverImgFile.size > 0 ? coverImgFile : undefined,
     });
 
   if (inputParseError) {
@@ -79,7 +98,6 @@ export const updateProfileAction = async (
 
   // Upload profile image if provided
   let profileImageUrl: string | undefined;
-
   if (validatedInput.profileImg) {
     const uploadResult = await imageStorage.upload(validatedInput.profileImg, {
       folder: 'profiles',
@@ -89,14 +107,26 @@ export const updateProfileAction = async (
     profileImageUrl = uploadResult.url;
   }
 
-  // Prepare update data (exclude profileImg as it's not part of UserUpdate)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { profileImg, ...baseUpdateData } = validatedInput;
+  // Upload cover image if provided
+  let coverImageUrl: string | undefined;
+  if (validatedInput.coverImg) {
+    const uploadResult = await imageStorage.upload(validatedInput.coverImg, {
+      folder: 'covers',
+      maxSize: 5 * 1024 * 1024, // 5MB
+      allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+    });
+    coverImageUrl = uploadResult.url;
+  }
 
-  // Build the update object, including image URL only if a new one was uploaded
+  // Prepare update data (exclude files as they're not part of UserUpdate)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { profileImg, coverImg, ...baseUpdateData } = validatedInput;
+
+  // Build the update object, including image URLs only if new ones were uploaded
   const userUpdateData: Parameters<typeof usersRepository.updateUser>[1] = {
     ...baseUpdateData,
     ...(profileImageUrl ? { image: profileImageUrl } : {}),
+    ...(coverImageUrl ? { coverImageUrl } : {}),
   };
 
   // TODO: should be a single transaction

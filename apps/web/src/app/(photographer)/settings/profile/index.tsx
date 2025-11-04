@@ -81,7 +81,10 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
         </div>
       </div>
       <form className="space-y-8" action={formAction}>
-        <CoverUpload name={FormField.COVER_IMG} />
+        <CoverUpload
+          name={FormField.COVER_IMG}
+          existingImageUrl={profile.coverImageUrl}
+        />
         <LabeledControl
           title="Full name"
           description="Your display name"
