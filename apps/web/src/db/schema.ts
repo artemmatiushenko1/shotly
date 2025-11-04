@@ -142,14 +142,12 @@ export const usersToLocationsTable = pgTable(
       .notNull()
       .references(() => locationsTable.id, { onDelete: 'cascade' }),
   },
-  (table) => {
-    return [
-      // This composite primary key ensures a user can't save the same location twice.
-      primaryKey({ columns: [table.userId, table.locationId] }),
-      index('users_to_locations_user_idx').on(table.userId),
-      index('users_to_locations_location_idx').on(table.locationId),
-    ];
-  },
+  (table) => [
+    // This composite primary key ensures a user can't save the same location twice.
+    primaryKey({ columns: [table.userId, table.locationId] }),
+    index('users_to_locations_user_idx').on(table.userId),
+    index('users_to_locations_location_idx').on(table.locationId),
+  ],
 );
 
 export const categoriesTable = pgTable('categories', {
@@ -168,12 +166,57 @@ export const featuresTable = pgTable(
       .notNull()
       .references(() => usersTable.id, { onDelete: 'cascade' }),
   },
-  (table) => {
-    return [
-      // Ensures a feature name is unique *per photographer*.
-      uniqueIndex('photographer_name_idx').on(table.photographerId, table.name),
-    ];
+  (table) => [
+    // Ensures a feature name is unique per photographer.
+    uniqueIndex('photographer_name_idx').on(table.photographerId, table.name),
+  ],
+);
+
+export const serviceStatusEnum = pgEnum('service_status', [
+  'public',
+  'private',
+  'archived',
+]);
+
+export const servicesTable = pgTable('services', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  coverImageUrl: text('cover_image_url').notNull(),
+  price: integer('price').notNull().default(0),
+  /**
+   * 3-letter ISO currency code (e.g., "UAH", "USD").
+   */
+  currency: text('currency').notNull().default('UAH'),
+  /**
+   * Time in whole days (e.g., 7, 14, 30)
+   */
+  deliveryTimeInDays: integer('delivery_time_in_days').notNull(),
+
+  status: serviceStatusEnum('status').notNull().default('private'),
+
+  photographerId: text('photographer_id')
+    .notNull()
+    .references(() => usersTable.id, { onDelete: 'cascade' }),
+  categoryId: uuid('category_id')
+    .notNull()
+    .references(() => categoriesTable.id, { onDelete: 'restrict' }),
+
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow(),
+});
+
+export const servicesToFeaturesTable = pgTable(
+  'services_to_features',
+  {
+    serviceId: uuid('service_id')
+      .notNull()
+      .references(() => servicesTable.id, { onDelete: 'cascade' }),
+    featureId: uuid('feature_id')
+      .notNull()
+      .references(() => featuresTable.id, { onDelete: 'cascade' }),
   },
+  (table) => [primaryKey({ columns: [table.serviceId, table.featureId] })],
 );
 
 export const schema = {

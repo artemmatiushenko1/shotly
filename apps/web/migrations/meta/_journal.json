@@ -78,6 +78,13 @@
       "when": 1762280664459,
       "tag": "0010_loose_miss_america",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1762281408960,
+      "tag": "0011_aspiring_tag",
+      "breakpoints": true
     }
   ]
 }
