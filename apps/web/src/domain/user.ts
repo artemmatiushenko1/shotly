@@ -41,6 +41,7 @@ export const userProfileSchema = userSchema
     bio: true,
     websiteUrl: true,
     instagramTag: true,
+    createdAt: true,
   })
   .and(
     z.object({

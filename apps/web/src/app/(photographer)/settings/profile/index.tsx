@@ -32,12 +32,13 @@ enum FormField {
 }
 
 type ProfileSettingsProps = {
+  userId: string;
   profile: UserProfile;
   languageOptions: Language[];
 };
 
 const ProfileSettings = (props: ProfileSettingsProps) => {
-  const { profile, languageOptions } = props;
+  const { profile, languageOptions, userId } = props;
 
   const [state, formAction, pending] = useActionState(updateProfileAction, {
     hasErrors: false,
@@ -71,7 +72,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => redirect('/photographers/artemko')}
+            onClick={() => redirect(`/photographers/${userId}`)}
           >
             <GlobeIcon /> View public profile
           </Button>
