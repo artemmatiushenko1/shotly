@@ -157,6 +157,12 @@ export const categoriesTable = pgTable('categories', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+export const featuresTable = pgTable('features', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull().unique(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 export const schema = {
   usersTable,
   accountsTable,
@@ -164,4 +170,5 @@ export const schema = {
   sessionsTable,
   collectionsTable,
   categoriesTable,
+  featuresTable,
 };
