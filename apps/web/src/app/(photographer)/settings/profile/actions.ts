@@ -25,8 +25,8 @@ const inputSchema = z.object({
     .instanceof(File)
     .optional()
     .refine(
-      (file) => !file || file.size <= 5 * 1024 * 1024,
-      'Image must be less than 5MB',
+      (file) => !file || file.size <= 1 * 1024 * 1024,
+      'Image must be less than 1MB',
     )
     .refine(
       (file) =>
@@ -40,8 +40,8 @@ const inputSchema = z.object({
     .instanceof(File)
     .optional()
     .refine(
-      (file) => !file || file.size <= 5 * 1024 * 1024,
-      'Image must be less than 5MB',
+      (file) => !file || file.size <= 1 * 1024 * 1024,
+      'Image must be less than 1MB',
     )
     .refine(
       (file) =>

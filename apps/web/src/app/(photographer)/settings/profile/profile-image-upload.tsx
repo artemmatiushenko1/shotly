@@ -27,7 +27,11 @@ export function ProfileImageUpload({
     fileInputRef,
     handleFileChange,
     clearSelectedPreview,
-  } = useImagePreview({ existingImageUrl });
+    sizeError,
+  } = useImagePreview({
+    existingImageUrl,
+    maxSize: 1 * 1024 * 1024, // 1MB
+  });
 
   const handleRemove = () => {
     if (selectedPreviewUrl) {
@@ -83,7 +87,9 @@ export function ProfileImageUpload({
             {selectedPreviewUrl ? 'Remove selected' : 'Delete current image'}
           </Button>
         )}
-        {error && <p className="text-sm text-destructive">{error}</p>}
+        {(error || sizeError) && (
+          <p className="text-sm text-destructive">{error || sizeError}</p>
+        )}
       </div>
     </div>
   );

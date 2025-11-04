@@ -84,6 +84,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
         <CoverUpload
           name={FormField.COVER_IMG}
           existingImageUrl={profile.coverImageUrl}
+          error={validationErrors?.fieldErrors.coverImg?.toString()}
         />
         <LabeledControl
           title="Full name"
