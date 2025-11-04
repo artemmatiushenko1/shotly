@@ -1,11 +1,10 @@
 'use client';
-
-import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Upload, Trash2 } from 'lucide-react';
 import { Button, buttonVariants } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
 import { ProfileImagePlaceholder } from './profile-image-placeholder';
+import { useImagePreview } from '@/lib/images/use-image-preview';
 
 type ProfileImageUploadProps = {
   existingImageUrl?: string | null;
@@ -22,51 +21,29 @@ export function ProfileImageUpload({
   error,
   onDeleteExisting,
 }: ProfileImageUploadProps) {
-  const [selectedImagePreview, setSelectedImagePreview] = useState<
-    string | null
-  >(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    return () => {
-      if (selectedImagePreview) {
-        URL.revokeObjectURL(selectedImagePreview);
-      }
-    };
-  }, [selectedImagePreview]);
-
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (selectedImagePreview) {
-        URL.revokeObjectURL(selectedImagePreview);
-      }
-      const previewUrl = URL.createObjectURL(file);
-      setSelectedImagePreview(previewUrl);
-    }
-  };
+  const {
+    displayImageUrl,
+    selectedPreviewUrl,
+    fileInputRef,
+    handleFileChange,
+    clearSelectedPreview,
+  } = useImagePreview({ existingImageUrl });
 
   const handleRemove = () => {
-    if (selectedImagePreview) {
-      URL.revokeObjectURL(selectedImagePreview);
-      setSelectedImagePreview(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+    if (selectedPreviewUrl) {
+      clearSelectedPreview();
     } else if (existingImageUrl && onDeleteExisting) {
       onDeleteExisting();
     }
   };
 
-  const displayImage = selectedImagePreview || existingImageUrl;
-
   return (
     <div className="flex items-start gap-6">
-      {displayImage ? (
+      {displayImageUrl ? (
         <div className="relative h-24 w-24 overflow-hidden rounded-xl border">
           <Image
             fill
-            src={displayImage}
+            src={displayImageUrl}
             alt="Profile preview"
             className="object-cover"
           />
@@ -92,9 +69,9 @@ export function ProfileImageUpload({
           type="file"
           accept="image/jpeg,image/jpg,image/png,image/webp"
           className="hidden"
-          onChange={handleImageSelect}
+          onChange={handleFileChange}
         />
-        {displayImage && (
+        {displayImageUrl && (
           <Button
             type="button"
             variant="ghost"
@@ -103,7 +80,7 @@ export function ProfileImageUpload({
             onClick={handleRemove}
           >
             <Trash2 className="mr-2 h-4 w-4" />
-            {selectedImagePreview ? 'Remove selected' : 'Delete current image'}
+            {selectedPreviewUrl ? 'Remove selected' : 'Delete current image'}
           </Button>
         )}
         {error && <p className="text-sm text-destructive">{error}</p>}
