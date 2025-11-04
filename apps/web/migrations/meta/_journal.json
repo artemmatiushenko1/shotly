@@ -71,6 +71,13 @@
       "when": 1762276372199,
       "tag": "0009_nostalgic_toxin",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1762280664459,
+      "tag": "0010_loose_miss_america",
+      "breakpoints": true
     }
   ]
 }
