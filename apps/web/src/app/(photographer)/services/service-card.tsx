@@ -11,7 +11,7 @@ type ServiceCardProps = {
   description: string;
   price: string;
   priceUnit: string;
-  category: string;
+  categoryName: string;
   deliveryTime: string;
   features: string[];
   isPublic: boolean;
@@ -26,13 +26,15 @@ function ServiceCard(props: ServiceCardProps) {
     description,
     price,
     priceUnit = '',
-    category,
+    categoryName,
     deliveryTime,
     features,
     isPublic,
     onEdit,
     onDelete,
   } = props;
+
+  console.log(features);
 
   // TODO: refactor this to use a more elegant solution
   const featuresLabel =
@@ -72,7 +74,7 @@ function ServiceCard(props: ServiceCardProps) {
           </div>
           <div className="flex flex-col items-start">
             <p className="text-muted-foreground text-xs mb-1">Category</p>
-            <p className="font-medium text-sm">{category}</p>
+            <p className="font-medium text-sm">{categoryName}</p>
           </div>
           <div className="flex flex-col items-start">
             <p className="text-muted-foreground text-xs mb-1">Delivery time</p>
@@ -82,7 +84,7 @@ function ServiceCard(props: ServiceCardProps) {
             </p>
           </div>
           <div className="flex flex-col items-start">
-            <p className="text-muted-foreground text-xs mb-1">features</p>
+            <p className="text-muted-foreground text-xs mb-1">Features</p>
             <p className="inline-flex gap-1 items-center font-medium text-sm w-56">
               <PackageIcon className="text-muted-foreground w-4" />{' '}
               {featuresLabel}
