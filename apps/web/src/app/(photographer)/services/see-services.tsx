@@ -2,10 +2,10 @@
 
 import { Badge } from '@shotly/ui/components/badge';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
-import React, { useState } from 'react';
 import ServiceCard from './service-card';
 import { Service, ServiceStatus } from '@/domain/service';
 import { Category } from '@/domain/category';
+import { useServiceFilter, ServiceFilterTab } from '@/hooks/use-service-filter';
 
 type SeeServicesProps = {
   categories: Category[];
@@ -23,26 +23,15 @@ function SeeServices(props: SeeServicesProps) {
     {} as Record<string, string>,
   );
 
-  // TODo: create a custom hook for this
-  const [selectedTab, setSelectedTab] = useState('All');
-
-  const tabs = ['All', 'Public', 'Private', 'Archived'];
-
-  const counts = {
-    'All': services.length,
-    'Public': services.filter((s) => s.status === ServiceStatus.PUBLIC).length,
-    'Private': services.filter((s) => s.status === ServiceStatus.PRIVATE)
-      .length,
-    'Archived': services.filter((s) => s.status === ServiceStatus.ARCHIVED)
-      .length,
-  };
+  const { selectedTab, setSelectedTab, counts, filteredServices, tabs } =
+    useServiceFilter(services);
 
   return (
     <div className="flex flex-col gap-4">
       <Tabs
         defaultValue="All"
         value={selectedTab}
-        onValueChange={(value) => setSelectedTab(value)}
+        onValueChange={(value) => setSelectedTab(value as ServiceFilterTab)}
       >
         <TabsList>
           {tabs.map((tab) => (
@@ -58,9 +47,9 @@ function SeeServices(props: SeeServicesProps) {
           ))}
         </TabsList>
       </Tabs>
-      {services.map((service) => (
+      {filteredServices.map((service) => (
         <ServiceCard
-          key={service.name}
+          key={service.id}
           coverUrl={service.coverImageUrl}
           name={service.name}
           description={service.description}
