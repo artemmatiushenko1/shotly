@@ -1,11 +1,14 @@
 import { Card, CardDescription } from '@shotly/ui/components/card';
 import Image from 'next/image';
-import React from 'react';
+import React, { startTransition, useActionState } from 'react';
 import { VisibilityBadge } from '../portfolio/visibility-badge';
-import { ClockIcon, EditIcon, PackageIcon, TrashIcon } from 'lucide-react';
+import { ArchiveIcon, ClockIcon, EditIcon, PackageIcon } from 'lucide-react';
 import { Button } from '@shotly/ui/components/button';
+import { ConfirmationDialog } from '@shotly/ui/components/confirmation-dialog';
+import { archiveService } from './actions';
 
 type ServiceCardProps = {
+  id: string;
   coverUrl: string;
   name: string;
   description: string;
@@ -16,11 +19,11 @@ type ServiceCardProps = {
   features: string[];
   isPublic: boolean;
   onEdit?: () => void;
-  onDelete?: () => void;
 };
 
 function ServiceCard(props: ServiceCardProps) {
   const {
+    id,
     coverUrl,
     name,
     description,
@@ -31,10 +34,15 @@ function ServiceCard(props: ServiceCardProps) {
     features,
     isPublic,
     onEdit,
-    onDelete,
   } = props;
 
-  console.log(features);
+  // TODO: check if is better to move it to parent, this component will be destroyed on archive
+  const [state, archiveServiceAction] = useActionState(archiveService, {
+    error: false,
+    success: false,
+  });
+
+  // TODO: display toast notifications for archive service action
 
   // TODO: refactor this to use a more elegant solution
   const featuresLabel =
@@ -100,9 +108,19 @@ function ServiceCard(props: ServiceCardProps) {
         <Button variant="outline" onClick={onEdit}>
           <EditIcon /> Edit
         </Button>
-        <Button variant="ghost" onClick={onDelete}>
-          <TrashIcon /> Delete
-        </Button>
+        <ConfirmationDialog
+          actionSeverity="neutral"
+          title={`Archive "${name}"?`}
+          description="This service will be hidden from your public profile and new clients. You can find and restore it any time from the Archived tab."
+          // TODO: display loading state correctly
+          onConfirm={() => startTransition(() => archiveServiceAction(id))}
+          icon={<ArchiveIcon />}
+          confirmLabel="Archive"
+        >
+          <Button variant="ghost">
+            <ArchiveIcon /> Archive
+          </Button>
+        </ConfirmationDialog>
       </div>
     </Card>
   );

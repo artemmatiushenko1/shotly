@@ -86,3 +86,27 @@ export const createService = async (
     hasErrors: false,
   };
 };
+
+export const archiveService = async (
+  state: {
+    success: boolean;
+    error: boolean;
+  },
+  serviceId: string,
+) => {
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session) {
+    throw new UnauthenticatedError('User must be logged in to create service!');
+  }
+
+  try {
+    // TODO: first check if it exists
+    await servicesRepository.archiveService(serviceId);
+    revalidatePath('/services');
+    return { success: true, error: false };
+  } catch (error: unknown) {
+    console.log({ error });
+    return { success: false, error: true };
+  }
+};

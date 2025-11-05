@@ -50,6 +50,7 @@ function SeeServices(props: SeeServicesProps) {
       {filteredServices.map((service) => (
         <ServiceCard
           key={service.id}
+          id={service.id}
           coverUrl={service.coverImageUrl}
           name={service.name}
           description={service.description}

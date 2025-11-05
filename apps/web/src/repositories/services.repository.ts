@@ -4,11 +4,23 @@ import {
   servicesTable,
   servicesToFeaturesTable,
 } from '@/db/schema';
-import { CreateServiceInput, Service, serviceSchema } from '@/domain/service';
+import {
+  CreateServiceInput,
+  Service,
+  serviceSchema,
+  ServiceStatus,
+} from '@/domain/service';
 import { desc, eq, inArray } from 'drizzle-orm';
 
 // TODO: use drizzle relations
 class ServicesRepository {
+  async archiveService(serviceId: string) {
+    await db
+      .update(servicesTable)
+      .set({ status: ServiceStatus.ARCHIVED })
+      .where(eq(servicesTable.id, serviceId));
+  }
+
   async getAllServices(userId: string): Promise<Service[]> {
     const services = await db
       .select()

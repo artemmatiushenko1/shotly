@@ -12,7 +12,7 @@ import { Service, ServiceStatus } from '@/domain/service';
 
 const MOCK_SERVICES: Service[] = [
   {
-    id: '1',
+    id: 'a848457e-7f89-4139-ad0e-c40c8d5dcd10',
     coverImageUrl:
       'https://trulyphotographyut.com/wp-content/uploads/2019/06/2019-06-26_0093-1024x687.jpg',
     name: 'Family Photoset',
@@ -26,7 +26,7 @@ const MOCK_SERVICES: Service[] = [
     status: ServiceStatus.PUBLIC,
   },
   {
-    id: '2',
+    id: 'a848457e-7f89-4139-ad0e-c40c8d5dcd11',
     coverImageUrl:
       'https://www.shootproof.com/wp-content/uploads/header-sarah-jay-email.jpg',
     name: 'Wedding Documentary',
@@ -40,7 +40,7 @@ const MOCK_SERVICES: Service[] = [
     status: ServiceStatus.PUBLIC,
   },
   {
-    id: '3',
+    id: 'a848457e-7f89-4139-ad0e-c40c8d5dcd12',
     coverImageUrl:
       'https://media.istockphoto.com/id/2099403180/photo/laughing-yougn-businesswoman-standing-with-her-arms-crossed-against-an-office-wall.jpg?s=612x612&w=0&k=20&c=kn6TM5y-26ohkuoAU9FiWn4pYoyVPS7xfWLVyBGj_TA=',
     name: 'Corporate Portraits',
@@ -54,7 +54,7 @@ const MOCK_SERVICES: Service[] = [
     status: ServiceStatus.PRIVATE,
   },
   {
-    id: '4',
+    id: 'a848457e-7f89-4139-ad0e-c40c8d5dcd14',
     coverImageUrl:
       'https://www.xposurestudios.co.uk/wp-content/uploads/2021/03/peekaboo-newborn-photoshoot-034.jpg',
     name: 'Newborn Session',
