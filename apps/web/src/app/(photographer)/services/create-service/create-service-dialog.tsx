@@ -40,6 +40,7 @@ function CreateServiceDialog(props: CreateServiceDialogProps) {
           </div>
         </DialogHeader>
         <div className="flex-1">
+          {/* TODO: close dialog on success */}
           <CreateServiceForm
             categories={categories}
             onCancel={() => setOpen(false)}

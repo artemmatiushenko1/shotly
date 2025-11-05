@@ -29,7 +29,7 @@ enum FormField {
   CATEGORY_ID = 'categoryId',
   PRICE = 'price',
   FEATURES = 'features',
-  DELIVERY_TIME = 'deliveryTime',
+  DELIVERY_TIME_IN_DAYS = 'deliveryTimeInDays',
   STATUS = 'status',
 }
 
@@ -177,9 +177,9 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           min={1}
           max={60}
           placeholder="Enter delivery time"
-          name={FormField.DELIVERY_TIME}
+          name={FormField.DELIVERY_TIME_IN_DAYS}
           id={deliveryTimeId}
-          error={validationErrors?.fieldErrors.deliveryTime?.toString()}
+          error={validationErrors?.fieldErrors.deliveryTimeInDays?.toString()}
         />
       </div>
       <div className="w-full flex justify-between">
@@ -193,12 +193,12 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           </p>
         </div>
         <Switch
-          name={FormField.STATUS}
           checked={status === ServiceStatus.PUBLIC}
           onCheckedChange={(checked) =>
             setStatus(checked ? ServiceStatus.PUBLIC : ServiceStatus.PRIVATE)
           }
         />
+        <input type="hidden" name={FormField.STATUS} value={status} />
       </div>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
         <Button type="button" variant="ghost" onClick={onCancel}>
