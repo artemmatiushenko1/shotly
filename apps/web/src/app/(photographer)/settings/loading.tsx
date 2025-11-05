@@ -7,10 +7,14 @@ import {
 } from '@shotly/ui/components/tabs';
 import { Skeleton } from '@shotly/ui/components/skeleton';
 import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
+import GradientLoadingProgress from '@/components/gradient-progress';
 
 function Loading() {
   return (
     <>
+      <div className="absolute top-0 left-0 right-0 z-50">
+        <GradientLoadingProgress />
+      </div>
       <MainHeader
         title="Settings"
         caption="Manage your details and personal preferences here"
@@ -18,13 +22,13 @@ function Loading() {
       <div className="px-4">
         <Tabs defaultValue="profile">
           <TabsList className="my-3">
-            <TabsTrigger value="profile">
+            <TabsTrigger value="profile" disabled>
               <UserIcon /> Profile
             </TabsTrigger>
-            <TabsTrigger value="general">
+            <TabsTrigger value="general" disabled>
               <Settings2Icon /> General
             </TabsTrigger>
-            <TabsTrigger value="privacy-and-security">
+            <TabsTrigger value="privacy-and-security" disabled>
               <LockIcon />
               Privacy & Security
             </TabsTrigger>
