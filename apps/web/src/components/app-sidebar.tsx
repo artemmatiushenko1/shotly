@@ -128,10 +128,17 @@ export function AppSidebar(props: AppSidebarProps) {
           <Separator />
           <SidebarMenuItem>
             <DropdownMenu>
-              <SidebarMenuButton asChild size="lg">
+              <SidebarMenuButton
+                asChild
+                size="lg"
+                isActive={getIsActiveMenuItem('/settings')}
+              >
                 <Link href="/settings">
                   <SettingsIcon />
                   <span className="mr-auto text-sm">Settings</span>
+                  {getIsActiveMenuItem('/settings') && (
+                    <ChevronRight className="text-fo" />
+                  )}
                 </Link>
               </SidebarMenuButton>
               <SidebarMenuButton asChild size="lg" onClick={handleSignOut}>
