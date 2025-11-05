@@ -7,46 +7,66 @@ import {
 import { CreateServiceInput, Service, serviceSchema } from '@/domain/service';
 import { desc, eq, inArray } from 'drizzle-orm';
 
+// TODO: use drizzle relations
 class ServicesRepository {
   async getAllServices(userId: string): Promise<Service[]> {
-    const servicesQuery = await db
+    const services = await db
       .select()
       .from(servicesTable)
       .where(eq(servicesTable.photographerId, userId))
       .orderBy(desc(servicesTable.createdAt));
 
-    const serviceFeaturesQuery = await db
-      .select({
-        serviceId: servicesToFeaturesTable.serviceId,
-        featureId: servicesToFeaturesTable.featureId,
-      })
-      .from(servicesToFeaturesTable)
-      .where(
-        inArray(
-          servicesToFeaturesTable.serviceId,
-          servicesQuery.map((service) => service.id),
-        ),
-      );
+    if (services.length === 0) {
+      return [];
+    }
 
-    const featuresQuery = await db
+    const serviceIds = services.map((service) => service.id);
+    const serviceFeaturesLinks = await db
+      .select()
+      .from(servicesToFeaturesTable)
+      .where(inArray(servicesToFeaturesTable.serviceId, serviceIds));
+
+    if (serviceFeaturesLinks.length === 0) {
+      return services.map((service) =>
+        serviceSchema.parse({
+          ...service,
+          features: [],
+        }),
+      );
+    }
+
+    const uniqueFeatureIds = [
+      ...new Set(serviceFeaturesLinks.map((link) => link.featureId)),
+    ];
+
+    const features = await db
       .select({
         id: featuresTable.id,
         name: featuresTable.name,
       })
       .from(featuresTable)
-      .where(
-        inArray(
-          featuresTable.id,
-          serviceFeaturesQuery.map(
-            (serviceFeature) => serviceFeature.featureId,
-          ),
-        ),
-      );
+      .where(inArray(featuresTable.id, uniqueFeatureIds));
 
-    return servicesQuery.map((service) =>
+    const featuresMap = new Map<string, string>();
+    for (const feature of features) {
+      featuresMap.set(feature.id, feature.name);
+    }
+
+    const serviceToFeaturesMap = new Map<string, string[]>();
+    for (const link of serviceFeaturesLinks) {
+      const featureName = featuresMap.get(link.featureId);
+      if (!featureName) continue;
+
+      if (!serviceToFeaturesMap.has(link.serviceId)) {
+        serviceToFeaturesMap.set(link.serviceId, []);
+      }
+      serviceToFeaturesMap.get(link.serviceId)!.push(featureName);
+    }
+
+    return services.map((service) =>
       serviceSchema.parse({
         ...service,
-        features: featuresQuery.map((feature) => feature.name),
+        features: serviceToFeaturesMap.get(service.id) || [],
       }),
     );
   }
