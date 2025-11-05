@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '@shotly/ui/globals.css';
+import { Toaster } from '@shotly/ui/components/sonner';
 
 const interSans = Inter({
   variable: '--font-inter-sans',
@@ -23,6 +24,7 @@ export default function RootLayout({
         className={`${interSans.variable} antialiased font-[family-name:var(--font-inter-sans)] has-data-[slot=sidebar-wrapper]:bg-sidebar`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );
