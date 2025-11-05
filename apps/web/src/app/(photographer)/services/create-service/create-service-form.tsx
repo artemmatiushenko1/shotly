@@ -42,6 +42,7 @@ type CreateServiceFormProps = {
 
 function CreateServiceForm(props: CreateServiceFormProps) {
   const { categories, onCancel } = props;
+
   const [state, formAction, pending] = useActionState(createService, {
     hasErrors: false,
     validationErrors: undefined,
@@ -51,11 +52,15 @@ function CreateServiceForm(props: CreateServiceFormProps) {
 
   const [features, setFeatures] = useState<string[]>([]);
   const [feature, setfeature] = useState('');
+
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [status, setStatus] = useState<ServiceStatus>(ServiceStatus.PRIVATE);
 
   const nameId = useId();
   const descriptionId = useId();
+  const priceId = useId();
+  const featuresId = useId();
+  const deliveryTimeId = useId();
 
   return (
     <form className="space-y-5" action={formAction}>
@@ -124,21 +129,24 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           />
         </div>
         <div className="grid gap-3 w-full">
-          <Label htmlFor="username-1">Price </Label>
+          <Label htmlFor={priceId}>Price </Label>
           <Input
             placeholder="Enter price"
             name={FormField.PRICE}
+            id={priceId}
             error={validationErrors?.fieldErrors.price?.toString()}
           />
         </div>
       </div>
       <div className="grid gap-3 w-full">
-        <Label htmlFor="username-1">features</Label>
+        <Label htmlFor={featuresId}>Features list</Label>
+        {/* TODO: Specify UX friendly description for this field (what are features etc.) */}
         <div className="w-full flex gap-3">
           <Input
             placeholder="Specify features"
             value={feature}
             onChange={(e) => setfeature(e.target.value)}
+            id={featuresId}
             className="flex-1"
             error={validationErrors?.fieldErrors.features?.toString()}
           />
@@ -163,13 +171,14 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         />
       </div>
       <div className="grid gap-3 w-full">
-        <Label htmlFor="username-1">Delivery Time (full days) </Label>
+        <Label htmlFor={deliveryTimeId}>Delivery Time (full days) </Label>
         <Input
           type="number"
           min={1}
           max={60}
           placeholder="Enter delivery time"
           name={FormField.DELIVERY_TIME}
+          id={deliveryTimeId}
           error={validationErrors?.fieldErrors.deliveryTime?.toString()}
         />
       </div>
