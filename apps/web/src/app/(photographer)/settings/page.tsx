@@ -55,19 +55,22 @@ const Settings = async () => {
               Privacy & Security
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="general">
-            <GeneralSettings />
-          </TabsContent>
-          <TabsContent value="profile">
-            <ProfileSettings
-              profile={profile}
-              languageOptions={languages}
-              userId={userId}
-            />
-          </TabsContent>
-          <TabsContent value="privacy-and-security">
-            <PrivacyAndSecuritySettings />
-          </TabsContent>
+          {/* TODO: create a wrapper component for animation */}
+          <div className="animate-in fade-in duration-300">
+            <TabsContent value="general">
+              <GeneralSettings />
+            </TabsContent>
+            <TabsContent value="profile">
+              <ProfileSettings
+                profile={profile}
+                languageOptions={languages}
+                userId={userId}
+              />
+            </TabsContent>
+            <TabsContent value="privacy-and-security">
+              <PrivacyAndSecuritySettings />
+            </TabsContent>
+          </div>
         </Tabs>
       </div>
     </>
