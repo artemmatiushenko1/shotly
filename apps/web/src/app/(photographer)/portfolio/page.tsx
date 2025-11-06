@@ -17,9 +17,9 @@ function Portfolio() {
           )
         }
       />
-      <div className="p-2 pt-4">
-        <CollectionsGrid collections={cardsData} />
-      </div>
+      {/* <div className="p-2 pt-4"> */}
+      <CollectionsGrid collections={cardsData} />
+      {/* </div> */}
     </div>
   );
 }

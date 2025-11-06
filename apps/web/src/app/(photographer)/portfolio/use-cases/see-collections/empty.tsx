@@ -2,7 +2,7 @@ import { CreateCollectionDialog } from '../create-collection/create-collection-d
 
 function Empty() {
   return (
-    <div className="w-full flex items-center justify-center flex-col">
+    <div className="w-full flex items-center justify-center flex-col flex-1">
       <svg
         width="250"
         height="200"
