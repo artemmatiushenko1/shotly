@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import CollectionCard from './collection-card';
+import Empty from './empty';
 
 type CollectionsGridProps = {
   collections: {
@@ -12,7 +13,16 @@ type CollectionsGridProps = {
     id: string;
   }[];
 };
+
 const CollectionsGrid = ({ collections }: CollectionsGridProps) => {
+  if (collections.length === 0) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <Empty />
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {collections.map((collection) => (

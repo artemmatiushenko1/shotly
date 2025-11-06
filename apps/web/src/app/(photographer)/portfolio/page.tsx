@@ -1,19 +1,9 @@
-import React from 'react';
-import Empty from './empty';
 import { cardsData } from './data';
 import MainHeader from '@/components/main-header';
-import { CreateCollectionDialog } from './create-collection-dialog';
-import { CollectionsGrid } from './collections-grid';
+import { CreateCollectionDialog } from './use-cases/create-collection/create-collection-dialog';
+import { CollectionsGrid } from './use-cases/see-collections/collections-grid';
 
 function Portfolio() {
-  if (cardsData.length === 0) {
-    return (
-      <div className="h-full flex items-center justify-center">
-        <Empty />
-      </div>
-    );
-  }
-
   return (
     <div className="h-full flex flex-col">
       <MainHeader

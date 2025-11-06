@@ -1,5 +1,4 @@
-import React from 'react';
-import { CreateCollectionDialog } from './create-collection-dialog';
+import { CreateCollectionDialog } from '../create-collection/create-collection-dialog';
 
 function Empty() {
   return (
