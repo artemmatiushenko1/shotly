@@ -2,10 +2,17 @@ import { Card, CardDescription } from '@shotly/ui/components/card';
 import Image from 'next/image';
 import React, { startTransition, useActionState } from 'react';
 import { VisibilityBadge } from '../portfolio/visibility-badge';
-import { ArchiveIcon, ClockIcon, EditIcon, PackageIcon } from 'lucide-react';
+import {
+  ArchiveIcon,
+  ArchiveRestoreIcon,
+  ClockIcon,
+  EditIcon,
+  PackageIcon,
+} from 'lucide-react';
 import { Button } from '@shotly/ui/components/button';
 import { ConfirmationDialog } from '@shotly/ui/components/confirmation-dialog';
 import { archiveService } from './actions';
+import { ServiceStatus } from '@/domain/service';
 
 type ServiceCardProps = {
   id: string;
@@ -17,7 +24,8 @@ type ServiceCardProps = {
   categoryName: string;
   deliveryTime: string;
   features: string[];
-  isPublic: boolean;
+  // isPublic: boolean;
+  status: ServiceStatus;
   onEdit?: () => void;
 };
 
@@ -32,7 +40,7 @@ function ServiceCard(props: ServiceCardProps) {
     categoryName,
     deliveryTime,
     features,
-    isPublic,
+    status,
     onEdit,
   } = props;
 
@@ -100,14 +108,16 @@ function ServiceCard(props: ServiceCardProps) {
           </div>
           <div className="flex flex-col items-start">
             <p className="text-muted-foreground text-xs mb-1">Status</p>
-            <VisibilityBadge isPublic={isPublic} />
+            <VisibilityBadge isPublic={status === ServiceStatus.PUBLIC} />
           </div>
         </div>
       </div>
       <div className="flex flex-col gap-2 p-3">
-        <Button variant="outline" onClick={onEdit}>
-          <EditIcon /> Edit
-        </Button>
+        {status !== ServiceStatus.ARCHIVED && (
+          <Button variant="outline" onClick={onEdit}>
+            <EditIcon /> Edit
+          </Button>
+        )}
         <ConfirmationDialog
           actionSeverity="neutral"
           title={`Archive "${name}"?`}
@@ -117,9 +127,19 @@ function ServiceCard(props: ServiceCardProps) {
           icon={<ArchiveIcon />}
           confirmLabel="Archive"
         >
-          <Button variant="ghost">
-            <ArchiveIcon /> Archive
-          </Button>
+          <div>
+            {status !== ServiceStatus.ARCHIVED && (
+              <Button variant="ghost">
+                <ArchiveIcon /> Archive
+              </Button>
+            )}
+            {/* TODO: implement restore service action */}
+            {status === ServiceStatus.ARCHIVED && (
+              <Button variant="ghost">
+                <ArchiveRestoreIcon /> Restore
+              </Button>
+            )}
+          </div>
         </ConfirmationDialog>
       </div>
     </Card>

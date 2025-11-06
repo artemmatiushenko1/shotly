@@ -14,12 +14,20 @@ const takeServicesByStatus = (services: Service[], status: ServiceStatus) => {
   return services.filter((service) => service.status === status);
 };
 
+const excludeArchivedServices = (services: Service[]) => {
+  return services.filter(
+    (service) => service.status !== ServiceStatus.ARCHIVED,
+  );
+};
+
+// TODO: move hook to services folder
+
 export function useServiceFilter(services: Service[]) {
   const [selectedTab, setSelectedTab] = useState<ServiceFilterTab>('All');
 
   const counts = useMemo(
     () => ({
-      All: services.length,
+      All: excludeArchivedServices(services).length,
       Public: takeServicesByStatus(services, ServiceStatus.PUBLIC).length,
       Private: takeServicesByStatus(services, ServiceStatus.PRIVATE).length,
       Archived: takeServicesByStatus(services, ServiceStatus.ARCHIVED).length,
@@ -29,7 +37,7 @@ export function useServiceFilter(services: Service[]) {
 
   const filteredServices = useMemo(() => {
     if (selectedTab === 'All') {
-      return services;
+      return excludeArchivedServices(services);
     }
 
     const statusMap: Record<ServiceFilterTab, ServiceStatus | null> = {

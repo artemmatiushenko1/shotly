@@ -3,7 +3,7 @@
 import { Badge } from '@shotly/ui/components/badge';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 import ServiceCard from './service-card';
-import { Service, ServiceStatus } from '@/domain/service';
+import { Service } from '@/domain/service';
 import { Category } from '@/domain/category';
 import { useServiceFilter, ServiceFilterTab } from '@/hooks/use-service-filter';
 
@@ -58,7 +58,7 @@ function SeeServices(props: SeeServicesProps) {
           priceUnit={service.currency}
           deliveryTime={service.deliveryTimeInDays.toString()}
           features={service.features}
-          isPublic={service.status === ServiceStatus.PUBLIC}
+          status={service.status}
           categoryName={categoryMap[service.categoryId] ?? '-'}
         />
       ))}
