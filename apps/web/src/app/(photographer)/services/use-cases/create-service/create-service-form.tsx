@@ -20,7 +20,7 @@ import { PlusCircleIcon } from 'lucide-react';
 import { Badge } from '@shotly/ui/components/badge';
 import { Category } from '@/domain/category';
 import { ServiceStatus } from '@/domain/service';
-import { createService } from '../actions';
+import { createService } from './actions';
 
 enum FormField {
   NAME = 'name',

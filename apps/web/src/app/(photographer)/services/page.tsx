@@ -1,8 +1,8 @@
 import MainHeader from '@/components/main-header';
 import { Button } from '@shotly/ui/components/button';
 import { PlusIcon } from 'lucide-react';
-import CreateServiceDialog from './create-service/create-service-dialog';
-import SeeServices from './see-services';
+import CreateServiceDialog from './use-cases/create-service/create-service-dialog';
+import ServicesList from './use-cases/see-services/services-list';
 import categoriesRepository from '@/repositories/categories.repository';
 import servicesRepository from '@/repositories/services.repository';
 import { auth } from '@/lib/auth/auth';
@@ -95,7 +95,7 @@ async function Services() {
         }
       />
       <div className="p-4 animate-in fade-in duration-300">
-        <SeeServices
+        <ServicesList
           categories={categories}
           services={[...MOCK_SERVICES, ...services]}
         />

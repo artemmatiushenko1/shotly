@@ -5,14 +5,17 @@ import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 import ServiceCard from './service-card';
 import { Service } from '@/domain/service';
 import { Category } from '@/domain/category';
-import { useServiceFilter, ServiceFilterTab } from '@/hooks/use-service-filter';
+import {
+  useServiceFilter,
+  ServiceFilterTab,
+} from '@/app/(photographer)/services/use-cases/see-services/use-service-filter';
 
-type SeeServicesProps = {
+type ServicesListProps = {
   categories: Category[];
   services: Service[];
 };
 
-function SeeServices(props: SeeServicesProps) {
+function ServicesList(props: ServicesListProps) {
   const { categories, services } = props;
 
   const categoryMap = categories.reduce(
@@ -66,4 +69,4 @@ function SeeServices(props: SeeServicesProps) {
   );
 }
 
-export default SeeServices;
+export default ServicesList;
