@@ -2,8 +2,13 @@ import { cardsData } from './data';
 import MainHeader from '@/components/main-header';
 import { CreateCollectionDialog } from './use-cases/create-collection/create-collection-dialog';
 import { CollectionsGrid } from './use-cases/see-collections/collections-grid';
+import { PlusIcon } from 'lucide-react';
+import { Button } from '@shotly/ui/components/button';
+import categoriesRepository from '@/repositories/categories.repository';
 
-function Portfolio() {
+async function Portfolio() {
+  const categories = await categoriesRepository.getCategories();
+
   return (
     <div className="h-full flex flex-col">
       <MainHeader
@@ -12,14 +17,16 @@ function Portfolio() {
         extra={
           cardsData.length > 0 && (
             <div className="ml-auto">
-              <CreateCollectionDialog />
+              <CreateCollectionDialog categories={categories}>
+                <Button>
+                  <PlusIcon /> Collection
+                </Button>
+              </CreateCollectionDialog>
             </div>
           )
         }
       />
-      {/* <div className="p-2 pt-4"> */}
       <CollectionsGrid collections={cardsData} />
-      {/* </div> */}
     </div>
   );
 }

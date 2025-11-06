@@ -1,4 +1,6 @@
+import { Button } from '@shotly/ui/components/button';
 import { CreateCollectionDialog } from '../create-collection/create-collection-dialog';
+import { PlusIcon } from 'lucide-react';
 
 function Empty() {
   return (
@@ -86,7 +88,11 @@ function Empty() {
           photos and present your work to potential clients with ease
         </p>
         <div className="mt-4">
-          <CreateCollectionDialog />
+          <CreateCollectionDialog categories={[]}>
+            <Button>
+              <PlusIcon /> Collection
+            </Button>
+          </CreateCollectionDialog>
         </div>
       </div>
     </div>
