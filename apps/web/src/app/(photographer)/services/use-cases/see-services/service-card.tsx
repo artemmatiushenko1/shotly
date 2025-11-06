@@ -1,7 +1,7 @@
 import { Card, CardDescription } from '@shotly/ui/components/card';
 import Image from 'next/image';
 import React, { startTransition, useActionState } from 'react';
-import { VisibilityBadge } from '../../../portfolio/visibility-badge';
+import { VisibilityBadge } from '../../../ui/visibility-badge';
 import {
   ArchiveIcon,
   ArchiveRestoreIcon,

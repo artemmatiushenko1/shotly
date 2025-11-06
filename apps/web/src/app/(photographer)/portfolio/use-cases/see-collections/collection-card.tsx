@@ -3,7 +3,7 @@ import { Button } from '@shotly/ui/components/button';
 import { Card, CardContent } from '@shotly/ui/components/card';
 import { CalendarIcon, EllipsisVertical, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
-import { VisibilityBadge } from '../../visibility-badge';
+import { VisibilityBadge } from '../../../ui/visibility-badge';
 
 type CollectionCardProps = {
   isPublic?: boolean;

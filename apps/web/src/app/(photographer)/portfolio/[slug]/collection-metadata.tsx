@@ -1,6 +1,6 @@
 import { IconWithText } from '@/components/icon-with-text';
 import { CalendarIcon, ImagesIcon, MapPinIcon, TagIcon } from 'lucide-react';
-import { VisibilityBadge } from '../visibility-badge';
+import { VisibilityBadge } from '../../ui/visibility-badge';
 
 type CollectionMetadataProps = {
   isPublic: boolean;
