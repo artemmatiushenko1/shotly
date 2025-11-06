@@ -1,3 +1,5 @@
+'use server';
+
 import { UnauthenticatedError } from '@/domain/errors/auth';
 import { auth } from '@/lib/auth/auth';
 import servicesRepository from '@/repositories/services.repository';
