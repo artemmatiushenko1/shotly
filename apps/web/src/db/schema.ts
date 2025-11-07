@@ -12,6 +12,7 @@ import {
   unique,
   index,
   uniqueIndex,
+  date,
 } from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('user', {
@@ -85,23 +86,36 @@ export const collectionViewStatus = pgEnum('view_status', [
   'private',
 ]);
 
-export const collectionsTable = pgTable('collection', {
-  id: text('id').primaryKey(),
-  name: text('name').notNull(),
-  description: text('description'),
-  location: text('location'),
-  category: text('category').notNull(),
-  coverUrl: text('cover_url'),
-  status: collectionViewStatus()
-    .$defaultFn(() => 'private')
-    .notNull(),
-  createdAt: timestamp('created_at').$defaultFn(
-    () => /* @__PURE__ */ new Date(),
-  ),
-  updatedAt: timestamp('updated_at').$defaultFn(
-    () => /* @__PURE__ */ new Date(),
-  ),
-});
+export const collectionsTable = pgTable(
+  'collections',
+  {
+    id: text('id').primaryKey(),
+    name: text('name').notNull(),
+    description: text('description'),
+    coverImageUrl: text('cover_image_url'),
+    visibilityStatus: collectionViewStatus('visibility_status')
+      .notNull()
+      .default('private'),
+    shootDate: date('shoot_date'),
+    photographerId: text('photographer_id')
+      .notNull()
+      .references(() => usersTable.id, { onDelete: 'cascade' }),
+    categoryId: uuid('category_id')
+      .notNull()
+      .references(() => categoriesTable.id, { onDelete: 'restrict' }),
+    // TODO: use withTimezone: true
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+    archivedAt: timestamp('archived_at'),
+  },
+  (table) => [
+    // Ensures a collection name is unique per photographer.
+    uniqueIndex('collection_photographer_name_idx').on(
+      table.photographerId,
+      table.name,
+    ),
+  ],
+);
 
 export const languagesTable = pgTable('languages', {
   code: text('code').primaryKey(), // ISO 639-1 code
@@ -175,7 +189,7 @@ export const featuresTable = pgTable(
 export const serviceStatusEnum = pgEnum('service_status', [
   'public',
   'private',
-  'archived',
+  'archived', // TODO: use archivedAt timestamp instead
 ]);
 
 export const servicesTable = pgTable('services', {
