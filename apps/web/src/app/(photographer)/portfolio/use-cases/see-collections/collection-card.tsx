@@ -4,6 +4,7 @@ import { Card, CardContent } from '@shotly/ui/components/card';
 import { CalendarIcon, EllipsisVertical, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
 import { VisibilityBadge } from '../../../ui/visibility-badge';
+import { ImagePlaceholder } from '@/app/(photographer)/portfolio/use-cases/see-collections/image-placeholder';
 
 type CollectionCardProps = {
   isPublic?: boolean;
@@ -28,13 +29,17 @@ function CollectionCard(props: CollectionCardProps) {
     <Card className="bg-muted/20 rounded-xl shadow-none overflow-hidden p-0 gap-0 cursor-pointer hover:bg-accent/50">
       <div className="relative">
         <div className="p-2">
-          <Image
-            width={200}
-            height={300}
-            src={coverSrc}
-            alt="Modern loft interior"
-            className="object-cover w-full h-48 rounded-md"
-          />
+          {coverSrc ? (
+            <Image
+              width={200}
+              height={300}
+              src={coverSrc}
+              alt={title}
+              className="object-cover w-full h-48 rounded-md"
+            />
+          ) : (
+            <ImagePlaceholder className="w-full h-48 rounded-md" alt={title} />
+          )}
         </div>
         <VisibilityBadge
           isPublic={isPublic}

@@ -5,6 +5,7 @@ import {
   Collection,
   collectionSchema,
 } from '@/domain/collection';
+import { eq } from 'drizzle-orm';
 
 class CollectionsRepository {
   async createCollection(
@@ -37,6 +38,20 @@ class CollectionsRepository {
       ...collection,
       shootDate: new Date(collection.shootDate),
     });
+  }
+
+  async getAllCollections(userId: string): Promise<Collection[]> {
+    const collections = await db
+      .select()
+      .from(collectionsTable)
+      .where(eq(collectionsTable.photographerId, userId));
+
+    return collections.map((collection) =>
+      collectionSchema.parse({
+        ...collection,
+        shootDate: new Date(collection.shootDate),
+      }),
+    );
   }
 }
 

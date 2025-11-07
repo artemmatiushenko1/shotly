@@ -1,17 +1,12 @@
 import Link from 'next/link';
 import CollectionCard from './collection-card';
 import Empty from './empty';
+import { Collection } from '@/domain/collection';
+import { VisibilityStatus } from '@/domain/common';
+import { formatDateWithOrdinal } from '@/utils/date-formatting';
 
 type CollectionsGridProps = {
-  collections: {
-    isPublic: boolean;
-    title: string;
-    description: string;
-    imagesCount: number;
-    createdAt: string;
-    coverSrc: string;
-    id: string;
-  }[];
+  collections: Collection[];
 };
 
 const CollectionsGrid = ({ collections }: CollectionsGridProps) => {
@@ -24,12 +19,12 @@ const CollectionsGrid = ({ collections }: CollectionsGridProps) => {
       {collections.map((collection) => (
         <Link key={collection.id} href={`/portfolio/${collection.id}`}>
           <CollectionCard
-            isPublic={collection.isPublic}
-            title={collection.title}
-            description={collection.description}
-            imagesCount={collection.imagesCount}
-            createdAt={collection.createdAt}
-            coverSrc={collection.coverSrc}
+            isPublic={collection.visibilityStatus === VisibilityStatus.PUBLIC}
+            title={collection.name}
+            description={collection.description ?? ''}
+            imagesCount={0} // TODO: create method to get images summary per collection map
+            createdAt={formatDateWithOrdinal(collection.shootDate)}
+            coverSrc={collection.coverImageUrl ?? ''}
           />
         </Link>
       ))}
