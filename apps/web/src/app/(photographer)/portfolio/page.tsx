@@ -39,7 +39,9 @@ async function Portfolio() {
           )
         }
       />
-      <CollectionsGrid collections={[...MOCK_COLLECTIONS, ...collections]} />
+      <div className="animate-in fade-in duration-300">
+        <CollectionsGrid collections={[...MOCK_COLLECTIONS, ...collections]} />
+      </div>
     </div>
   );
 }
