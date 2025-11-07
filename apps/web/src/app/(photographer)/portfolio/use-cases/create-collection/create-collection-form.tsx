@@ -111,7 +111,7 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
           Cancel
         </Button>
         <Button type="submit" loading={false}>
-          Save Changes
+          Continue
         </Button>
       </div>
     </form>
