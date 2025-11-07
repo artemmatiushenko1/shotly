@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useActionState, useId } from 'react';
 import { Category } from '@/domain/category';
 import { Button } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';
@@ -23,6 +23,14 @@ import {
 import { Calendar } from '@shotly/ui/components/calendar';
 import { CalendarIcon } from 'lucide-react';
 import dayjs from 'dayjs';
+import { createCollection } from './actions';
+
+enum FormField {
+  NAME = 'name',
+  DESCRIPTION = 'description',
+  CATEGORY_ID = 'categoryId',
+  SHOOT_DATE = 'shootDate',
+}
 
 type CreateCollectionFormProps = {
   categories: Category[];
@@ -31,47 +39,80 @@ type CreateCollectionFormProps = {
 
 function CreateCollectionForm(props: CreateCollectionFormProps) {
   const { categories, onCancel } = props;
+
   const [shootDate, setShootDate] = useState<Date | undefined>();
+  const [categoryId, setCategoryId] = useState<string>('');
+
+  const [state, formAction, pending] = useActionState(createCollection, {
+    hasErrors: false,
+    validationErrors: undefined,
+  });
+
+  const { validationErrors } = state;
+
+  const nameId = useId();
+  const descriptionId = useId();
+  const categoryIdInputId = useId();
+  const shootDateId = useId();
 
   return (
-    <form className="space-y-5">
+    <form className="space-y-5" action={formAction}>
       <div className="grid gap-3">
-        <Label htmlFor="name-1">Collection Name</Label>
-        <Input id="name-1" name="name" placeholder="Enter collection name" />
+        <Label htmlFor={nameId}>Collection Name</Label>
+        <Input
+          id={nameId}
+          name={FormField.NAME}
+          placeholder="Enter collection name"
+          error={validationErrors?.fieldErrors.name?.toString()}
+        />
       </div>
       <div className="grid gap-3">
-        <Label htmlFor="username-1">Description</Label>
+        <Label htmlFor={descriptionId}>Description</Label>
         <Textarea
+          id={descriptionId}
+          name={FormField.DESCRIPTION}
           showCharsCount
           maxChars={500}
           placeholder="Add description for your collection"
+          error={validationErrors?.fieldErrors.description?.toString() ?? ''}
         />
       </div>
-      <div className="flex space-x-3">
+      <div className="flex space-x-3 items-start">
         <div className="grid gap-3 w-full">
-          <Label htmlFor="username-1">Category</Label>
-          <Select>
-            <SelectTrigger className="w-full">
+          <Label htmlFor={categoryIdInputId}>Category</Label>
+          <Select value={categoryId ?? ''} onValueChange={setCategoryId}>
+            <SelectTrigger className="w-full" id={categoryIdInputId}>
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Categories</SelectLabel>
                 {categories.map((category) => (
-                  <SelectItem key={category.id} value={category.name}>
+                  <SelectItem key={category.id} value={category.id}>
                     {category.name}
                   </SelectItem>
                 ))}
               </SelectGroup>
             </SelectContent>
           </Select>
+          {validationErrors?.fieldErrors.categoryId?.toString() && (
+            <div className="text-sm text-destructive mt-2">
+              {validationErrors?.fieldErrors.categoryId?.toString()}
+            </div>
+          )}
+          <input
+            type="hidden"
+            name={FormField.CATEGORY_ID}
+            value={categoryId}
+          />
         </div>
         <div className="grid gap-3 w-full">
-          <Label htmlFor="shoot-date">Shoot Date</Label>
+          <Label htmlFor={shootDateId}>Shoot Date</Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                id="shoot-date"
+                id={shootDateId}
+                type="button"
                 variant="outline"
                 data-empty={!shootDate}
                 className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
@@ -96,21 +137,26 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
               />
             </PopoverContent>
           </Popover>
-          {/* TODO: add tags input */}
           {shootDate && (
             <input
               type="hidden"
-              name="shootDate"
+              name={FormField.SHOOT_DATE}
               value={shootDate.toISOString()}
             />
           )}
+          {validationErrors?.fieldErrors.shootDate?.toString() && (
+            <div className="text-sm text-destructive mt-2">
+              {validationErrors?.fieldErrors.shootDate?.toString()}
+            </div>
+          )}
+          {/* TODO: add tags input */}
         </div>
       </div>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
         <Button type="button" variant="ghost" onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="submit" loading={false}>
+        <Button type="submit" loading={pending}>
           Continue
         </Button>
       </div>

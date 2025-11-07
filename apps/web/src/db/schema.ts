@@ -89,14 +89,14 @@ export const collectionViewStatus = pgEnum('view_status', [
 export const collectionsTable = pgTable(
   'collections',
   {
-    id: text('id').primaryKey(),
+    id: uuid('id').defaultRandom().primaryKey(),
     name: text('name').notNull(),
     description: text('description'),
     coverImageUrl: text('cover_image_url'),
     visibilityStatus: collectionViewStatus('visibility_status')
       .notNull()
       .default('private'),
-    shootDate: date('shoot_date'),
+    shootDate: date('shoot_date').notNull(),
     photographerId: text('photographer_id')
       .notNull()
       .references(() => usersTable.id, { onDelete: 'cascade' }),
