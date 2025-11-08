@@ -26,6 +26,7 @@ import dayjs from 'dayjs';
 import { createCollection } from './actions';
 import { cn } from '@shotly/ui/lib/utils';
 import { Collection } from '@/domain/collection';
+import { useTranslations } from 'next-intl';
 
 enum FormField {
   NAME = 'name',
@@ -43,13 +44,9 @@ type CreateCollectionFormProps = {
 };
 
 function CreateCollectionForm(props: CreateCollectionFormProps) {
-  const {
-    defaultValues,
-    categories,
-    submitButtonText = 'Continue',
-    onCancel,
-    className,
-  } = props;
+  const { defaultValues, categories, submitButtonText, onCancel, className } =
+    props;
+  const t = useTranslations('portfolio.createCollectionDialog.form');
 
   const [shootDate, setShootDate] = useState<Date | undefined>(
     defaultValues?.shootDate,
@@ -76,37 +73,39 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
       action={formAction}
     >
       <div className="grid gap-3">
-        <Label htmlFor={nameId}>Collection Name</Label>
+        <Label htmlFor={nameId}>{t('fields.name.label')}</Label>
         <Input
           id={nameId}
           name={FormField.NAME}
-          placeholder="Enter collection name"
+          placeholder={t('fields.name.placeholder')}
           defaultValue={defaultValues?.name}
           error={validationErrors?.fieldErrors.name?.toString()}
         />
       </div>
       <div className="grid gap-3">
-        <Label htmlFor={descriptionId}>Description</Label>
+        <Label htmlFor={descriptionId}>{t('fields.description.label')}</Label>
         <Textarea
           id={descriptionId}
           name={FormField.DESCRIPTION}
           showCharsCount
           maxChars={500}
-          placeholder="Add description for your collection"
+          placeholder={t('fields.description.placeholder')}
           defaultValue={defaultValues?.description ?? undefined}
           error={validationErrors?.fieldErrors.description?.toString() ?? ''}
         />
       </div>
       <div className="flex space-x-3 items-start">
         <div className="grid gap-3 w-full">
-          <Label htmlFor={categoryIdInputId}>Category</Label>
+          <Label htmlFor={categoryIdInputId}>
+            {t('fields.category.label')}
+          </Label>
           <Select value={categoryId ?? ''} onValueChange={setCategoryId}>
             <SelectTrigger className="w-full" id={categoryIdInputId}>
-              <SelectValue placeholder="Select a category" />
+              <SelectValue placeholder={t('fields.category.placeholder')} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Categories</SelectLabel>
+                <SelectLabel>{t('fields.category.groupLabel')}</SelectLabel>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
                     {category.name}
@@ -127,7 +126,7 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
           />
         </div>
         <div className="grid gap-3 w-full">
-          <Label htmlFor={shootDateId}>Shoot Date</Label>
+          <Label htmlFor={shootDateId}>{t('fields.shootDate.label')}</Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -140,7 +139,7 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
                 {shootDate ? (
                   dayjs(shootDate).format('MMMM D, YYYY')
                 ) : (
-                  <span>Pick a date</span>
+                  <span>{t('fields.shootDate.placeholder')}</span>
                 )}
                 <CalendarIcon className="ml-auto size-4 opacity-50" />
               </Button>
@@ -174,10 +173,10 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
       </div>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
         <Button type="button" variant="ghost" onClick={onCancel}>
-          Cancel
+          {t('actions.cancel')}
         </Button>
         <Button type="submit" loading={pending}>
-          {submitButtonText}
+          {submitButtonText ?? t('actions.continue')}
         </Button>
       </div>
     </form>

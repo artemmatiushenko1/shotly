@@ -21,6 +21,7 @@ import { Badge } from '@shotly/ui/components/badge';
 import { Category } from '@/domain/category';
 import { ServiceStatus } from '@/domain/service';
 import { createService } from './actions';
+import { useTranslations } from 'next-intl';
 
 enum FormField {
   NAME = 'name',
@@ -42,6 +43,7 @@ type CreateServiceFormProps = {
 
 function CreateServiceForm(props: CreateServiceFormProps) {
   const { categories, onCancel } = props;
+  const t = useTranslations('services.createServiceDialog.form');
 
   const [state, formAction, pending] = useActionState(createService, {
     hasErrors: false,
@@ -66,18 +68,19 @@ function CreateServiceForm(props: CreateServiceFormProps) {
     <form className="space-y-5" action={formAction}>
       <div className="grid gap-3">
         <Label htmlFor={nameId}>
-          Service Name <span className="text-destructive">*</span>
+          {t('fields.name.label')} <span className="text-destructive">*</span>
         </Label>
         <Input
           id={nameId}
           name={FormField.NAME}
-          placeholder="Enter service name"
+          placeholder={t('fields.name.placeholder')}
           error={validationErrors?.fieldErrors.name?.toString()}
         />
       </div>
       <div className="grid gap-3">
         <Label>
-          Upload cover image <span className="text-destructive">*</span>
+          {t('fields.coverImage.label')}{' '}
+          <span className="text-destructive">*</span>
         </Label>
         <CoverUpload
           name={FormField.COVER_IMAGE}
@@ -86,28 +89,30 @@ function CreateServiceForm(props: CreateServiceFormProps) {
       </div>
       <div className="grid gap-3">
         <Label htmlFor={descriptionId}>
-          Description{' '}
-          <span className="text-xs text-muted-foreground">(optional)</span>
+          {t('fields.description.label')}{' '}
+          <span className="text-xs text-muted-foreground">
+            ({t('fields.description.optional')})
+          </span>
         </Label>
         <Textarea
           showCharsCount
           name={FormField.DESCRIPTION}
           id={descriptionId}
           maxChars={500}
-          placeholder="Add description for your collection"
+          placeholder={t('fields.description.placeholder')}
           error={validationErrors?.fieldErrors.description?.toString() ?? ''}
         />
       </div>
       <div className="flex space-x-3 items-start">
         <div className="grid gap-3 w-full">
-          <Label htmlFor="username-1">Category</Label>
+          <Label htmlFor="username-1">{t('fields.category.label')}</Label>
           <Select value={categoryId ?? undefined} onValueChange={setCategoryId}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a category" />
+              <SelectValue placeholder={t('fields.category.placeholder')} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Categories</SelectLabel>
+                <SelectLabel>{t('fields.category.groupLabel')}</SelectLabel>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
                     {category.name}
@@ -129,9 +134,9 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           />
         </div>
         <div className="grid gap-3 w-full">
-          <Label htmlFor={priceId}>Price </Label>
+          <Label htmlFor={priceId}>{t('fields.price.label')}</Label>
           <Input
-            placeholder="Enter price"
+            placeholder={t('fields.price.placeholder')}
             name={FormField.PRICE}
             id={priceId}
             error={validationErrors?.fieldErrors.price?.toString()}
@@ -139,11 +144,11 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         </div>
       </div>
       <div className="grid gap-3 w-full">
-        <Label htmlFor={featuresId}>Features list</Label>
+        <Label htmlFor={featuresId}>{t('fields.features.label')}</Label>
         {/* TODO: Specify UX friendly description for this field (what are features etc.) */}
         <div className="w-full flex gap-3">
           <Input
-            placeholder="Specify features"
+            placeholder={t('fields.features.placeholder')}
             value={feature}
             onChange={(e) => setfeature(e.target.value)}
             id={featuresId}
@@ -171,12 +176,12 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         />
       </div>
       <div className="grid gap-3 w-full">
-        <Label htmlFor={deliveryTimeId}>Delivery Time (full days) </Label>
+        <Label htmlFor={deliveryTimeId}>{t('fields.deliveryTime.label')}</Label>
         <Input
           type="number"
           min={1}
           max={60}
-          placeholder="Enter delivery time"
+          placeholder={t('fields.deliveryTime.placeholder')}
           name={FormField.DELIVERY_TIME_IN_DAYS}
           id={deliveryTimeId}
           error={validationErrors?.fieldErrors.deliveryTimeInDays?.toString()}
@@ -185,11 +190,10 @@ function CreateServiceForm(props: CreateServiceFormProps) {
       <div className="w-full flex justify-between">
         <div>
           <Label htmlFor="username-1" className="mb-1">
-            Visibility
+            {t('fields.visibility.label')}
           </Label>
           <p className="text-muted-foreground text-xs">
-            When enabled this service will be visible to any visitor <br />
-            of the platflorm
+            {t('fields.visibility.description')}
           </p>
         </div>
         <Switch
@@ -202,10 +206,10 @@ function CreateServiceForm(props: CreateServiceFormProps) {
       </div>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
         <Button type="button" variant="ghost" onClick={onCancel}>
-          Cancel
+          {t('actions.cancel')}
         </Button>
         <Button type="submit" loading={pending}>
-          Save Changes
+          {t('actions.saveChanges')}
         </Button>
       </div>
     </form>

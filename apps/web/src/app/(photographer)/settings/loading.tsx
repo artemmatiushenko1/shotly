@@ -8,29 +8,29 @@ import {
 import { Skeleton } from '@shotly/ui/components/skeleton';
 import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
 import GradientLoadingProgress from '@/components/gradient-progress';
+import { getTranslations } from 'next-intl/server';
 
-function Loading() {
+export async function Loading() {
+  const t = await getTranslations('settings');
+
   return (
     <>
       <div className="absolute top-0 left-0 right-0 z-50">
         <GradientLoadingProgress />
       </div>
-      <MainHeader
-        title="Settings"
-        caption="Manage your details and personal preferences here"
-      />
+      <MainHeader title={t('title')} caption={t('caption')} />
       <div className="px-4">
         <Tabs defaultValue="profile">
           <TabsList className="my-3">
             <TabsTrigger value="profile" disabled>
-              <UserIcon /> Profile
+              <UserIcon /> {t('tabs.profile')}
             </TabsTrigger>
             <TabsTrigger value="general" disabled>
-              <Settings2Icon /> General
+              <Settings2Icon /> {t('tabs.general')}
             </TabsTrigger>
             <TabsTrigger value="privacy-and-security" disabled>
               <LockIcon />
-              Privacy & Security
+              {t('tabs.privacyAndSecurity')}
             </TabsTrigger>
           </TabsList>
           <TabsContent value="profile">

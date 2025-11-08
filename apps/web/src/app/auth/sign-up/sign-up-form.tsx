@@ -7,8 +7,10 @@ import { Button } from '@shotly/ui/components/button';
 import { GoogleIcon } from '@shotly/ui/components/google-icon';
 import Link from 'next/link';
 import { signInWithGoogle, signUp } from '../actions';
+import { useTranslations } from 'next-intl';
 
 const SignUpForm = () => {
+  const t = useTranslations('auth.signUp');
   const [state, formAction, pending] = useActionState(signUp, {});
   const { validationErrors, formError } = state ?? {};
   const { fieldErrors } = validationErrors ?? {};
@@ -16,10 +18,8 @@ const SignUpForm = () => {
   return (
     <div>
       <div className="text-center mt-10 mb-15">
-        <h1 className="text-3xl font-bold">Create an account</h1>
-        <p className="text-sm">
-          Enter your personal data to create your account.
-        </p>
+        <h1 className="text-3xl font-bold">{t('title')}</h1>
+        <p className="text-sm">{t('description')}</p>
       </div>
       {formError && (
         <div className="mb-5 flex items-center space-x-2 text-red-500 text-sm mt-1 bg-red-50 border-red-200 rounded-md p-3">
@@ -32,51 +32,51 @@ const SignUpForm = () => {
       <form action={formAction}>
         <div className="flex gap-6">
           <div className="flex flex-col gap-3 mb-6 flex-1/2">
-            <Label htmlFor="email">First Name</Label>
+            <Label htmlFor="firstName">{t('fields.firstName.label')}</Label>
             <Input
               id="firstName"
               name="firstName"
-              placeholder="e.g John"
+              placeholder={t('fields.firstName.placeholder')}
               error={fieldErrors?.firstName?.toString() ?? ''}
             />
           </div>
           <div className="flex flex-col gap-3 mb-6 flex-1/2">
-            <Label htmlFor="lastName">Last Name</Label>
+            <Label htmlFor="lastName">{t('fields.lastName.label')}</Label>
             <Input
-              name="lastName"
               id="lastName"
-              placeholder="e.g Francisco"
+              name="lastName"
+              placeholder={t('fields.lastName.placeholder')}
               error={fieldErrors?.lastName?.toString() ?? ''}
             />
           </div>
         </div>
         <div className="flex flex-col gap-3 mb-6">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t('fields.email.label')}</Label>
           <Input
             type="email"
             id="email"
             name="email"
-            placeholder="e.g email@example.com"
+            placeholder={t('fields.email.placeholder')}
             error={fieldErrors?.email?.toString() ?? ''}
           />
         </div>
         <div className="flex flex-col gap-3 mb-6">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t('fields.password.label')}</Label>
           <Input
             type="password"
             id="password"
             name="password"
-            placeholder="Enter your password"
+            placeholder={t('fields.password.placeholder')}
             error={fieldErrors?.password?.toString() ?? ''}
           />
         </div>
         <Button loading={pending} className="w-full mb-8 font-bold" size="lg">
-          Sign Up
+          {t('submitButton')}
         </Button>
       </form>
       <div className="w-full h-[1px] bg-gray-200 relative mb-8">
         <div className="absolute text-sm left-1/2 bottom-1/2 leading-1 bg-card text-foreground size-8 translate-y-1/2 -translate-x-1/2 p-1 flex items-center justify-center">
-          Or
+          {t('divider')}
         </div>
       </div>
       <Button
@@ -85,12 +85,12 @@ const SignUpForm = () => {
         size="lg"
         onClick={signInWithGoogle}
       >
-        <GoogleIcon /> Sign Up with Google
+        <GoogleIcon /> {t('googleButton')}
       </Button>
       <p className="text-sm text-center text-muted-foreground">
-        Already have an account?{' '}
+        {t('footer.text')}{' '}
         <Link href="/auth/sign-in" className="font-bold text-foreground">
-          Log In
+          {t('footer.link')}
         </Link>
       </p>
     </div>

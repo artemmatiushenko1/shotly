@@ -1,3 +1,5 @@
+'use client';
+
 import { Card, CardDescription } from '@shotly/ui/components/card';
 import Image from 'next/image';
 import React, { startTransition, useActionState } from 'react';
@@ -14,6 +16,7 @@ import { ConfirmationDialog } from '@shotly/ui/components/confirmation-dialog';
 import { archiveService } from './actions';
 import { ServiceStatus } from '@/domain/service';
 import { toast } from '@shotly/ui/components/sonner';
+import { useTranslations } from 'next-intl';
 
 type ServiceCardProps = {
   id: string;
@@ -44,6 +47,7 @@ function ServiceCard(props: ServiceCardProps) {
     status,
     onEdit,
   } = props;
+  const t = useTranslations('services.serviceCard');
 
   // TODO: check if is better to move it to parent, this component will be destroyed on archive
   const [state, archiveServiceAction] = useActionState(archiveService, {
@@ -53,7 +57,7 @@ function ServiceCard(props: ServiceCardProps) {
 
   // TODO: display toast notifications for archive service action
   if (state.error) {
-    toast.error('Failed to archive service');
+    toast.error(t('errors.archiveFailed'));
   }
 
   // TODO: refactor this to use a more elegant solution
@@ -62,7 +66,10 @@ function ServiceCard(props: ServiceCardProps) {
       ? '—'
       : features.length === 1
         ? features[0]
-        : `${features[0]}, +${features.length - 1} more`;
+        : t('features.more', {
+            first: features[0] ?? '',
+            count: features.length - 1,
+          });
 
   return (
     <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 cursor-pointer gap-4">
@@ -84,34 +91,44 @@ function ServiceCard(props: ServiceCardProps) {
         </div>
         <div className="flex items-center justify-start gap-10">
           <div className="flex flex-col">
-            <p className="text-muted-foreground text-xs mb-1">Price</p>
+            <p className="text-muted-foreground text-xs mb-1">
+              {t('fields.price')}
+            </p>
             <p className="text-lg font-bold">
               {priceUnit} {price}
               <span className="text-muted-foreground text-sm font-normal">
-                /hour
+                {t('fields.priceUnit')}
               </span>
             </p>
           </div>
           <div className="flex flex-col items-start">
-            <p className="text-muted-foreground text-xs mb-1">Category</p>
+            <p className="text-muted-foreground text-xs mb-1">
+              {t('fields.category')}
+            </p>
             <p className="font-medium text-sm">{categoryName}</p>
           </div>
           <div className="flex flex-col items-start">
-            <p className="text-muted-foreground text-xs mb-1">Delivery time</p>
+            <p className="text-muted-foreground text-xs mb-1">
+              {t('fields.deliveryTime')}
+            </p>
             <p className="inline-flex gap-1 items-center font-medium text-sm">
               <ClockIcon className="w-4 text-muted-foreground" />
-              {deliveryTime} days
+              {t('fields.deliveryTimeValue', { days: deliveryTime })}
             </p>
           </div>
           <div className="flex flex-col items-start">
-            <p className="text-muted-foreground text-xs mb-1">Features</p>
+            <p className="text-muted-foreground text-xs mb-1">
+              {t('fields.features')}
+            </p>
             <p className="inline-flex gap-1 items-center font-medium text-sm w-56">
               <PackageIcon className="text-muted-foreground w-4" />{' '}
               {featuresLabel}
             </p>
           </div>
           <div className="flex flex-col items-start">
-            <p className="text-muted-foreground text-xs mb-1">Status</p>
+            <p className="text-muted-foreground text-xs mb-1">
+              {t('fields.status')}
+            </p>
             <VisibilityBadge isPublic={status === ServiceStatus.PUBLIC} />
           </div>
         </div>
@@ -119,28 +136,28 @@ function ServiceCard(props: ServiceCardProps) {
       <div className="flex flex-col gap-2 p-3">
         {status !== ServiceStatus.ARCHIVED && (
           <Button variant="outline" onClick={onEdit}>
-            <EditIcon /> Edit
+            <EditIcon /> {t('actions.edit')}
           </Button>
         )}
         <ConfirmationDialog
           actionSeverity="neutral"
-          title={`Archive "${name}"?`}
-          description="This service will be hidden from your public profile and new clients. You can find and restore it any time from the Archived tab."
+          title={t('archiveDialog.title', { name })}
+          description={t('archiveDialog.description')}
           // TODO: display loading state correctly
           onConfirm={() => startTransition(() => archiveServiceAction(id))}
           icon={<ArchiveIcon />}
-          confirmLabel="Archive"
+          confirmLabel={t('archiveDialog.confirmLabel')}
         >
           <div>
             {status !== ServiceStatus.ARCHIVED && (
               <Button variant="ghost">
-                <ArchiveIcon /> Archive
+                <ArchiveIcon /> {t('actions.archive')}
               </Button>
             )}
             {/* TODO: implement restore service action */}
             {status === ServiceStatus.ARCHIVED && (
               <Button variant="ghost">
-                <ArchiveRestoreIcon /> Restore
+                <ArchiveRestoreIcon /> {t('actions.restore')}
               </Button>
             )}
           </div>

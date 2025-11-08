@@ -12,6 +12,7 @@ import {
 import { Folder } from 'lucide-react';
 import CreateCollectionForm from './create-collection-form';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 type CreateCollectionDialogProps = {
   categories: Category[];
@@ -20,6 +21,7 @@ type CreateCollectionDialogProps = {
 
 const CreateCollectionDialog = (props: CreateCollectionDialogProps) => {
   const { children: trigger, categories } = props;
+  const t = useTranslations('portfolio.createCollectionDialog.dialog');
 
   const [open, setOpen] = useState(false);
 
@@ -32,11 +34,8 @@ const CreateCollectionDialog = (props: CreateCollectionDialogProps) => {
             <Folder className="text-primary size-4" />
           </div>
           <div>
-            <DialogTitle className="mb-1">Create new collection</DialogTitle>
-            <DialogDescription>
-              A collection is a group of photos from a single project. Fill in
-              the details below to add a new one to your portfolio.
-            </DialogDescription>
+            <DialogTitle className="mb-1">{t('title')}</DialogTitle>
+            <DialogDescription>{t('description')}</DialogDescription>
           </div>
         </DialogHeader>
         <CreateCollectionForm

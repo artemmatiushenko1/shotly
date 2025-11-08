@@ -14,6 +14,7 @@ import {
   TooltipTrigger,
 } from '@shotly/ui/components/tooltip';
 import CollectionSettingsDialog from './collection-settings-dialog';
+import { getTranslations } from 'next-intl/server';
 
 const photos = [
   {
@@ -96,6 +97,7 @@ type CollectionDetailsProps = {
 
 async function CollectionDetails({ params }: CollectionDetailsProps) {
   const { slug } = await params;
+  const t = await getTranslations('portfolio.collectionDetails');
 
   const collection = await collectionsRepository.getCollectionById(slug);
   const categories = await categoriesRepository.getCategories();
@@ -105,7 +107,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
   );
 
   if (!category) {
-    throw new Error('Category not found.');
+    throw new Error(t('errors.categoryNotFound'));
   }
 
   return (
@@ -125,7 +127,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
                   <ChevronLeftIcon />
                 </Link>
               </TooltipTrigger>
-              <TooltipContent>Back to portfolio</TooltipContent>
+              <TooltipContent>{t('backToPortfolio')}</TooltipContent>
             </Tooltip>
             <Tooltip>
               <CollectionSettingsDialog
@@ -144,7 +146,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
                       <SettingsIcon />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>Settings</TooltipContent>
+                  <TooltipContent>{t('settingsTooltip')}</TooltipContent>
                 </div>
               </CollectionSettingsDialog>
             </Tooltip>

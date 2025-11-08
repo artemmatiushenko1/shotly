@@ -7,6 +7,7 @@ import categoriesRepository from '@/repositories/categories.repository';
 import servicesRepository from '@/repositories/services.repository';
 import { Service, ServiceStatus } from '@/domain/service';
 import { getUser } from '@/lib/auth/get-user';
+import { getTranslations } from 'next-intl/server';
 
 const MOCK_SERVICES: Service[] = [
   {
@@ -69,6 +70,7 @@ const MOCK_SERVICES: Service[] = [
 
 async function Services() {
   const user = await getUser();
+  const t = await getTranslations('services');
 
   const categories = await categoriesRepository.getCategories();
   const services = await servicesRepository.getAllServices(user.id);
@@ -76,13 +78,13 @@ async function Services() {
   return (
     <>
       <MainHeader
-        title="Services"
-        caption="Create service packages available to your clients"
+        title={t('title')}
+        caption={t('caption')}
         extra={
           <CreateServiceDialog categories={categories}>
             <Button className="ml-auto">
               <PlusIcon />
-              Service
+              {t('createService')}
             </Button>
           </CreateServiceDialog>
         }

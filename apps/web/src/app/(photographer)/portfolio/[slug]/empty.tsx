@@ -1,7 +1,12 @@
+'use client';
+
 import { Button } from '@shotly/ui/components/button';
 import { Upload } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 const Empty = () => {
+  const t = useTranslations('portfolio.collectionDetails.empty');
+
   return (
     <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
       <div className="rounded-lg w-full max-w-2xl cursor-pointer">
@@ -82,23 +87,20 @@ const Empty = () => {
               strokeLinecap="round"
             />
           </svg>
-          <h3 className="text-xl font-semibold mb-2">
-            No photos in this collection yet
-          </h3>
+          <h3 className="text-xl font-semibold mb-2">{t('title')}</h3>
           <p className="text-muted-foreground mb-6 max-w-md text-sm">
-            Start building your collection by uploading your first photos. You
-            can drag and drop files or click to browse.
+            {t('description')}
           </p>
           <Button size="lg">
             <Upload className="size-4 mr-2" />
-            Upload Your First Photos
+            {t('uploadButton')}
           </Button>
         </div>
       </div>
 
       {/* Alternative upload methods */}
       <div className="mt-8 text-sm text-gray-500">
-        <p>You can also drag and drop files anywhere on this page</p>
+        <p>{t('alternativeUpload')}</p>
       </div>
     </div>
   );

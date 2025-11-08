@@ -3,6 +3,58 @@
     "welcome": "Welcome",
     "hello": "Hello"
   },
+  "auth": {
+    "signIn": {
+      "title": "Welcome Back",
+      "description": "Enter your credentials to access your account",
+      "fields": {
+        "email": {
+          "label": "Email",
+          "placeholder": "e.g email@example.com"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Enter your password"
+        }
+      },
+      "submitButton": "Sign In",
+      "divider": "Or",
+      "googleButton": "Sign In with Google",
+      "footer": {
+        "text": "Don't have an account?",
+        "link": "Sign Up"
+      }
+    },
+    "signUp": {
+      "title": "Create an account",
+      "description": "Enter your personal data to create your account.",
+      "fields": {
+        "firstName": {
+          "label": "First Name",
+          "placeholder": "e.g John"
+        },
+        "lastName": {
+          "label": "Last Name",
+          "placeholder": "e.g Francisco"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "e.g email@example.com"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Enter your password"
+        }
+      },
+      "submitButton": "Sign Up",
+      "divider": "Or",
+      "googleButton": "Sign Up with Google",
+      "footer": {
+        "text": "Already have an account?",
+        "link": "Log In"
+      }
+    }
+  },
   "sidebar": {
     "menuLabel": "Menu",
     "menu": {
@@ -79,6 +131,210 @@
       "actions": {
         "cancel": "Cancel",
         "saveChanges": "Save changes"
+      }
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "caption": "Organize your photography work into collections",
+    "createCollection": "Collection",
+    "createCollectionDialog": {
+      "dialog": {
+        "title": "Create new collection",
+        "description": "A collection is a group of photos from a single project. Fill in the details below to add a new one to your portfolio."
+      },
+      "form": {
+        "fields": {
+          "name": {
+            "label": "Collection Name",
+            "placeholder": "Enter collection name"
+          },
+          "description": {
+            "label": "Description",
+            "placeholder": "Add description for your collection"
+          },
+          "category": {
+            "label": "Category",
+            "placeholder": "Select a category",
+            "groupLabel": "Categories"
+          },
+          "shootDate": {
+            "label": "Shoot Date",
+            "placeholder": "Pick a date"
+          }
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "continue": "Continue"
+        }
+      }
+    },
+    "collectionCard": {
+      "imagesCount": "{count} images"
+    },
+    "empty": {
+      "title": "Start building your portfolio",
+      "description": {
+        "line1": "Create your first collection to professionally organize your",
+        "line2": "photos and present your work to potential clients with ease"
+      },
+      "createCollection": "Collection"
+    },
+    "collectionDetails": {
+      "backToPortfolio": "Back to portfolio",
+      "settings": "Settings",
+      "errors": {
+        "categoryNotFound": "Category not found."
+      },
+      "cover": {
+        "alt": "Cover image of the collection"
+      },
+      "metadata": {
+        "assetsCount": "{count} assets"
+      },
+      "empty": {
+        "title": "No photos in this collection yet",
+        "description": "Start building your collection by uploading your first photos. You can drag and drop files or click to browse.",
+        "uploadButton": "Upload Your First Photos",
+        "alternativeUpload": "You can also drag and drop files anywhere on this page"
+      },
+      "uploadPhotos": {
+        "title": "Upload Photos",
+        "description": "Click to add new photos"
+      },
+      "uploadDialog": {
+        "title": "Upload photos images",
+        "description": "Add high-quality images to showcase this collection",
+        "uploadZone": {
+          "dragText": "Drag and drop an image or",
+          "browse": "Browse",
+          "fileTypes": "JPEG, PNG, PDF or MP4 up to 45 MB"
+        },
+        "fileSize": {
+          "bytes": "Bytes",
+          "kb": "KB",
+          "mb": "MB",
+          "gb": "GB"
+        },
+        "continue": "Continue"
+      },
+      "settings": {
+        "title": "Settings",
+        "tabs": {
+          "general": {
+            "name": "General",
+            "description": "Manage the general settings of your collection",
+            "title": "Edit Collection Details",
+            "caption": "Update the name, description, and other details.",
+            "saveButton": "Save"
+          },
+          "visibility": {
+            "name": "Access & Visibility",
+            "description": "Manage the access and visibility of your collection",
+            "title": "Collection Privacy",
+            "caption": "Choose who can see your collection.",
+            "public": {
+              "label": "Public",
+              "description": "Visible on your public profile and in search results."
+            },
+            "private": {
+              "label": "Private",
+              "description": "Only visible to you and anyone with the private share link."
+            }
+          },
+          "dangerZone": {
+            "name": "Danger Zone",
+            "description": "Manage the danger zone of your collection",
+            "title": "Delete this collection",
+            "caption": "Once you delete a collection, you cannot get it back. All photos and data associated with it will be permanently removed.",
+            "deleteButton": "Delete Collection \"{name}\""
+          }
+        }
+      }
+    }
+  },
+  "services": {
+    "title": "Services",
+    "caption": "Create service packages available to your clients",
+    "createService": "Service",
+    "filters": {
+      "All": "All",
+      "Public": "Public",
+      "Private": "Private",
+      "Archived": "Archived"
+    },
+    "createServiceDialog": {
+      "dialog": {
+        "title": "Create a service",
+        "description": "Create service packages that your clients can book. Fill in the details below to add a new service to your offerings."
+      },
+      "form": {
+        "fields": {
+          "name": {
+            "label": "Service Name",
+            "placeholder": "Enter service name"
+          },
+          "coverImage": {
+            "label": "Upload cover image"
+          },
+          "description": {
+            "label": "Description",
+            "placeholder": "Add description for your service",
+            "optional": "optional"
+          },
+          "category": {
+            "label": "Category",
+            "placeholder": "Select a category",
+            "groupLabel": "Categories"
+          },
+          "price": {
+            "label": "Price",
+            "placeholder": "Enter price"
+          },
+          "features": {
+            "label": "Features list",
+            "placeholder": "Specify features"
+          },
+          "deliveryTime": {
+            "label": "Delivery Time (full days)",
+            "placeholder": "Enter delivery time"
+          },
+          "visibility": {
+            "label": "Visibility",
+            "description": "When enabled this service will be visible to any visitor of the platform"
+          }
+        },
+        "actions": {
+          "cancel": "Cancel",
+          "saveChanges": "Save Changes"
+        }
+      }
+    },
+    "serviceCard": {
+      "fields": {
+        "price": "Price",
+        "priceUnit": "/hour",
+        "category": "Category",
+        "deliveryTime": "Delivery time",
+        "deliveryTimeValue": "{days} days",
+        "features": "Features",
+        "status": "Status"
+      },
+      "features": {
+        "more": "{first}, +{count} more"
+      },
+      "actions": {
+        "edit": "Edit",
+        "archive": "Archive",
+        "restore": "Restore"
+      },
+      "archiveDialog": {
+        "title": "Archive \"{name}\"?",
+        "description": "This service will be hidden from your public profile and new clients. You can find and restore it any time from the Archived tab.",
+        "confirmLabel": "Archive"
+      },
+      "errors": {
+        "archiveFailed": "Failed to archive service"
       }
     }
   }

@@ -14,6 +14,7 @@ import {
 } from '@shotly/ui/components/dialog';
 import { UploadPhotosCard } from './upload-photos-card';
 import { Button } from '@shotly/ui/components/button';
+import { useTranslations } from 'next-intl';
 
 interface UploadFile {
   id: string;
@@ -34,6 +35,7 @@ const UploadPhotosDialog = ({
   isVisible,
   onClose,
 }: UploadPhotosDialogProps) => {
+  const t = useTranslations('portfolio.collectionDetails.uploadDialog');
   const [dragActive, setDragActive] = useState(false);
   const [uploadFiles, setUploadFiles] = useState<UploadFile[]>([]);
 
@@ -101,9 +103,14 @@ const UploadPhotosDialog = ({
   };
 
   const formatBytes = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return `0 ${t('fileSize.bytes')}`;
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = [
+      t('fileSize.bytes'),
+      t('fileSize.kb'),
+      t('fileSize.mb'),
+      t('fileSize.gb'),
+    ];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
   };
@@ -145,10 +152,8 @@ const UploadPhotosDialog = ({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className="pb-4">
-          <DialogTitle>Upload photos images</DialogTitle>
-          <DialogDescription>
-            Add high-quality images to showcase this collection
-          </DialogDescription>
+          <DialogTitle>{t('title')}</DialogTitle>
+          <DialogDescription>{t('description')}</DialogDescription>
         </DialogHeader>
 
         {/* Upload Zone */}
@@ -168,9 +173,9 @@ const UploadPhotosDialog = ({
               <ImageIcon className="h-8 w-8 text-gray-400" />
             </div>
             <div className="mb-4 text-md">
-              <span className="text-gray-600">Drag and drop an image or </span>
+              <span className="text-gray-600">{t('uploadZone.dragText')} </span>
               <label className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer underline">
-                Browse
+                {t('uploadZone.browse')}
                 <input
                   type="file"
                   multiple
@@ -180,9 +185,7 @@ const UploadPhotosDialog = ({
                 />
               </label>
             </div>
-            <p className="text-xs text-gray-500">
-              JPEG, PNG, PDF or MP4 up to 45 MB
-            </p>
+            <p className="text-xs text-gray-500">{t('uploadZone.fileTypes')}</p>
           </div>
         </div>
 
@@ -238,7 +241,7 @@ const UploadPhotosDialog = ({
             onClick={handleContinue}
             disabled={uploadFiles.length === 0}
           >
-            Continue
+            {t('continue')}
           </Button>
         </DialogFooter>
       </DialogContent>

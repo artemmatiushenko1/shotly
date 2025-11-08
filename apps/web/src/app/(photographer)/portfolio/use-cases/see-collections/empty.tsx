@@ -1,8 +1,11 @@
 import { Button } from '@shotly/ui/components/button';
 import { CreateCollectionDialog } from '../create-collection/create-collection-dialog';
 import { PlusIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 function Empty() {
+  const t = useTranslations('portfolio.empty');
+
   return (
     <div className="w-full flex items-center justify-center flex-col flex-1">
       <svg
@@ -82,15 +85,15 @@ function Empty() {
         />
       </svg>
       <div className="text-center space-y-2">
-        <h2 className="font-bold">Start building your portfolio</h2>
+        <h2 className="font-bold">{t('title')}</h2>
         <p className="text-muted-foreground text-sm">
-          Create your first collection to professionally organize your <br />
-          photos and present your work to potential clients with ease
+          {t('description.line1')} <br />
+          {t('description.line2')}
         </p>
         <div className="mt-4">
           <CreateCollectionDialog categories={[]}>
             <Button>
-              <PlusIcon /> Collection
+              <PlusIcon /> {t('createCollection')}
             </Button>
           </CreateCollectionDialog>
         </div>

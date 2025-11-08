@@ -1,6 +1,9 @@
+'use client';
+
 import ImagePlaceholder from '@/components/image-placeholder';
 import Image from 'next/image';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 type CollectionCoverProps = {
   coverImageUrl?: string | null;
@@ -9,6 +12,7 @@ type CollectionCoverProps = {
 
 const CollectionCover = (props: CollectionCoverProps) => {
   const { coverImageUrl, children } = props;
+  const t = useTranslations('portfolio.collectionDetails.cover');
 
   return (
     <div className="w-full h-60 relative">
@@ -18,7 +22,7 @@ const CollectionCover = (props: CollectionCoverProps) => {
           src={coverImageUrl}
           width={400}
           height={200}
-          alt="Cover image of the collection"
+          alt={t('alt')}
         />
       ) : (
         <ImagePlaceholder />

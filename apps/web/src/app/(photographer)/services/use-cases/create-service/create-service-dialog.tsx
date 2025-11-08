@@ -12,6 +12,7 @@ import { HandshakeIcon } from 'lucide-react';
 import React, { useState } from 'react';
 import CreateServiceForm from './create-service-form';
 import { Category } from '@/domain/category';
+import { useTranslations } from 'next-intl';
 
 type CreateServiceDialogProps = {
   categories: Category[];
@@ -20,6 +21,7 @@ type CreateServiceDialogProps = {
 
 function CreateServiceDialog(props: CreateServiceDialogProps) {
   const { children: trigger, categories } = props;
+  const t = useTranslations('services.createServiceDialog.dialog');
 
   const [open, setOpen] = useState(false);
 
@@ -32,11 +34,8 @@ function CreateServiceDialog(props: CreateServiceDialogProps) {
             <HandshakeIcon className="text-primary size-4" />
           </div>
           <div>
-            <DialogTitle className="mb-1">Create a service</DialogTitle>
-            <DialogDescription>
-              A collection is a group of photos from a single project. Fill in
-              the details below to add a new one to your portfolio.
-            </DialogDescription>
+            <DialogTitle className="mb-1">{t('title')}</DialogTitle>
+            <DialogDescription>{t('description')}</DialogDescription>
           </div>
         </DialogHeader>
         <div className="flex-1">

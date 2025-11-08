@@ -5,9 +5,17 @@ import { Button } from '@shotly/ui/components/button';
 import { Skeleton } from '@shotly/ui/components/skeleton';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 import { PlusIcon } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
-function Loading() {
-  const tabs = ['All', 'Public', 'Private', 'Archived'];
+export async function Loading() {
+  const t = await getTranslations('services');
+
+  const tabs = [
+    t('filters.All'),
+    t('filters.Public'),
+    t('filters.Private'),
+    t('filters.Archived'),
+  ];
 
   return (
     <>
@@ -15,12 +23,12 @@ function Loading() {
         <GradientLoadingProgress />
       </div>
       <MainHeader
-        title="Services"
-        caption="Create service packages available to your clients"
+        title={t('title')}
+        caption={t('caption')}
         extra={
           <Button className="ml-auto" disabled>
             <PlusIcon />
-            Service
+            {t('createService')}
           </Button>
         }
       />
@@ -44,7 +52,7 @@ function Loading() {
           {Array.from({ length: 3 }).map((_, i) => (
             <div
               key={i}
-              className="shadow-none py-0 overflow-hidden flex-row gap-4 flex rounded-xl"
+              className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 gap-4 flex rounded-xl"
             >
               <div className="relative p-2 overflow-hidden">
                 <Skeleton className="size-40 w-50 object-cover rounded-lg border" />

@@ -22,6 +22,7 @@ import { Collection } from '@/domain/collection';
 import { RadioGroup, RadioGroupItem } from '@shotly/ui/components/radio-group';
 import { Label } from '@shotly/ui/components/label';
 import { Button } from '@shotly/ui/components/button';
+import { useTranslations } from 'next-intl';
 
 type CollectionSettingsDialogProps = {
   children: React.ReactNode;
@@ -31,58 +32,63 @@ type CollectionSettingsDialogProps = {
 
 function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
   const { children, categories, collection } = props;
+  const t = useTranslations('portfolio.collectionDetails.settings');
 
   const [open, setOpen] = useState(false);
 
   const tabs = [
     {
-      name: 'General',
+      name: t('tabs.general.name'),
       value: 'general',
-      description: 'Manage the general settings of your collection',
+      description: t('tabs.general.description'),
       icon: <SettingsIcon />,
       content: (
         <div>
-          <p className="text-md font-medium">Edit Collection Details</p>
+          <p className="text-md font-medium">{t('tabs.general.title')}</p>
           <p className="text-muted-foreground text-xs mb-6">
-            Update the name, description, and other details.
+            {t('tabs.general.caption')}
           </p>
           <CreateCollectionForm
             defaultValues={collection}
             className="flex-1"
             categories={categories}
-            submitButtonText="Save"
+            submitButtonText={t('tabs.general.saveButton')}
             onCancel={() => setOpen(false)}
           />
         </div>
       ),
     },
     {
-      name: 'Access & Visibility',
+      name: t('tabs.visibility.name'),
       value: 'access-and-visibility',
-      description: 'Manage the access and visibility of your collection',
+      description: t('tabs.visibility.description'),
       icon: <LockIcon />,
       content: (
         <div>
-          <p className="text-md font-medium">Collection Privacy</p>
+          <p className="text-md font-medium">{t('tabs.visibility.title')}</p>
           <p className="text-muted-foreground text-xs mb-6">
-            Choose who can see your collection.
+            {t('tabs.visibility.caption')}
           </p>
           <RadioGroup defaultValue="basic">
             <div className="flex gap-2">
               <RadioGroupItem value="basic" id="plan-basic" />
               <div className="grid flex-1 space-y-2">
-                <Label htmlFor="plan-basic">Public</Label>
+                <Label htmlFor="plan-basic">
+                  {t('tabs.visibility.public.label')}
+                </Label>
                 <p className="text-muted-foreground text-xs">
-                  Visible on your public profile and in search results.
+                  {t('tabs.visibility.public.description')}
                 </p>
               </div>
             </div>
             <div className="flex gap-2">
               <RadioGroupItem value="pro" id="plan-pro" />
               <div className="grid flex-1 space-y-2">
-                <Label htmlFor="plan-pro">Private</Label>
+                <Label htmlFor="plan-pro">
+                  {t('tabs.visibility.private.label')}
+                </Label>
                 <p className="text-muted-foreground text-xs">
-                  Only visible to you and anyone with the private share link.
+                  {t('tabs.visibility.private.description')}
                 </p>
               </div>
             </div>
@@ -91,19 +97,19 @@ function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
       ),
     },
     {
-      name: 'Danger Zone',
+      name: t('tabs.dangerZone.name'),
       value: 'danger-zone',
-      description: 'Manage the danger zone of your collection',
+      description: t('tabs.dangerZone.description'),
       icon: <TrashIcon />,
       content: (
         <div>
-          <p className="text-md font-medium">Delete this collection</p>
+          <p className="text-md font-medium">{t('tabs.dangerZone.title')}</p>
           <p className="text-muted-foreground text-xs mb-6">
-            Once you delete a collection, you cannot get it back. All photos and
-            data associated with it will be permanently removed.
+            {t('tabs.dangerZone.caption')}
           </p>
           <Button variant="destructive">
-            <TrashIcon /> Delete Collection &quot;{collection.name}&quot;
+            <TrashIcon />{' '}
+            {t('tabs.dangerZone.deleteButton', { name: collection.name })}
           </Button>
         </div>
       ),
@@ -117,7 +123,7 @@ function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
         <Tabs defaultValue="general" className="flex-row h-full gap-0">
           <div className="p-4 pt-8 flex-1/3">
             <DialogHeader className="mb-4">
-              <DialogTitle>Settings</DialogTitle>
+              <DialogTitle>{t('title')}</DialogTitle>
             </DialogHeader>
             <div>
               <TabsList className="bg-background h-full flex-col w-full">

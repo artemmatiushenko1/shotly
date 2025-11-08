@@ -9,6 +9,7 @@ import {
   useServiceFilter,
   ServiceFilterTab,
 } from '@/app/(photographer)/services/use-cases/see-services/use-service-filter';
+import { useTranslations } from 'next-intl';
 
 type ServicesListProps = {
   categories: Category[];
@@ -17,6 +18,7 @@ type ServicesListProps = {
 
 function ServicesList(props: ServicesListProps) {
   const { categories, services } = props;
+  const t = useTranslations('services.filters');
 
   const categoryMap = categories.reduce(
     (acc, category) => {
@@ -39,7 +41,7 @@ function ServicesList(props: ServicesListProps) {
         <TabsList>
           {tabs.map((tab) => (
             <TabsTrigger key={tab} value={tab}>
-              {tab}{' '}
+              {t(tab)}{' '}
               <Badge
                 variant={tab === selectedTab ? 'default' : 'secondary'}
                 className="h-5 min-w-5 rounded-full px-1"

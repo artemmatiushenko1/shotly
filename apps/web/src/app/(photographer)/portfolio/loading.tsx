@@ -4,8 +4,11 @@ import { Button } from '@shotly/ui/components/button';
 import { Card, CardContent } from '@shotly/ui/components/card';
 import { Skeleton } from '@shotly/ui/components/skeleton';
 import { PlusIcon } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 
-function Loading() {
+export async function Loading() {
+  const t = await getTranslations('portfolio');
+
   return (
     <>
       <div className="absolute top-0 left-0 right-0 z-50">
@@ -13,12 +16,12 @@ function Loading() {
       </div>
       <div className="h-full flex flex-col">
         <MainHeader
-          title="Portfolio"
-          caption="Organize your photography work into collections"
+          title={t('title')}
+          caption={t('caption')}
           extra={
             <div className="ml-auto">
               <Button disabled>
-                <PlusIcon /> Collection
+                <PlusIcon /> {t('createCollection')}
               </Button>
             </div>
           }
