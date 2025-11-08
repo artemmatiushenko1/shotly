@@ -2,11 +2,11 @@
 
 import { useId } from 'react';
 import Image from 'next/image';
-import { CoverImagePlaceholder } from '@/components/cover-upload/cover-image-placeholder';
 import { buttonVariants } from '@shotly/ui/components/button';
 import { ImageIcon } from 'lucide-react';
 import { useImagePreview } from '@/lib/images/use-image-preview';
 import { cn } from '@shotly/ui/lib/utils';
+import ImagePlaceholder from '../image-placeholder';
 
 type CoverUploadProps = {
   existingImageUrl?: string | null;
@@ -25,8 +25,8 @@ function CoverUpload(props: CoverUploadProps) {
     });
 
   return (
-    <div>
-      <CoverImagePlaceholder
+    <div className="h-48">
+      <ImagePlaceholder
         className={cn(
           'p-8',
           displayImageUrl && 'border-transparent',
@@ -65,7 +65,7 @@ function CoverUpload(props: CoverUploadProps) {
           className="hidden"
           onChange={handleFileChange}
         />
-      </CoverImagePlaceholder>
+      </ImagePlaceholder>
       {(error || sizeError) && (
         <p className="text-sm text-destructive mt-2">{error || sizeError}</p>
       )}

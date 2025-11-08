@@ -1,19 +1,30 @@
+import ImagePlaceholder from '@/components/image-placeholder';
 import { Button, buttonVariants } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
 import { ChevronLeft, EllipsisIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const CollectionCover = () => {
+type CollectionCoverProps = {
+  coverImageUrl?: string | null;
+};
+
+const CollectionCover = (props: CollectionCoverProps) => {
+  const { coverImageUrl } = props;
+
   return (
     <div className="w-full h-60 relative">
-      <Image
-        className="w-full h-full object-cover rounded-md mt-2 border"
-        src="/auth-banner.jpg"
-        width={400}
-        height={200}
-        alt="Cover image of the collection"
-      />
+      {coverImageUrl ? (
+        <Image
+          className="w-full h-full object-cover rounded-md mt-2 border"
+          src={coverImageUrl}
+          width={400}
+          height={200}
+          alt="Cover image of the collection"
+        />
+      ) : (
+        <ImagePlaceholder />
+      )}
       <Link
         href="/portfolio"
         className={cn(

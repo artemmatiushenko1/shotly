@@ -4,7 +4,7 @@ import { Card, CardContent } from '@shotly/ui/components/card';
 import { CalendarIcon, EllipsisVertical, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
 import { VisibilityBadge } from '../../../ui/visibility-badge';
-import { ImagePlaceholder } from '@/app/(photographer)/portfolio/use-cases/see-collections/image-placeholder';
+import ImagePlaceholder from '@/components/image-placeholder';
 
 type CollectionCardProps = {
   isPublic?: boolean;

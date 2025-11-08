@@ -35,9 +35,9 @@ function Loading() {
           </TabsList>
           <TabsContent value="profile">
             <div className="space-y-6">
-              <div className="space-y-4">
+              <div className="space-y-7">
                 <Skeleton className="h-15 w-full" />
-                <Skeleton className="h-50 w-full" />
+                <Skeleton className="h-48 w-full" />
                 <Skeleton className="h-15 w-full" />
                 <Skeleton className="h-15 w-full" />
                 <Skeleton className="h-28 w-full" />
