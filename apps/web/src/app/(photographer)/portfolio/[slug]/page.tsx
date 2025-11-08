@@ -128,7 +128,10 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
               <TooltipContent>Back to portfolio</TooltipContent>
             </Tooltip>
             <Tooltip>
-              <CollectionSettingsDialog categories={categories}>
+              <CollectionSettingsDialog
+                categories={categories}
+                collection={collection}
+              >
                 <div>
                   <TooltipTrigger asChild>
                     <Button

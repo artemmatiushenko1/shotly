@@ -18,14 +18,16 @@ import { LockIcon, SettingsIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
 import CreateCollectionForm from '../use-cases/create-collection/create-collection-form';
 import { Category } from '@/domain/category';
+import { Collection } from '@/domain/collection';
 
 type CollectionSettingsDialogProps = {
   children: React.ReactNode;
+  collection: Collection;
   categories: Category[];
 };
 
 function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
-  const { children, categories } = props;
+  const { children, categories, collection } = props;
 
   const [open, setOpen] = useState(false);
 
@@ -37,6 +39,7 @@ function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
       icon: <SettingsIcon />,
       content: (
         <CreateCollectionForm
+          defaultValues={collection}
           className="flex-1"
           categories={categories}
           submitButtonText="Save"

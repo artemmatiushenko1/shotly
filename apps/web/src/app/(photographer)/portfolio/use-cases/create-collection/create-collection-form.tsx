@@ -25,6 +25,7 @@ import { CalendarIcon } from 'lucide-react';
 import dayjs from 'dayjs';
 import { createCollection } from './actions';
 import { cn } from '@shotly/ui/lib/utils';
+import { Collection } from '@/domain/collection';
 
 enum FormField {
   NAME = 'name',
@@ -34,6 +35,7 @@ enum FormField {
 }
 
 type CreateCollectionFormProps = {
+  defaultValues?: Collection;
   className?: string;
   categories: Category[];
   submitButtonText?: string;
@@ -42,14 +44,19 @@ type CreateCollectionFormProps = {
 
 function CreateCollectionForm(props: CreateCollectionFormProps) {
   const {
+    defaultValues,
     categories,
     submitButtonText = 'Continue',
     onCancel,
     className,
   } = props;
 
-  const [shootDate, setShootDate] = useState<Date | undefined>();
-  const [categoryId, setCategoryId] = useState<string>('');
+  const [shootDate, setShootDate] = useState<Date | undefined>(
+    defaultValues?.shootDate,
+  );
+  const [categoryId, setCategoryId] = useState<string>(
+    defaultValues?.categoryId ?? '',
+  );
 
   const [state, formAction, pending] = useActionState(createCollection, {
     hasErrors: false,
@@ -74,6 +81,7 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
           id={nameId}
           name={FormField.NAME}
           placeholder="Enter collection name"
+          defaultValue={defaultValues?.name}
           error={validationErrors?.fieldErrors.name?.toString()}
         />
       </div>
@@ -85,6 +93,7 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
           showCharsCount
           maxChars={500}
           placeholder="Add description for your collection"
+          defaultValue={defaultValues?.description ?? undefined}
           error={validationErrors?.fieldErrors.description?.toString() ?? ''}
         />
       </div>
