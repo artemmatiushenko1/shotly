@@ -94,7 +94,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="p-3 space-y-6">
+      <div className="p-3 pt-5 space-y-6">
         <CollectionCover />
         <CollectionMetadata
           name={collection.name}
