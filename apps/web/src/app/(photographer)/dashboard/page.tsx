@@ -1,20 +1,17 @@
 import MainHeader from '@/components/main-header';
-import { auth } from '@/lib/auth/auth';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { getUser } from '@/lib/auth/get-user';
+import { getTranslations } from 'next-intl/server';
 import React from 'react';
 
 async function Dashboard() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const user = await getUser();
 
-  if (!session?.user) {
-    redirect('/auth/sign-in');
-  }
+  const t = await getTranslations('dashboard');
 
   return (
     <MainHeader
-      title="Overview"
-      caption={`Welcome back, ${session.user.name}!`}
+      title={t('title')}
+      caption={t('description', { name: user.name })}
     />
   );
 }
