@@ -12,6 +12,7 @@ import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
 import usersRepository from '@/repositories/users.repository';
 import languagesRepository from '@/repositories/languages.repository';
 import { getUser } from '@/lib/auth/get-user';
+import { getTranslations } from 'next-intl/server';
 
 const getProfileTabData = (userId: string) => {
   return Promise.all([
@@ -22,27 +23,25 @@ const getProfileTabData = (userId: string) => {
 
 const Settings = async () => {
   const user = await getUser();
+  const t = await getTranslations('settings');
 
   const [profile, languages] = await getProfileTabData(user.id);
 
   return (
     <>
-      <MainHeader
-        title="Settings"
-        caption="Manage your details and personal preferences here"
-      />
+      <MainHeader title={t('title')} caption={t('caption')} />
       <div className="px-4">
         <Tabs defaultValue="profile">
           <TabsList className="my-3">
             <TabsTrigger value="profile">
-              <UserIcon /> Profile
+              <UserIcon /> {t('tabs.profile')}
             </TabsTrigger>
             <TabsTrigger value="general">
-              <Settings2Icon /> General
+              <Settings2Icon /> {t('tabs.general')}
             </TabsTrigger>
             <TabsTrigger value="privacy-and-security">
               <LockIcon />
-              Privacy & Security
+              {t('tabs.privacyAndSecurity')}
             </TabsTrigger>
           </TabsList>
           {/* TODO: create a wrapper component for animation */}

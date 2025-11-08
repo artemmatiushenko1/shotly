@@ -3,8 +3,83 @@
     "welcome": "Welcome",
     "hello": "Hello"
   },
+  "sidebar": {
+    "menuLabel": "Menu",
+    "menu": {
+      "dashboard": "Dashboard",
+      "portfolio": "Portfolio",
+      "orders": "Orders",
+      "calendar": "Calendar",
+      "services": "Services"
+    },
+    "settings": "Settings",
+    "logOut": "Log Out",
+    "storage": {
+      "label": "Storage Used",
+      "usage": "{used} GB of {total} GB used"
+    }
+  },
   "dashboard": {
     "title": "Dashboard",
     "description": "Welcome back, {name}!"
+  },
+  "settings": {
+    "title": "Settings",
+    "caption": "Manage your details and personal preferences here",
+    "tabs": {
+      "profile": "Profile",
+      "general": "General",
+      "privacyAndSecurity": "Privacy & Security"
+    },
+    "profile": {
+      "title": "Profile",
+      "description": "Update your photo and personal details",
+      "viewPublicProfile": "View public profile",
+      "fields": {
+        "fullName": {
+          "title": "Full name",
+          "description": "Your display name"
+        },
+        "username": {
+          "title": "Username",
+          "description": "Your display username"
+        },
+        "profilePhoto": {
+          "title": "Profile photo",
+          "description": "This photo will be visible to others"
+        },
+        "about": {
+          "title": "About you",
+          "description": "Write a description for your profile"
+        },
+        "experience": {
+          "title": "Experience",
+          "description": "How many years you've been shooting"
+        },
+        "locations": {
+          "title": "Locations",
+          "description": "Cities or regions where clients can book you"
+        },
+        "languages": {
+          "title": "Languages",
+          "description": "Languages you can comfortably use with clients"
+        },
+        "personalWebsite": {
+          "title": "Personal website",
+          "description": "Your online page, blog, or company site"
+        },
+        "socialLinks": {
+          "title": "Connect with work socials",
+          "description": "Add social links"
+        }
+      },
+      "errors": {
+        "saveFailed": "Failed to save changes. Please check the errors above."
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "saveChanges": "Save changes"
+      }
+    }
   }
 }

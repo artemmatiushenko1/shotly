@@ -35,34 +35,7 @@ import { authClient } from '@/lib/auth/auth-client';
 import { User } from 'better-auth';
 import { Separator } from '@shotly/ui/components/separator';
 import { StorageUsage } from './storage-usage';
-
-const items = [
-  {
-    title: 'Dashboard',
-    url: '/dashboard',
-    icon: LayoutGrid,
-  },
-  {
-    title: 'Portfolio',
-    url: '/portfolio',
-    icon: Image,
-  },
-  {
-    title: 'Orders',
-    url: '/orders',
-    icon: Blocks,
-  },
-  {
-    title: 'Calendar',
-    url: '/calendar',
-    icon: CalendarRangeIcon,
-  },
-  {
-    title: 'Services',
-    url: '/services',
-    icon: Handshake,
-  },
-];
+import { useTranslations } from 'next-intl';
 
 type AppSidebarProps = {
   user: User;
@@ -71,8 +44,37 @@ type AppSidebarProps = {
 export function AppSidebar(props: AppSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const t = useTranslations('sidebar');
 
   const user = props?.user;
+
+  const items = [
+    {
+      title: t('menu.dashboard'),
+      url: '/dashboard',
+      icon: LayoutGrid,
+    },
+    {
+      title: t('menu.portfolio'),
+      url: '/portfolio',
+      icon: Image,
+    },
+    {
+      title: t('menu.orders'),
+      url: '/orders',
+      icon: Blocks,
+    },
+    {
+      title: t('menu.calendar'),
+      url: '/calendar',
+      icon: CalendarRangeIcon,
+    },
+    {
+      title: t('menu.services'),
+      url: '/services',
+      icon: Handshake,
+    },
+  ];
 
   const getIsActiveMenuItem = (url: string) => {
     return pathname === url || (pathname.startsWith(url) && pathname !== '/');
@@ -97,11 +99,11 @@ export function AppSidebar(props: AppSidebarProps) {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Menu</SidebarGroupLabel>
+          <SidebarGroupLabel>{t('menuLabel')}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton
                     isActive={getIsActiveMenuItem(item.url)}
                     asChild
@@ -135,7 +137,7 @@ export function AppSidebar(props: AppSidebarProps) {
               >
                 <Link href="/settings">
                   <SettingsIcon />
-                  <span className="mr-auto text-sm">Settings</span>
+                  <span className="mr-auto text-sm">{t('settings')}</span>
                   {getIsActiveMenuItem('/settings') && (
                     <ChevronRight className="text-fo" />
                   )}
@@ -144,7 +146,7 @@ export function AppSidebar(props: AppSidebarProps) {
               <SidebarMenuButton asChild size="lg" onClick={handleSignOut}>
                 <Link href="/settings">
                   <LogOutIcon />
-                  <span className="mr-auto text-sm">Log Out</span>
+                  <span className="mr-auto text-sm">{t('logOut')}</span>
                 </Link>
               </SidebarMenuButton>
               <Separator />

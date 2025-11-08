@@ -9,7 +9,7 @@ import { LabeledControl } from './labeled-control';
 import { LocationSelector } from './location-selector';
 import { LanguageSelector } from './language-selector';
 import { ExperienceSlider } from './experience-slider';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import CoverUpload from '@/components/cover-upload/cover-upload';
 import { useActionState, useId, useState } from 'react';
 import { updateProfileAction } from './actions';
@@ -17,6 +17,7 @@ import { UserProfile } from '@/domain/user';
 import { Language } from '@/domain/language';
 import { LocationDetails } from '@/domain/locations';
 import { ProfileImageUpload } from './profile-image-upload';
+import { useTranslations } from 'next-intl';
 
 enum FormField {
   NAME = 'name',
@@ -39,6 +40,8 @@ type ProfileSettingsProps = {
 
 const ProfileSettings = (props: ProfileSettingsProps) => {
   const { profile, languageOptions, userId } = props;
+  const t = useTranslations('settings.profile');
+  const router = useRouter();
 
   const [state, formAction, pending] = useActionState(updateProfileAction, {
     hasErrors: false,
@@ -63,18 +66,18 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
     <div className="space-y-8 pb-4">
       <div className="flex">
         <div>
-          <h2 className="text-lg font-semibold text-foreground">Profile</h2>
-          <p className="text-sm text-muted-foreground">
-            Update your photo and personal details
-          </p>
+          <h2 className="text-lg font-semibold text-foreground">
+            {t('title')}
+          </h2>
+          <p className="text-sm text-muted-foreground">{t('description')}</p>
         </div>
         <div className="ml-auto space-y-1">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => redirect(`/photographers/${userId}`)}
+            onClick={() => router.push(`/photographers/${userId}`)}
           >
-            <GlobeIcon /> View public profile
+            <GlobeIcon /> {t('viewPublicProfile')}
           </Button>
           <p className="text-xs text-muted-foreground">
             www.shotly.com/ph/artemko
@@ -88,8 +91,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           error={validationErrors?.fieldErrors.coverImg?.toString()}
         />
         <LabeledControl
-          title="Full name"
-          description="Your display name"
+          title={t('fields.fullName.title')}
+          description={t('fields.fullName.description')}
           controlId={fullNameId}
           controlNode={
             <Input
@@ -101,8 +104,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           }
         />
         <LabeledControl
-          title="Username"
-          description="Your display username"
+          title={t('fields.username.title')}
+          description={t('fields.username.description')}
           controlId={usernameId}
           controlNode={
             <Input
@@ -114,8 +117,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           }
         />
         <LabeledControl
-          title="Profile photo"
-          description="This photo will be visible to others"
+          title={t('fields.profilePhoto.title')}
+          description={t('fields.profilePhoto.description')}
           controlNode={
             <ProfileImageUpload
               existingImageUrl={profile.image}
@@ -129,8 +132,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           }
         />
         <LabeledControl
-          title="About you"
-          description="Write a description for your profile"
+          title={t('fields.about.title')}
+          description={t('fields.about.description')}
           controlId={bioId}
           controlNode={
             <Textarea
@@ -143,8 +146,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
         />
 
         <LabeledControl
-          title="Experience"
-          description="How many years you've been shooting"
+          title={t('fields.experience.title')}
+          description={t('fields.experience.description')}
           controlId={experienceYearsId}
           controlNode={
             <ExperienceSlider
@@ -157,8 +160,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
         />
 
         <LabeledControl
-          title="Locations"
-          description="Cities or regions where clients can book you"
+          title={t('fields.locations.title')}
+          description={t('fields.locations.description')}
           controlId="locations"
           controlNode={
             <>
@@ -178,8 +181,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
         />
 
         <LabeledControl
-          title="Languages"
-          description="Languages you can comfortably use with clients"
+          title={t('fields.languages.title')}
+          description={t('fields.languages.description')}
           controlId={languagesId}
           controlNode={
             <>
@@ -200,8 +203,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
         />
 
         <LabeledControl
-          title="Personal website"
-          description="Your online page, blog, or company site"
+          title={t('fields.personalWebsite.title')}
+          description={t('fields.personalWebsite.description')}
           controlId={personalWebsiteUrlId}
           controlNode={
             <Input
@@ -214,8 +217,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
         />
 
         <LabeledControl
-          title="Connect with work socials"
-          description="Add social links"
+          title={t('fields.socialLinks.title')}
+          description={t('fields.socialLinks.description')}
           controlNode={
             <SocialLinkInput
               id={instagramTagId}
@@ -232,16 +235,16 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           {state.hasErrors && (
             <p className="text-sm inline-flex gap-2 items-center text-destructive">
               <CircleXIcon className="size-4" />
-              Failed to save changes. Please check the errors above.
+              {t('errors.saveFailed')}
             </p>
           )}
           <div className="space-x-3 ml-auto">
             {/* TODO: implement form reset */}
             <Button type="button" variant="ghost">
-              Cancel
+              {t('actions.cancel')}
             </Button>
             <Button type="submit" loading={pending}>
-              Save changes
+              {t('actions.saveChanges')}
             </Button>
           </div>
         </div>
