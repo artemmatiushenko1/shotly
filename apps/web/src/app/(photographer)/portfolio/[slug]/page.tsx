@@ -4,6 +4,15 @@ import { CollectionCover } from './collection-cover';
 import { CollectionMetadata } from './collection-metadata';
 import collectionsRepository from '@/repositories/collections.repository';
 import categoriesRepository from '@/repositories/categories.repository';
+import Link from 'next/link';
+import { Button, buttonVariants } from '@shotly/ui/components/button';
+import { cn } from '@shotly/ui/lib/utils';
+import { ChevronLeftIcon, SettingsIcon } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@shotly/ui/components/tooltip';
 
 const photos = [
   {
@@ -95,7 +104,31 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
   return (
     <div className="h-full flex flex-col">
       <div className="p-3 pt-5 space-y-6">
-        <CollectionCover />
+        <CollectionCover>
+          <div>
+            <Link
+              href="/portfolio"
+              className={cn(
+                buttonVariants({ size: 'icon', variant: 'outline' }),
+                'size-8 absolute left-5 top-5 rounded-full',
+              )}
+            >
+              <ChevronLeftIcon />
+            </Link>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="outline"
+                  className={cn('size-8 absolute right-5 top-5 rounded-full')}
+                >
+                  <SettingsIcon />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Settings</TooltipContent>
+            </Tooltip>
+          </div>
+        </CollectionCover>
         <CollectionMetadata
           name={collection.name}
           description={collection.description ?? ''}

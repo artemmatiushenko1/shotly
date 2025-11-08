@@ -1,16 +1,14 @@
 import ImagePlaceholder from '@/components/image-placeholder';
-import { Button, buttonVariants } from '@shotly/ui/components/button';
-import { cn } from '@shotly/ui/lib/utils';
-import { ChevronLeft, EllipsisIcon } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
+import React from 'react';
 
 type CollectionCoverProps = {
   coverImageUrl?: string | null;
+  children: React.ReactNode;
 };
 
 const CollectionCover = (props: CollectionCoverProps) => {
-  const { coverImageUrl } = props;
+  const { coverImageUrl, children } = props;
 
   return (
     <div className="w-full h-60 relative">
@@ -25,22 +23,7 @@ const CollectionCover = (props: CollectionCoverProps) => {
       ) : (
         <ImagePlaceholder />
       )}
-      <Link
-        href="/portfolio"
-        className={cn(
-          buttonVariants({ size: 'icon', variant: 'outline' }),
-          'size-8 absolute left-5 top-5 rounded-full',
-        )}
-      >
-        <ChevronLeft />
-      </Link>
-      <Button
-        size="icon"
-        variant="outline"
-        className={cn('size-8 absolute right-5 top-5 rounded-full')}
-      >
-        <EllipsisIcon />
-      </Button>
+      {React.Children.only(children)}
     </div>
   );
 };
