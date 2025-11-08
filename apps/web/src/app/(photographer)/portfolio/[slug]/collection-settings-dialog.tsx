@@ -19,6 +19,9 @@ import { useState } from 'react';
 import CreateCollectionForm from '../use-cases/create-collection/create-collection-form';
 import { Category } from '@/domain/category';
 import { Collection } from '@/domain/collection';
+import { RadioGroup, RadioGroupItem } from '@shotly/ui/components/radio-group';
+import { Label } from '@shotly/ui/components/label';
+import { Button } from '@shotly/ui/components/button';
 
 type CollectionSettingsDialogProps = {
   children: React.ReactNode;
@@ -38,13 +41,19 @@ function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
       description: 'Manage the general settings of your collection',
       icon: <SettingsIcon />,
       content: (
-        <CreateCollectionForm
-          defaultValues={collection}
-          className="flex-1"
-          categories={categories}
-          submitButtonText="Save"
-          onCancel={() => setOpen(false)}
-        />
+        <div>
+          <p className="text-md font-medium">Edit Collection Details</p>
+          <p className="text-muted-foreground text-xs mb-6">
+            Update the name, description, and other details.
+          </p>
+          <CreateCollectionForm
+            defaultValues={collection}
+            className="flex-1"
+            categories={categories}
+            submitButtonText="Save"
+            onCancel={() => setOpen(false)}
+          />
+        </div>
       ),
     },
     {
@@ -52,14 +61,52 @@ function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
       value: 'access-and-visibility',
       description: 'Manage the access and visibility of your collection',
       icon: <LockIcon />,
-      content: null,
+      content: (
+        <div>
+          <p className="text-md font-medium">Collection Privacy</p>
+          <p className="text-muted-foreground text-xs mb-6">
+            Choose who can see your collection.
+          </p>
+          <RadioGroup defaultValue="basic">
+            <div className="flex gap-2">
+              <RadioGroupItem value="basic" id="plan-basic" />
+              <div className="grid flex-1 space-y-2">
+                <Label htmlFor="plan-basic">Public</Label>
+                <p className="text-muted-foreground text-xs">
+                  Visible on your public profile and in search results.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <RadioGroupItem value="pro" id="plan-pro" />
+              <div className="grid flex-1 space-y-2">
+                <Label htmlFor="plan-pro">Private</Label>
+                <p className="text-muted-foreground text-xs">
+                  Only visible to you and anyone with the private share link.
+                </p>
+              </div>
+            </div>
+          </RadioGroup>
+        </div>
+      ),
     },
     {
       name: 'Danger Zone',
       value: 'danger-zone',
       description: 'Manage the danger zone of your collection',
       icon: <TrashIcon />,
-      content: null,
+      content: (
+        <div>
+          <p className="text-md font-medium">Delete this collection</p>
+          <p className="text-muted-foreground text-xs mb-6">
+            Once you delete a collection, you cannot get it back. All photos and
+            data associated with it will be permanently removed.
+          </p>
+          <Button variant="destructive">
+            <TrashIcon /> Delete Collection &quot;{collection.name}&quot;
+          </Button>
+        </div>
+      ),
     },
   ];
 
@@ -95,12 +142,6 @@ function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
                 value={tab.value}
                 className="flex-1 flex-col flex"
               >
-                <div className="mb-6">
-                  <div className="text-lg font-medium">{tab.name}</div>
-                  <div className="text-sm text-muted-foreground">
-                    {tab.description}
-                  </div>
-                </div>
                 {tab.content}
               </TabsContent>
             ))}
