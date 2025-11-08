@@ -13,6 +13,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@shotly/ui/components/tooltip';
+import CollectionSettingsDialog from './collection-settings-dialog';
 
 const photos = [
   {
@@ -106,26 +107,37 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
       <div className="p-3 pt-5 space-y-6">
         <CollectionCover>
           <div>
-            <Link
-              href="/portfolio"
-              className={cn(
-                buttonVariants({ size: 'icon', variant: 'outline' }),
-                'size-8 absolute left-5 top-5 rounded-full',
-              )}
-            >
-              <ChevronLeftIcon />
-            </Link>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  size="icon"
-                  variant="outline"
-                  className={cn('size-8 absolute right-5 top-5 rounded-full')}
+                <Link
+                  href="/portfolio"
+                  className={cn(
+                    buttonVariants({ size: 'icon', variant: 'outline' }),
+                    'size-8 absolute left-5 top-5 rounded-full',
+                  )}
                 >
-                  <SettingsIcon />
-                </Button>
+                  <ChevronLeftIcon />
+                </Link>
               </TooltipTrigger>
-              <TooltipContent>Settings</TooltipContent>
+              <TooltipContent>Back to portfolio</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <CollectionSettingsDialog>
+                <div>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className={cn(
+                        'size-8 absolute right-5 top-5 rounded-full',
+                      )}
+                    >
+                      <SettingsIcon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Settings</TooltipContent>
+                </div>
+              </CollectionSettingsDialog>
             </Tooltip>
           </div>
         </CollectionCover>
