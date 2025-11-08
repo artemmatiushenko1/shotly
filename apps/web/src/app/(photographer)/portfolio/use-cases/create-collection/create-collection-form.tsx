@@ -24,6 +24,7 @@ import { Calendar } from '@shotly/ui/components/calendar';
 import { CalendarIcon } from 'lucide-react';
 import dayjs from 'dayjs';
 import { createCollection } from './actions';
+import { cn } from '@shotly/ui/lib/utils';
 
 enum FormField {
   NAME = 'name',
@@ -33,12 +34,19 @@ enum FormField {
 }
 
 type CreateCollectionFormProps = {
+  className?: string;
   categories: Category[];
+  submitButtonText?: string;
   onCancel: () => void;
 };
 
 function CreateCollectionForm(props: CreateCollectionFormProps) {
-  const { categories, onCancel } = props;
+  const {
+    categories,
+    submitButtonText = 'Continue',
+    onCancel,
+    className,
+  } = props;
 
   const [shootDate, setShootDate] = useState<Date | undefined>();
   const [categoryId, setCategoryId] = useState<string>('');
@@ -56,7 +64,10 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
   const shootDateId = useId();
 
   return (
-    <form className="space-y-5" action={formAction}>
+    <form
+      className={cn('space-y-5 flex flex-col', className)}
+      action={formAction}
+    >
       <div className="grid gap-3">
         <Label htmlFor={nameId}>Collection Name</Label>
         <Input
@@ -157,7 +168,7 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
           Cancel
         </Button>
         <Button type="submit" loading={pending}>
-          Continue
+          {submitButtonText}
         </Button>
       </div>
     </form>

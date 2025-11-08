@@ -16,13 +16,16 @@ import {
 } from '@shotly/ui/components/tabs';
 import { LockIcon, SettingsIcon, TrashIcon } from 'lucide-react';
 import { useState } from 'react';
+import CreateCollectionForm from '../use-cases/create-collection/create-collection-form';
+import { Category } from '@/domain/category';
 
 type CollectionSettingsDialogProps = {
   children: React.ReactNode;
+  categories: Category[];
 };
 
 function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
-  const { children } = props;
+  const { children, categories } = props;
 
   const [open, setOpen] = useState(false);
 
@@ -30,18 +33,28 @@ function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
     {
       name: 'General',
       value: 'general',
+      description: 'Manage the general settings of your collection',
       icon: <SettingsIcon />,
-      content: null,
+      content: (
+        <CreateCollectionForm
+          className="flex-1"
+          categories={categories}
+          submitButtonText="Save"
+          onCancel={() => setOpen(false)}
+        />
+      ),
     },
     {
       name: 'Access & Visibility',
       value: 'access-and-visibility',
+      description: 'Manage the access and visibility of your collection',
       icon: <LockIcon />,
       content: null,
     },
     {
       name: 'Danger Zone',
       value: 'danger-zone',
+      description: 'Manage the danger zone of your collection',
       icon: <TrashIcon />,
       content: null,
     },
@@ -72,10 +85,20 @@ function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
             </div>
           </div>
           <Separator orientation="vertical" className="mr-0" />
-          <div className="p-4 pt-8 bg-accent/25 flex-2/3">
+          <div className="p-4 pt-8 flex-2/3 bg-accent/25 flex flex-col">
             {tabs.map((tab) => (
-              <TabsContent key={tab.value} value={tab.value}>
-                <p className="text-muted-foreground text-sm">{tab.content}</p>
+              <TabsContent
+                key={tab.value}
+                value={tab.value}
+                className="flex-1 flex-col flex"
+              >
+                <div className="mb-6">
+                  <div className="text-lg font-medium">{tab.name}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {tab.description}
+                  </div>
+                </div>
+                {tab.content}
               </TabsContent>
             ))}
           </div>

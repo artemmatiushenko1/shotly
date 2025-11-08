@@ -98,9 +98,15 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
   const { slug } = await params;
 
   const collection = await collectionsRepository.getCollectionById(slug);
-  const category = await categoriesRepository.getCategoryById(
-    collection.categoryId,
+  const categories = await categoriesRepository.getCategories();
+
+  const category = categories.find(
+    (category) => category.id === collection.categoryId,
   );
+
+  if (!category) {
+    throw new Error('Category not found.');
+  }
 
   return (
     <div className="h-full flex flex-col">
@@ -122,7 +128,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
               <TooltipContent>Back to portfolio</TooltipContent>
             </Tooltip>
             <Tooltip>
-              <CollectionSettingsDialog>
+              <CollectionSettingsDialog categories={categories}>
                 <div>
                   <TooltipTrigger asChild>
                     <Button
