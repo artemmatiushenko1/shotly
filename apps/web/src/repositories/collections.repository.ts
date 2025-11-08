@@ -53,6 +53,23 @@ class CollectionsRepository {
       }),
     );
   }
+
+  async getCollectionById(id: string): Promise<Collection> {
+    const [collection] = await db
+      .select()
+      .from(collectionsTable)
+      .where(eq(collectionsTable.id, id));
+
+    if (!collection) {
+      // TODO: throw NotFoundError
+      throw new Error('Collection not found.');
+    }
+
+    return collectionSchema.parse({
+      ...collection,
+      shootDate: new Date(collection.shootDate),
+    });
+  }
 }
 
 const collectionsRepository = new CollectionsRepository();

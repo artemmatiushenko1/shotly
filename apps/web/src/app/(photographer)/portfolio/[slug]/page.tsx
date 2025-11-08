@@ -2,6 +2,8 @@ import { Empty } from './empty';
 import { PhotosGrid } from './photos-grid';
 import { CollectionCover } from './collection-cover';
 import { CollectionMetadata } from './collection-metadata';
+import collectionsRepository from '@/repositories/collections.repository';
+import categoriesRepository from '@/repositories/categories.repository';
 
 const photos = [
   {
@@ -78,12 +80,30 @@ const photos = [
   },
 ];
 
-async function CollectionDetails() {
+type CollectionDetailsProps = {
+  params: Promise<{ slug: string }>;
+};
+
+async function CollectionDetails({ params }: CollectionDetailsProps) {
+  const { slug } = await params;
+
+  const collection = await collectionsRepository.getCollectionById(slug);
+  const category = await categoriesRepository.getCategoryById(
+    collection.categoryId,
+  );
+
   return (
     <div className="h-full flex flex-col">
       <div className="p-3 space-y-6">
         <CollectionCover />
-        <CollectionMetadata isPublic />
+        <CollectionMetadata
+          name={collection.name}
+          description={collection.description ?? ''}
+          photosCount={10} // TODO: get photos count from photos repository
+          shootDate={collection.shootDate}
+          categoryName={category.name}
+          status={collection.visibilityStatus}
+        />
       </div>
       {photos.length === 0 ? <Empty /> : <PhotosGrid photos={photos} />}
     </div>
