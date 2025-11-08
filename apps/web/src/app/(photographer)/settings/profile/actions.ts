@@ -1,12 +1,10 @@
 'use server';
 
-import { UnauthenticatedError } from '@/domain/errors/auth';
 import { locationDetailsSchema } from '@/domain/locations';
-import { auth } from '@/lib/auth/auth';
+import { getUser } from '@/lib/auth/get-user';
 import imageStorage from '@/lib/images/image-storage.service';
 import usersRepository from '@/repositories/users.repository';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import z from 'zod';
 
 const inputSchema = z.object({
@@ -64,12 +62,7 @@ export const updateProfileAction = async (
   },
   form: FormData,
 ) => {
-  const session = await auth.api.getSession({ headers: await headers() });
-  const userId = session?.user.id;
-
-  if (!userId) {
-    throw new UnauthenticatedError('User must be logged in to update profile!');
-  }
+  const user = await getUser();
 
   const data = Object.fromEntries(form.entries());
 
@@ -130,9 +123,9 @@ export const updateProfileAction = async (
   };
 
   // TODO: should be a single transaction
-  await usersRepository.updateUser(userId, userUpdateData);
-  await usersRepository.updateUserLanguages(userId, validatedInput.languages);
-  await usersRepository.updateUserLocations(userId, validatedInput.locations);
+  await usersRepository.updateUser(user.id, userUpdateData);
+  await usersRepository.updateUserLanguages(user.id, validatedInput.languages);
+  await usersRepository.updateUserLocations(user.id, validatedInput.locations);
 
   revalidatePath('/settings');
 

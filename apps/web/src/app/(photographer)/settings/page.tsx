@@ -10,10 +10,8 @@ import { PrivacyAndSecuritySettings } from './privacy-and-security';
 import { GeneralSettings } from './general';
 import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
 import usersRepository from '@/repositories/users.repository';
-import { auth } from '@/lib/auth/auth';
-import { headers } from 'next/headers';
-import { UnauthenticatedError } from '@/domain/errors/auth';
 import languagesRepository from '@/repositories/languages.repository';
+import { getUser } from '@/lib/auth/get-user';
 
 const getProfileTabData = (userId: string) => {
   return Promise.all([
@@ -23,17 +21,9 @@ const getProfileTabData = (userId: string) => {
 };
 
 const Settings = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const user = await getUser();
 
-  if (!session) {
-    throw new UnauthenticatedError('User is not authenticated!');
-  }
-
-  const userId = session.user.id;
-
-  const [profile, languages] = await getProfileTabData(userId);
+  const [profile, languages] = await getProfileTabData(user.id);
 
   return (
     <>
@@ -64,7 +54,7 @@ const Settings = async () => {
               <ProfileSettings
                 profile={profile}
                 languageOptions={languages}
-                userId={userId}
+                userId={user.id}
               />
             </TabsContent>
             <TabsContent value="privacy-and-security">

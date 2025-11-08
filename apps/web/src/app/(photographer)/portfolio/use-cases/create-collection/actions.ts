@@ -1,9 +1,7 @@
 'use server';
 
-import { UnauthenticatedError } from '@/domain/errors/auth';
-import { auth } from '@/lib/auth/auth';
+import { getUser } from '@/lib/auth/get-user';
 import collectionsRepository from '@/repositories/collections.repository';
-import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import z from 'zod';
 
@@ -24,14 +22,7 @@ export const createCollection = async (
   },
   form: FormData,
 ) => {
-  const session = await auth.api.getSession({ headers: await headers() });
-  const userId = session?.user.id;
-
-  if (!userId) {
-    throw new UnauthenticatedError(
-      'User must be logged in to create collection!',
-    );
-  }
+  const user = await getUser();
 
   const data = Object.fromEntries(form.entries());
 
@@ -46,7 +37,7 @@ export const createCollection = async (
   }
 
   const collection = await collectionsRepository.createCollection(
-    userId,
+    user.id,
     validatedInput,
   );
 

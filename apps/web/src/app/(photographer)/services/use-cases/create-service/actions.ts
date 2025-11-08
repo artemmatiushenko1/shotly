@@ -1,12 +1,10 @@
 'use server';
 
-import { UnauthenticatedError } from '@/domain/errors/auth';
 import { ServiceStatus } from '@/domain/service';
-import { auth } from '@/lib/auth/auth';
+import { getUser } from '@/lib/auth/get-user';
 import imageStorage from '@/lib/images/image-storage.service';
 import servicesRepository from '@/repositories/services.repository';
 import { revalidatePath } from 'next/cache';
-import { headers } from 'next/headers';
 import z from 'zod';
 
 const inputSchema = z.object({
@@ -37,12 +35,7 @@ export const createService = async (
   },
   form: FormData,
 ) => {
-  const session = await auth.api.getSession({ headers: await headers() });
-  const userId = session?.user.id;
-
-  if (!userId) {
-    throw new UnauthenticatedError('User must be logged in to create service!');
-  }
+  const user = await getUser();
 
   const data = Object.fromEntries(form.entries());
 
@@ -75,7 +68,7 @@ export const createService = async (
     },
   );
 
-  await servicesRepository.createService(userId, {
+  await servicesRepository.createService(user.id, {
     ...validatedInput,
     coverImageUrl: coverImageUploadResult.url,
   });

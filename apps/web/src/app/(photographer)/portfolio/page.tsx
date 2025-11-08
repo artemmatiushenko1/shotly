@@ -6,21 +6,13 @@ import { PlusIcon } from 'lucide-react';
 import { Button } from '@shotly/ui/components/button';
 import categoriesRepository from '@/repositories/categories.repository';
 import collectionsRepository from '@/repositories/collections.repository';
-import { auth } from '@/lib/auth/auth';
-import { headers } from 'next/headers';
-import { UnauthenticatedError } from '@/domain/errors/auth';
+import { getUser } from '@/lib/auth/get-user';
 
 async function Portfolio() {
-  const session = await auth.api.getSession({ headers: await headers() });
-
-  if (!session) {
-    throw new UnauthenticatedError('User is not authenticated!');
-  }
+  const user = await getUser();
 
   const categories = await categoriesRepository.getCategories();
-  const collections = await collectionsRepository.getAllCollections(
-    session.user.id,
-  );
+  const collections = await collectionsRepository.getAllCollections(user.id);
 
   return (
     <div className="h-full flex flex-col">

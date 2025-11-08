@@ -5,10 +5,8 @@ import CreateServiceDialog from './use-cases/create-service/create-service-dialo
 import ServicesList from './use-cases/see-services/services-list';
 import categoriesRepository from '@/repositories/categories.repository';
 import servicesRepository from '@/repositories/services.repository';
-import { auth } from '@/lib/auth/auth';
-import { headers } from 'next/headers';
-import { UnauthenticatedError } from '@/domain/errors/auth';
 import { Service, ServiceStatus } from '@/domain/service';
+import { getUser } from '@/lib/auth/get-user';
 
 const MOCK_SERVICES: Service[] = [
   {
@@ -70,15 +68,10 @@ const MOCK_SERVICES: Service[] = [
 ];
 
 async function Services() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const user = await getUser();
 
-  if (!session) {
-    throw new UnauthenticatedError('User is not authenticated!');
-  }
-
-  const userId = session.user.id;
   const categories = await categoriesRepository.getCategories();
-  const services = await servicesRepository.getAllServices(userId);
+  const services = await servicesRepository.getAllServices(user.id);
 
   return (
     <>
