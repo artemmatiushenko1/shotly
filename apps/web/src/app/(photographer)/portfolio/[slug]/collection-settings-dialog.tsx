@@ -135,7 +135,7 @@ function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
             </div>
           </div>
           <Separator orientation="vertical" className="mr-0" />
-          <div className="p-4 pt-8 flex-2/3 bg-accent/25 flex flex-col">
+          <div className="py-4 px-6 pt-8 flex-2/3 bg-accent/25 flex flex-col">
             {tabs.map((tab) => (
               <TabsContent
                 key={tab.value}
