@@ -13,6 +13,7 @@ import { Button } from '@shotly/ui/components/button';
 import { ConfirmationDialog } from '@shotly/ui/components/confirmation-dialog';
 import { archiveService } from './actions';
 import { ServiceStatus } from '@/domain/service';
+import { toast } from '@shotly/ui/components/sonner';
 
 type ServiceCardProps = {
   id: string;
@@ -51,6 +52,9 @@ function ServiceCard(props: ServiceCardProps) {
   });
 
   // TODO: display toast notifications for archive service action
+  if (state.error) {
+    toast.error('Failed to archive service');
+  }
 
   // TODO: refactor this to use a more elegant solution
   const featuresLabel =
