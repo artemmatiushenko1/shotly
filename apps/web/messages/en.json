@@ -154,6 +154,28 @@
     "title": "Portfolio",
     "caption": "Organize your photography work into collections",
     "createCollection": "Collection",
+    "toolbar": {
+      "filters": {
+        "All": "All",
+        "Public": "Public",
+        "Private": "Private"
+      },
+      "search": {
+        "placeholder": "Search collections..."
+      },
+      "sort": {
+        "placeholder": "Sort by",
+        "options": {
+          "shootDateNewest": "Shoot Date (Newest)",
+          "shootDateOldest": "Shoot Date (Oldest)",
+          "lastModified": "Last Modified"
+        }
+      },
+      "category": {
+        "placeholder": "Filter by category",
+        "all": "All Categories"
+      }
+    },
     "createCollectionDialog": {
       "dialog": {
         "title": "Create new collection",
@@ -194,7 +216,8 @@
         "line1": "Create your first collection to professionally organize your",
         "line2": "photos and present your work to potential clients with ease"
       },
-      "createCollection": "Collection"
+      "createCollection": "Collection",
+      "noResults": "No collections found matching your filters."
     },
     "collectionDetails": {
       "backToPortfolio": "Back to portfolio",

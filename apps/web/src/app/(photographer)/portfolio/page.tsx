@@ -1,7 +1,7 @@
 import { MOCK_COLLECTIONS } from './data';
 import MainHeader from '@/components/main-header';
 import { CreateCollectionDialog } from './use-cases/create-collection/create-collection-dialog';
-import { CollectionsGrid } from './use-cases/see-collections/collections-grid';
+import { CollectionsList } from './use-cases/see-collections/collections-list';
 import { PlusIcon } from 'lucide-react';
 import { Button } from '@shotly/ui/components/button';
 import categoriesRepository from '@/repositories/categories.repository';
@@ -15,6 +15,7 @@ async function Portfolio() {
 
   const categories = await categoriesRepository.getCategories();
   const collections = await collectionsRepository.getAllCollections(user.id);
+  const allCollections = [...MOCK_COLLECTIONS, ...collections];
 
   return (
     <div className="h-full flex flex-col">
@@ -22,7 +23,7 @@ async function Portfolio() {
         title={t('title')}
         caption={t('caption')}
         extra={
-          collections.length > 0 && (
+          allCollections.length > 0 && (
             <div className="ml-auto">
               <CreateCollectionDialog categories={categories}>
                 <Button>
@@ -33,8 +34,8 @@ async function Portfolio() {
           )
         }
       />
-      <div className="animate-in fade-in duration-300">
-        <CollectionsGrid collections={[...MOCK_COLLECTIONS, ...collections]} />
+      <div className="animate-in fade-in duration-300 mt-4">
+        <CollectionsList collections={allCollections} categories={categories} />
       </div>
     </div>
   );

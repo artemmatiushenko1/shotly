@@ -37,6 +37,12 @@ class CollectionsRepository {
     return collectionSchema.parse({
       ...collection,
       shootDate: new Date(collection.shootDate),
+      createdAt: collection.createdAt
+        ? new Date(collection.createdAt)
+        : undefined,
+      updatedAt: collection.updatedAt
+        ? new Date(collection.updatedAt)
+        : undefined,
     });
   }
 
@@ -50,6 +56,12 @@ class CollectionsRepository {
       collectionSchema.parse({
         ...collection,
         shootDate: new Date(collection.shootDate),
+        createdAt: collection.createdAt
+          ? new Date(collection.createdAt)
+          : undefined,
+        updatedAt: collection.updatedAt
+          ? new Date(collection.updatedAt)
+          : undefined,
       }),
     );
   }
@@ -68,6 +80,12 @@ class CollectionsRepository {
     return collectionSchema.parse({
       ...collection,
       shootDate: new Date(collection.shootDate),
+      createdAt: collection.createdAt
+        ? new Date(collection.createdAt)
+        : undefined,
+      updatedAt: collection.updatedAt
+        ? new Date(collection.updatedAt)
+        : undefined,
     });
   }
 }

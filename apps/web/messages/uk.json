@@ -154,6 +154,28 @@
     "title": "Портфоліо",
     "caption": "Організуйте свою роботу з фотографії в колекції",
     "createCollection": "Колекція",
+    "toolbar": {
+      "filters": {
+        "All": "Всі",
+        "Public": "Публічні",
+        "Private": "Приватні"
+      },
+      "search": {
+        "placeholder": "Пошук колекцій..."
+      },
+      "sort": {
+        "placeholder": "Сортувати за",
+        "options": {
+          "shootDateNewest": "Дата зйомки (новіші)",
+          "shootDateOldest": "Дата зйомки (старіші)",
+          "lastModified": "Останні зміни"
+        }
+      },
+      "category": {
+        "placeholder": "Фільтр за категорією",
+        "all": "Всі категорії"
+      }
+    },
     "createCollectionDialog": {
       "dialog": {
         "title": "Створити нову колекцію",
@@ -194,7 +216,8 @@
         "line1": "Створіть свою першу колекцію, щоб професійно організувати свої",
         "line2": "фотографії та легко презентувати свою роботу потенційним клієнтам"
       },
-      "createCollection": "Колекція"
+      "createCollection": "Колекція",
+      "noResults": "Колекції, що відповідають вашим фільтрам, не знайдено."
     },
     "collectionDetails": {
       "backToPortfolio": "Назад до портфоліо",

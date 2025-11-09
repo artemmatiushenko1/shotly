@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import CollectionCard from './collection-card';
 import Empty from './empty';

@@ -21,7 +21,7 @@ export async function Loading() {
       <MainHeader title={t('title')} caption={t('caption')} />
       <div className="px-4">
         <Tabs defaultValue="profile">
-          <TabsList className="my-3">
+          <TabsList>
             <TabsTrigger value="profile" disabled>
               <UserIcon /> {t('tabs.profile')}
             </TabsTrigger>
