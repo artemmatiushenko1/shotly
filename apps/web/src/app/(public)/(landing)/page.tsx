@@ -19,13 +19,7 @@ async function LandingPage() {
       <section className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight px-4">
-            Your Marketplace for{' '}
-            <span className="inline-flex items-center gap-1 sm:gap-2">
-              <span className="whitespace-nowrap">Ukrainian</span>
-            </span>{' '}
-            <span className="bg-gradient-to-r from-purple-600 to-orange-500 bg-clip-text text-transparent block sm:inline">
-              Photographers
-            </span>
+            Your Marketplace for <span>Photographers</span>
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-10 max-w-2xl mx-auto px-4">
             Find and book your perfect photographer for any occasion. Connect
