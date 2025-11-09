@@ -21,6 +21,8 @@ const buttonVariants = cva(
         ghost:
           'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
+        gradient:
+          'bg-[linear-gradient(60deg,#ffd164,#f8b03d,#ee6b60,#d6487f,#a147c4,#4b63e4,#3cccc7)]',
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',
@@ -60,11 +62,17 @@ function Button({
       data-slot="button"
       disabled={loading || disabled}
       aria-busy={loading}
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size }), className)}
       {...props}
     >
-      {loading && <Spinner size="sm" />}
-      {children}
+      {asChild ? (
+        children
+      ) : (
+        <>
+          {loading && <Spinner size="sm" />}
+          {children}
+        </>
+      )}
     </Comp>
   );
 }
