@@ -5,7 +5,7 @@ import { Input } from '@shotly/ui/components/input';
 import { Textarea } from '@shotly/ui/components/textarea';
 import { InstagramIcon, GlobeIcon, CircleXIcon } from 'lucide-react';
 import { SocialLinkInput } from './social-link-input';
-import { LabeledControl } from './labeled-control';
+import { LabeledControl } from '../labeled-control';
 import { LocationSelector } from './location-selector';
 import { LanguageSelector } from './language-selector';
 import { ExperienceSlider } from './experience-slider';
@@ -66,7 +66,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
     <div className="space-y-8 pb-4">
       <div className="flex">
         <div>
-          <h2 className="text-lg font-semibold text-foreground">
+          <h2 className="text-xl font-semibold text-foreground">
             {t('title')}
           </h2>
           <p className="text-sm text-muted-foreground">{t('description')}</p>

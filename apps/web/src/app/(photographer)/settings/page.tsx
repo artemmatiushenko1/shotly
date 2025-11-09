@@ -47,7 +47,7 @@ const Settings = async () => {
           {/* TODO: create a wrapper component for animation */}
           <div className="animate-in fade-in duration-300">
             <TabsContent value="general">
-              <GeneralSettings />
+              <GeneralSettings userEmail={user.email} />
             </TabsContent>
             <TabsContent value="profile">
               <ProfileSettings

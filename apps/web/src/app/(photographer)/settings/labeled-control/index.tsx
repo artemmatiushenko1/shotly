@@ -18,7 +18,9 @@ const LabeledControl = (props: LabeledControlProps) => {
         <Label {...labelProps} className="text-base font-medium">
           {title}
         </Label>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <p className="text-sm text-muted-foreground whitespace-pre-line">
+          {description}
+        </p>
       </div>
       <div className="flex-1 space-y-2">{controlNode}</div>
     </div>

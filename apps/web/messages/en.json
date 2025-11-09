@@ -83,6 +83,22 @@
       "general": "General",
       "privacyAndSecurity": "Privacy & Security"
     },
+    "general": {
+      "title": "General",
+      "description": "Manage your general account settings and preferences",
+      "email": {
+        "title": "Email",
+        "description": "Your email address. Contact support\nto change it."
+      },
+      "language": {
+        "title": "Language",
+        "description": "Choose your preferred language for the interface",
+        "options": {
+          "en": "English",
+          "uk": "Українська"
+        }
+      }
+    },
     "profile": {
       "title": "Profile",
       "description": "Update your photo and personal details",
