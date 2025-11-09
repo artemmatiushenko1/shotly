@@ -29,10 +29,12 @@ function SelectTrigger({
   size = 'default',
   children,
   arrowClassName,
+  showArrow = true,
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
   size?: 'sm' | 'default';
   arrowClassName?: string;
+  showArrow?: boolean;
 }) {
   return (
     <SelectPrimitive.Trigger
@@ -45,9 +47,13 @@ function SelectTrigger({
       {...props}
     >
       {children}
-      <SelectPrimitive.Icon asChild>
-        <ChevronDownIcon className={cn('size-4 opacity-50', arrowClassName)} />
-      </SelectPrimitive.Icon>
+      {showArrow && (
+        <SelectPrimitive.Icon asChild>
+          <ChevronDownIcon
+            className={cn('size-4 opacity-50', arrowClassName)}
+          />
+        </SelectPrimitive.Icon>
+      )}
     </SelectPrimitive.Trigger>
   );
 }

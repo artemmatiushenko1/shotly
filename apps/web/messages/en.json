@@ -376,5 +376,35 @@
         "archiveFailed": "Failed to archive service"
       }
     }
+  },
+  "landing": {
+    "navigation": {
+      "home": "Home",
+      "photographers": "Photographers",
+      "aboutUs": "About Us",
+      "signIn": "Sign In",
+      "signUp": "Sign Up"
+    },
+    "hero": {
+      "title": "Your Marketplace for",
+      "titleHighlight": "Photographers",
+      "subtitle": "Find and book your perfect photographer for any occasion. Connect with top photography talent across Ukraine."
+    },
+    "search": {
+      "title": "Search for your perfect match",
+      "description": "Tailored talent matches to help you hire the right person faster",
+      "category": "Category",
+      "location": "Location",
+      "budget": "Your Budget",
+      "searchButton": "Search Photographers",
+      "budgetRanges": {
+        "under1000": "Under 1,000 ₴",
+        "1000to3000": "1,000 - 3,000 ₴",
+        "3000to5000": "3,000 - 5,000 ₴",
+        "5000to10000": "5,000 - 10,000 ₴",
+        "10000to20000": "10,000 - 20,000 ₴",
+        "over20000": "Over 20,000 ₴"
+      }
+    }
   }
 }

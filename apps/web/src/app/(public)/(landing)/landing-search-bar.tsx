@@ -11,6 +11,7 @@ import {
 import { Button } from '@shotly/ui/components/button';
 import { ChevronRightIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Category } from '@/domain/category';
 
 type LandingSearchBarProps = {
@@ -33,17 +34,9 @@ const UKRAINIAN_CITIES = [
   'Poltava',
 ];
 
-const BUDGET_RANGES = [
-  { label: 'Under 1,000 ₴', value: '0-1000' },
-  { label: '1,000 - 3,000 ₴', value: '1000-3000' },
-  { label: '3,000 - 5,000 ₴', value: '3000-5000' },
-  { label: '5,000 - 10,000 ₴', value: '5000-10000' },
-  { label: '10,000 - 20,000 ₴', value: '10000-20000' },
-  { label: 'Over 20,000 ₴', value: '20000+' },
-];
-
 function LandingSearchBar({ categories }: LandingSearchBarProps) {
   const router = useRouter();
+  const t = useTranslations('landing.search');
   const [category, setCategory] = useState<string>('');
   const [location, setLocation] = useState<string>('');
   const [budget, setBudget] = useState<string>('');
@@ -58,11 +51,20 @@ function LandingSearchBar({ categories }: LandingSearchBarProps) {
     router.push(`/photographers${queryString ? `?${queryString}` : ''}`);
   };
 
+  const budgetRanges = [
+    { label: t('budgetRanges.under1000'), value: '0-1000' },
+    { label: t('budgetRanges.1000to3000'), value: '1000-3000' },
+    { label: t('budgetRanges.3000to5000'), value: '3000-5000' },
+    { label: t('budgetRanges.5000to10000'), value: '5000-10000' },
+    { label: t('budgetRanges.10000to20000'), value: '10000-20000' },
+    { label: t('budgetRanges.over20000'), value: '20000+' },
+  ];
+
   return (
     <div className="flex flex-col sm:flex-row gap-4 h-[48px]">
       <Select value={category} onValueChange={setCategory}>
         <SelectTrigger className="flex-1 bg-gray-50 border-gray-200 data-[size=default]:h-full rounded-full px-6">
-          <SelectValue placeholder="Category" />
+          <SelectValue placeholder={t('category')} />
         </SelectTrigger>
         <SelectContent>
           {categories.map((cat) => (
@@ -75,7 +77,7 @@ function LandingSearchBar({ categories }: LandingSearchBarProps) {
 
       <Select value={location} onValueChange={setLocation}>
         <SelectTrigger className="flex-1 bg-gray-50 border-gray-200 data-[size=default]:h-full rounded-full px-6">
-          <SelectValue placeholder="Location" />
+          <SelectValue placeholder={t('location')} />
         </SelectTrigger>
         <SelectContent>
           {UKRAINIAN_CITIES.map((city) => (
@@ -88,10 +90,10 @@ function LandingSearchBar({ categories }: LandingSearchBarProps) {
 
       <Select value={budget} onValueChange={setBudget}>
         <SelectTrigger className="flex-1 bg-gray-50 border-gray-200 data-[size=default]:h-full rounded-full px-6">
-          <SelectValue placeholder="Your Budget" />
+          <SelectValue placeholder={t('budget')} />
         </SelectTrigger>
         <SelectContent>
-          {BUDGET_RANGES.map((range) => (
+          {budgetRanges.map((range) => (
             <SelectItem key={range.value} value={range.value}>
               {range.label}
             </SelectItem>
@@ -101,10 +103,10 @@ function LandingSearchBar({ categories }: LandingSearchBarProps) {
 
       <Button
         onClick={handleSearch}
-        className="h-12 w-full sm:w-auto bg-[linear-gradient(60deg,#ffd164,#f8b03d,#ee6b60,#d6487f,#a147c4,#4b63e4,#3cccc7)] text-white has-[>svg]:pl-8 sm:px-8 rounded-full"
+        className="h-12 w-full sm:w-auto has-[>svg]:pl-8 sm:px-8 rounded-full"
         size="lg"
       >
-        <span className="whitespace-nowrap">Search Photographers</span>
+        <span className="whitespace-nowrap">{t('searchButton')}</span>
         <ChevronRightIcon className="size-5" />
       </Button>
     </div>

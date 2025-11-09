@@ -1,4 +1,5 @@
 import { Search } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import LandingSearchBar from './landing-search-bar';
 import PhotographerAvatars from './photographer-avatars';
 import categoriesRepository from '@/repositories/categories.repository';
@@ -6,6 +7,7 @@ import Navigation from './navigation';
 
 async function LandingPage() {
   const categories = await categoriesRepository.getCategories();
+  const t = await getTranslations('landing');
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white relative overflow-hidden bg-[linear-gradient(to_bottom,_#e8ebff_0%,_#fff4ea_100%)]">
@@ -19,11 +21,11 @@ async function LandingPage() {
       <section className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight px-4">
-            Your Marketplace for <span>Photographers</span>
+            {t('hero.title')}{' '}
+            <span className="">{t('hero.titleHighlight')}</span>
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-10 max-w-2xl mx-auto px-4">
-            Find and book your perfect photographer for any occasion. Connect
-            with top photography talent across Ukraine.
+            {t('hero.subtitle')}
           </p>
         </div>
       </section>
@@ -35,11 +37,11 @@ async function LandingPage() {
                 <Search className="size-5 text-primary" />
               </div>
               <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
-                Search for your perfect match
+                {t('search.title')}
               </h2>
             </div>
             <p className="text-gray-600 mb-8 text-sm sm:text-base">
-              Tailored talent matches to help you hire the right person faster
+              {t('search.description')}
             </p>
             <LandingSearchBar categories={categories} />
           </div>
