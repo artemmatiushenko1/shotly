@@ -47,7 +47,7 @@ function Navigation() {
       </div>
       <div className="flex items-center gap-3">
         <LanguageSwitcher />
-        <div className="backdrop-blur-2xl bg-white/30 p-2 rounded-full flex items-center gap-3 border border-gray-200">
+        <div className="backdrop-blur-2xl bg-white/70 p-2 rounded-full flex items-center gap-3 border border-gray-200">
           <Link
             href="/auth/sign-in"
             className={cn(
