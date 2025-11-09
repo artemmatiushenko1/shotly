@@ -167,6 +167,7 @@ export const usersToLocationsTable = pgTable(
 export const categoriesTable = pgTable('categories', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull().unique(),
+  // TODO: add one more column per interface locale (name_en, name_uk)
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 

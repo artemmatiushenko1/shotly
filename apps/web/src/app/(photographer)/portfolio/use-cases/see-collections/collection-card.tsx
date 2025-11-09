@@ -1,9 +1,8 @@
 'use client';
 
 import { IconWithText } from '@/components/icon-with-text';
-import { Button } from '@shotly/ui/components/button';
 import { Card, CardContent } from '@shotly/ui/components/card';
-import { CalendarIcon, EllipsisVertical, ImagesIcon } from 'lucide-react';
+import { CalendarIcon, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
 import { VisibilityBadge } from '../../../ui/visibility-badge';
 import ImagePlaceholder from '@/components/image-placeholder';
@@ -27,6 +26,7 @@ function CollectionCard(props: CollectionCardProps) {
     createdAt,
     coverSrc,
   } = props;
+
   const t = useTranslations('portfolio.collectionCard');
 
   return (
@@ -49,22 +49,13 @@ function CollectionCard(props: CollectionCardProps) {
           isPublic={isPublic}
           className="absolute top-4 left-4"
         />
-        <div className="absolute top-4 right-4 flex gap-2">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full w-10 h-10 p-0 text-background size-8"
-          >
-            <EllipsisVertical className="w-4 h-4" />
-          </Button>
-        </div>
       </div>
       <CardContent className="p-3">
         <div className="space-y-4">
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-              <p className="text-gray-600 text-sm">{description}</p>
+              <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+              <p className="text-muted-foreground text-sm">{description}</p>
             </div>
           </div>
           <div className="flex justify-between gap-6 text-xs text-gray-600">

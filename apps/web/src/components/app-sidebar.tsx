@@ -28,7 +28,6 @@ import {
   AvatarFallback,
   AvatarImage,
 } from '@shotly/ui/components/avatar';
-import { DropdownMenu } from '@shotly/ui/components/dropdown-menu';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth/auth-client';
@@ -93,7 +92,7 @@ export function AppSidebar(props: AppSidebarProps) {
   return (
     <Sidebar variant="inset">
       <SidebarHeader className="pt-1">
-        <div className="border flex gap-3 items-center justify-center rounded-md bg-[linear-gradient(60deg,#ffd164,#f8b03d,#ee6b60,#d6487f,#a147c4,#4b63e4,#3cccc7)]">
+        <div className="flex gap-3 items-center justify-center rounded-md bg-[linear-gradient(60deg,#ffd164,#f8b03d,#ee6b60,#d6487f,#a147c4,#4b63e4,#3cccc7)]">
           <Logo />
         </div>
       </SidebarHeader>
@@ -125,44 +124,43 @@ export function AppSidebar(props: AppSidebarProps) {
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter>
+        <StorageUsage />
         <SidebarMenu>
-          <StorageUsage />
-          <Separator />
           <SidebarMenuItem>
-            <DropdownMenu>
-              <SidebarMenuButton
-                asChild
-                size="lg"
-                isActive={getIsActiveMenuItem('/settings')}
-              >
-                <Link href="/settings">
-                  <SettingsIcon />
-                  <span className="mr-auto text-sm">{t('settings')}</span>
-                  {getIsActiveMenuItem('/settings') && (
-                    <ChevronRight className="text-fo" />
-                  )}
-                </Link>
-              </SidebarMenuButton>
-              <SidebarMenuButton asChild size="lg" onClick={handleSignOut}>
-                <Link href="/settings">
-                  <LogOutIcon />
-                  <span className="mr-auto text-sm">{t('logOut')}</span>
-                </Link>
-              </SidebarMenuButton>
-              <Separator />
-              <div className="flex gap-2 p-2 py-3">
-                <Avatar className="h-8 w-8 rounded-md">
-                  <AvatarImage src={user?.image ?? ''} alt={user?.name} />
-                  <AvatarFallback className="rounded-md">CN</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-xs leading-tight">
-                  <span className="truncate font-semibold text-foreground mb-1">
-                    {user?.name}
-                  </span>
-                  <span className="truncate text-xs">{user?.email}</span>
-                </div>
+            <SidebarMenuButton
+              asChild
+              size="lg"
+              isActive={getIsActiveMenuItem('/settings')}
+            >
+              <Link href="/settings">
+                <SettingsIcon />
+                <span className="mr-auto text-sm">{t('settings')}</span>
+                {getIsActiveMenuItem('/settings') && (
+                  <ChevronRight className="text-fo" />
+                )}
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild size="lg" onClick={handleSignOut}>
+              <Link href="/settings">
+                <LogOutIcon />
+                <span className="mr-auto text-sm">{t('logOut')}</span>
+              </Link>
+            </SidebarMenuButton>
+            <Separator className="my-2" />
+            <div className="flex gap-2 p-2 py-3">
+              <Avatar className="h-8 w-8 rounded-md">
+                <AvatarImage src={user?.image ?? ''} alt={user?.name} />
+                <AvatarFallback className="rounded-md">CN</AvatarFallback>
+              </Avatar>
+              <div className="grid flex-1 text-left text-xs leading-tight">
+                <span className="truncate font-semibold text-foreground mb-1">
+                  {user?.name}
+                </span>
+                <span className="truncate text-xs">{user?.email}</span>
               </div>
-            </DropdownMenu>
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
