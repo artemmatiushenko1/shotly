@@ -30,9 +30,9 @@ const Settings = async () => {
   return (
     <>
       <MainHeader title={t('title')} caption={t('caption')} />
-      <div className="px-4 mt-4">
+      <div className="px-4">
         <Tabs defaultValue="profile">
-          <TabsList>
+          <TabsList className="my-4">
             <TabsTrigger value="profile">
               <UserIcon /> {t('tabs.profile')}
             </TabsTrigger>

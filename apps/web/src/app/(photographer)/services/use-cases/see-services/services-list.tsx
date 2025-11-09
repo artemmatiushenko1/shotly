@@ -32,13 +32,13 @@ function ServicesList(props: ServicesListProps) {
     useServiceFilter(services);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       <Tabs
         defaultValue="All"
         value={selectedTab}
         onValueChange={(value) => setSelectedTab(value as ServiceFilterTab)}
       >
-        <TabsList>
+        <TabsList className="my-4">
           {tabs.map((tab) => (
             <TabsTrigger key={tab} value={tab}>
               {t(tab)}{' '}
@@ -52,21 +52,23 @@ function ServicesList(props: ServicesListProps) {
           ))}
         </TabsList>
       </Tabs>
-      {filteredServices.map((service) => (
-        <ServiceCard
-          key={service.id}
-          id={service.id}
-          coverUrl={service.coverImageUrl}
-          name={service.name}
-          description={service.description}
-          price={service.price.toString()}
-          priceUnit={service.currency}
-          deliveryTime={service.deliveryTimeInDays.toString()}
-          features={service.features}
-          status={service.status}
-          categoryName={categoryMap[service.categoryId] ?? '-'}
-        />
-      ))}
+      <div className="flex flex-col gap-4">
+        {filteredServices.map((service) => (
+          <ServiceCard
+            key={service.id}
+            id={service.id}
+            coverUrl={service.coverImageUrl}
+            name={service.name}
+            description={service.description}
+            price={service.price.toString()}
+            priceUnit={service.currency}
+            deliveryTime={service.deliveryTimeInDays.toString()}
+            features={service.features}
+            status={service.status}
+            categoryName={categoryMap[service.categoryId] ?? '-'}
+          />
+        ))}
+      </div>
     </div>
   );
 }

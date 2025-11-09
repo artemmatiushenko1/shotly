@@ -89,7 +89,7 @@ async function Services() {
           </CreateServiceDialog>
         }
       />
-      <div className="p-4 animate-in fade-in duration-300">
+      <div className="p-4 pt-0 animate-in fade-in duration-300">
         <ServicesList
           categories={categories}
           services={[...MOCK_SERVICES, ...services]}

@@ -5,7 +5,9 @@ import { Input } from '@shotly/ui/components/input';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@shotly/ui/components/select';
@@ -47,12 +49,12 @@ const CollectionsToolbar = ({
   const t = useTranslations('portfolio.toolbar');
 
   return (
-    <div className="flex gap-4 p-4 py-0">
+    <div className="flex gap-4 p-4 py-0 items-center">
       <Tabs
         value={selectedTab}
         onValueChange={(value) => setSelectedTab(value as CollectionFilterTab)}
       >
-        <TabsList>
+        <TabsList className="my-4">
           {COLLECTION_FILTER_TABS.map((tab) => (
             <TabsTrigger key={tab} value={tab}>
               {t(`filters.${tab}`)}{' '}
@@ -85,15 +87,18 @@ const CollectionsToolbar = ({
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="shootDateNewest">
-            {t('sort.options.shootDateNewest')}
-          </SelectItem>
-          <SelectItem value="shootDateOldest">
-            {t('sort.options.shootDateOldest')}
-          </SelectItem>
-          <SelectItem value="lastModified">
-            {t('sort.options.lastModified')}
-          </SelectItem>
+          <SelectGroup>
+            <SelectLabel>Sort by</SelectLabel>
+            <SelectItem value="shootDateNewest">
+              {t('sort.options.shootDateNewest')}
+            </SelectItem>
+            <SelectItem value="shootDateOldest">
+              {t('sort.options.shootDateOldest')}
+            </SelectItem>
+            <SelectItem value="lastModified">
+              {t('sort.options.lastModified')}
+            </SelectItem>
+          </SelectGroup>
         </SelectContent>
       </Select>
       <Select

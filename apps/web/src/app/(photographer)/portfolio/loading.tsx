@@ -1,10 +1,10 @@
 import MainHeader from '@/components/main-header';
 import GradientLoadingProgress from '@/components/gradient-progress';
-import { Button } from '@shotly/ui/components/button';
 import { Card, CardContent } from '@shotly/ui/components/card';
 import { Skeleton } from '@shotly/ui/components/skeleton';
-import { PlusIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
+import { Button } from '@shotly/ui/components/button';
+import { PlusIcon } from 'lucide-react';
 
 export async function Loading() {
   const t = await getTranslations('portfolio');
@@ -19,46 +19,60 @@ export async function Loading() {
           title={t('title')}
           caption={t('caption')}
           extra={
-            <div className="ml-auto">
-              <Button disabled>
-                <PlusIcon /> {t('createCollection')}
-              </Button>
-            </div>
+            <Button disabled className="ml-auto">
+              <PlusIcon /> {t('createCollection')}
+            </Button>
           }
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-3 pt-4">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <Card
-              key={i}
-              className="rounded-xl shadow-none overflow-hidden p-0 gap-0 border-none"
-            >
-              <div className="relative">
-                <div className="p-2">
-                  <Skeleton className="w-full h-48 rounded-md" />
+        <div className="animate-in fade-in duration-300">
+          {/* Toolbar Skeleton */}
+          <div className="flex gap-4 p-4 py-0 items-center flex-wrap">
+            <div className="flex gap-2 my-4">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Skeleton key={i} className="h-9 w-20 rounded-md" />
+              ))}
+            </div>
+            <div className="flex-1 max-w-[300px] ml-auto min-w-[200px]">
+              <Skeleton className="h-10 w-full rounded-md" />
+            </div>
+            <Skeleton className="h-10 w-[200px] rounded-md" />
+            <Skeleton className="h-10 w-[150px] rounded-md" />
+          </div>
+          {/* Collections Grid Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-3 pt-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <Card
+                key={i}
+                className="rounded-xl shadow-none overflow-hidden p-0 gap-0 border-none"
+              >
+                <div className="relative">
+                  <div className="p-2">
+                    <Skeleton className="w-full h-48 rounded-md" />
+                  </div>
+                  <div className="absolute top-4 left-4">
+                    <Skeleton className="h-5 w-16 rounded-full" />
+                  </div>
+                  <div className="absolute top-4 right-4">
+                    <Skeleton className="h-8 w-8 rounded-full" />
+                  </div>
                 </div>
-                <div className="absolute top-4 left-4">
-                  <Skeleton className="h-5 w-16 rounded-full" />
-                </div>
-                <div className="absolute top-4 right-4">
-                  <Skeleton className="h-8 w-8 rounded-full" />
-                </div>
-              </div>
-              <CardContent className="p-3">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1 space-y-2">
-                      <Skeleton className="h-6 w-3/4" />
-                      <Skeleton className="h-4 w-full" />
+                <CardContent className="p-3">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1 space-y-2">
+                        <Skeleton className="h-6 w-3/4" />
+                        <Skeleton className="h-4 w-full" />
+                      </div>
+                    </div>
+                    <div className="flex justify-between gap-6">
+                      <Skeleton className="h-4 w-20" />
+                      <Skeleton className="h-4 w-24" />
                     </div>
                   </div>
-                  <div className="flex justify-between gap-6">
-                    <Skeleton className="h-4 w-20" />
-                    <Skeleton className="h-4 w-24" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </>

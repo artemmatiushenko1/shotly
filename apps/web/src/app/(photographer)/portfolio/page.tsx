@@ -34,7 +34,7 @@ async function Portfolio() {
           )
         }
       />
-      <div className="animate-in fade-in duration-300 mt-4">
+      <div className="animate-in fade-in duration-300">
         <CollectionsList collections={allCollections} categories={categories} />
       </div>
     </div>
