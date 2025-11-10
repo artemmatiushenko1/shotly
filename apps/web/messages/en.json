@@ -221,7 +221,7 @@
     },
     "collectionDetails": {
       "backToPortfolio": "Back to portfolio",
-      "settings": "Settings",
+      "settingsTooltip": "Налаштування",
       "errors": {
         "categoryNotFound": "Category not found."
       },
