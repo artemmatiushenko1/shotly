@@ -16,6 +16,7 @@ import {
   date,
   bigint,
   jsonb,
+  time,
 } from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('user', {
@@ -37,6 +38,12 @@ export const usersTable = pgTable('user', {
   instagramTag: text('instagram_tag'),
   coverImageUrl: text('cover_image_url'),
   yearsOfExperience: integer('years_of_experience').default(0),
+  storageUsageInBytes: bigint('storage_usage_in_bytes', { mode: 'number' })
+    .notNull()
+    .default(0),
+  storageLimitInBytes: bigint('storage_limit_in_bytes', { mode: 'number' })
+    .notNull()
+    .default(5_368_709_120), // 5GB
   bio: text('bio'),
 });
 
@@ -254,6 +261,91 @@ export const photosTable = pgTable('photos', {
     .notNull()
     .references(() => usersTable.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const orderStatusEnum = pgEnum('order_status', [
+  'pending',
+  'paid',
+  'delivered',
+  'cancelled',
+  'refunded',
+]);
+
+export const dayOfWeekEnum = pgEnum('day_of_week', [
+  '1', // Monday
+  '2', // Tuesday
+  '3', // Wednesday
+  '4', // Thursday
+  '5', // Friday
+  '6', // Saturday
+  '7', // Sunday
+]);
+
+/**
+ * Orders (for a Service)
+ * Snapshots price and includes booking times.
+ */
+export const ordersTable = pgTable('orders', {
+  id: uuid('id').defaultRandom().primaryKey(),
+
+  // Price Snapshot
+  amount: integer('amount').notNull(),
+  currency: text('currency').notNull(),
+
+  status: orderStatusEnum('status').notNull().default('pending'),
+
+  // Booking
+  bookingStart: timestamp('booking_start', { withTimezone: true }),
+  bookingEnd: timestamp('booking_end', { withTimezone: true }),
+
+  buyerEmail: text('buyer_email').notNull(),
+
+  serviceId: uuid('service_id')
+    .notNull()
+    .references(() => servicesTable.id, { onDelete: 'restrict' }),
+  createdAt: timestamp('created_at', { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(
+    () => new Date(),
+  ),
+});
+
+/**
+ * Availability Rules (Recurring weekly template)
+ */
+export const availabilityRulesTable = pgTable(
+  'availability_rules',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    photographerId: text('photographer_id')
+      .notNull()
+      .references(() => usersTable.id, { onDelete: 'cascade' }),
+    dayOfWeek: dayOfWeekEnum('day_of_week').notNull(),
+    startTime: time('start_time').notNull(), // e.g., '09:00:00'
+    endTime: time('end_time').notNull(), // e.g., '17:00:00'
+  },
+  (table) => [
+    uniqueIndex('photographer_day_start_idx').on(
+      table.photographerId,
+      table.dayOfWeek,
+      table.startTime,
+    ),
+  ],
+);
+
+/**
+ * Blocked Times (One-off exceptions)
+ * e.g., "Doctor's Appointment"
+ */
+export const blockedTimesTable = pgTable('blocked_times', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  photographerId: text('photographer_id')
+    .notNull()
+    .references(() => usersTable.id, { onDelete: 'cascade' }),
+  startTime: timestamp('start_time', { withTimezone: true }).notNull(),
+  endTime: timestamp('end_time', { withTimezone: true }).notNull(),
+  reason: text('reason'),
 });
 
 export const schema = {

@@ -15,6 +15,13 @@
       "when": 1762546758924,
       "tag": "0001_yellow_ikaris",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762804777304,
+      "tag": "0002_powerful_pride",
+      "breakpoints": true
     }
   ]
 }
