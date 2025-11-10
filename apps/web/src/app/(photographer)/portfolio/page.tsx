@@ -9,9 +9,10 @@ import collectionsRepository from '@/repositories/collections.repository';
 import { getUser } from '@/lib/auth/get-user';
 import { getTranslations } from 'next-intl/server';
 
-async function Portfolio() {
-  const user = await getUser();
+const Portfolio = async () => {
   const t = await getTranslations('portfolio');
+
+  const user = await getUser();
 
   const categories = await categoriesRepository.getCategories();
   const collections = await collectionsRepository.getAllCollections(user.id);
@@ -39,6 +40,6 @@ async function Portfolio() {
       </div>
     </div>
   );
-}
+};
 
 export default Portfolio;

@@ -7,12 +7,20 @@ import Navigation from './navigation';
 
 async function LandingPage() {
   const categories = await categoriesRepository.getCategories();
+
   const t = await getTranslations('landing');
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white relative overflow-hidden bg-[linear-gradient(to_bottom,_#e8ebff_0%,_#fff4ea_100%)]">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-br from-purple-100/30 via-orange-100/20 to-yellow-100/30 rounded-full blur-3xl opacity-50" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] rounded-full border-2 border-purple-300/40" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] rounded-full border-2 border-purple-300/30" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border-2 border-purple-300/20" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border-2 border-purple-300/10" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border-2 border-purple-200/10" />
+        </div>
         <div className="hidden md:block">
           <PhotographerAvatars />
         </div>
