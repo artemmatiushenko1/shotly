@@ -1,3 +1,4 @@
+import { PhotoMetadata } from '@/domain/photos';
 import {
   pgTable,
   text,
@@ -13,6 +14,8 @@ import {
   index,
   uniqueIndex,
   date,
+  bigint,
+  jsonb,
 } from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('user', {
@@ -233,6 +236,25 @@ export const servicesToFeaturesTable = pgTable(
   },
   (table) => [primaryKey({ columns: [table.serviceId, table.featureId] })],
 );
+
+export const photosTable = pgTable('photos', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  storageKey: text('storage_key').notNull().unique(),
+  url: text('url').notNull(),
+  sizeInBytes: bigint('size_in_bytes', { mode: 'number' }).notNull(),
+  originalFilename: text('original_filename'),
+  width: integer('width').notNull(),
+  height: integer('height').notNull(),
+  format: text('format').notNull(),
+  metadata: jsonb('metadata').$type<PhotoMetadata>().notNull(),
+  collectionId: uuid('collection_id')
+    .notNull()
+    .references(() => collectionsTable.id, { onDelete: 'cascade' }),
+  photographerId: text('photographer_id')
+    .notNull()
+    .references(() => usersTable.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
 
 export const schema = {
   usersTable,
