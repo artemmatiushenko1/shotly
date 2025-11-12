@@ -17,6 +17,8 @@ import {
   bigint,
   jsonb,
   time,
+  check,
+  numeric,
 } from 'drizzle-orm/pg-core';
 
 export const usersTable = pgTable('user', {
@@ -45,6 +47,16 @@ export const usersTable = pgTable('user', {
     .notNull()
     .default(5_368_709_120), // 5GB
   bio: text('bio'),
+  /**
+   * Caches the photographer's overall average rating across all services.
+   */
+  averageRating: numeric('average_rating', { precision: 2, scale: 1 })
+    .notNull()
+    .default('0.0'),
+  /**
+   * Caches the photographer's total number of reviews.
+   */
+  totalReviews: integer('total_reviews').notNull().default(0),
 });
 
 export const sessionsTable = pgTable('session', {
@@ -226,6 +238,19 @@ export const servicesTable = pgTable('services', {
   categoryId: uuid('category_id')
     .notNull()
     .references(() => categoriesTable.id, { onDelete: 'restrict' }),
+  /**
+   * Caches the average rating.
+   * 'numeric' is used instead of 'float' to avoid rounding errors.
+   * (precision: 2, scale: 1) allows for values like '4.8'.
+   */
+  averageRating: numeric('average_rating', { precision: 2, scale: 1 })
+    .notNull()
+    .default('0.0'),
+
+  /**
+   * Caches the total number of reviews.
+   */
+  totalReviews: integer('total_reviews').notNull().default(0),
 
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow(),
@@ -347,6 +372,34 @@ export const blockedTimesTable = pgTable('blocked_times', {
   endTime: timestamp('end_time', { withTimezone: true }).notNull(),
   reason: text('reason'),
 });
+
+export const reviewsTable = pgTable(
+  'reviews',
+  {
+    id: uuid('id').defaultRandom().primaryKey(),
+    rating: integer('rating').notNull(),
+    comment: text('comment').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+    orderId: uuid('order_id')
+      .notNull()
+      .references(() => ordersTable.id, { onDelete: 'cascade' })
+      .unique(),
+    buyerId: text('buyer_id')
+      .notNull()
+      .references(() => usersTable.id, { onDelete: 'set null' }),
+    serviceId: uuid('service_id')
+      .notNull()
+      .references(() => servicesTable.id, { onDelete: 'cascade' }),
+    photographerId: text('photographer_id')
+      .notNull()
+      .references(() => usersTable.id, { onDelete: 'cascade' }),
+  },
+  (table) => [
+    check('rating_check', sql`${table.rating} >= 1 AND ${table.rating} <= 5`),
+  ],
+);
 
 export const schema = {
   usersTable,
