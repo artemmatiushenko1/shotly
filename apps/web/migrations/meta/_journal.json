@@ -29,6 +29,13 @@
       "when": 1762929538395,
       "tag": "0003_quick_night_thrasher",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1762932097187,
+      "tag": "0004_gray_black_widow",
+      "breakpoints": true
     }
   ]
 }

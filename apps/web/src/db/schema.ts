@@ -1,4 +1,5 @@
 import { PhotoMetadata } from '@/domain/photos';
+import { sql } from 'drizzle-orm';
 import {
   pgTable,
   text,
@@ -21,6 +22,8 @@ import {
   numeric,
 } from 'drizzle-orm/pg-core';
 
+const roleEnum = pgEnum('role', ['photographer', 'customer']);
+
 export const usersTable = pgTable('user', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
@@ -35,6 +38,7 @@ export const usersTable = pgTable('user', {
   updatedAt: timestamp('updated_at')
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
+  role: roleEnum('role').notNull().default('customer'),
   username: text('username').unique(),
   websiteUrl: text('website_url'),
   instagramTag: text('instagram_tag'),
