@@ -22,7 +22,7 @@ import {
   numeric,
 } from 'drizzle-orm/pg-core';
 
-const roleEnum = pgEnum('role', ['photographer', 'customer']);
+export const roleEnum = pgEnum('role', ['photographer', 'customer']);
 
 export const usersTable = pgTable('user', {
   id: text('id').primaryKey(),

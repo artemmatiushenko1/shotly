@@ -1,1 +1,0 @@
-ALTER TABLE "collections" ALTER COLUMN "shoot_date" SET NOT NULL;

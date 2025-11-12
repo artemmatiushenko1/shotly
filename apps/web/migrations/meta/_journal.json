@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1762546110412,
-      "tag": "0000_parched_ink",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1762546758924,
-      "tag": "0001_yellow_ikaris",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1762804777304,
-      "tag": "0002_powerful_pride",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1762929538395,
-      "tag": "0003_quick_night_thrasher",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1762932097187,
-      "tag": "0004_gray_black_widow",
+      "when": 1762932538187,
+      "tag": "0000_overjoyed_reavers",
       "breakpoints": true
     }
   ]
