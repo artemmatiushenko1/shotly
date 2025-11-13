@@ -10,8 +10,8 @@ export const collectionSchema = z.object({
   shootDate: z.date(),
   categoryId: z.string(),
   archivedAt: z.date().nullish(),
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional(),
+  createdAt: z.date().optional(), // TODO: why it's optional?
+  updatedAt: z.date().optional(), // TODO: why it's optional?
 });
 
 export type Collection = z.infer<typeof collectionSchema>;
