@@ -13,8 +13,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@shotly/ui/components/tooltip';
-import CollectionSettingsDialog from './collection-settings-dialog';
 import { getTranslations } from 'next-intl/server';
+import CollectionSettingsDialog from './use-cases/update-collection-settings/collection-settings-dialog';
 
 const photos = [
   {

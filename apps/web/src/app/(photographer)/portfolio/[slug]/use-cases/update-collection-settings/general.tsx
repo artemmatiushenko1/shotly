@@ -1,0 +1,33 @@
+import { useTranslations } from 'next-intl';
+import CreateCollectionForm from '../../../use-cases/create-collection/create-collection-form';
+import { Category } from '@/domain/category';
+import { Collection } from '@/domain/collection';
+import SettingsTabLayout from './settings-tab-layout';
+
+type GeneralCollectionSettingsProps = {
+  collection: Collection;
+  categories: Category[];
+};
+
+function GeneralCollectionSettings(props: GeneralCollectionSettingsProps) {
+  const { collection, categories } = props;
+
+  const t = useTranslations('portfolio.collectionDetails.settings');
+
+  return (
+    <SettingsTabLayout
+      title={t('tabs.general.title')}
+      caption={t('tabs.general.caption')}
+    >
+      <CreateCollectionForm
+        defaultValues={collection}
+        className="flex-1"
+        categories={categories}
+        submitButtonText={t('tabs.general.saveButton')}
+        showCancelButton={false}
+      />
+    </SettingsTabLayout>
+  );
+}
+
+export default GeneralCollectionSettings;

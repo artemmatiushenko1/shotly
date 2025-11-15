@@ -40,12 +40,19 @@ type CreateCollectionFormProps = {
   className?: string;
   categories: Category[];
   submitButtonText?: string;
-  onCancel: () => void;
+  showCancelButton?: boolean;
+  onCancel?: () => void;
 };
 
 function CreateCollectionForm(props: CreateCollectionFormProps) {
-  const { defaultValues, categories, submitButtonText, onCancel, className } =
-    props;
+  const {
+    defaultValues,
+    categories,
+    submitButtonText,
+    showCancelButton = true,
+    onCancel,
+    className,
+  } = props;
   const t = useTranslations('portfolio.createCollectionDialog.form');
 
   const [shootDate, setShootDate] = useState<Date | undefined>(
@@ -172,9 +179,11 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
         </div>
       </div>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
-        <Button type="button" variant="ghost" onClick={onCancel}>
-          {t('actions.cancel')}
-        </Button>
+        {showCancelButton && (
+          <Button type="button" variant="ghost" onClick={onCancel}>
+            {t('actions.cancel')}
+          </Button>
+        )}
         <Button type="submit" loading={pending}>
           {submitButtonText ?? t('actions.continue')}
         </Button>
