@@ -10,21 +10,31 @@ import {
 } from '@shotly/ui/components/select';
 import { LabeledControl } from '../labeled-control';
 import { useTranslations, useLocale } from 'next-intl';
-import { useTransition, useId } from 'react';
+import { useTransition, useId, useEffect, useState } from 'react';
 import { setLocale } from '@/i18n/actions';
 import { Locale, locales } from '@/i18n/config';
+import { useTheme } from '@shotly/ui/hooks/use-theme';
 
 type GeneralSettingsProps = {
   userEmail: string;
 };
 
+type ThemeOption = 'light' | 'dark';
+
 const GeneralSettings = ({ userEmail }: GeneralSettingsProps) => {
   const t = useTranslations('settings.general');
   const locale = useLocale() as Locale;
   const [isPending, startTransition] = useTransition();
+  const { resolvedTheme, setTheme } = useTheme();
+  const [isThemeMounted, setIsThemeMounted] = useState(false);
 
   const emailId = useId();
   const languageId = useId();
+  const themeId = useId();
+
+  useEffect(() => {
+    setIsThemeMounted(true);
+  }, []);
 
   const handleLanguageChange = (value: string) => {
     if (locales.includes(value as Locale)) {
@@ -32,6 +42,10 @@ const GeneralSettings = ({ userEmail }: GeneralSettingsProps) => {
         setLocale(value as Locale);
       });
     }
+  };
+
+  const handleThemeChange = (value: ThemeOption) => {
+    setTheme(value);
   };
 
   const localeNames: Record<Locale, string> = {
@@ -43,6 +57,15 @@ const GeneralSettings = ({ userEmail }: GeneralSettingsProps) => {
     en: '🇬🇧',
     uk: '🇺🇦',
   };
+
+  const themeIcons: Record<ThemeOption, string> = {
+    light: '🌞',
+    dark: '🌚',
+  };
+
+  const themeOptions: ThemeOption[] = ['light', 'dark'];
+
+  const currentTheme = (resolvedTheme as ThemeOption | undefined) ?? 'light';
 
   return (
     <div className="space-y-8 pb-4">
@@ -84,6 +107,32 @@ const GeneralSettings = ({ userEmail }: GeneralSettingsProps) => {
                   <span className="flex items-center gap-2">
                     <span>{localeFlags[loc]}</span>
                     <span>{localeNames[loc]}</span>
+                  </span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        }
+      />
+      <LabeledControl
+        title={t('theme.title')}
+        description={t('theme.description')}
+        controlId={themeId}
+        controlNode={
+          <Select
+            value={isThemeMounted ? currentTheme : undefined}
+            onValueChange={(value) => handleThemeChange(value as ThemeOption)}
+            disabled={!isThemeMounted}
+          >
+            <SelectTrigger id={themeId} className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {themeOptions.map((option) => (
+                <SelectItem key={option} value={option}>
+                  <span className="flex items-center gap-2">
+                    <span>{themeIcons[option]}</span>
+                    <span>{t(`theme.options.${option}`)}</span>
                   </span>
                 </SelectItem>
               ))}

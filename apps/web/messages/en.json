@@ -97,6 +97,14 @@
           "en": "English",
           "uk": "Українська"
         }
+      },
+      "theme": {
+        "title": "Appearance",
+        "description": "Switch between light and dark modes for the interface",
+        "options": {
+          "light": "Light",
+          "dark": "Dark"
+        }
       }
     },
     "profile": {
@@ -242,12 +250,12 @@
         "description": "Click to add new photos"
       },
       "uploadDialog": {
-        "title": "Upload photos images",
+        "title": "Upload photos",
         "description": "Add high-quality images to showcase this collection",
         "uploadZone": {
           "dragText": "Drag and drop an image or",
           "browse": "Browse",
-          "fileTypes": "JPEG, PNG, PDF or MP4 up to 45 MB"
+          "fileTypes": "JPEG, PNG or WEBP up to 45 MB"
         },
         "fileSize": {
           "bytes": "Bytes",
@@ -255,7 +263,7 @@
           "mb": "MB",
           "gb": "GB"
         },
-        "continue": "Continue"
+        "continue": "Upload {count} Photos"
       },
       "settings": {
         "title": "Settings",

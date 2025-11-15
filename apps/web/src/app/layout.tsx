@@ -5,6 +5,7 @@ import { getMessages } from 'next-intl/server';
 import { getLocale } from '@/i18n/locale';
 import '@shotly/ui/globals.css';
 import { Toaster } from '@shotly/ui/components/sonner';
+import { ThemeProvider } from '@shotly/ui/components/theme-provider';
 
 const interSans = Inter({
   variable: '--font-inter-sans',
@@ -25,14 +26,16 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${interSans.variable} antialiased font-[family-name:var(--font-inter-sans)] has-data-[slot=sidebar-wrapper]:bg-sidebar`}
       >
-        <NextIntlClientProvider messages={messages} locale={locale}>
-          {children}
-          <Toaster />
-        </NextIntlClientProvider>
+        <ThemeProvider>
+          <NextIntlClientProvider messages={messages} locale={locale}>
+            {children}
+            <Toaster />
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

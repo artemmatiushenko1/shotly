@@ -35,6 +35,7 @@
     "zod": "^4.0.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.1",
     "@shotly/eslint-config": "workspace:^",
     "@shotly/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4",

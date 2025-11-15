@@ -5,6 +5,7 @@ import {
   Collection,
   collectionSchema,
 } from '@/domain/collection';
+import { VisibilityStatus } from '@/domain/common';
 import { eq } from 'drizzle-orm';
 
 class CollectionsRepository {
@@ -12,7 +13,7 @@ class CollectionsRepository {
     userId: string,
     input: CreateCollectionInput,
   ): Promise<Collection> {
-    // Format date as YYYY-MM-DD string for PostgreSQL date type
+    // TODO: Format date as YYYY-MM-DD string for PostgreSQL date type
     const shootDateString = input.shootDate.toISOString().split('T')[0];
 
     if (!shootDateString) {
@@ -77,6 +78,34 @@ class CollectionsRepository {
       throw new Error('Collection not found.');
     }
 
+    return collectionSchema.parse({
+      ...collection,
+      shootDate: new Date(collection.shootDate),
+      createdAt: collection.createdAt
+        ? new Date(collection.createdAt)
+        : undefined,
+      updatedAt: collection.updatedAt
+        ? new Date(collection.updatedAt)
+        : undefined,
+    });
+  }
+
+  async updateCollectionVisibilityStatus(
+    id: string,
+    status: VisibilityStatus,
+  ): Promise<Collection> {
+    const [collection] = await db
+      .update(collectionsTable)
+      .set({ visibilityStatus: status })
+      .where(eq(collectionsTable.id, id))
+      .returning();
+
+    if (!collection) {
+      // TODO: throw NotFoundError
+      throw new Error('Collection not found.');
+    }
+
+    // TODO: extract to a helper function
     return collectionSchema.parse({
       ...collection,
       shootDate: new Date(collection.shootDate),
