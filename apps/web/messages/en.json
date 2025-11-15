@@ -97,6 +97,14 @@
           "en": "English",
           "uk": "Українська"
         }
+      },
+      "theme": {
+        "title": "Appearance",
+        "description": "Switch between light and dark modes for the interface",
+        "options": {
+          "light": "Light",
+          "dark": "Dark"
+        }
       }
     },
     "profile": {
