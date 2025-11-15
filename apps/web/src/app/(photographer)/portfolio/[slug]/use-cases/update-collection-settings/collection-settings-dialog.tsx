@@ -74,7 +74,7 @@ function CollectionSettingsDialog(props: CollectionSettingsDialogProps) {
   return (
     <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="h-[600px] sm:max-w-[700px] p-0 overflow-hidden border-none">
+      <DialogContent className="h-[600px] sm:max-w-[700px] p-0 overflow-hidden">
         <CollectionSettingsLoadingProvider>
           <Tabs defaultValue="general" className="flex-row h-full gap-0">
             <div className="p-4 pt-8 flex-1/3">
