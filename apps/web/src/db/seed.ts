@@ -1,7 +1,17 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { categoriesTable, languagesTable } from './schema';
+import {
+  accountsTable,
+  categoriesTable,
+  languagesTable,
+  usersTable,
+} from './schema';
 import { Pool } from 'pg';
 import { config } from 'dotenv';
+import {
+  PHOTOGRAPHER_EMAIL,
+  PHOTOGRAPHER_PASSWORD,
+} from '../../tests/constants';
+import { hashPassword } from 'better-auth/crypto';
 
 config({ path: '.env' });
 
@@ -49,6 +59,33 @@ const main = async () => {
       { name: 'Other' },
     ])
     .onConflictDoNothing();
+
+  // TODO: we should run e2e on a clean test db
+  // it would be perfect to run each test with a separate account
+  const [user] = await db
+    .insert(usersTable)
+    .values({
+      id: crypto.randomUUID(),
+      name: 'John Doe',
+      email: PHOTOGRAPHER_EMAIL,
+      emailVerified: true,
+    })
+    .returning()
+    .onConflictDoNothing();
+
+  if (!user) {
+    throw Error('User was not created!');
+  }
+
+  await db.insert(accountsTable).values({
+    id: crypto.randomUUID(),
+    accountId: crypto.randomUUID(),
+    password: await hashPassword(PHOTOGRAPHER_PASSWORD),
+    userId: user?.id ?? '',
+    providerId: 'credential',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
 };
 
 main();
