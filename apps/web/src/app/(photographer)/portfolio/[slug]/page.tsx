@@ -1,5 +1,4 @@
-import { Empty } from './empty';
-import { PhotosGrid } from './photos-grid';
+import { PhotosGrid } from './use-cases/see-photos/photos-grid';
 import { CollectionCover } from './collection-cover';
 import { CollectionMetadata } from './collection-metadata';
 import collectionsRepository from '@/repositories/collections.repository';
@@ -161,7 +160,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
           status={collection.visibilityStatus}
         />
       </div>
-      {photos.length === 0 ? <Empty /> : <PhotosGrid photos={photos} />}
+      <PhotosGrid photos={photos} />
     </div>
   );
 }
