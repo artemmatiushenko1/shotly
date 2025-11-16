@@ -68,7 +68,8 @@
     "logOut": "Log Out",
     "storage": {
       "label": "Storage Used",
-      "usage": "{used} GB of {total} GB used"
+      "usageGb": "{usedGb} GB of {totalGb} GB used",
+      "usageMb": "{usedMb} MB of {totalGb} GB used"
     }
   },
   "dashboard": {

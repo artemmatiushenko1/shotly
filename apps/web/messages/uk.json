@@ -68,7 +68,8 @@
     "logOut": "Вийти",
     "storage": {
       "label": "Cховищe",
-      "usage": "Використано {used} ГБ з {total} ГБ"
+      "usageGb": "Використано {used} ГБ з {total} ГБ",
+      "usageMb": "Використано {used} МБ з {total} МБ"
     }
   },
   "dashboard": {

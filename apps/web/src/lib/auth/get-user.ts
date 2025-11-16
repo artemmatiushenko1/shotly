@@ -1,9 +1,10 @@
+import 'server-only';
+
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import 'server-only';
 import { auth } from './auth';
 
-export async function getUser() {
+export const getUser = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user) {
@@ -11,4 +12,4 @@ export async function getUser() {
   }
 
   return session.user;
-}
+};

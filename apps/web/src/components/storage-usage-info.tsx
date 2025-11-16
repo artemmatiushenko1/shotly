@@ -1,6 +1,7 @@
 'use client';
 
 import { StorageUsage } from '@/domain/user';
+import { convertBytesToGb, convertBytesToMb } from '@/lib/images/utils';
 import { useTranslations } from 'next-intl';
 
 type StorageUsageInfoProps = {
@@ -12,8 +13,12 @@ const StorageUsageInfo = (props: StorageUsageInfoProps) => {
 
   const t = useTranslations('sidebar.storage');
 
-  const usedGB = storageUsage?.storageUsage / 1024 / 1024 / 1024;
-  const totalGB = storageUsage?.storageLimit / 1024 / 1024 / 1024;
+  const showUsageInGbThresholdGb = 1;
+
+  const usedGB = convertBytesToGb(storageUsage?.storageUsage);
+  const usedMB = convertBytesToMb(storageUsage?.storageUsage);
+  const totalGB = convertBytesToGb(storageUsage?.storageLimit);
+
   const percentage = (usedGB / totalGB) * 100;
 
   return (
@@ -23,10 +28,18 @@ const StorageUsageInfo = (props: StorageUsageInfoProps) => {
         <div
           className="bg-primary h-2 rounded-full"
           style={{ width: `${percentage}%` }}
-        ></div>
+        />
       </div>
       <div className="text-xs text-muted-foreground">
-        {t('usage', { used: usedGB, total: totalGB })}
+        {usedGB > showUsageInGbThresholdGb
+          ? t('usageGb', {
+              usedGb: Math.round(usedGB),
+              totalGb: Math.round(totalGB),
+            })
+          : t('usageMb', {
+              usedMb: Math.round(usedMB),
+              totalGb: Math.round(totalGB),
+            })}
       </div>
     </div>
   );

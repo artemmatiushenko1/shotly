@@ -18,7 +18,7 @@ import {
   userSchema,
   UserUpdate,
 } from '@/domain/user';
-import { eq, inArray } from 'drizzle-orm';
+import { eq, inArray, sql } from 'drizzle-orm';
 
 class UsersRepository {
   async updateUserLanguages(userId: string, languageCodes: string[]) {
@@ -170,6 +170,16 @@ class UsersRepository {
       .limit(1);
 
     return storageUsageSchema.parse(query);
+  }
+
+  async updateStorageUsage(userId: string, addedBytes: number) {
+    await db
+      .update(usersTable)
+      .set({
+        storageUsageInBytes: sql`${usersTable.storageUsageInBytes} + ${addedBytes}`,
+      })
+      .where(eq(usersTable.id, userId))
+      .returning();
   }
 }
 
