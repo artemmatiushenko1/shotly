@@ -286,6 +286,7 @@ export const photosTable = pgTable('photos', {
   collectionId: uuid('collection_id')
     .notNull()
     .references(() => collectionsTable.id, { onDelete: 'cascade' }),
+  // TODO: we don't need this column anymore
   photographerId: text('photographer_id')
     .notNull()
     .references(() => usersTable.id, { onDelete: 'cascade' }),

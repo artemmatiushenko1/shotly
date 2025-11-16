@@ -1,11 +1,12 @@
 import { db } from '@/db/drizzle';
-import { collectionsTable } from '@/db/schema';
+import { collectionsTable, photosTable } from '@/db/schema';
 import {
   CreateCollectionInput,
   Collection,
   collectionSchema,
 } from '@/domain/collection';
 import { VisibilityStatus } from '@/domain/common';
+import { Photo, PhotoMetadata, photoSchema } from '@/domain/photos';
 import { eq } from 'drizzle-orm';
 
 class CollectionsRepository {
@@ -116,6 +117,42 @@ class CollectionsRepository {
         ? new Date(collection.updatedAt)
         : undefined,
     });
+  }
+
+  // TODO: create schema for input parameters
+  async createPhoto(
+    photographerId: string,
+    collectionId: string,
+    photoUrl: string,
+    photoKey: string,
+    photoSizeInBytes: number,
+    photoOriginalFilename: string,
+    photoWidth: number,
+    photoHeight: number,
+    photoFormat: string,
+    photoMetadata: PhotoMetadata,
+  ): Promise<Photo> {
+    const [photo] = await db
+      .insert(photosTable)
+      .values({
+        collectionId,
+        photographerId,
+        url: photoUrl,
+        storageKey: photoKey,
+        sizeInBytes: photoSizeInBytes,
+        originalFilename: photoOriginalFilename,
+        width: photoWidth,
+        height: photoHeight,
+        format: photoFormat,
+        metadata: photoMetadata,
+      })
+      .returning();
+
+    if (!photo) {
+      throw new Error('Failed to create photo.');
+    }
+
+    return photoSchema.parse(photo);
   }
 }
 

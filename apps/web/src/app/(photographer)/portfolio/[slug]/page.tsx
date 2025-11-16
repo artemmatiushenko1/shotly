@@ -14,6 +14,7 @@ import {
 } from '@shotly/ui/components/tooltip';
 import { getTranslations } from 'next-intl/server';
 import CollectionSettingsDialog from './use-cases/update-collection-settings/collection-settings-dialog';
+import { getUser } from '@/lib/auth/get-user';
 
 const photos = [
   {
@@ -96,6 +97,9 @@ type CollectionDetailsProps = {
 
 async function CollectionDetails({ params }: CollectionDetailsProps) {
   const { slug } = await params;
+
+  const user = await getUser();
+
   const t = await getTranslations('portfolio.collectionDetails');
 
   const collection = await collectionsRepository.getCollectionById(slug);
@@ -160,7 +164,11 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
           status={collection.visibilityStatus}
         />
       </div>
-      <PhotosGrid photos={photos} />
+      <PhotosGrid
+        collectionId={collection.id}
+        photographerId={user.id}
+        photos={photos}
+      />
     </div>
   );
 }

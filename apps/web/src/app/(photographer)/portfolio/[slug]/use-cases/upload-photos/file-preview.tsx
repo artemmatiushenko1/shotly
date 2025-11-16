@@ -1,15 +1,17 @@
 import { Button } from '@shotly/ui/components/button';
+import { Spinner } from '@shotly/ui/components/spinner';
 import { Trash2Icon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 
 type FilePreviewProps = {
+  isLoading: boolean;
   file: { id: string; file: File; preview: string };
   onRemove: (id: string) => void;
 };
 
 function FilePreview(props: FilePreviewProps) {
-  const { file, onRemove } = props;
+  const { file, onRemove, isLoading } = props;
 
   const t = useTranslations('portfolio.collectionDetails.uploadDialog');
 
@@ -47,14 +49,18 @@ function FilePreview(props: FilePreviewProps) {
         </p>
       </div>
       <div className="flex items-center space-x-2">
-        <Button
-          size="icon"
-          variant="ghost"
-          className="text-muted-foreground"
-          onClick={() => onRemove(file.id)}
-        >
-          <Trash2Icon />
-        </Button>
+        {isLoading ? (
+          <Spinner size="sm" className="mr-2 text-primary" />
+        ) : (
+          <Button
+            size="icon"
+            variant="ghost"
+            className="text-muted-foreground"
+            onClick={() => onRemove(file.id)}
+          >
+            <Trash2Icon />
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ import { UploadPhotosCard } from './upload-photos-card';
 import { Button } from '@shotly/ui/components/button';
 import { useTranslations } from 'next-intl';
 import SelectedFilesList from './selected-files-list';
+import uploadPhotosAction from './actions';
 
 type UploadFile = {
   id: string;
@@ -24,13 +25,21 @@ type UploadFile = {
   progress: number;
 };
 
-const UploadPhotosDialog = () => {
+type UploadPhotosDialogProps = {
+  collectionId: string;
+  photographerId: string;
+};
+
+const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
+  const { collectionId, photographerId } = props;
+
   const t = useTranslations('portfolio.collectionDetails.uploadDialog');
 
   const [isOpen, setIsOpen] = useState(false);
 
   const [dragActive, setDragActive] = useState(false);
   const [uploadFiles, setUploadFiles] = useState<UploadFile[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFiles = useCallback((files: FileList) => {
     const newFiles: UploadFile[] = [];
@@ -95,22 +104,26 @@ const UploadPhotosDialog = () => {
     });
   };
 
-  const handleContinue = () => {
-    const successFiles = uploadFiles
-      .filter((f) => f.status === 'success')
-      .map((f) => f.file);
+  const handleContinue = async () => {
+    setIsUploading(true);
 
-    if (successFiles.length > 0) {
-      // TODO: upload files to storage
-      // onUpload(successFiles);
+    try {
+      await uploadPhotosAction(
+        photographerId,
+        collectionId,
+        uploadFiles.map((f) => f.file),
+      );
+      uploadFiles.forEach((file) => {
+        URL.revokeObjectURL(file.preview);
+      });
+
+      setUploadFiles([]);
+      setIsOpen(false);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsUploading(false);
     }
-
-    uploadFiles.forEach((file) => {
-      URL.revokeObjectURL(file.preview);
-    });
-
-    setUploadFiles([]);
-    setIsOpen(false);
   };
 
   const handleOpenChange = (open: boolean) => {
@@ -170,7 +183,11 @@ const UploadPhotosDialog = () => {
         </div>
 
         {uploadFiles.length > 0 && (
-          <SelectedFilesList files={uploadFiles} onRemove={removeFile} />
+          <SelectedFilesList
+            files={uploadFiles}
+            onRemove={removeFile}
+            isUploading={isUploading}
+          />
         )}
         {uploadFiles.length > 0 && (
           <DialogFooter className="pt-4">
