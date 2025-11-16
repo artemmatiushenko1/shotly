@@ -11,9 +11,14 @@ import { useTranslations } from 'next-intl';
 type CollectionsListProps = {
   collections: Collection[];
   categories: Category[];
+  collectionIdToPhotoCountMap: Record<string, number>;
 };
 
-const CollectionsList = ({ collections, categories }: CollectionsListProps) => {
+const CollectionsList = ({
+  collections,
+  categories,
+  collectionIdToPhotoCountMap,
+}: CollectionsListProps) => {
   const t = useTranslations('portfolio.empty');
   const {
     selectedTab,
@@ -28,7 +33,6 @@ const CollectionsList = ({ collections, categories }: CollectionsListProps) => {
     filteredCollections,
   } = useCollectionFilter(collections, categories);
 
-  // Show empty state only if there are no collections at all
   if (collections.length === 0) {
     return <Empty />;
   }
@@ -52,7 +56,10 @@ const CollectionsList = ({ collections, categories }: CollectionsListProps) => {
           <p className="text-muted-foreground">{t('noResults')}</p>
         </div>
       ) : (
-        <CollectionsGrid collections={filteredCollections} />
+        <CollectionsGrid
+          collections={filteredCollections}
+          collectionIdToPhotoCountMap={collectionIdToPhotoCountMap}
+        />
       )}
     </>
   );

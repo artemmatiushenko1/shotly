@@ -7,7 +7,7 @@ import {
 } from '@/domain/collection';
 import { VisibilityStatus } from '@/domain/common';
 import { Photo, PhotoMetadata, photoSchema } from '@/domain/photos';
-import { eq } from 'drizzle-orm';
+import { count, eq } from 'drizzle-orm';
 
 class CollectionsRepository {
   async createCollection(
@@ -162,6 +162,26 @@ class CollectionsRepository {
       .where(eq(photosTable.collectionId, collectionId));
 
     return photos.map((photo) => photoSchema.parse(photo));
+  }
+
+  async getPhotoCountByCollectionId(collectionId: string): Promise<number> {
+    const [photoCount] = await db
+      .select({ count: count() })
+      .from(photosTable)
+      .where(eq(photosTable.collectionId, collectionId));
+
+    return photoCount?.count ?? 0;
+  }
+
+  async getCollectionIdToPhotoCountMap(): Promise<Record<string, number>> {
+    const photoCounts = await db
+      .select({ collectionId: photosTable.collectionId, count: count() })
+      .from(photosTable)
+      .groupBy(photosTable.collectionId);
+
+    return Object.fromEntries(
+      photoCounts.map(({ collectionId, count }) => [collectionId, count ?? 0]),
+    );
   }
 }
 

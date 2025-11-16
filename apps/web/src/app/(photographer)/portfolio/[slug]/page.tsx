@@ -15,124 +15,6 @@ import {
 import { getTranslations } from 'next-intl/server';
 import CollectionSettingsDialog from './use-cases/update-collection-settings/collection-settings-dialog';
 import { getUser } from '@/lib/auth/get-user';
-import { Photo } from '@/domain/photos';
-
-const MOCK_PHOTOS: Photo[] = [
-  {
-    id: '1',
-    originalFilename: 'ceremony_001.jpg',
-    url: '/auth-banner.jpg',
-    sizeInBytes: 1000000,
-    width: 4000,
-    height: 3000,
-    format: 'jpg',
-    metadata: {
-      cameraMake: 'Canon',
-      cameraModel: 'EOS R5',
-      lens: 'EF24-105mm f/4L IS USM',
-      focalLength: '24mm',
-      aperture: 'f/4',
-      shutterSpeed: '1/1000s',
-      iso: 100,
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '2',
-    originalFilename: 'reception_045.jpg',
-    url: '/auth-banner-2.jpg',
-    sizeInBytes: 1000000,
-    width: 4000,
-    height: 3000,
-    format: 'jpg',
-    metadata: {
-      cameraMake: 'Canon',
-      cameraModel: 'EOS R5',
-      lens: 'EF24-105mm f/4L IS USM',
-      focalLength: '24mm',
-      aperture: 'f/4',
-      shutterSpeed: '1/1000s',
-      iso: 100,
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '3',
-    originalFilename: 'portraits_012.jpg',
-    url: '/auth-banner-3.jpg',
-    sizeInBytes: 1000000,
-    width: 4000,
-    height: 3000,
-    format: 'jpg',
-    metadata: {
-      cameraMake: 'Canon',
-      cameraModel: 'EOS R5',
-      lens: 'EF24-105mm f/4L IS USM',
-      focalLength: '24mm',
-      aperture: 'f/4',
-      shutterSpeed: '1/1000s',
-      iso: 100,
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '4',
-    originalFilename: 'details_008.jpg',
-    url: '/auth-banner-4.jpg',
-    sizeInBytes: 1000000,
-    width: 4000,
-    height: 3000,
-    format: 'jpg',
-    metadata: {
-      cameraMake: 'Canon',
-      cameraModel: 'EOS R5',
-      lens: 'EF24-105mm f/4L IS USM',
-      focalLength: '24mm',
-      aperture: 'f/4',
-      shutterSpeed: '1/1000s',
-      iso: 100,
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '5',
-    originalFilename: 'family_023.jpg',
-    url: '/auth-banner-5.jpg',
-    sizeInBytes: 1000000,
-    width: 4000,
-    height: 3000,
-    format: 'jpg',
-    metadata: {
-      cameraMake: 'Canon',
-      cameraModel: 'EOS R5',
-      lens: 'EF24-105mm f/4L IS USM',
-      focalLength: '24mm',
-      aperture: 'f/4',
-      shutterSpeed: '1/1000s',
-      iso: 100,
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '6',
-    originalFilename: 'candid_067.jpg',
-    url: '/auth-banner.jpg',
-    sizeInBytes: 1000000,
-    width: 4000,
-    height: 3000,
-    format: 'jpg',
-    metadata: {
-      cameraMake: 'Canon',
-      cameraModel: 'EOS R5',
-      lens: 'EF24-105mm f/4L IS USM',
-      focalLength: '24mm',
-      aperture: 'f/4',
-      shutterSpeed: '1/1000s',
-      iso: 100,
-    },
-    createdAt: new Date(),
-  },
-];
 
 type CollectionDetailsProps = {
   params: Promise<{ slug: string }>;
@@ -145,9 +27,10 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
 
   const t = await getTranslations('portfolio.collectionDetails');
 
-  const [collection, photos, categories] = await Promise.all([
+  const [collection, photos, photoCount, categories] = await Promise.all([
     collectionsRepository.getCollectionById(collectionId),
     collectionsRepository.getPhotosByCollectionId(collectionId),
+    collectionsRepository.getPhotoCountByCollectionId(collectionId),
     categoriesRepository.getCategories(),
   ]);
 
@@ -204,7 +87,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
         <CollectionMetadata
           name={collection.name}
           description={collection.description ?? ''}
-          photosCount={10} // TODO: get photos count from photos repository
+          photosCount={photoCount}
           shootDate={collection.shootDate}
           categoryName={category.name}
           status={collection.visibilityStatus}
@@ -213,7 +96,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
       <PhotosGrid
         collectionId={collection.id}
         photographerId={user.id}
-        photos={[...MOCK_PHOTOS, ...photos]}
+        photos={photos}
       />
     </div>
   );

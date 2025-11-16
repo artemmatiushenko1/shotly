@@ -9,9 +9,13 @@ import { formatDateWithOrdinal } from '@/utils/date-formatting';
 
 type CollectionsGridProps = {
   collections: Collection[];
+  collectionIdToPhotoCountMap: Record<string, number>;
 };
 
-const CollectionsGrid = ({ collections }: CollectionsGridProps) => {
+const CollectionsGrid = ({
+  collections,
+  collectionIdToPhotoCountMap,
+}: CollectionsGridProps) => {
   if (collections.length === 0) {
     return <Empty />;
   }
@@ -24,7 +28,7 @@ const CollectionsGrid = ({ collections }: CollectionsGridProps) => {
             isPublic={collection.visibilityStatus === VisibilityStatus.PUBLIC}
             title={collection.name}
             description={collection.description ?? ''}
-            imagesCount={0} // TODO: create method to get images summary per collection map
+            imagesCount={collectionIdToPhotoCountMap[collection.id] ?? 0}
             createdAt={formatDateWithOrdinal(collection.shootDate)}
             coverSrc={collection.coverImageUrl ?? ''}
           />

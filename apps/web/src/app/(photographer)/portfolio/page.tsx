@@ -14,8 +14,13 @@ const Portfolio = async () => {
 
   const user = await getUser();
 
-  const categories = await categoriesRepository.getCategories();
-  const collections = await collectionsRepository.getAllCollections(user.id);
+  const [collections, collectionIdToPhotoCountMap, categories] =
+    await Promise.all([
+      collectionsRepository.getAllCollections(user.id),
+      collectionsRepository.getCollectionIdToPhotoCountMap(),
+      categoriesRepository.getCategories(),
+    ]);
+
   const allCollections = [...MOCK_COLLECTIONS, ...collections];
 
   return (
@@ -36,7 +41,11 @@ const Portfolio = async () => {
         }
       />
       <div className="animate-in fade-in duration-300">
-        <CollectionsList collections={allCollections} categories={categories} />
+        <CollectionsList
+          collections={allCollections}
+          categories={categories}
+          collectionIdToPhotoCountMap={collectionIdToPhotoCountMap}
+        />
       </div>
     </div>
   );

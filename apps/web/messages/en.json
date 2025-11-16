@@ -216,7 +216,7 @@
       }
     },
     "collectionCard": {
-      "imagesCount": "{count} images"
+      "imagesCount": "{count, plural, one {1 image} other {# images}}"
     },
     "empty": {
       "title": "Start building your portfolio",
@@ -229,7 +229,7 @@
     },
     "collectionDetails": {
       "backToPortfolio": "Back to portfolio",
-      "settingsTooltip": "Налаштування",
+      "settingsTooltip": "Settings",
       "errors": {
         "categoryNotFound": "Category not found."
       },
@@ -237,7 +237,7 @@
         "alt": "Cover image of the collection"
       },
       "metadata": {
-        "assetsCount": "{count} assets"
+        "assetsCount": "{count, plural, one {1 photo} other {# photos}}"
       },
       "empty": {
         "title": "No photos in this collection yet",

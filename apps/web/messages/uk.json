@@ -216,7 +216,7 @@
       }
     },
     "collectionCard": {
-      "imagesCount": "{count} фотографій"
+      "imagesCount": "{count, plural, one {1 фотографія} other {# фотографій}}"
     },
     "empty": {
       "title": "Почніть створювати своє портфоліо",
@@ -237,7 +237,7 @@
         "alt": "Обкладинка колекції"
       },
       "metadata": {
-        "assetsCount": "{count} файлів"
+        "assetsCount": "{count, plural, one {1 фотографія} other {# фотографій}}"
       },
       "empty": {
         "title": "У цій колекції ще немає фотографій",
@@ -257,7 +257,7 @@
           "browse": "Переглянути",
           "fileTypes": "JPEG, PNG, PDF або MP4 до 45 МБ"
         },
-        "continue": "Продовжити"
+        "continue": "Завантажити {count, plural, one {1 фотографію} other {# фотографій}}"
       },
       "settings": {
         "title": "Налаштування",

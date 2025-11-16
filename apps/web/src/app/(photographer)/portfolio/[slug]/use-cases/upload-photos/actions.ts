@@ -2,6 +2,7 @@
 
 import imageStorage from '@/lib/images/image-storage.service';
 import collectionsRepository from '@/repositories/collections.repository';
+import { revalidatePath } from 'next/cache';
 
 const uploadPhotosAction = async (
   photographerId: string,
@@ -37,6 +38,8 @@ const uploadPhotosAction = async (
       return uploadedFile;
     }),
   );
+
+  revalidatePath(`/portfolio/${collectionId}`);
 
   return uploadedFiles;
 };
