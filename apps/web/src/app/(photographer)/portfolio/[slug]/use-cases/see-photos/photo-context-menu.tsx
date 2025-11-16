@@ -4,6 +4,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@shotly/ui/components/dropdown-menu';
 import { cn } from '@shotly/ui/lib/utils';
@@ -14,9 +15,31 @@ import {
   TrashIcon,
 } from 'lucide-react';
 import { useState } from 'react';
+import { setCollectionCoverImage } from './actions';
+import { Spinner } from '@shotly/ui/components/spinner';
 
-function PhotoContextMenu() {
+type PhotoContextMenuProps = {
+  collectionId: string;
+  photoUrl: string;
+};
+
+function PhotoContextMenu({ collectionId, photoUrl }: PhotoContextMenuProps) {
   const [isTriggerVisible, setIsTriggerVisible] = useState(false);
+  const [isSettingAsCoverImage, setIsSettingAsCoverImage] = useState(false);
+
+  const handleSetAsCoverImage = async (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      setIsSettingAsCoverImage(true);
+      await setCollectionCoverImage(collectionId, photoUrl);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSettingAsCoverImage(false);
+    }
+  };
 
   return (
     <DropdownMenu onOpenChange={setIsTriggerVisible}>
@@ -33,9 +56,14 @@ function PhotoContextMenu() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="center">
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleSetAsCoverImage}>
           <ImageIcon />
           Set as cover image
+          {isSettingAsCoverImage && (
+            <DropdownMenuShortcut>
+              <Spinner size="sm" />
+            </DropdownMenuShortcut>
+          )}
         </DropdownMenuItem>
         <DropdownMenuItem>
           <DownloadIcon /> Download

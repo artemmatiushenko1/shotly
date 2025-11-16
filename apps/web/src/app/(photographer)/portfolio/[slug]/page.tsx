@@ -16,6 +16,7 @@ import { getTranslations } from 'next-intl/server';
 import CollectionSettingsDialog from './use-cases/update-collection-settings/collection-settings-dialog';
 import { getUser } from '@/lib/auth/get-user';
 import FadeIn from '@shotly/ui/components/fade-in';
+import { notFound } from 'next/navigation';
 
 type CollectionDetailsProps = {
   params: Promise<{ slug: string }>;
@@ -35,6 +36,10 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
     categoriesRepository.getCategories(),
   ]);
 
+  if (!collection) {
+    notFound();
+  }
+
   const category = categories.find(
     (category) => category.id === collection.categoryId,
   );
@@ -46,7 +51,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
   return (
     <FadeIn className="h-full flex flex-col">
       <div className="p-3 pt-5 space-y-6">
-        <CollectionCover>
+        <CollectionCover coverImageUrl={collection.coverImageUrl}>
           <div>
             <Tooltip>
               <TooltipTrigger asChild>

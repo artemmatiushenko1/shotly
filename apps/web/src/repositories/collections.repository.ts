@@ -9,7 +9,22 @@ import { VisibilityStatus } from '@/domain/common';
 import { Photo, PhotoMetadata, photoSchema } from '@/domain/photos';
 import { count, eq } from 'drizzle-orm';
 
+type CollectionRow = typeof collectionsTable.$inferSelect;
+
 class CollectionsRepository {
+  private parseCollection(collection: CollectionRow): Collection {
+    return collectionSchema.parse({
+      ...collection,
+      shootDate: new Date(collection.shootDate),
+      createdAt: collection.createdAt
+        ? new Date(collection.createdAt)
+        : undefined,
+      updatedAt: collection.updatedAt
+        ? new Date(collection.updatedAt)
+        : undefined,
+    });
+  }
+
   async createCollection(
     userId: string,
     input: CreateCollectionInput,
@@ -36,16 +51,7 @@ class CollectionsRepository {
       throw new Error('Failed to create collection.');
     }
 
-    return collectionSchema.parse({
-      ...collection,
-      shootDate: new Date(collection.shootDate),
-      createdAt: collection.createdAt
-        ? new Date(collection.createdAt)
-        : undefined,
-      updatedAt: collection.updatedAt
-        ? new Date(collection.updatedAt)
-        : undefined,
-    });
+    return this.parseCollection(collection);
   }
 
   async getAllCollections(userId: string): Promise<Collection[]> {
@@ -54,41 +60,20 @@ class CollectionsRepository {
       .from(collectionsTable)
       .where(eq(collectionsTable.photographerId, userId));
 
-    return collections.map((collection) =>
-      collectionSchema.parse({
-        ...collection,
-        shootDate: new Date(collection.shootDate),
-        createdAt: collection.createdAt
-          ? new Date(collection.createdAt)
-          : undefined,
-        updatedAt: collection.updatedAt
-          ? new Date(collection.updatedAt)
-          : undefined,
-      }),
-    );
+    return collections.map((collection) => this.parseCollection(collection));
   }
 
-  async getCollectionById(id: string): Promise<Collection> {
+  async getCollectionById(id: string): Promise<Collection | null> {
     const [collection] = await db
       .select()
       .from(collectionsTable)
       .where(eq(collectionsTable.id, id));
 
     if (!collection) {
-      // TODO: throw NotFoundError
-      throw new Error('Collection not found.');
+      return null;
     }
 
-    return collectionSchema.parse({
-      ...collection,
-      shootDate: new Date(collection.shootDate),
-      createdAt: collection.createdAt
-        ? new Date(collection.createdAt)
-        : undefined,
-      updatedAt: collection.updatedAt
-        ? new Date(collection.updatedAt)
-        : undefined,
-    });
+    return this.parseCollection(collection);
   }
 
   async updateCollectionVisibilityStatus(
@@ -106,17 +91,7 @@ class CollectionsRepository {
       throw new Error('Collection not found.');
     }
 
-    // TODO: extract to a helper function
-    return collectionSchema.parse({
-      ...collection,
-      shootDate: new Date(collection.shootDate),
-      createdAt: collection.createdAt
-        ? new Date(collection.createdAt)
-        : undefined,
-      updatedAt: collection.updatedAt
-        ? new Date(collection.updatedAt)
-        : undefined,
-    });
+    return this.parseCollection(collection);
   }
 
   // TODO: create schema for input parameters
@@ -182,6 +157,23 @@ class CollectionsRepository {
     return Object.fromEntries(
       photoCounts.map(({ collectionId, count }) => [collectionId, count ?? 0]),
     );
+  }
+
+  async updateCollectionCoverImage(
+    collectionId: string,
+    imageUrl: string,
+  ): Promise<Collection | null> {
+    const [collection] = await db
+      .update(collectionsTable)
+      .set({ coverImageUrl: imageUrl })
+      .where(eq(collectionsTable.id, collectionId))
+      .returning();
+
+    if (!collection) {
+      return null;
+    }
+
+    return this.parseCollection(collection);
   }
 }
 

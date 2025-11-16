@@ -39,6 +39,7 @@ function CollectionCard(props: CollectionCardProps) {
               height={300}
               src={coverSrc}
               alt={title}
+              quality={75}
               className="object-cover w-full h-48 rounded-md"
             />
           ) : (

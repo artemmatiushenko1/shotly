@@ -35,7 +35,8 @@ const PhotosGrid = ({
           <PhotoCard
             key={photo.id}
             size={formatBytes(photo.sizeInBytes, t)}
-            thumbnail={photo.url}
+            imageUrl={photo.url}
+            collectionId={collectionId}
             filename={photo.originalFilename}
           />
         ))}
