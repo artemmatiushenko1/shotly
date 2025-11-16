@@ -14,6 +14,4 @@ export async function setLocale(locale: Locale) {
     sameSite: 'lax',
     maxAge: 60 * 60 * 24 * 365, // 1 year
   });
-
-  // revalidatePath('/');
 }
