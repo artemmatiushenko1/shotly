@@ -24,7 +24,7 @@ const StorageUsageInfo = (props: StorageUsageInfoProps) => {
   return (
     <div className="p-3">
       <div className="text-sm text-muted-foreground mb-2">{t('label')}</div>
-      <div className="bg-muted-foreground/10 rounded-full h-2 mb-2">
+      <div className="bg-muted-foreground/10 rounded-full h-2 mb-2 overflow-hidden">
         <div
           className="bg-primary h-2 rounded-full"
           style={{ width: `${percentage}%` }}
