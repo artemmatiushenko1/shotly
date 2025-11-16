@@ -10,6 +10,8 @@ import {
   ServiceFilterTab,
 } from '@/app/(photographer)/services/use-cases/see-services/use-service-filter';
 import { useTranslations } from 'next-intl';
+import { unstable_ViewTransition as ViewTransition } from 'react';
+import { startTransition } from 'react';
 
 type ServicesListProps = {
   categories: Category[];
@@ -36,7 +38,9 @@ function ServicesList(props: ServicesListProps) {
       <Tabs
         defaultValue="All"
         value={selectedTab}
-        onValueChange={(value) => setSelectedTab(value as ServiceFilterTab)}
+        onValueChange={(value) =>
+          startTransition(() => setSelectedTab(value as ServiceFilterTab))
+        }
       >
         <TabsList className="my-4">
           {tabs.map((tab) => (
@@ -54,19 +58,21 @@ function ServicesList(props: ServicesListProps) {
       </Tabs>
       <div className="flex flex-col gap-4">
         {filteredServices.map((service) => (
-          <ServiceCard
-            key={service.id}
-            id={service.id}
-            coverUrl={service.coverImageUrl}
-            name={service.name}
-            description={service.description}
-            price={service.price.toString()}
-            priceUnit={service.currency}
-            deliveryTime={service.deliveryTimeInDays.toString()}
-            features={service.features}
-            status={service.status}
-            categoryName={categoryMap[service.categoryId] ?? '-'}
-          />
+          <ViewTransition key={service.id} name={service.id}>
+            <ServiceCard
+              key={service.id}
+              id={service.id}
+              coverUrl={service.coverImageUrl}
+              name={service.name}
+              description={service.description}
+              price={service.price.toString()}
+              priceUnit={service.currency}
+              deliveryTime={service.deliveryTimeInDays.toString()}
+              features={service.features}
+              status={service.status}
+              categoryName={categoryMap[service.categoryId] ?? '-'}
+            />
+          </ViewTransition>
         ))}
       </div>
     </div>
