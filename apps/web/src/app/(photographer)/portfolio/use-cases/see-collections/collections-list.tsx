@@ -7,6 +7,7 @@ import { Collection } from '@/domain/collection';
 import { Category } from '@/domain/category';
 import Empty from './empty';
 import { useTranslations } from 'next-intl';
+import { startTransition } from 'react';
 
 type CollectionsListProps = {
   collections: Collection[];
@@ -41,13 +42,17 @@ const CollectionsList = ({
     <>
       <CollectionsToolbar
         selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
+        setSelectedTab={(tab) => startTransition(() => setSelectedTab(tab))}
         searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
+        setSearchQuery={(query) => startTransition(() => setSearchQuery(query))}
         sortOption={sortOption}
-        setSortOption={setSortOption}
+        setSortOption={(sortOption) =>
+          startTransition(() => setSortOption(sortOption))
+        }
         selectedCategoryId={selectedCategoryId}
-        setSelectedCategoryId={setSelectedCategoryId}
+        setSelectedCategoryId={(categoryId) =>
+          startTransition(() => setSelectedCategoryId(categoryId))
+        }
         counts={counts}
         categories={categories}
       />

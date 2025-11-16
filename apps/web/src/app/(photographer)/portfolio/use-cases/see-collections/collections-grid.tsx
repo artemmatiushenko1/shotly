@@ -6,6 +6,7 @@ import Empty from './empty';
 import { Collection } from '@/domain/collection';
 import { VisibilityStatus } from '@/domain/common';
 import { formatDateWithOrdinal } from '@/utils/date-formatting';
+import { unstable_ViewTransition as ViewTransition } from 'react';
 
 type CollectionsGridProps = {
   collections: Collection[];
@@ -23,16 +24,18 @@ const CollectionsGrid = ({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-3 pt-4">
       {collections.map((collection) => (
-        <Link key={collection.id} href={`/portfolio/${collection.id}`}>
-          <CollectionCard
-            isPublic={collection.visibilityStatus === VisibilityStatus.PUBLIC}
-            title={collection.name}
-            description={collection.description ?? ''}
-            imagesCount={collectionIdToPhotoCountMap[collection.id] ?? 0}
-            createdAt={formatDateWithOrdinal(collection.shootDate)}
-            coverSrc={collection.coverImageUrl ?? ''}
-          />
-        </Link>
+        <ViewTransition key={collection.id} name={collection.id}>
+          <Link key={collection.id} href={`/portfolio/${collection.id}`}>
+            <CollectionCard
+              isPublic={collection.visibilityStatus === VisibilityStatus.PUBLIC}
+              title={collection.name}
+              description={collection.description ?? ''}
+              imagesCount={collectionIdToPhotoCountMap[collection.id] ?? 0}
+              createdAt={formatDateWithOrdinal(collection.shootDate)}
+              coverSrc={collection.coverImageUrl ?? ''}
+            />
+          </Link>
+        </ViewTransition>
       ))}
     </div>
   );

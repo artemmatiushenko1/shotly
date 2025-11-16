@@ -1,4 +1,3 @@
-import { MOCK_COLLECTIONS } from './data';
 import MainHeader from '@/components/main-header';
 import { CreateCollectionDialog } from './use-cases/create-collection/create-collection-dialog';
 import { CollectionsList } from './use-cases/see-collections/collections-list';
@@ -22,7 +21,7 @@ const Portfolio = async () => {
       categoriesRepository.getCategories(),
     ]);
 
-  const allCollections = [...MOCK_COLLECTIONS, ...collections];
+  const allCollections = [...collections];
 
   return (
     <div className="h-full flex flex-col">
