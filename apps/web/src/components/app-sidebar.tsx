@@ -33,19 +33,21 @@ import { usePathname, useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth/auth-client';
 import { User } from 'better-auth';
 import { Separator } from '@shotly/ui/components/separator';
-import { StorageUsage } from './storage-usage';
+import { StorageUsageInfo } from './storage-usage-info';
 import { useTranslations } from 'next-intl';
+import { StorageUsage } from '@/domain/user';
 
 type AppSidebarProps = {
   user: User;
+  storageUsage: StorageUsage;
 };
 
 export function AppSidebar(props: AppSidebarProps) {
+  const { user, storageUsage } = props;
+
   const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations('sidebar');
-
-  const user = props?.user;
 
   const items = [
     {
@@ -124,7 +126,7 @@ export function AppSidebar(props: AppSidebarProps) {
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter>
-        <StorageUsage />
+        <StorageUsageInfo storageUsage={storageUsage} />
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton

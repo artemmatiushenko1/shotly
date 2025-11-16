@@ -1,13 +1,19 @@
 'use client';
 
+import { StorageUsage } from '@/domain/user';
 import { useTranslations } from 'next-intl';
 
-const StorageUsage = () => {
+type StorageUsageInfoProps = {
+  storageUsage: StorageUsage;
+};
+
+const StorageUsageInfo = (props: StorageUsageInfoProps) => {
+  const storageUsage = props?.storageUsage;
+
   const t = useTranslations('sidebar.storage');
 
-  // TODO: Replace with actual storage values from API/database
-  const usedGB = 7.2;
-  const totalGB = 10;
+  const usedGB = storageUsage?.storageUsage / 1024 / 1024 / 1024;
+  const totalGB = storageUsage?.storageLimit / 1024 / 1024 / 1024;
   const percentage = (usedGB / totalGB) * 100;
 
   return (
@@ -26,4 +32,4 @@ const StorageUsage = () => {
   );
 };
 
-export { StorageUsage };
+export { StorageUsageInfo };

@@ -10,6 +10,8 @@ import {
 } from '@/db/schema';
 import { LocationDetails } from '@/domain/locations';
 import {
+  StorageUsage,
+  storageUsageSchema,
   User,
   UserProfile,
   userProfileSchema,
@@ -155,6 +157,19 @@ class UsersRepository {
         displayName: `${location.name}, ${location.country}`,
       })),
     });
+  }
+
+  async getStorageUsage(userId: string): Promise<StorageUsage> {
+    const [query] = await db
+      .select({
+        storageUsage: usersTable.storageUsageInBytes,
+        storageLimit: usersTable.storageLimitInBytes,
+      })
+      .from(usersTable)
+      .where(eq(usersTable.id, userId))
+      .limit(1);
+
+    return storageUsageSchema.parse(query);
   }
 }
 

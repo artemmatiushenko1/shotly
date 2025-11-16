@@ -51,3 +51,10 @@ export const userProfileSchema = userSchema
   );
 
 export type UserProfile = z.infer<typeof userProfileSchema>;
+
+export const storageUsageSchema = z.object({
+  storageUsage: z.number(),
+  storageLimit: z.number(),
+});
+
+export type StorageUsage = z.infer<typeof storageUsageSchema>;
