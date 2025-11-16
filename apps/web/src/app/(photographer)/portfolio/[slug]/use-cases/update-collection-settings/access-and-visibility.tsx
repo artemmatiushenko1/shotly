@@ -32,10 +32,11 @@ function AccessAndVisibilitySettings(props: AccessAndVisibilitySettingsProps) {
   const privateId = useId();
 
   const handleVisibilityChange = async (value: VisibilityStatus) => {
-    dispatchOptimisticVisibility(value);
     setLoading(true);
 
     startTransition(() => {
+      dispatchOptimisticVisibility(value);
+
       changeCollectionVisibilityStatusAction(collectionId, value)
         .then(() => {
           setVisibility(value);
