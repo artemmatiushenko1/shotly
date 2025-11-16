@@ -13,12 +13,14 @@ type CollectionsListProps = {
   collections: Collection[];
   categories: Category[];
   collectionIdToPhotoCountMap: Record<string, number>;
+  collectionIdToCoverPhotoUrlMap: Record<string, string>;
 };
 
 const CollectionsList = ({
   collections,
   categories,
   collectionIdToPhotoCountMap,
+  collectionIdToCoverPhotoUrlMap,
 }: CollectionsListProps) => {
   const t = useTranslations('portfolio.empty');
   const {
@@ -64,6 +66,7 @@ const CollectionsList = ({
         <CollectionsGrid
           collections={filteredCollections}
           collectionIdToPhotoCountMap={collectionIdToPhotoCountMap}
+          collectionIdToCoverPhotoUrlMap={collectionIdToCoverPhotoUrlMap}
         />
       )}
     </>

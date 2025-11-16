@@ -10,15 +10,14 @@ import { UploadPhotosCard } from '../upload-photos/upload-photos-card';
 
 type PhotosGridProps = {
   collectionId: string;
+  coverPhotoId: string | null;
   photographerId: string;
   photos: Photo[];
 };
 
-const PhotosGrid = ({
-  collectionId,
-  photographerId,
-  photos,
-}: PhotosGridProps) => {
+const PhotosGrid = (props: PhotosGridProps) => {
+  const { collectionId, photographerId, photos, coverPhotoId } = props;
+
   const t = useTranslations();
 
   if (photos.length === 0) {
@@ -39,8 +38,10 @@ const PhotosGrid = ({
         {photos.map((photo) => (
           <PhotoCard
             key={photo.id}
+            id={photo.id}
             size={formatBytes(photo.sizeInBytes, t)}
-            imageUrl={photo.url}
+            isCoverPhoto={photo.id === coverPhotoId}
+            url={photo.url}
             collectionId={collectionId}
             filename={photo.originalFilename}
           />

@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache';
 
 export const setCollectionCoverImage = async (
   collectionId: string,
-  photoUrl: string,
+  photoId: string,
 ) => {
   // TODO: verify user is the owner of the collection
   const collection =
@@ -17,10 +17,7 @@ export const setCollectionCoverImage = async (
   }
 
   // TODO: should use image id instead of photo url
-  await collectionsRepository.updateCollectionCoverImage(
-    collectionId,
-    photoUrl,
-  );
+  await collectionsRepository.updateCollectionCoverImage(collectionId, photoId);
 
   revalidatePath(`/portfolio/${collectionId}`);
 };

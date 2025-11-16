@@ -20,6 +20,7 @@ import {
   time,
   check,
   numeric,
+  AnyPgColumn,
 } from 'drizzle-orm/pg-core';
 
 export const roleEnum = pgEnum('role', ['photographer', 'customer']);
@@ -123,6 +124,12 @@ export const collectionsTable = pgTable(
       .notNull()
       .default('private'),
     shootDate: date('shoot_date').notNull(),
+    coverPhotoId: uuid('cover_photo_id').references(
+      (): AnyPgColumn => photosTable.id,
+      {
+        onDelete: 'set null',
+      },
+    ),
     photographerId: text('photographer_id')
       .notNull()
       .references(() => usersTable.id, { onDelete: 'cascade' }),

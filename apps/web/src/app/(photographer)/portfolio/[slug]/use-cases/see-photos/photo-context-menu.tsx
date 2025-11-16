@@ -11,7 +11,7 @@ import { cn } from '@shotly/ui/lib/utils';
 import {
   DownloadIcon,
   EllipsisVerticalIcon,
-  ImageIcon,
+  StarIcon,
   TrashIcon,
 } from 'lucide-react';
 import { useState } from 'react';
@@ -19,11 +19,14 @@ import { setCollectionCoverImage } from './actions';
 import { Spinner } from '@shotly/ui/components/spinner';
 
 type PhotoContextMenuProps = {
+  isCoverPhoto: boolean;
   collectionId: string;
-  photoUrl: string;
+  photoId: string;
 };
 
-function PhotoContextMenu({ collectionId, photoUrl }: PhotoContextMenuProps) {
+function PhotoContextMenu(props: PhotoContextMenuProps) {
+  const { collectionId, photoId, isCoverPhoto } = props;
+
   const [isTriggerVisible, setIsTriggerVisible] = useState(false);
   const [isSettingAsCoverImage, setIsSettingAsCoverImage] = useState(false);
 
@@ -33,7 +36,7 @@ function PhotoContextMenu({ collectionId, photoUrl }: PhotoContextMenuProps) {
 
     try {
       setIsSettingAsCoverImage(true);
-      await setCollectionCoverImage(collectionId, photoUrl);
+      await setCollectionCoverImage(collectionId, photoId);
     } catch (error) {
       console.error(error);
     } finally {
@@ -56,8 +59,11 @@ function PhotoContextMenu({ collectionId, photoUrl }: PhotoContextMenuProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="center">
-        <DropdownMenuItem onClick={handleSetAsCoverImage}>
-          <ImageIcon />
+        <DropdownMenuItem
+          onClick={handleSetAsCoverImage}
+          disabled={isCoverPhoto}
+        >
+          <StarIcon />
           Set as cover image
           {isSettingAsCoverImage && (
             <DropdownMenuShortcut>

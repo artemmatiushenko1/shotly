@@ -43,6 +43,9 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
   const category = categories.find(
     (category) => category.id === collection.categoryId,
   );
+  const coverPhoto = photos.find(
+    (photo) => photo.id === collection.coverPhotoId,
+  );
 
   if (!category) {
     throw new Error(t('errors.categoryNotFound'));
@@ -51,7 +54,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
   return (
     <FadeIn className="h-full flex flex-col">
       <div className="p-3 pt-5 space-y-6">
-        <CollectionCover coverImageUrl={collection.coverImageUrl}>
+        <CollectionCover coverImageUrl={coverPhoto?.url}>
           <div>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -100,6 +103,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
         />
       </div>
       <PhotosGrid
+        coverPhotoId={coverPhoto?.id ?? null}
         collectionId={collection.id}
         photographerId={user.id}
         photos={photos}

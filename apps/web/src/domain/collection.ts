@@ -5,7 +5,8 @@ export const collectionSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string().nullish(),
-  coverImageUrl: z.string().nullish(),
+  coverImageUrl: z.string().nullish(), // TODO: remove this field
+  coverPhotoId: z.string().nullish(),
   visibilityStatus: visibilityStatusSchema,
   shootDate: z.date(),
   categoryId: z.string(),

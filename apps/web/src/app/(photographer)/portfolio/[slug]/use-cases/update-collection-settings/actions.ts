@@ -8,6 +8,8 @@ const changeCollectionVisibilityStatusAction = async (
   collectionId: string,
   status: VisibilityStatus,
 ) => {
+  // TODO: collection must have a least one photo to be public
+
   const collection =
     await collectionsRepository.updateCollectionVisibilityStatus(
       collectionId,

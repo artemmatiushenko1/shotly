@@ -14,12 +14,18 @@ const Portfolio = async () => {
 
   const user = await getUser();
 
-  const [collections, collectionIdToPhotoCountMap, categories] =
-    await Promise.all([
-      collectionsRepository.getAllCollections(user.id),
-      collectionsRepository.getCollectionIdToPhotoCountMap(),
-      categoriesRepository.getCategories(),
-    ]);
+  const [
+    collections,
+    collectionIdToPhotoCountMap,
+    collectionIdToCoverPhotoUrlMap,
+    categories,
+  ] = await Promise.all([
+    collectionsRepository.getAllCollections(user.id),
+    // TODO: use relations instead of maps
+    collectionsRepository.getCollectionIdToPhotoCountMap(user.id),
+    collectionsRepository.getCollectionIdToCoverPhotoUrlMap(user.id),
+    categoriesRepository.getCategories(),
+  ]);
 
   const allCollections = [...collections];
 
@@ -45,6 +51,7 @@ const Portfolio = async () => {
           collections={allCollections}
           categories={categories}
           collectionIdToPhotoCountMap={collectionIdToPhotoCountMap}
+          collectionIdToCoverPhotoUrlMap={collectionIdToCoverPhotoUrlMap}
         />
       </FadeIn>
     </div>

@@ -14,7 +14,7 @@ type CollectionCardProps = {
   description: string;
   imagesCount: number;
   createdAt: string;
-  coverSrc: string;
+  coverImageUrl: string;
 };
 
 function CollectionCard(props: CollectionCardProps) {
@@ -24,7 +24,7 @@ function CollectionCard(props: CollectionCardProps) {
     description,
     imagesCount,
     createdAt,
-    coverSrc,
+    coverImageUrl,
   } = props;
 
   const t = useTranslations('portfolio.collectionCard');
@@ -33,11 +33,11 @@ function CollectionCard(props: CollectionCardProps) {
     <Card className="bg-muted/20 rounded-xl shadow-none overflow-hidden p-0 gap-0 cursor-pointer hover:bg-accent/50">
       <div className="relative">
         <div className="p-2">
-          {coverSrc ? (
+          {coverImageUrl ? (
             <Image
               width={200}
               height={300}
-              src={coverSrc}
+              src={coverImageUrl}
               alt={title}
               quality={75}
               className="object-cover w-full h-48 rounded-md"

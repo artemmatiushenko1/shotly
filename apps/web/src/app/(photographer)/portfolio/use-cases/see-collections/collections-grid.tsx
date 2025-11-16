@@ -11,11 +11,13 @@ import { unstable_ViewTransition as ViewTransition } from 'react';
 type CollectionsGridProps = {
   collections: Collection[];
   collectionIdToPhotoCountMap: Record<string, number>;
+  collectionIdToCoverPhotoUrlMap: Record<string, string>;
 };
 
 const CollectionsGrid = ({
   collections,
   collectionIdToPhotoCountMap,
+  collectionIdToCoverPhotoUrlMap,
 }: CollectionsGridProps) => {
   if (collections.length === 0) {
     return <Empty />;
@@ -32,7 +34,9 @@ const CollectionsGrid = ({
               description={collection.description ?? ''}
               imagesCount={collectionIdToPhotoCountMap[collection.id] ?? 0}
               createdAt={formatDateWithOrdinal(collection.shootDate)}
-              coverSrc={collection.coverImageUrl ?? ''}
+              coverImageUrl={
+                collectionIdToCoverPhotoUrlMap[collection.id] ?? ''
+              }
             />
           </Link>
         </ViewTransition>
