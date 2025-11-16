@@ -13,6 +13,7 @@ import usersRepository from '@/repositories/users.repository';
 import languagesRepository from '@/repositories/languages.repository';
 import { getUser } from '@/lib/auth/get-user';
 import { getTranslations } from 'next-intl/server';
+import FadeIn from '@shotly/ui/components/fade-in';
 
 const getProfileTabData = (userId: string) => {
   return Promise.all([
@@ -44,8 +45,7 @@ const Settings = async () => {
               {t('tabs.privacyAndSecurity')}
             </TabsTrigger>
           </TabsList>
-          {/* TODO: create a wrapper component for animation */}
-          <div className="animate-in fade-in duration-300">
+          <FadeIn>
             <TabsContent value="general">
               <GeneralSettings userEmail={user.email} />
             </TabsContent>
@@ -59,7 +59,7 @@ const Settings = async () => {
             <TabsContent value="privacy-and-security">
               <PrivacyAndSecuritySettings />
             </TabsContent>
-          </div>
+          </FadeIn>
         </Tabs>
       </div>
     </>

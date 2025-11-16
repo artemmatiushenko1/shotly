@@ -8,6 +8,7 @@ import categoriesRepository from '@/repositories/categories.repository';
 import collectionsRepository from '@/repositories/collections.repository';
 import { getUser } from '@/lib/auth/get-user';
 import { getTranslations } from 'next-intl/server';
+import FadeIn from '@shotly/ui/components/fade-in';
 
 const Portfolio = async () => {
   const t = await getTranslations('portfolio');
@@ -40,13 +41,13 @@ const Portfolio = async () => {
           )
         }
       />
-      <div className="animate-in fade-in duration-300">
+      <FadeIn>
         <CollectionsList
           collections={allCollections}
           categories={categories}
           collectionIdToPhotoCountMap={collectionIdToPhotoCountMap}
         />
-      </div>
+      </FadeIn>
     </div>
   );
 };

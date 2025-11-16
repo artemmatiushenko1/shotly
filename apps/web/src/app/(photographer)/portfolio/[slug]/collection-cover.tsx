@@ -25,7 +25,7 @@ const CollectionCover = (props: CollectionCoverProps) => {
           alt={t('alt')}
         />
       ) : (
-        <ImagePlaceholder />
+        <ImagePlaceholder className="dark:bg-card" />
       )}
       {React.Children.only(children)}
     </div>

@@ -8,6 +8,7 @@ import servicesRepository from '@/repositories/services.repository';
 import { Service, ServiceStatus } from '@/domain/service';
 import { getUser } from '@/lib/auth/get-user';
 import { getTranslations } from 'next-intl/server';
+import FadeIn from '@shotly/ui/components/fade-in';
 
 const MOCK_SERVICES: Service[] = [
   {
@@ -89,12 +90,12 @@ async function Services() {
           </CreateServiceDialog>
         }
       />
-      <div className="p-4 pt-0 animate-in fade-in duration-300">
+      <FadeIn className="p-4 pt-0">
         <ServicesList
           categories={categories}
           services={[...MOCK_SERVICES, ...services]}
         />
-      </div>
+      </FadeIn>
     </>
   );
 }

@@ -15,6 +15,7 @@ import {
 import { getTranslations } from 'next-intl/server';
 import CollectionSettingsDialog from './use-cases/update-collection-settings/collection-settings-dialog';
 import { getUser } from '@/lib/auth/get-user';
+import FadeIn from '@shotly/ui/components/fade-in';
 
 type CollectionDetailsProps = {
   params: Promise<{ slug: string }>;
@@ -43,7 +44,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
   }
 
   return (
-    <div className="h-full flex flex-col">
+    <FadeIn className="h-full flex flex-col">
       <div className="p-3 pt-5 space-y-6">
         <CollectionCover>
           <div>
@@ -98,7 +99,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
         photographerId={user.id}
         photos={photos}
       />
-    </div>
+    </FadeIn>
   );
 }
 
