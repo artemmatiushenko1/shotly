@@ -6,6 +6,7 @@ import { Empty } from '../../empty';
 import { Photo } from '@/domain/photos';
 import { formatBytes } from '../../utils';
 import { useTranslations } from 'next-intl';
+import { UploadPhotosCard } from '../upload-photos/upload-photos-card';
 
 type PhotosGridProps = {
   collectionId: string;
@@ -21,7 +22,9 @@ const PhotosGrid = ({
   const t = useTranslations();
 
   if (photos.length === 0) {
-    return <Empty />;
+    return (
+      <Empty collectionId={collectionId} photographerId={photographerId} />
+    );
   }
 
   return (
@@ -30,7 +33,9 @@ const PhotosGrid = ({
         <UploadPhotosDialog
           collectionId={collectionId}
           photographerId={photographerId}
-        />
+        >
+          <UploadPhotosCard />
+        </UploadPhotosDialog>
         {photos.map((photo) => (
           <PhotoCard
             key={photo.id}

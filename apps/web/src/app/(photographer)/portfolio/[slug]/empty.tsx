@@ -3,12 +3,18 @@
 import { Button } from '@shotly/ui/components/button';
 import { Upload } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import UploadPhotosDialog from './use-cases/upload-photos/upload-photos-dialog';
 
-const Empty = () => {
+type EmptyProps = {
+  collectionId: string;
+  photographerId: string;
+};
+
+const Empty = ({ collectionId, photographerId }: EmptyProps) => {
   const t = useTranslations('portfolio.collectionDetails.empty');
 
   return (
-    <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+    <div className="flex flex-col items-center justify-center py-12 pb-24 px-4 text-center">
       <div className="rounded-lg w-full max-w-2xl cursor-pointer">
         <div className="flex flex-col items-center">
           <svg
@@ -29,13 +35,13 @@ const Empty = () => {
               fillRule="evenodd"
               clipRule="evenodd"
               d="M86.2784 139.123L82.2083 139.695C80.0207 140.002 77.998 138.478 77.6905 136.291L66.5567 57.0691C66.2492 54.8815 67.7734 52.8588 69.9611 52.5513L148.192 41.5567C150.38 41.2492 152.403 42.7734 152.71 44.961C152.71 44.961 153.422 50.0264 153.667 51.7688"
-              fill="white"
+              className="fill-background dark:fill-primary/50"
             />
             <path
               fillRule="evenodd"
               clipRule="evenodd"
               d="M88.8051 134.712L85.1093 135.238C83.1228 135.52 81.2887 134.139 81.0127 132.153L71.0175 60.2279C70.7415 58.2417 72.1281 56.4028 74.1146 56.1204L145.152 46.0237C147.139 45.7413 148.973 47.1225 149.249 49.1087L150.108 55.2894C150.154 55.6239 153.223 77.8233 159.313 121.888C159.619 124.1 158.093 126.145 155.906 126.454C155.882 126.457 155.858 126.461 155.835 126.463L88.8051 134.712Z"
-              className="fill-primary/10"
+              className="fill-primary/10 dark:fill-muted-foreground"
             />
             <path
               d="M86.2784 139.123L82.2083 139.695C80.0207 140.002 77.998 138.478 77.6905 136.291L66.5567 57.0691C66.2492 54.8815 67.7734 52.8588 69.9611 52.5513L148.192 41.5567C150.38 41.2492 152.403 42.7734 152.71 44.961C152.71 44.961 153.422 50.0264 153.667 51.7688"
@@ -51,21 +57,20 @@ const Empty = () => {
             />
             <path
               d="M102.844 58.0408L181.411 66.2986C182.922 66.4573 184.018 67.8105 183.859 69.321L175.497 148.883C175.338 150.393 173.985 151.489 172.474 151.33L93.9069 143.072C92.3965 142.914 91.3007 141.561 91.4595 140.05L99.8217 60.4883C99.9805 58.9779 101.334 57.8821 102.844 58.0408Z"
-              fill="white"
-              className="stroke-primary"
+              className="fill-background stroke-primary dark:fill-card"
               strokeWidth="2.5"
             />
             <path
               fillRule="evenodd"
               clipRule="evenodd"
               d="M106.693 69.2546C106.866 67.6068 108.342 66.4115 109.99 66.5846L172.645 73.1699C174.293 73.3431 175.488 74.8193 175.315 76.4671L169.775 129.177C169.602 130.825 168.126 132.02 166.478 131.847L103.823 125.261C102.175 125.088 100.98 123.612 101.153 121.964L106.693 69.2546Z"
-              fill="white"
+              className="fill-background dark:fill-primary/50"
             />
             <path
               fillRule="evenodd"
               clipRule="evenodd"
               d="M109.741 109.878L119.538 103.27C121.172 102.168 123.365 102.42 124.706 103.864L131.879 111.587C132.237 111.972 132.833 112.014 133.242 111.683L148.581 99.2534C150.429 97.7561 153.167 98.1922 154.459 100.189L164.44 115.627L165.873 118.019L165.187 126.143C165.139 126.704 164.639 127.115 164.08 127.053L107.117 120.724C106.575 120.664 106.182 120.181 106.232 119.639L106.987 111.44L109.741 109.878Z"
-              className="fill-primary/10"
+              className="fill-primary/10 dark:fill-primary/50"
             />
             <path
               d="M109.86 67.8278L172.514 74.4131C173.476 74.5141 174.173 75.3752 174.072 76.3364L168.532 129.046C168.431 130.007 167.57 130.705 166.609 130.604L103.954 124.018C102.992 123.917 102.295 123.056 102.396 122.095L107.936 69.3853C108.037 68.4241 108.898 67.7268 109.86 67.8278Z"
@@ -91,16 +96,16 @@ const Empty = () => {
           <p className="text-muted-foreground mb-6 max-w-md text-sm">
             {t('description')}
           </p>
-          <Button size="lg">
-            <Upload className="size-4 mr-2" />
-            {t('uploadButton')}
-          </Button>
+          <UploadPhotosDialog
+            collectionId={collectionId}
+            photographerId={photographerId}
+          >
+            <Button size="lg">
+              <Upload className="size-4 mr-2" />
+              {t('uploadButton')}
+            </Button>
+          </UploadPhotosDialog>
         </div>
-      </div>
-
-      {/* Alternative upload methods */}
-      <div className="mt-8 text-sm text-gray-500">
-        <p>{t('alternativeUpload')}</p>
       </div>
     </div>
   );

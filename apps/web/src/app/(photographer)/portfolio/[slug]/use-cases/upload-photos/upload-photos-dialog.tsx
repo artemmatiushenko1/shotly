@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ImageIcon } from 'lucide-react';
 import {
   Dialog,
@@ -11,7 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
-import { UploadPhotosCard } from './upload-photos-card';
 import { Button } from '@shotly/ui/components/button';
 import { useTranslations } from 'next-intl';
 import SelectedFilesList from './selected-files-list';
@@ -28,10 +27,11 @@ type UploadFile = {
 type UploadPhotosDialogProps = {
   collectionId: string;
   photographerId: string;
+  children: React.ReactNode;
 };
 
 const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
-  const { collectionId, photographerId } = props;
+  const { collectionId, photographerId, children } = props;
 
   const t = useTranslations('portfolio.collectionDetails.uploadDialog');
 
@@ -139,9 +139,7 @@ const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogTrigger>
-        <UploadPhotosCard />
-      </DialogTrigger>
+      <DialogTrigger asChild>{React.Children.only(children)}</DialogTrigger>
       <DialogContent>
         <DialogHeader className="pb-4">
           <DialogTitle>{t('title')}</DialogTitle>

@@ -54,9 +54,13 @@ function CollectionCard(props: CollectionCardProps) {
       <CardContent className="p-3">
         <div className="space-y-4">
           <div className="flex justify-between items-start">
-            <div>
-              <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-              <p className="text-muted-foreground text-sm">{description}</p>
+            <div className="overflow-hidden">
+              <h3 className="text-lg font-semibold text-foreground truncate">
+                {title}
+              </h3>
+              <p className="text-muted-foreground text-sm truncate">
+                {description}
+              </p>
             </div>
           </div>
           <div className="flex justify-between gap-6 text-xs text-gray-600">
