@@ -3,6 +3,7 @@ import { Spinner } from '@shotly/ui/components/spinner';
 import { Trash2Icon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
+import { formatBytes } from '../../utils';
 
 type FilePreviewProps = {
   isLoading: boolean;
@@ -13,20 +14,7 @@ type FilePreviewProps = {
 function FilePreview(props: FilePreviewProps) {
   const { file, onRemove, isLoading } = props;
 
-  const t = useTranslations('portfolio.collectionDetails.uploadDialog');
-
-  const formatBytes = (bytes: number) => {
-    if (bytes === 0) return `0 ${t('fileSize.bytes')}`;
-    const k = 1024;
-    const sizes = [
-      t('fileSize.bytes'),
-      t('fileSize.kb'),
-      t('fileSize.mb'),
-      t('fileSize.gb'),
-    ];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-  };
+  const t = useTranslations();
 
   return (
     <div
@@ -45,7 +33,7 @@ function FilePreview(props: FilePreviewProps) {
       <div className="flex-1 min-w-0">
         <h4 className="text-sm font-medium truncate">{file.file.name}</h4>
         <p className="text-sm text-muted-foreground">
-          {formatBytes(file.file.size)}
+          {formatBytes(file.file.size, t)}
         </p>
       </div>
       <div className="flex items-center space-x-2">

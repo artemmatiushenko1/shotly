@@ -154,6 +154,15 @@ class CollectionsRepository {
 
     return photoSchema.parse(photo);
   }
+
+  async getPhotosByCollectionId(collectionId: string): Promise<Photo[]> {
+    const photos = await db
+      .select()
+      .from(photosTable)
+      .where(eq(photosTable.collectionId, collectionId));
+
+    return photos.map((photo) => photoSchema.parse(photo));
+  }
 }
 
 const collectionsRepository = new CollectionsRepository();

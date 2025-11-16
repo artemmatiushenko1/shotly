@@ -15,79 +15,122 @@ import {
 import { getTranslations } from 'next-intl/server';
 import CollectionSettingsDialog from './use-cases/update-collection-settings/collection-settings-dialog';
 import { getUser } from '@/lib/auth/get-user';
+import { Photo } from '@/domain/photos';
 
-const photos = [
+const MOCK_PHOTOS: Photo[] = [
   {
     id: '1',
-    filename: 'ceremony_001.jpg',
+    originalFilename: 'ceremony_001.jpg',
     url: '/auth-banner.jpg',
-    thumbnail: '/auth-banner.jpg',
-    uploadDate: '2024-01-15',
-    size: '2.4 MB',
-    dimensions: '4000x3000',
-    isFavorite: true,
-    isSelected: false,
-    tags: ['ceremony', 'bride', 'groom'],
+    sizeInBytes: 1000000,
+    width: 4000,
+    height: 3000,
+    format: 'jpg',
+    metadata: {
+      cameraMake: 'Canon',
+      cameraModel: 'EOS R5',
+      lens: 'EF24-105mm f/4L IS USM',
+      focalLength: '24mm',
+      aperture: 'f/4',
+      shutterSpeed: '1/1000s',
+      iso: 100,
+    },
+    createdAt: new Date(),
   },
   {
     id: '2',
-    filename: 'reception_045.jpg',
-    url: '/auth-banner.jpg',
-    thumbnail: '/auth-banner.jpg',
-    uploadDate: '2024-01-15',
-    size: '3.1 MB',
-    dimensions: '4000x3000',
-    isFavorite: false,
-    isSelected: false,
-    tags: ['reception', 'dancing', 'celebration'],
+    originalFilename: 'reception_045.jpg',
+    url: '/auth-banner-2.jpg',
+    sizeInBytes: 1000000,
+    width: 4000,
+    height: 3000,
+    format: 'jpg',
+    metadata: {
+      cameraMake: 'Canon',
+      cameraModel: 'EOS R5',
+      lens: 'EF24-105mm f/4L IS USM',
+      focalLength: '24mm',
+      aperture: 'f/4',
+      shutterSpeed: '1/1000s',
+      iso: 100,
+    },
+    createdAt: new Date(),
   },
   {
     id: '3',
-    filename: 'portraits_012.jpg',
-    url: '/auth-banner-2.jpg',
-    thumbnail: '/auth-banner-2.jpg',
-    uploadDate: '2024-01-15',
-    size: '2.8 MB',
-    dimensions: '3000x4000',
-    isFavorite: true,
-    isSelected: false,
-    tags: ['portraits', 'couple', 'romantic'],
+    originalFilename: 'portraits_012.jpg',
+    url: '/auth-banner-3.jpg',
+    sizeInBytes: 1000000,
+    width: 4000,
+    height: 3000,
+    format: 'jpg',
+    metadata: {
+      cameraMake: 'Canon',
+      cameraModel: 'EOS R5',
+      lens: 'EF24-105mm f/4L IS USM',
+      focalLength: '24mm',
+      aperture: 'f/4',
+      shutterSpeed: '1/1000s',
+      iso: 100,
+    },
+    createdAt: new Date(),
   },
   {
     id: '4',
-    filename: 'details_008.jpg',
-    url: '/auth-banner-3.jpg',
-    thumbnail: '/auth-banner-3.jpg',
-    uploadDate: '2024-01-15',
-    size: '1.9 MB',
-    dimensions: '4000x3000',
-    isFavorite: false,
-    isSelected: false,
-    tags: ['details', 'rings', 'flowers'],
+    originalFilename: 'details_008.jpg',
+    url: '/auth-banner-4.jpg',
+    sizeInBytes: 1000000,
+    width: 4000,
+    height: 3000,
+    format: 'jpg',
+    metadata: {
+      cameraMake: 'Canon',
+      cameraModel: 'EOS R5',
+      lens: 'EF24-105mm f/4L IS USM',
+      focalLength: '24mm',
+      aperture: 'f/4',
+      shutterSpeed: '1/1000s',
+      iso: 100,
+    },
+    createdAt: new Date(),
   },
   {
     id: '5',
-    filename: 'family_023.jpg',
-    url: '/auth-banner-3.jpg',
-    thumbnail: '/auth-banner-3.jpg',
-    uploadDate: '2024-01-15',
-    size: '2.6 MB',
-    dimensions: '4000x3000',
-    isFavorite: false,
-    isSelected: false,
-    tags: ['family', 'group', 'formal'],
+    originalFilename: 'family_023.jpg',
+    url: '/auth-banner-5.jpg',
+    sizeInBytes: 1000000,
+    width: 4000,
+    height: 3000,
+    format: 'jpg',
+    metadata: {
+      cameraMake: 'Canon',
+      cameraModel: 'EOS R5',
+      lens: 'EF24-105mm f/4L IS USM',
+      focalLength: '24mm',
+      aperture: 'f/4',
+      shutterSpeed: '1/1000s',
+      iso: 100,
+    },
+    createdAt: new Date(),
   },
   {
     id: '6',
-    filename: 'candid_067.jpg',
-    url: '/auth-banner-4.jpg',
-    thumbnail: '/auth-banner-4.jpg',
-    uploadDate: '2024-01-15',
-    size: '2.2 MB',
-    dimensions: '4000x3000',
-    isFavorite: false,
-    isSelected: false,
-    tags: ['candid', 'laughter', 'guests'],
+    originalFilename: 'candid_067.jpg',
+    url: '/auth-banner.jpg',
+    sizeInBytes: 1000000,
+    width: 4000,
+    height: 3000,
+    format: 'jpg',
+    metadata: {
+      cameraMake: 'Canon',
+      cameraModel: 'EOS R5',
+      lens: 'EF24-105mm f/4L IS USM',
+      focalLength: '24mm',
+      aperture: 'f/4',
+      shutterSpeed: '1/1000s',
+      iso: 100,
+    },
+    createdAt: new Date(),
   },
 ];
 
@@ -96,14 +139,17 @@ type CollectionDetailsProps = {
 };
 
 async function CollectionDetails({ params }: CollectionDetailsProps) {
-  const { slug } = await params;
+  const { slug: collectionId } = await params;
 
   const user = await getUser();
 
   const t = await getTranslations('portfolio.collectionDetails');
 
-  const collection = await collectionsRepository.getCollectionById(slug);
-  const categories = await categoriesRepository.getCategories();
+  const [collection, photos, categories] = await Promise.all([
+    collectionsRepository.getCollectionById(collectionId),
+    collectionsRepository.getPhotosByCollectionId(collectionId),
+    categoriesRepository.getCategories(),
+  ]);
 
   const category = categories.find(
     (category) => category.id === collection.categoryId,
@@ -167,7 +213,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
       <PhotosGrid
         collectionId={collection.id}
         photographerId={user.id}
-        photos={photos}
+        photos={[...MOCK_PHOTOS, ...photos]}
       />
     </div>
   );

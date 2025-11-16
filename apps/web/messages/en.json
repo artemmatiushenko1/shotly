@@ -257,12 +257,6 @@
           "browse": "Browse",
           "fileTypes": "JPEG, PNG or WEBP up to 45 MB"
         },
-        "fileSize": {
-          "bytes": "Bytes",
-          "kb": "KB",
-          "mb": "MB",
-          "gb": "GB"
-        },
         "continue": "Upload {count} Photos"
       },
       "settings": {
@@ -413,6 +407,14 @@
         "10000to20000": "10,000 - 20,000 ₴",
         "over20000": "Over 20,000 ₴"
       }
+    }
+  },
+  "utils": {
+    "fileSize": {
+      "bytes": "Bytes",
+      "kb": "KB",
+      "mb": "MB",
+      "gb": "GB"
     }
   }
 }

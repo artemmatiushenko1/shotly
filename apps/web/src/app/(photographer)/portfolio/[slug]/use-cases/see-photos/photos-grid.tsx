@@ -3,16 +3,14 @@
 import { PhotoCard } from './photo-card';
 import UploadPhotosDialog from '../upload-photos/upload-photos-dialog';
 import { Empty } from '../../empty';
+import { Photo } from '@/domain/photos';
+import { formatBytes } from '../../utils';
+import { useTranslations } from 'next-intl';
 
 type PhotosGridProps = {
   collectionId: string;
   photographerId: string;
-  photos: {
-    id: string;
-    size: string;
-    thumbnail: string;
-    filename: string;
-  }[];
+  photos: Photo[];
 };
 
 const PhotosGrid = ({
@@ -20,6 +18,8 @@ const PhotosGrid = ({
   photographerId,
   photos,
 }: PhotosGridProps) => {
+  const t = useTranslations();
+
   if (photos.length === 0) {
     return <Empty />;
   }
@@ -34,9 +34,9 @@ const PhotosGrid = ({
         {photos.map((photo) => (
           <PhotoCard
             key={photo.id}
-            size={photo.size}
-            thumbnail={photo.thumbnail}
-            filename={photo.filename}
+            size={formatBytes(photo.sizeInBytes, t)}
+            thumbnail={photo.url}
+            filename={photo.originalFilename}
           />
         ))}
       </div>
