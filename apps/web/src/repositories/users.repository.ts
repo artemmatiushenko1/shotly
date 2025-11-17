@@ -10,6 +10,7 @@ import {
 } from '@/db/schema';
 import { LocationDetails } from '@/domain/locations';
 import {
+  Role,
   StorageUsage,
   storageUsageSchema,
   User,
@@ -178,6 +179,14 @@ class UsersRepository {
       .set({
         storageUsageInBytes: sql`${usersTable.storageUsageInBytes} + ${addedBytes}`,
       })
+      .where(eq(usersTable.id, userId))
+      .returning();
+  }
+
+  async updateUserRole(userId: string, role: Role) {
+    await db
+      .update(usersTable)
+      .set({ role })
       .where(eq(usersTable.id, userId))
       .returning();
   }

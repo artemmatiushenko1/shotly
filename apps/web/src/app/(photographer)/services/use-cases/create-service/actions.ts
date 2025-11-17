@@ -1,7 +1,7 @@
 'use server';
 
 import { ServiceStatus } from '@/domain/service';
-import { getUser } from '@/lib/auth/get-user';
+import { getUser } from '@/lib/auth/dal';
 import imageStorage from '@/lib/images/image-storage.service';
 import servicesRepository from '@/repositories/services.repository';
 import { revalidatePath } from 'next/cache';

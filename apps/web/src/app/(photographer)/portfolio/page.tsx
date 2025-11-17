@@ -5,7 +5,7 @@ import { PlusIcon } from 'lucide-react';
 import { Button } from '@shotly/ui/components/button';
 import categoriesRepository from '@/repositories/categories.repository';
 import collectionsRepository from '@/repositories/collections.repository';
-import { getUser } from '@/lib/auth/get-user';
+import { getUser } from '@/lib/auth/dal';
 import { getTranslations } from 'next-intl/server';
 import FadeIn from '@shotly/ui/components/fade-in';
 

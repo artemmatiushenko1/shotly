@@ -23,7 +23,7 @@ import {
   AnyPgColumn,
 } from 'drizzle-orm/pg-core';
 
-export const roleEnum = pgEnum('role', ['photographer', 'customer']);
+export const roleEnum = pgEnum('role', ['photographer', 'customer', 'unknown']);
 
 export const usersTable = pgTable('user', {
   id: text('id').primaryKey(),
@@ -39,7 +39,7 @@ export const usersTable = pgTable('user', {
   updatedAt: timestamp('updated_at')
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
-  role: roleEnum('role').notNull().default('customer'),
+  role: roleEnum('role').notNull().default('unknown'),
   username: text('username').unique(),
   websiteUrl: text('website_url'),
   instagramTag: text('instagram_tag'),

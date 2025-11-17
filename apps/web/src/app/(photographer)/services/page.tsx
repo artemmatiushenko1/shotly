@@ -6,7 +6,7 @@ import ServicesList from './use-cases/see-services/services-list';
 import categoriesRepository from '@/repositories/categories.repository';
 import servicesRepository from '@/repositories/services.repository';
 import { Service, ServiceStatus } from '@/domain/service';
-import { getUser } from '@/lib/auth/get-user';
+import { getUser } from '@/lib/auth/dal';
 import { getTranslations } from 'next-intl/server';
 import FadeIn from '@shotly/ui/components/fade-in';
 

@@ -2,6 +2,12 @@ import z from 'zod';
 import { languageSchema } from './language';
 import { locationDetailsSchema } from './locations';
 
+export enum Role {
+  UNKNOWN = 'unknown',
+  CUSTOMER = 'customer',
+  PHOTOGRAPHER = 'photographer',
+}
+
 export const userSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),

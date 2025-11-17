@@ -1,6 +1,6 @@
 'use server';
 
-import { getUser } from '@/lib/auth/get-user';
+import { getUser } from '@/lib/auth/dal';
 import collectionsRepository from '@/repositories/collections.repository';
 import { redirect } from 'next/navigation';
 import z from 'zod';

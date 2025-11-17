@@ -11,7 +11,7 @@ import { GeneralSettings } from './general';
 import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
 import usersRepository from '@/repositories/users.repository';
 import languagesRepository from '@/repositories/languages.repository';
-import { getUser } from '@/lib/auth/get-user';
+import { getUser } from '@/lib/auth/dal';
 import { getTranslations } from 'next-intl/server';
 import FadeIn from '@shotly/ui/components/fade-in';
 

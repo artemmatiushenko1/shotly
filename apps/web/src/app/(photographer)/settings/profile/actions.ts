@@ -1,7 +1,7 @@
 'use server';
 
 import { locationDetailsSchema } from '@/domain/locations';
-import { getUser } from '@/lib/auth/get-user';
+import { getUser } from '@/lib/auth/dal';
 import imageStorage from '@/lib/images/image-storage.service';
 import usersRepository from '@/repositories/users.repository';
 import { revalidatePath } from 'next/cache';

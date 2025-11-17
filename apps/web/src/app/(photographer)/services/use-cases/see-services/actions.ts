@@ -1,6 +1,6 @@
 'use server';
 
-import { getUser } from '@/lib/auth/get-user';
+import { getUser } from '@/lib/auth/dal';
 import servicesRepository from '@/repositories/services.repository';
 import { revalidatePath } from 'next/cache';
 

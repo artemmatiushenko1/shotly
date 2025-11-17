@@ -16,6 +16,14 @@ export const auth = betterAuth({
       session: schema.sessionsTable,
     },
   }),
+  user: {
+    additionalFields: {
+      role: {
+        type: 'string',
+        input: false,
+      },
+    },
+  },
   socialProviders: {
     google: {
       clientId: serverEnv.GOOGLE_AUTH_CLIENT_ID,

@@ -23,7 +23,7 @@ const CollectionCover = (props: CollectionCoverProps) => {
           src={coverImageUrl}
           width={400}
           height={200}
-          quality={75}
+          // quality={100}
           alt={t('alt')}
         />
       ) : (

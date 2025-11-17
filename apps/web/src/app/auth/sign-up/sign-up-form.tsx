@@ -11,6 +11,7 @@ import { useTranslations } from 'next-intl';
 
 const SignUpForm = () => {
   const t = useTranslations('auth.signUp');
+
   const [state, formAction, pending] = useActionState(signUp, {});
   const { validationErrors, formError } = state ?? {};
   const { fieldErrors } = validationErrors ?? {};
@@ -19,7 +20,7 @@ const SignUpForm = () => {
     <div>
       <div className="text-center mt-10 mb-15">
         <h1 className="text-3xl font-bold">{t('title')}</h1>
-        <p className="text-sm">{t('description')}</p>
+        <p className="text-sm text-muted-foreground">{t('description')}</p>
       </div>
       {formError && (
         <div className="mb-5 flex items-center space-x-2 text-red-500 text-sm mt-1 bg-red-50 border-red-200 rounded-md p-3">

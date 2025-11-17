@@ -14,7 +14,7 @@ import {
 } from '@shotly/ui/components/tooltip';
 import { getTranslations } from 'next-intl/server';
 import CollectionSettingsDialog from './use-cases/update-collection-settings/collection-settings-dialog';
-import { getUser } from '@/lib/auth/get-user';
+import { getUser } from '@/lib/auth/dal';
 import FadeIn from '@shotly/ui/components/fade-in';
 import { notFound } from 'next/navigation';
 

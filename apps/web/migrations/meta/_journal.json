@@ -15,6 +15,20 @@
       "when": 1763307948849,
       "tag": "0001_big_risque",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1763408319863,
+      "tag": "0002_shallow_nehzno",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1763412418979,
+      "tag": "0003_loving_scorpion",
+      "breakpoints": true
     }
   ]
 }

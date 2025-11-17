@@ -1,5 +1,5 @@
 import MainHeader from '@/components/main-header';
-import { getUser } from '@/lib/auth/get-user';
+import { getUser } from '@/lib/auth/dal';
 import { getTranslations } from 'next-intl/server';
 import React from 'react';
 
