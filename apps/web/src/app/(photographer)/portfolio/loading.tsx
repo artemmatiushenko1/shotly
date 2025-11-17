@@ -38,22 +38,15 @@ export async function Loading() {
             <Skeleton className="h-10 w-[200px] rounded-md" />
             <Skeleton className="h-10 w-[150px] rounded-md" />
           </div>
-          {/* Collections Grid Skeleton */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-3 pt-4">
             {Array.from({ length: 8 }).map((_, i) => (
               <Card
                 key={i}
-                className="rounded-xl shadow-none overflow-hidden p-0 gap-0 border-none"
+                className="rounded-xl shadow-none overflow-hidden p-0 gap-0 border-none bg-transparent"
               >
                 <div className="relative">
                   <div className="p-2">
                     <Skeleton className="w-full h-48 rounded-md" />
-                  </div>
-                  <div className="absolute top-4 left-4">
-                    <Skeleton className="h-5 w-16 rounded-full" />
-                  </div>
-                  <div className="absolute top-4 right-4">
-                    <Skeleton className="h-8 w-8 rounded-full" />
                   </div>
                 </div>
                 <CardContent className="p-3">

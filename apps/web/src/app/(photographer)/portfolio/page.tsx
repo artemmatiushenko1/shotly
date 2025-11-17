@@ -46,7 +46,7 @@ const Portfolio = async () => {
           )
         }
       />
-      <FadeIn>
+      <FadeIn className="flex-1 justify-center items-center flex">
         <CollectionsList
           collections={allCollections}
           categories={categories}
