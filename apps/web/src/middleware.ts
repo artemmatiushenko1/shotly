@@ -20,8 +20,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   runtime: 'nodejs',
-  // TODO: exclude everything inside public folder
-  matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
-  ],
+  // TODO: check if it's triggered for some unexpected routes/files
+  matcher: ['/((?!api|static|.*\\..*|_next).*)'],
 };
