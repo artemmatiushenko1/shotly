@@ -167,20 +167,6 @@ class CollectionsRepository {
     return photoCount?.count ?? 0;
   }
 
-  async getCollectionIdToPhotoCountMap(
-    userId: string,
-  ): Promise<Record<string, number>> {
-    const photoCounts = await db
-      .select({ collectionId: photosTable.collectionId, count: count() })
-      .from(photosTable)
-      .where(eq(photosTable.photographerId, userId))
-      .groupBy(photosTable.collectionId);
-
-    return Object.fromEntries(
-      photoCounts.map(({ collectionId, count }) => [collectionId, count ?? 0]),
-    );
-  }
-
   async getCollectionIdToCoverPhotoUrlMap(
     userId: string,
   ): Promise<Record<string, string>> {
