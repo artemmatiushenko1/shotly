@@ -3,6 +3,7 @@ import { SidebarProvider } from '@shotly/ui/components/sidebar';
 import { AppSidebar } from '@/components/app-sidebar';
 import { getUser } from '@/lib/auth/dal';
 import usersRepository from '@/repositories/users.repository';
+import { ThemeProvider } from '@shotly/ui/components/theme-provider';
 
 async function Layout({ children }: { children: React.ReactNode }) {
   const user = await getUser();
@@ -10,12 +11,14 @@ async function Layout({ children }: { children: React.ReactNode }) {
   const storageUsage = await usersRepository.getStorageUsage(user.id);
 
   return (
-    <SidebarProvider>
-      <AppSidebar user={user} storageUsage={storageUsage} />
-      <main className="rounded-2xl bg-background m-2 ml-1 border w-full px-2 pb-2 overflow-x-hidden overflow-y-auto relative">
-        {children}
-      </main>
-    </SidebarProvider>
+    <ThemeProvider>
+      <SidebarProvider>
+        <AppSidebar user={user} storageUsage={storageUsage} />
+        <main className="rounded-2xl bg-background m-2 ml-1 border w-full px-2 pb-2 overflow-x-hidden overflow-y-auto relative">
+          {children}
+        </main>
+      </SidebarProvider>
+    </ThemeProvider>
   );
 }
 

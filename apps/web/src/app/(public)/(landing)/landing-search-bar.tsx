@@ -74,7 +74,6 @@ function LandingSearchBar({ categories }: LandingSearchBarProps) {
           ))}
         </SelectContent>
       </Select>
-
       <Select value={location} onValueChange={setLocation}>
         <SelectTrigger className="flex-1 bg-gray-50 border-gray-200 data-[size=default]:h-full rounded-full px-6">
           <SelectValue placeholder={t('location')} />
