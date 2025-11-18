@@ -22,6 +22,7 @@ async function LandingPage() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border-2 border-purple-200/10" />
         </div>
         <div className="hidden md:block">
+          {/* TODO: wait until images are loaded to avoid flickering */}
           <PhotographerAvatars />
         </div>
       </div>

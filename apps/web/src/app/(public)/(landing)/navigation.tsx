@@ -1,18 +1,25 @@
-'use client';
-
 import { buttonVariants } from '@shotly/ui/components/button';
 import { Logo } from '@shotly/ui/components/logo';
 import { cn } from '@shotly/ui/lib/utils';
-import { LogInIcon } from 'lucide-react';
+import { ChevronDownIcon, LogInIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 import LanguageSwitcher from './language-switcher';
+import { getTranslations } from 'next-intl/server';
+import { getUser } from '@/lib/auth/dal';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@shotly/ui/components/avatar';
+import { Card, CardContent } from '@shotly/ui/components/card';
 
-function Navigation() {
-  const t = useTranslations('landing.navigation');
+async function Navigation() {
+  const user = await getUser();
+
+  const t = await getTranslations('landing.navigation');
 
   return (
-    <header className="flex items-center px-10 justify-between relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <header className="flex items-center justify-between relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-6">
       <div className="flex items-center gap-10">
         <Logo variant="contrast" />
         <nav className="space-x-3 p-2 rounded-full">
@@ -47,23 +54,36 @@ function Navigation() {
       </div>
       <div className="flex items-center gap-3">
         <LanguageSwitcher />
-        <div className="backdrop-blur-2xl bg-white/70 p-2 rounded-full flex items-center gap-3 border border-gray-200">
-          <Link
-            href="/auth/sign-in"
-            className={cn(
-              buttonVariants({ variant: 'link' }),
-              'rounded-full text-foreground items-center',
-            )}
-          >
-            <LogInIcon /> <span>{t('signIn')}</span>
-          </Link>
-          <Link
-            href="/auth/sign-up"
-            className={cn(buttonVariants(), 'rounded-full')}
-          >
-            {t('signUp')}
-          </Link>
-        </div>
+        {user ? (
+          <Card className="rounded-full p-2">
+            <CardContent className="flex items-center gap-3 px-2">
+              <Avatar className="rounded-full">
+                <AvatarImage src={user.image ?? ''} alt={user.name} />
+                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <p className="text-sm font-medium">{user.name}</p>
+              <ChevronDownIcon className="w-4 h-4" />
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="backdrop-blur-2xl bg-white/70 p-2 rounded-full flex items-center gap-3 border border-gray-200">
+            <Link
+              href="/auth/sign-in"
+              className={cn(
+                buttonVariants({ variant: 'link' }),
+                'rounded-full text-foreground items-center',
+              )}
+            >
+              <LogInIcon /> <span>{t('signIn')}</span>
+            </Link>
+            <Link
+              href="/auth/sign-up"
+              className={cn(buttonVariants(), 'rounded-full')}
+            >
+              {t('signUp')}
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   );
