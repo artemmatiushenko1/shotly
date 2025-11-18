@@ -235,6 +235,7 @@ export const featuresTable = pgTable(
   ],
 );
 
+// TODO: use visibilityStatus from common module
 export const serviceStatusEnum = pgEnum('service_status', [
   'public',
   'private',

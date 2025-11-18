@@ -19,6 +19,8 @@ type CreateServiceDialogProps = {
   children: React.ReactNode;
 };
 
+// TODO: close dialog on success, currently it glitches when form is submitted
+// because of revalidation path
 function CreateServiceDialog(props: CreateServiceDialogProps) {
   const { children: trigger, categories } = props;
   const t = useTranslations('services.createServiceDialog.dialog');

@@ -9,12 +9,15 @@ import { VisibilityStatus } from '@/domain/common';
 import { Photo, PhotoMetadata, photoSchema } from '@/domain/photos';
 import { count, eq } from 'drizzle-orm';
 
-type CollectionRow = typeof collectionsTable.$inferSelect;
+type CollectionRow = typeof collectionsTable.$inferSelect & {
+  photosCount?: number;
+};
 
 class CollectionsRepository {
   private parseCollection(collection: CollectionRow): Collection {
     return collectionSchema.parse({
       ...collection,
+      photosCount: collection.photosCount ?? 0,
       shootDate: new Date(collection.shootDate),
       createdAt: collection.createdAt
         ? new Date(collection.createdAt)
@@ -51,14 +54,30 @@ class CollectionsRepository {
       throw new Error('Failed to create collection.');
     }
 
-    return this.parseCollection(collection);
+    return this.parseCollection({ ...collection, photosCount: 0 });
   }
 
   async getAllCollections(userId: string): Promise<Collection[]> {
     const collections = await db
-      .select()
+      .select({
+        id: collectionsTable.id,
+        name: collectionsTable.name,
+        description: collectionsTable.description,
+        coverImageUrl: collectionsTable.coverImageUrl,
+        visibilityStatus: collectionsTable.visibilityStatus,
+        shootDate: collectionsTable.shootDate,
+        coverPhotoId: collectionsTable.coverPhotoId,
+        createdAt: collectionsTable.createdAt,
+        updatedAt: collectionsTable.updatedAt,
+        photographerId: collectionsTable.photographerId,
+        categoryId: collectionsTable.categoryId,
+        archivedAt: collectionsTable.archivedAt,
+        photosCount: count(photosTable.id).as('photos_count'),
+      })
       .from(collectionsTable)
-      .where(eq(collectionsTable.photographerId, userId));
+      .leftJoin(photosTable, eq(collectionsTable.id, photosTable.collectionId))
+      .where(eq(collectionsTable.photographerId, userId))
+      .groupBy(collectionsTable.id);
 
     return collections.map((collection) => this.parseCollection(collection));
   }

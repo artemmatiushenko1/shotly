@@ -10,6 +10,7 @@ export const collectionSchema = z.object({
   visibilityStatus: visibilityStatusSchema,
   shootDate: z.date(),
   categoryId: z.string(),
+  photosCount: z.number().default(0),
   archivedAt: z.date().nullish(),
   createdAt: z.date().optional(), // TODO: why it's optional?
   updatedAt: z.date().optional(), // TODO: why it's optional?
