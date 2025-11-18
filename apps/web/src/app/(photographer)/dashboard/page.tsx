@@ -7,8 +7,9 @@ import collectionsRepository from '@/repositories/collections.repository';
 import servicesRepository from '@/repositories/services.repository';
 import { VisibilityStatus } from '@/domain/common';
 import { Service, ServiceStatus } from '@/domain/service';
-import { UserProfile } from '@/domain/user';
+import { ApprovalStatus, UserProfile } from '@/domain/user';
 import { Collection } from '@/domain/collection';
+import ProfileUnderReviewCard from './profile-under-review';
 
 type OnboardingState = {
   isProfileComplete: boolean;
@@ -103,20 +104,32 @@ async function Dashboard() {
 
   const t = await getTranslations('dashboard');
 
+  let description = t('description', { name: user.name });
+
+  if (user.approvalStatus === ApprovalStatus.NOT_SUBMITTED) {
+    description +=
+      ' Complete your profile to get approved and start booking clients.';
+  }
+
   return (
     <>
-      <MainHeader
-        title={t('title')}
-        caption={
-          t('description', { name: user.name }) +
-          ' Complete your profile to get approved and start booking clients.'
-        }
-      />
-      <OnboardingChecklist
-        steps={onboardingStepsInfo.steps}
-        progressPercentage={onboardingStepsInfo.progressPercentage}
-        allComplete={onboardingStepsInfo.allComplete}
-      />
+      <MainHeader title={t('title')} caption={description} />
+      <div className="max-w-2xl mx-auto p-4 translate-y-1/8">
+        {user.approvalStatus === ApprovalStatus.NOT_SUBMITTED && (
+          <OnboardingChecklist
+            key={'onboarding-checklist'}
+            steps={onboardingStepsInfo.steps}
+            progressPercentage={onboardingStepsInfo.progressPercentage}
+            allComplete={onboardingStepsInfo.allComplete}
+          />
+        )}
+        {user.approvalStatus === ApprovalStatus.PENDING_REVIEW && (
+          <ProfileUnderReviewCard
+            key={'profile-under-review'}
+            userEmail={user.email}
+          />
+        )}
+      </div>
     </>
   );
 }

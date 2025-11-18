@@ -22,6 +22,10 @@ export const auth = betterAuth({
         type: 'string',
         input: false,
       },
+      approvalStatus: {
+        type: 'string',
+        input: false,
+      },
     },
   },
   socialProviders: {

@@ -1,8 +1,13 @@
+'use client';
+
 import { Button } from '@shotly/ui/components/button';
 import { Card } from '@shotly/ui/components/card';
 import { cn } from '@shotly/ui/lib/utils';
 import { CheckCircle2, FlameIcon } from 'lucide-react';
 import Link from 'next/link';
+import { useActionState, useEffect } from 'react';
+import { sendProfileToReview } from './actions';
+import { toast } from '@shotly/ui/components/sonner';
 
 export type OnboardingStep = {
   id: string;
@@ -22,8 +27,19 @@ type OnboardingChecklistProps = {
 function OnboardingChecklist(props: OnboardingChecklistProps) {
   const { steps, progressPercentage, allComplete } = props;
 
+  const [state, formAction, pending] = useActionState(
+    sendProfileToReview,
+    null,
+  );
+
+  useEffect(() => {
+    if (state?.success) {
+      toast.success('Profile submitted for review!');
+    }
+  }, [state]);
+
   return (
-    <form className="max-w-2xl mx-auto p-4 mt-10">
+    <form action={formAction}>
       <Card className="p-6">
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -94,7 +110,12 @@ function OnboardingChecklist(props: OnboardingChecklistProps) {
             </div>
           ))}
         </div>
-        <Button type="submit" disabled={!allComplete} className="w-full">
+        <Button
+          type="submit"
+          disabled={!allComplete}
+          className="w-full"
+          loading={pending}
+        >
           Submit Profile for Review
         </Button>
       </Card>

@@ -10,6 +10,7 @@ import {
 } from '@/db/schema';
 import { LocationDetails } from '@/domain/locations';
 import {
+  ApprovalStatus,
   Role,
   StorageUsage,
   storageUsageSchema,
@@ -187,6 +188,14 @@ class UsersRepository {
     await db
       .update(usersTable)
       .set({ role })
+      .where(eq(usersTable.id, userId))
+      .returning();
+  }
+
+  async changeApprovalStatus(userId: string, status: ApprovalStatus) {
+    await db
+      .update(usersTable)
+      .set({ approvalStatus: status })
       .where(eq(usersTable.id, userId))
       .returning();
   }
