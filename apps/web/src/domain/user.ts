@@ -2,6 +2,13 @@ import z from 'zod';
 import { languageSchema } from './language';
 import { locationDetailsSchema } from './locations';
 
+export enum ApprovalStatus {
+  NOT_SUBMITTED = 'not_submitted',
+  PENDING_REVIEW = 'pending_review',
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+}
+
 export enum Role {
   UNKNOWN = 'unknown',
   CUSTOMER = 'customer',
@@ -20,6 +27,7 @@ export const userSchema = z.object({
   websiteUrl: z.url().nullable(),
   instagramTag: z.string().nullable(),
   createdAt: z.date(),
+  approvalStatus: z.enum(ApprovalStatus),
 });
 
 export type User = z.infer<typeof userSchema>;

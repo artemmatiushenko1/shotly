@@ -1,4 +1,5 @@
 import { PhotoMetadata } from '@/domain/photos';
+import { ApprovalStatus, Role } from '@/domain/user';
 import { sql } from 'drizzle-orm';
 import {
   pgTable,
@@ -23,7 +24,18 @@ import {
   AnyPgColumn,
 } from 'drizzle-orm/pg-core';
 
-export const roleEnum = pgEnum('role', ['photographer', 'customer', 'unknown']);
+export const roleEnum = pgEnum('role', [
+  Role.PHOTOGRAPHER,
+  Role.CUSTOMER,
+  Role.UNKNOWN,
+]);
+
+export const approvalStatusEnum = pgEnum('approval_status', [
+  ApprovalStatus.NOT_SUBMITTED,
+  ApprovalStatus.PENDING_REVIEW,
+  ApprovalStatus.APPROVED,
+  ApprovalStatus.REJECTED,
+]);
 
 export const usersTable = pgTable('user', {
   id: text('id').primaryKey(),
@@ -39,7 +51,7 @@ export const usersTable = pgTable('user', {
   updatedAt: timestamp('updated_at')
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
-  role: roleEnum('role').notNull().default('unknown'),
+  role: roleEnum('role').notNull().default(Role.UNKNOWN),
   username: text('username').unique(),
   websiteUrl: text('website_url'),
   instagramTag: text('instagram_tag'),
@@ -62,6 +74,9 @@ export const usersTable = pgTable('user', {
    * Caches the photographer's total number of reviews.
    */
   totalReviews: integer('total_reviews').notNull().default(0),
+  approvalStatus: approvalStatusEnum('approval_status')
+    .notNull()
+    .default(ApprovalStatus.NOT_SUBMITTED),
 });
 
 export const sessionsTable = pgTable('session', {
