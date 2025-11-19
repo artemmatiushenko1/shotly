@@ -1,7 +1,12 @@
 import { buttonVariants } from '@shotly/ui/components/button';
 import { Logo } from '@shotly/ui/components/logo';
 import { cn } from '@shotly/ui/lib/utils';
-import { ChevronDownIcon, LogInIcon } from 'lucide-react';
+import {
+  ChevronDownIcon,
+  LayoutGridIcon,
+  LogInIcon,
+  LogOutIcon,
+} from 'lucide-react';
 import Link from 'next/link';
 import LanguageSwitcher from './language-switcher';
 import { getTranslations } from 'next-intl/server';
@@ -12,6 +17,13 @@ import {
   AvatarImage,
 } from '@shotly/ui/components/avatar';
 import { Card, CardContent } from '@shotly/ui/components/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@shotly/ui/components/dropdown-menu';
+import { Role } from '@/domain/user';
 
 async function Navigation() {
   const user = await getUser();
@@ -55,16 +67,32 @@ async function Navigation() {
       <div className="flex items-center gap-3">
         <LanguageSwitcher />
         {user ? (
-          <Card className="rounded-full p-2">
-            <CardContent className="flex items-center gap-3 px-2">
-              <Avatar className="rounded-full">
-                <AvatarImage src={user.image ?? ''} alt={user.name} />
-                <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <p className="text-sm font-medium">{user.name}</p>
-              <ChevronDownIcon className="w-4 h-4" />
-            </CardContent>
-          </Card>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Card className="rounded-full p-2">
+                <CardContent className="flex items-center gap-3 px-2">
+                  <Avatar className="rounded-full">
+                    <AvatarImage src={user.image ?? ''} alt={user.name} />
+                    <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <p className="text-sm font-medium">{user.name}</p>
+                  <ChevronDownIcon className="w-4 h-4" />
+                </CardContent>
+              </Card>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-[var(--radix-dropdown-menu-trigger-width)]">
+              {user.role === Role.PHOTOGRAPHER && (
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard">
+                    <LayoutGridIcon /> Photographer Dashboard
+                  </Link>
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuItem>
+                <LogOutIcon /> Log Out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ) : (
           <div className="backdrop-blur-2xl bg-white/70 p-2 rounded-full flex items-center gap-3 border border-gray-200">
             <Link
