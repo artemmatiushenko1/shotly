@@ -10,7 +10,6 @@ import {
 import Link from 'next/link';
 import LanguageSwitcher from './language-switcher';
 import { getTranslations } from 'next-intl/server';
-import { getUser } from '@/lib/auth/dal';
 import {
   Avatar,
   AvatarFallback,
@@ -24,14 +23,16 @@ import {
   DropdownMenuTrigger,
 } from '@shotly/ui/components/dropdown-menu';
 import { Role } from '@/domain/user';
+import { auth } from '@/lib/auth/auth';
+import { headers } from 'next/headers';
 
 async function Navigation() {
-  const user = await getUser();
-
+  const session = await auth.api.getSession({ headers: await headers() });
+  const user = session?.user;
   const t = await getTranslations('landing.navigation');
 
   return (
-    <header className="flex items-center justify-between relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <header className="flex items-center justify-between relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center gap-10">
         <Logo variant="contrast" />
         <nav className="space-x-3 p-2 rounded-full">
