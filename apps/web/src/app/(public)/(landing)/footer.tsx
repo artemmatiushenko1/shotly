@@ -7,7 +7,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
-            <Logo className="h-20" variant="contrast" />
+            <Logo className="h-10" variant="contrast" />
             <p className="mt-4 text-gray-500 text-sm max-w-xs">
               The easiest way to find and book professional photographers for
               any occasion. Built for quality and trust.

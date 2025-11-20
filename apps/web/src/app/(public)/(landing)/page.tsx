@@ -33,7 +33,9 @@ async function LandingPage() {
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight px-4">
               {t('hero.title')}{' '}
-              <span className="">{t('hero.titleHighlight')}</span>
+              <span className="font-[family-name:var(--font-borel)]">
+                {t('hero.titleHighlight')}
+              </span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-10 max-w-2xl mx-auto px-4">
               {t('hero.subtitle')}

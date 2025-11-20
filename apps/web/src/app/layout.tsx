@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Borel } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { getLocale } from '@/i18n/locale';
@@ -9,6 +9,12 @@ import { Toaster } from '@shotly/ui/components/sonner';
 const interSans = Inter({
   variable: '--font-inter-sans',
   subsets: ['latin'],
+});
+
+const borel = Borel({
+  variable: '--font-borel',
+  subsets: ['latin'],
+  weight: ['400'],
 });
 
 export const metadata: Metadata = {
@@ -27,7 +33,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
-        className={`${interSans.variable} antialiased font-[family-name:var(--font-inter-sans)] has-data-[slot=sidebar-wrapper]:bg-sidebar`}
+        className={`${interSans.variable} ${borel.variable} antialiased font-[family-name:var(--font-inter-sans)] has-data-[slot=sidebar-wrapper]:bg-sidebar`}
       >
         <NextIntlClientProvider messages={messages} locale={locale}>
           {children}
