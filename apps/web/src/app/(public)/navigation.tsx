@@ -10,6 +10,7 @@ import {
 import Link from 'next/link';
 import LanguageSwitcher from './(landing)/language-switcher';
 import { getTranslations } from 'next-intl/server';
+import NavLinks from './nav-links';
 import {
   Avatar,
   AvatarFallback,
@@ -37,35 +38,7 @@ async function Navigation() {
         <Link href="/">
           <Logo variant="contrast" />
         </Link>
-        <nav className="space-x-3 p-2 rounded-full">
-          <Link
-            href="/"
-            className={cn(
-              buttonVariants({ variant: 'link' }),
-              'text-foreground underline',
-            )}
-          >
-            {t('home')}
-          </Link>
-          <Link
-            href="/photographers"
-            className={cn(
-              buttonVariants({ variant: 'link' }),
-              'text-foreground',
-            )}
-          >
-            {t('photographers')}
-          </Link>
-          <Link
-            href="/about-us"
-            className={cn(
-              buttonVariants({ variant: 'link' }),
-              'text-foreground',
-            )}
-          >
-            {t('aboutUs')}
-          </Link>
-        </nav>
+        <NavLinks />
       </div>
       <div className="flex items-center gap-3">
         <LanguageSwitcher />
