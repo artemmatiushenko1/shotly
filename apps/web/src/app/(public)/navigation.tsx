@@ -1,12 +1,7 @@
 import { buttonVariants } from '@shotly/ui/components/button';
 import { Logo } from '@shotly/ui/components/logo';
 import { cn } from '@shotly/ui/lib/utils';
-import {
-  ChevronDownIcon,
-  LayoutGridIcon,
-  LogInIcon,
-  LogOutIcon,
-} from 'lucide-react';
+import { LayoutGridIcon, LogInIcon, LogOutIcon } from 'lucide-react';
 import Link from 'next/link';
 import LanguageSwitcher from './(landing)/language-switcher';
 import { getTranslations } from 'next-intl/server';
@@ -21,6 +16,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@shotly/ui/components/dropdown-menu';
 import { Role } from '@/domain/user';
@@ -45,22 +41,26 @@ async function Navigation() {
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Card className="rounded-full p-2">
+              <Card className="rounded-full p-2 shadow-none">
                 <CardContent className="flex items-center gap-3 px-2">
+                  <p className="text-sm font-medium">{user.name}</p>
                   <Avatar className="rounded-full">
                     <AvatarImage src={user.image ?? ''} alt={user.name} />
                     <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
                   </Avatar>
-                  <p className="text-sm font-medium">{user.name}</p>
-                  <ChevronDownIcon className="w-4 h-4" />
                 </CardContent>
               </Card>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-[var(--radix-dropdown-menu-trigger-width)]">
+              <div className="px-2 py-2">
+                <p className="text-xs font-medium">{user.name}</p>
+                <p className="text-xs text-muted-foreground">{user.email}</p>
+              </div>
+              <DropdownMenuSeparator />
               {user.role === Role.PHOTOGRAPHER && (
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard">
-                    <LayoutGridIcon /> Photographer Dashboard
+                    <LayoutGridIcon /> My Dashboard
                   </Link>
                 </DropdownMenuItem>
               )}
