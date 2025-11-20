@@ -8,7 +8,7 @@ import {
   LogOutIcon,
 } from 'lucide-react';
 import Link from 'next/link';
-import LanguageSwitcher from './language-switcher';
+import LanguageSwitcher from './(landing)/language-switcher';
 import { getTranslations } from 'next-intl/server';
 import {
   Avatar,
@@ -32,9 +32,11 @@ async function Navigation() {
   const t = await getTranslations('landing.navigation');
 
   return (
-    <header className="flex items-center justify-between relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <header className="flex items-center justify-between relative z-10 px-4 sm:px-6 lg:px-8 py-7 container mx-auto">
       <div className="flex items-center gap-10">
-        <Logo variant="contrast" />
+        <Link href="/">
+          <Logo variant="contrast" />
+        </Link>
         <nav className="space-x-3 p-2 rounded-full">
           <Link
             href="/"

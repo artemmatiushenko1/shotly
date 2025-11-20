@@ -3,8 +3,6 @@ import { getTranslations } from 'next-intl/server';
 import LandingSearchBar from './landing-search-bar';
 import PhotographerAvatars from './photographer-avatars';
 import categoriesRepository from '@/repositories/categories.repository';
-import Navigation from './navigation';
-import Footer from './footer';
 
 async function LandingPage() {
   const categories = await categoriesRepository.getCategories();
@@ -13,7 +11,7 @@ async function LandingPage() {
 
   return (
     <>
-      <div className="min-h-screen m-10 rounded-3xl bg-gradient-to-b from-gray-50 to-white relative overflow-hidden bg-[linear-gradient(to_bottom,_#e8ebff_0%,_#fff4ea_100%)]">
+      <div className="min-h-screen m-10 mt-0 pt-12 rounded-3xl bg-gradient-to-b from-gray-50 to-white relative overflow-hidden bg-[linear-gradient(to_bottom,_#e8ebff_0%,_#fff4ea_100%)]">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-br from-purple-100/30 via-orange-100/20 to-yellow-100/30 rounded-full blur-3xl opacity-50" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -28,7 +26,6 @@ async function LandingPage() {
             <PhotographerAvatars />
           </div>
         </div>
-        <Navigation />
         <section className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight px-4">
@@ -61,7 +58,6 @@ async function LandingPage() {
           </div>
         </section>
       </div>
-      <Footer />
     </>
   );
 }
