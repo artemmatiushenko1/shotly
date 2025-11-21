@@ -5,6 +5,7 @@ import {
   TabsTrigger,
 } from '@shotly/ui/components/tabs';
 import SeePorfolio from './see-portfolio/see-porfolio';
+import SeeReviews from './see-reviews/see-reviews';
 
 const tabs = [
   {
@@ -27,13 +28,7 @@ const tabs = [
   {
     name: 'Reviews',
     value: 'reviews',
-    content: (
-      <>
-        <span className="text-foreground font-semibold">Surprise!</span>{' '}
-        Here&apos;s something unexpected—a fun fact, a quirky tip, or a daily
-        challenge. Come back for a new surprise every day!
-      </>
-    ),
+    content: <SeeReviews />,
   },
 ];
 
