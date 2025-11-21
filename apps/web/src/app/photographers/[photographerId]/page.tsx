@@ -9,6 +9,7 @@ import usersRepository from '@/repositories/users.repository';
 import { ArrowUpRightIcon, BookmarkIcon } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import ProfileTabs from './tabs';
 
 type PhotographerPublicProfileProps = {
   params: Promise<{ photographerId: string }>;
@@ -75,7 +76,7 @@ async function PhotographerPublicProfile({
           </div>
         </div>
         <div className="-mt-13 flex">
-          <div className="grid grid-cols-7 gap-12 mb-16 border-b border-gray-100 pb-12">
+          <div className="grid grid-cols-7 gap-12 pb-12">
             <div className="col-span-4 space-y-8">
               <div>
                 <h3 className="text-lg font-bold mb-3">About me</h3>
@@ -193,6 +194,7 @@ async function PhotographerPublicProfile({
             </div>
           </div>
         </div>
+        <ProfileTabs />
       </div>
     </div>
   );

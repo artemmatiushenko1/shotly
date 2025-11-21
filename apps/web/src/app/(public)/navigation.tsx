@@ -31,6 +31,7 @@ type NavigationProps = {
 async function Navigation({ className, variant = 'default' }: NavigationProps) {
   const session = await auth.api.getSession({ headers: await headers() });
   const user = session?.user;
+
   const t = await getTranslations('landing.navigation');
 
   return (

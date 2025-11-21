@@ -12,7 +12,7 @@ async function LandingPage() {
 
   return (
     <>
-      <div className="min-h-screen m-10 mt-0 pt-12 rounded-3xl bg-gradient-to-b from-gray-50 to-white relative overflow-hidden bg-[linear-gradient(to_bottom,_#e8ebff_0%,_#fff4ea_100%)]">
+      <div className="min-h-screen m-10 mt-0 pt-12 rounded-3xl relative overflow-hidden bg-[linear-gradient(to_bottom,_#e8ebff_0%,_#fff4ea_100%)]">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-br from-purple-100/30 via-orange-100/20 to-yellow-100/30 rounded-full blur-3xl opacity-50" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
