@@ -48,7 +48,7 @@ function LandingSearchBar({ categories }: LandingSearchBarProps) {
     if (budget) params.set('budget', budget);
 
     const queryString = params.toString();
-    router.push(`/photographers${queryString ? `?${queryString}` : ''}`);
+    router.push(`/search${queryString ? `?${queryString}` : ''}`);
   };
 
   const budgetRanges = [

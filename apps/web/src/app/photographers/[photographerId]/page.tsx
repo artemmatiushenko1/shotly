@@ -1,21 +1,19 @@
 import LanguageTag from '@/components/language-tag';
 import { Avatar, AvatarImage } from '@shotly/ui/components/avatar';
 import { Badge } from '@shotly/ui/components/badge';
-import { Button, buttonVariants } from '@shotly/ui/components/button';
+import { Button } from '@shotly/ui/components/button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@shotly/ui/components/card';
-import { Logo } from '@shotly/ui/components/logo';
 import { Separator } from '@shotly/ui/components/separator';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@shotly/ui/components/tooltip';
-import { cn } from '@shotly/ui/lib/utils';
 import usersRepository from '@/repositories/users.repository';
 import {
   BadgeCheckIcon,
@@ -24,11 +22,9 @@ import {
   HeartIcon,
   InstagramIcon,
   LanguagesIcon,
-  LogInIcon,
   MapPinIcon,
 } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 type PhotographerPublicProfileProps = {
@@ -58,52 +54,20 @@ async function PhotographerPublicProfile({
 
   return (
     <div>
-      <div className="h-65 overflow-hidden relative">
-        <div className="absolute left-2 top-2 flex items-center w-full px-10 justify-between z-2">
-          <Logo />
-          <div className="space-x-3 backdrop-blur-2xl bg-white/30 p-2 rounded-full">
-            <Link href="" className={cn(buttonVariants(), 'rounded-full')}>
-              Home
-            </Link>
-            <Link
-              href=""
-              className={cn(buttonVariants({ variant: 'link' }), 'text-muted')}
-            >
-              Photographers
-            </Link>
-            <Link
-              href=""
-              className={cn(buttonVariants({ variant: 'link' }), 'text-muted')}
-            >
-              How it works?
-            </Link>
-          </div>
-          <div className="backdrop-blur-2xl bg-white/30 p-2 rounded-full flex items-center">
-            <Link
-              href="/auth"
-              className={cn(
-                buttonVariants({ variant: 'link' }),
-                'rounded-full text-muted items-center',
-              )}
-            >
-              <LogInIcon /> <span>Sign In</span>
-            </Link>
-            <Link href="/auth" className={cn(buttonVariants(), 'rounded-full')}>
-              Sign Up
-            </Link>
-          </div>
+      <div className="h-70 overflow-hidden relative p-3">
+        <div className="rounded-3xl w-full h-full overflow-hidden relative">
+          <div className="absolute inset-0 bg-gradient-to-t from-transparent to-black/60 z-1" />
+          <Image
+            alt="Cover image"
+            src={coverImageUrl}
+            width={1000}
+            height={400}
+            className="w-full h-full object-cover inline-block"
+          />
         </div>
-        <Image
-          alt="Cover image"
-          src={coverImageUrl}
-          width={1000}
-          height={400}
-          className="w-full h-full object-cover inline-block"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-black/50 z-1" />
       </div>
       <div className="max-w-5xl px-4 m-auto">
-        <div className="-translate-y-1/2 flex justify-between">
+        <div className="-translate-y-1/2 flex justify-between z-100 relative">
           <Avatar className="rounded-full w-40 h-40 border-3 border-white">
             <AvatarImage src={profileImageUrl} alt={profile.name} />
           </Avatar>

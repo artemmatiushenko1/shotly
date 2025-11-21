@@ -6,7 +6,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
-function NavLinks() {
+type NavLinksProps = {
+  variant?: 'contrast' | 'default';
+};
+
+function NavLinks({ variant = 'default' }: NavLinksProps) {
   const pathname = usePathname();
   const t = useTranslations('landing.navigation');
 
@@ -18,23 +22,30 @@ function NavLinks() {
   };
 
   return (
-    <nav className="space-x-3 p-2 rounded-full">
+    <nav
+      className={cn(
+        'space-x-3 p-2 rounded-full ',
+        variant === 'contrast'
+          ? ''
+          : 'backdrop-blur-2xl bg-white/30 border border-border/10',
+      )}
+    >
       <Link
         href="/"
         className={cn(
           buttonVariants({ variant: 'link' }),
-          'text-foreground',
+          variant === 'contrast' ? 'text-foreground' : 'text-white',
           isActive('/') && 'underline',
         )}
       >
         {t('home')}
       </Link>
       <Link
-        href="/photographers"
+        href="/search"
         className={cn(
           buttonVariants({ variant: 'link' }),
-          'text-foreground',
-          isActive('/photographers') && 'underline',
+          variant === 'contrast' ? 'text-foreground' : 'text-white',
+          isActive('/search') && 'underline',
         )}
       >
         {t('photographers')}
@@ -43,7 +54,7 @@ function NavLinks() {
         href="/about-us"
         className={cn(
           buttonVariants({ variant: 'link' }),
-          'text-foreground',
+          variant === 'contrast' ? 'text-foreground' : 'text-white',
           isActive('/about-us') && 'underline',
         )}
       >

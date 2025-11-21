@@ -13,13 +13,18 @@ import {
 } from '@shotly/ui/components/select';
 import { setLocale } from '@/i18n/actions';
 import { Locale, locales } from '@/i18n/config';
+import { cn } from '@shotly/ui/lib/utils';
 
 const localeNames: Record<Locale, string> = {
   en: 'English',
   uk: 'Українська',
 };
 
-function LanguageSwitcher() {
+type LanguageSwitcherProps = {
+  variant?: 'contrast' | 'default';
+};
+
+function LanguageSwitcher({ variant = 'default' }: LanguageSwitcherProps) {
   const locale = useLocale() as Locale;
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -41,9 +46,17 @@ function LanguageSwitcher() {
     >
       <SelectTrigger
         showArrow={false}
-        className="max-w-[130px] h-9 bg-transparent pl-3 shadow-none border-none gap-0"
+        className={cn(
+          'max-w-[130px] h-9 bg-transparent pl-3 shadow-none border-none gap-0',
+          variant === 'contrast' ? 'text-foreground' : 'text-white',
+        )}
       >
-        <Globe className="size-4 text-gray-600 shrink-0 mr-3" />
+        <Globe
+          className={cn(
+            'size-4 shrink-0 mr-3',
+            variant === 'contrast' ? 'text-gray-600' : 'text-white',
+          )}
+        />
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

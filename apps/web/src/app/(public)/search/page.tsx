@@ -12,7 +12,7 @@ function PhotographersPage() {
       <p className="text-lg font-bold mb-4">4 photographers match your needs</p>
       <div className="min-h-[300px] grid grid-cols-2 gap-4">
         <PhotographerCard
-          id="1"
+          id="8tm45VnSY2igu9m4Zj6Z25Xb3rDMhd6t"
           name="John Doe"
           image="/avatar-1.jpg"
           location="New York"
@@ -28,7 +28,7 @@ function PhotographersPage() {
           ]}
         />
         <PhotographerCard
-          id="2"
+          id="8tm45VnSY2igu9m4Zj6Z25Xb3rDMhd6t"
           name="Jane Doe"
           image="/avatar-2.jpg"
           location="Los Angeles"
@@ -44,7 +44,7 @@ function PhotographersPage() {
           ]}
         />
         <PhotographerCard
-          id="3"
+          id="8tm45VnSY2igu9m4Zj6Z25Xb3rDMhd6t"
           name="John Doe"
           image="/avatar-3.jpg"
           location="New York"

@@ -5,7 +5,7 @@ import Navigation from './navigation';
 function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Navigation />
+      <Navigation variant="contrast" />
       <main>{children}</main>
       <Footer />
     </>

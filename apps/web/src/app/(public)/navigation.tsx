@@ -23,27 +23,51 @@ import { Role } from '@/domain/user';
 import { auth } from '@/lib/auth/auth';
 import { headers } from 'next/headers';
 
-async function Navigation() {
+type NavigationProps = {
+  className?: string;
+  variant?: 'contrast' | 'default';
+};
+
+async function Navigation({ className, variant = 'default' }: NavigationProps) {
   const session = await auth.api.getSession({ headers: await headers() });
   const user = session?.user;
   const t = await getTranslations('landing.navigation');
 
   return (
-    <header className="flex items-center justify-between relative z-10 px-4 sm:px-6 lg:px-8 py-7 container mx-auto">
+    <header
+      className={cn(
+        'flex items-center justify-between relative z-10 px-4 sm:px-6 lg:px-8 py-7 container mx-auto',
+        className,
+      )}
+    >
       <div className="flex items-center gap-10">
         <Link href="/">
-          <Logo variant="contrast" />
+          <Logo variant={variant === 'contrast' ? 'contrast' : 'default'} />
         </Link>
-        <NavLinks />
+        <NavLinks variant={variant} />
       </div>
       <div className="flex items-center gap-3">
-        <LanguageSwitcher />
+        <LanguageSwitcher variant={variant} />
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Card className="rounded-full p-2 shadow-none">
+              <Card
+                className={cn(
+                  'rounded-full p-2 shadow-none',
+                  variant === 'default'
+                    ? 'backdrop-blur-2xl bg-white/30 border border-border/10'
+                    : '',
+                )}
+              >
                 <CardContent className="flex items-center gap-3 px-2">
-                  <p className="text-sm font-medium">{user.name}</p>
+                  <p
+                    className={cn(
+                      'text-sm font-medium',
+                      variant === 'contrast' ? 'text-foreground' : 'text-white',
+                    )}
+                  >
+                    Hi, {user.name}!
+                  </p>
                   <Avatar className="rounded-full">
                     <AvatarImage src={user.image ?? ''} alt={user.name} />
                     <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
@@ -70,12 +94,20 @@ async function Navigation() {
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (
-          <div className="backdrop-blur-2xl bg-white/70 p-2 rounded-full flex items-center gap-3 border border-gray-200">
+          <div
+            className={cn(
+              'p-2 rounded-full flex items-center gap-3 border border-border',
+              variant === 'default'
+                ? 'backdrop-blur-2xl bg-white/30 border-border/10'
+                : '',
+            )}
+          >
             <Link
               href="/auth/sign-in"
               className={cn(
                 buttonVariants({ variant: 'link' }),
                 'rounded-full text-foreground items-center',
+                variant === 'contrast' ? 'text-foreground' : 'text-white',
               )}
             >
               <LogInIcon /> <span>{t('signIn')}</span>
