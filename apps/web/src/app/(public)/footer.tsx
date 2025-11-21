@@ -11,6 +11,9 @@ function Footer() {
             The easiest way to find and book professional photographers for any
             occasion. Built for quality and trust.
           </p>
+          <div className="pt-8 text-left text-sm text-muted-foreground">
+            &copy; 2025 Shotly Inc. All rights reserved.
+          </div>
         </div>
         <div>
           <h4 className="font-semibold text-gray-900 mb-4">Company</h4>
@@ -40,9 +43,6 @@ function Footer() {
             </li>
           </ul>
         </div>
-      </div>
-      <div className="mt-12 pt-8 border-gray-100 text-center text-sm text-gray-400">
-        &copy; 2025 Shotly Inc. All rights reserved.
       </div>
     </footer>
   );
