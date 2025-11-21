@@ -44,7 +44,7 @@ async function PhotographerPublicProfile({
         </div>
       </div>
       <div className="max-w-6xl px-4 m-auto">
-        <div className="-translate-y-1/2 flex z-100 relative">
+        <div className="-translate-y-1/2 flex relative">
           <Avatar className="rounded-full w-40 h-40 border-3 border-white mr-6">
             <AvatarImage src={profileImageUrl} alt={profile.name} />
           </Avatar>

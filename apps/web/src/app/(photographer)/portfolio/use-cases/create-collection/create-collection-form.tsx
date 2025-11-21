@@ -15,14 +15,7 @@ import {
   SelectValue,
 } from '@shotly/ui/components/select';
 import { Textarea } from '@shotly/ui/components/textarea';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@shotly/ui/components/popover';
-import { Calendar } from '@shotly/ui/components/calendar';
-import { CalendarIcon } from 'lucide-react';
-import dayjs from 'dayjs';
+import { DatePicker } from '@shotly/ui/components/date-picker';
 import { createCollection } from './actions';
 import { cn } from '@shotly/ui/lib/utils';
 import { Collection } from '@/domain/collection';
@@ -134,47 +127,17 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
         </div>
         <div className="grid gap-3 w-full">
           <Label htmlFor={shootDateId}>{t('fields.shootDate.label')}</Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                id={shootDateId}
-                type="button"
-                variant="outline"
-                data-empty={!shootDate}
-                className="data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal"
-              >
-                {shootDate ? (
-                  dayjs(shootDate).format('MMMM D, YYYY')
-                ) : (
-                  <span>{t('fields.shootDate.placeholder')}</span>
-                )}
-                <CalendarIcon className="ml-auto size-4 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={shootDate}
-                onSelect={setShootDate}
-                captionLayout="dropdown"
-                startMonth={new Date(2000, 0)}
-                endMonth={new Date(new Date().getFullYear(), 11)}
-                className="rounded-md border"
-              />
-            </PopoverContent>
-          </Popover>
-          {shootDate && (
-            <input
-              type="hidden"
-              name={FormField.SHOOT_DATE}
-              value={shootDate.toISOString()}
-            />
-          )}
-          {validationErrors?.fieldErrors.shootDate?.toString() && (
-            <div className="text-sm text-destructive mt-2">
-              {validationErrors?.fieldErrors.shootDate?.toString()}
-            </div>
-          )}
+          <DatePicker
+            id={shootDateId}
+            name={FormField.SHOOT_DATE}
+            value={shootDate}
+            onChange={setShootDate}
+            placeholder={t('fields.shootDate.placeholder')}
+            error={validationErrors?.fieldErrors.shootDate?.toString()}
+            captionLayout="dropdown"
+            startMonth={new Date(2000, 0)}
+            endMonth={new Date(new Date().getFullYear(), 11)}
+          />
           {/* TODO: add tags input */}
         </div>
       </div>

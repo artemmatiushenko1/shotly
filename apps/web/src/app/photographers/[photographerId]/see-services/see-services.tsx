@@ -1,6 +1,8 @@
 import ServiceCard from '@/app/(photographer)/services/use-cases/see-services/service-card';
 import { ServiceStatus } from '@/domain/service';
 import { Button } from '@shotly/ui/components/button';
+import { CalendarCheckIcon } from 'lucide-react';
+import BookServiceDialog from '../book-service/book-service-dialog';
 
 function SeeServices() {
   return (
@@ -17,7 +19,13 @@ function SeeServices() {
         deliveryTime="10 days"
         features={['Feature 1', 'Feature 2']}
         status={ServiceStatus.PUBLIC}
-        extraActions={<Button className="mr-4 mt-4">Book</Button>}
+        extraActions={
+          <BookServiceDialog>
+            <Button className="mr-4 mt-4">
+              <CalendarCheckIcon /> Book
+            </Button>
+          </BookServiceDialog>
+        }
       />
       <ServiceCard
         isPublicView
@@ -31,7 +39,12 @@ function SeeServices() {
         deliveryTime="10 days"
         features={['Feature 1', 'Feature 2']}
         status={ServiceStatus.PUBLIC}
-        extraActions={<Button className="mr-4 mt-4">Book</Button>}
+        extraActions={
+          <Button className="mr-4 mt-4">
+            <CalendarCheckIcon />
+            Book
+          </Button>
+        }
       />
       <ServiceCard
         isPublicView
@@ -45,7 +58,12 @@ function SeeServices() {
         deliveryTime="10 days"
         features={['Feature 1', 'Feature 2']}
         status={ServiceStatus.PUBLIC}
-        extraActions={<Button className="mr-4 mt-4">Book</Button>}
+        extraActions={
+          <Button className="mr-4 mt-4">
+            <CalendarCheckIcon />
+            Book
+          </Button>
+        }
       />
     </div>
   );
