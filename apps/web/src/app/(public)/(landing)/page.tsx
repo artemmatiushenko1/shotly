@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import LandingSearchBar from './landing-search-bar';
 import PhotographerAvatars from './photographer-avatars';
 import categoriesRepository from '@/repositories/categories.repository';
+import { Badge } from '@shotly/ui/components/badge';
 
 async function LandingPage() {
   const categories = await categoriesRepository.getCategories();
@@ -28,6 +29,12 @@ async function LandingPage() {
         </div>
         <section className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
           <div className="max-w-4xl mx-auto text-center">
+            <Badge
+              variant="default"
+              className="bg-primary/10 text-primary mb-6 rounded-full py-2 px-4"
+            >
+              Made in Ukraine 🇺🇦
+            </Badge>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight px-4">
               {t('hero.title')}{' '}
               <span className="font-[family-name:var(--font-borel)]">

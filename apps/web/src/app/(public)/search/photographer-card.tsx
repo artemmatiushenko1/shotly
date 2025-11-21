@@ -9,7 +9,12 @@ import {
 import { Button } from '@shotly/ui/components/button';
 import { Badge } from '@shotly/ui/components/badge';
 import { Card, CardContent } from '@shotly/ui/components/card';
-import { MapPinIcon, StarIcon, AwardIcon, BookmarkIcon } from 'lucide-react';
+import {
+  MapPinIcon,
+  StarIcon,
+  BookmarkIcon,
+  BadgeCheckIcon,
+} from 'lucide-react';
 import { cn } from '@shotly/ui/lib/utils';
 import ImagePlaceholder from '@/components/image-placeholder';
 
@@ -184,7 +189,7 @@ function PhotographerCard({
               {experienceText ? (
                 <>
                   <div className="flex items-center gap-1">
-                    <AwardIcon className="size-4 shrink-0" />
+                    <BadgeCheckIcon className="size-4 shrink-0" />
                     <span className="font-bold text-sm">{experienceText}</span>
                   </div>
                   <span className="text-xs text-muted-foreground mt-0.5">
