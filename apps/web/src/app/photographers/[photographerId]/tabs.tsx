@@ -6,6 +6,7 @@ import {
 } from '@shotly/ui/components/tabs';
 import SeePorfolio from './see-portfolio/see-porfolio';
 import SeeReviews from './see-reviews/see-reviews';
+import SeeServices from './see-services/see-services';
 
 const tabs = [
   {
@@ -16,14 +17,7 @@ const tabs = [
   {
     name: 'Services',
     value: 'services',
-    content: (
-      <>
-        All your{' '}
-        <span className="text-foreground font-semibold">favorites</span> are
-        saved here. Revisit articles, collections, and moments you love, any
-        time you want a little inspiration.
-      </>
-    ),
+    content: <SeeServices />,
   },
   {
     name: 'Reviews',

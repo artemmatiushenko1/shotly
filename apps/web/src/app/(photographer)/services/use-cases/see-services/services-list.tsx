@@ -12,6 +12,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { unstable_ViewTransition as ViewTransition } from 'react';
 import { startTransition } from 'react';
+import ServiceCardActions from './service-card-actions';
 
 type ServicesListProps = {
   categories: Category[];
@@ -60,6 +61,7 @@ function ServicesList(props: ServicesListProps) {
         {filteredServices.map((service) => (
           <ViewTransition key={service.id} name={service.id}>
             <ServiceCard
+              isPublicView
               key={service.id}
               id={service.id}
               coverUrl={service.coverImageUrl}
@@ -71,6 +73,14 @@ function ServicesList(props: ServicesListProps) {
               features={service.features}
               status={service.status}
               categoryName={categoryMap[service.categoryId] ?? '-'}
+              extraActions={
+                <ServiceCardActions
+                  serviceId={service.id}
+                  serviceName={service.name}
+                  status={service.status}
+                  onEdit={() => {}}
+                />
+              }
             />
           </ViewTransition>
         ))}
