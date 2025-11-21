@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@shotly/ui/components/dropdown-menu';
 import { useState } from 'react';
+import { cn } from '@shotly/ui/lib/utils';
 
 type CountSelectProps = {
   label: string;
@@ -51,7 +52,12 @@ function CountSelect(props: CountSelectProps) {
               {selectedValues.length}
             </span>
           )}
-          <ChevronDown className="h-4 w-4 opacity-50 text-muted-foreground" />
+          <ChevronDown
+            className={cn(
+              'h-4 w-4 opacity-50 text-muted-foreground',
+              selectedValues.length > 0 && 'text-accent',
+            )}
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[200px]">

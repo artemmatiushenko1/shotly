@@ -41,7 +41,7 @@ async function LandingPage() {
         </section>
         <section className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 pb-20">
           <div className="max-w-5xl mx-auto">
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-xl p-8 md:p-10">
+            <div className="bg-background rounded-2xl border border-gray-200 shadow-xl p-8 md:p-10">
               <div className="flex items-center gap-3 mb-3 flex-wrap">
                 <div className="p-2 bg-primary/10 flex-shrink-0 rounded-full">
                   <Search className="size-5 text-primary" />
