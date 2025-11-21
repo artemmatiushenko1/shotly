@@ -12,7 +12,7 @@ import { Input } from '@shotly/ui/components/input';
 
 function Filters() {
   return (
-    <>
+    <div className="sticky top-0 z-10 bg-background">
       <div className="py-4 lg:grid lg:grid-cols-4 lg:gap-4">
         <LabeledSelect
           label="I'm looking for"
@@ -63,7 +63,7 @@ function Filters() {
           <SelectItem value="4">Bitcoin</SelectItem>
         </LabeledSelect>
       </div>
-      <div className="flex flex-row gap-4 items-start md:items-center mb-8">
+      <div className="flex flex-row gap-4 items-start md:items-center pb-8">
         <div className="flex flex-wrap gap-2 items-center border-r pr-6">
           <CountSelect
             label="Languages"
@@ -114,7 +114,7 @@ function Filters() {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

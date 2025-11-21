@@ -1,4 +1,5 @@
 import Filters from './filters';
+import PhotographerCard from './photographer-card';
 
 function PhotographersPage() {
   return (
@@ -8,8 +9,57 @@ function PhotographersPage() {
         Find the perfect photographer for your needs.
       </p>
       <Filters />
-      <p className="text-lg font-bold">4 photographers match your needs</p>
-      <div className="min-h-[300px]"></div>
+      <p className="text-lg font-bold mb-4">4 photographers match your needs</p>
+      <div className="min-h-[300px] grid grid-cols-2 gap-4">
+        <PhotographerCard
+          id="1"
+          name="John Doe"
+          image="/avatar-1.jpg"
+          location="New York"
+          rating={4.5}
+          yearsOfExperience={10}
+          startingPrice={100}
+          currency="грн"
+          categoryName="Wedding"
+          portfolioImages={[
+            '/auth-banner-2.jpg',
+            '/auth-banner-3.jpg',
+            '/auth-banner-4.jpg',
+          ]}
+        />
+        <PhotographerCard
+          id="2"
+          name="Jane Doe"
+          image="/avatar-2.jpg"
+          location="Los Angeles"
+          rating={4.5}
+          yearsOfExperience={10}
+          startingPrice={100}
+          currency="грн"
+          categoryName="Photography"
+          portfolioImages={[
+            '/auth-banner-2.jpg',
+            '/auth-banner-3.jpg',
+            '/auth-banner-4.jpg',
+          ]}
+        />
+        <PhotographerCard
+          id="3"
+          name="John Doe"
+          image="/avatar-3.jpg"
+          location="New York"
+          rating={4.5}
+          yearsOfExperience={10}
+          startingPrice={100}
+          currency="грн"
+          categoryName="Portrait"
+          portfolioImages={[
+            '/auth-banner-2.jpg',
+            '/auth-banner-3.jpg',
+            '/auth-banner-4.jpg',
+          ]}
+        />
+      </div>
     </div>
   );
 }
