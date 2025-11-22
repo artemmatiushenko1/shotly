@@ -27,7 +27,7 @@ function Textarea({
         {...props}
       />
       {showCharsCount && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground text-right">
           {typeof props.value === 'string' ? (props.value?.length ?? 0) : 0}/
           {maxChars}
         </p>

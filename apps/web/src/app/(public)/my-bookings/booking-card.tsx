@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import LeaveReviewDialog from './leave-review-dialog';
 
 const BookingStatusBadge = ({
   status,
@@ -136,9 +137,11 @@ function BookingCard({ status }: BookingCardProps) {
             <MessageSquareIcon /> Message Photographer
           </Button>
           {status === 'completed' && (
-            <Button className="rounded-full">
-              <StarIcon /> Leave Review
-            </Button>
+            <LeaveReviewDialog>
+              <Button className="rounded-full">
+                <StarIcon /> Leave Review
+              </Button>
+            </LeaveReviewDialog>
           )}
           {status === 'pending' && (
             <Button variant="destructive" className="rounded-full">
