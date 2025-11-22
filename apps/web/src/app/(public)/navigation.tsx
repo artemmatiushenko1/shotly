@@ -1,7 +1,12 @@
 import { buttonVariants } from '@shotly/ui/components/button';
 import { Logo } from '@shotly/ui/components/logo';
 import { cn } from '@shotly/ui/lib/utils';
-import { LayoutGridIcon, LogInIcon, LogOutIcon } from 'lucide-react';
+import {
+  CalendarIcon,
+  LayoutGridIcon,
+  LogInIcon,
+  LogOutIcon,
+} from 'lucide-react';
 import Link from 'next/link';
 import LanguageSwitcher from './(landing)/language-switcher';
 import { getTranslations } from 'next-intl/server';
@@ -85,10 +90,15 @@ async function Navigation({ className, variant = 'default' }: NavigationProps) {
               {user.role === Role.PHOTOGRAPHER && (
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard">
-                    <LayoutGridIcon /> My Dashboard
+                    <LayoutGridIcon /> Photographer Studio
                   </Link>
                 </DropdownMenuItem>
               )}
+              <DropdownMenuItem asChild>
+                <Link href="/my-bookings">
+                  <CalendarIcon /> My Bookings
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem>
                 <LogOutIcon /> Log Out
               </DropdownMenuItem>
