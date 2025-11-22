@@ -9,7 +9,9 @@ function PhotographersPage() {
         Find the perfect photographer for your needs.
       </p>
       <Filters />
-      <p className="text-lg font-bold mb-4">4 photographers match your needs</p>
+      <p className="text-lg font-bold mb-4 mt-12">
+        4 photographers match your needs
+      </p>
       <div className="min-h-[300px] grid grid-cols-2 gap-4">
         <PhotographerCard
           id="8tm45VnSY2igu9m4Zj6Z25Xb3rDMhd6t"

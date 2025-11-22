@@ -12,8 +12,8 @@ import { Input } from '@shotly/ui/components/input';
 
 function Filters() {
   return (
-    <div className="sticky top-0 z-10 bg-background">
-      <div className="py-4 lg:grid lg:grid-cols-4 lg:gap-4">
+    <div className="sticky top-0 z-10 p-4 rounded-3xl bg-[linear-gradient(to_right,_#e8ebff_0%,_#fff4ea_100%)] border">
+      <div className="mb-4 lg:grid lg:grid-cols-4 lg:gap-4">
         <LabeledSelect
           label="I'm looking for"
           placeholder="Select category"
@@ -63,8 +63,8 @@ function Filters() {
           <SelectItem value="4">Bitcoin</SelectItem>
         </LabeledSelect>
       </div>
-      <div className="flex flex-row gap-4 items-start md:items-center pb-8">
-        <div className="flex flex-wrap gap-2 items-center border-r pr-6">
+      <div className="flex flex-row gap-4 items-start md:items-center">
+        <div className="flex flex-wrap gap-2 items-center border-r border-muted pr-6">
           <CountSelect
             label="Languages"
             values={[]}
@@ -109,8 +109,9 @@ function Filters() {
             </SelectContent>
           </Select>
           <Input
+            type="search"
             placeholder="Search by name"
-            className="max-w-xs ml-auto shadow-none"
+            className="max-w-xs ml-auto shadow-none bg-background"
           />
         </div>
       </div>
