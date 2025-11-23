@@ -10,6 +10,7 @@ import { ArrowUpRightIcon, BookmarkIcon } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import ProfileTabs from './tabs';
+import { getTranslations } from 'next-intl/server';
 
 type PhotographerPublicProfileProps = {
   params: Promise<{ photographerId: string }>;
@@ -19,6 +20,7 @@ async function PhotographerPublicProfile({
   params,
 }: PhotographerPublicProfileProps) {
   const { photographerId } = await params;
+  const t = await getTranslations('photographerProfile');
 
   const profile = await usersRepository.getUserProfile(photographerId);
 
@@ -35,7 +37,7 @@ async function PhotographerPublicProfile({
         <div className="rounded-3xl w-full h-full overflow-hidden relative">
           <div className="absolute inset-0 bg-gradient-to-t from-transparent to-black/60 z-1" />
           <Image
-            alt="Cover image"
+            alt={t('coverImageAlt')}
             src={coverImageUrl}
             width={1000}
             height={400}
@@ -70,16 +72,16 @@ async function PhotographerPublicProfile({
                   <BookmarkIcon />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Bookmark</TooltipContent>
+              <TooltipContent>{t('bookmark')}</TooltipContent>
             </Tooltip>
-            <Button className="rounded-full">Book Now</Button>
+            <Button className="rounded-full">{t('bookNow')}</Button>
           </div>
         </div>
         <div className="-mt-13 flex">
           <div className="grid grid-cols-7 gap-12 pb-12">
             <div className="col-span-4 space-y-8">
               <div>
-                <h3 className="text-lg font-bold mb-3">About me</h3>
+                <h3 className="text-lg font-bold mb-3">{t('aboutMe')}</h3>
                 <div className="leading-relaxed space-y-4 text-muted-foreground">
                   {/* Add about me text to profile in db*/}
                   <p>
@@ -98,7 +100,7 @@ async function PhotographerPublicProfile({
                 {profile.websiteUrl && (
                   <div>
                     <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
-                      Website
+                      {t('website')}
                     </h4>
                     <a
                       href={`${profile.websiteUrl}`}
@@ -115,10 +117,12 @@ async function PhotographerPublicProfile({
                 {profile.yearsOfExperience && (
                   <div>
                     <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
-                      Experience
+                      {t('experience')}
                     </h4>
                     <span className="font-medium">
-                      {profile.yearsOfExperience} years
+                      {t('experienceYears', {
+                        years: profile.yearsOfExperience,
+                      })}
                     </span>
                   </div>
                 )}
@@ -126,7 +130,7 @@ async function PhotographerPublicProfile({
                 {/* Email (Mock) */}
                 <div>
                   <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
-                    Email
+                    {t('email')}
                   </h4>
                   <a
                     href={`mailto:hello@${profile.username}.com`}
@@ -141,7 +145,7 @@ async function PhotographerPublicProfile({
                 {profile.instagramTag && (
                   <div>
                     <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
-                      Social
+                      {t('social')}
                     </h4>
                     <a
                       href={`https://instagram.com/${profile.instagramTag}`}
@@ -158,7 +162,7 @@ async function PhotographerPublicProfile({
                 {/* Location */}
                 <div>
                   <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
-                    Locations
+                    {t('locations')}
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {profile.locations.map((location) => (
@@ -176,7 +180,7 @@ async function PhotographerPublicProfile({
                 {profile.languages && (
                   <div>
                     <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
-                      Languages
+                      {t('languages')}
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {profile.languages.map((lang) => (

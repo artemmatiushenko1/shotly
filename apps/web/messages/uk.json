@@ -566,6 +566,56 @@
       }
     }
   },
+  "photographerProfile": {
+    "coverImageAlt": "Обкладинка",
+    "bookmark": "Закладка",
+    "bookNow": "Забронювати",
+    "aboutMe": "Про мене",
+    "website": "Веб-сайт",
+    "experience": "Досвід",
+    "experienceYears": "{years, plural, one {# рік} few {# роки} other {# років}}",
+    "email": "Електронна пошта",
+    "social": "Соціальні мережі",
+    "locations": "Локації",
+    "languages": "Мови",
+    "tabs": {
+      "portfolio": "Портфоліо",
+      "services": "Послуги",
+      "reviews": "Відгуки"
+    },
+    "bookService": {
+      "title": "Забронювати послугу",
+      "description": "Будь ласка, заповніть форму, щоб забронювати обрану послугу.",
+      "serviceImageAlt": "Зображення послуги",
+      "priceUnit": "/ година",
+      "fields": {
+        "name": {
+          "label": "Ім'я",
+          "placeholder": "Введіть ваше ім'я"
+        },
+        "email": {
+          "label": "Електронна пошта",
+          "placeholder": "Введіть вашу електронну пошту"
+        },
+        "date": {
+          "label": "Дата",
+          "placeholder": "Виберіть дату"
+        },
+        "duration": {
+          "label": "Тривалість (години)",
+          "placeholder": "Введіть тривалість у годинах"
+        },
+        "notes": {
+          "label": "Примітки (опціонально)",
+          "placeholder": "Опишіть вашу ідею фотосесії, переваги щодо локації або будь-які особливі побажання"
+        }
+      },
+      "submitButton": "Забронювати"
+    },
+    "reviews": {
+      "verifiedReviews": "{count, plural, one {# перевірений відгук} few {# перевірені відгуки} other {# перевірених відгуків}}"
+    }
+  },
   "utils": {
     "fileSize": {
       "bytes": "Байт",

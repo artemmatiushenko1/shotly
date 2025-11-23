@@ -566,6 +566,56 @@
       }
     }
   },
+  "photographerProfile": {
+    "coverImageAlt": "Cover image",
+    "bookmark": "Bookmark",
+    "bookNow": "Book Now",
+    "aboutMe": "About me",
+    "website": "Website",
+    "experience": "Experience",
+    "experienceYears": "{years, plural, one {# year} other {# years}}",
+    "email": "Email",
+    "social": "Social",
+    "locations": "Locations",
+    "languages": "Languages",
+    "tabs": {
+      "portfolio": "Portfolio",
+      "services": "Services",
+      "reviews": "Reviews"
+    },
+    "bookService": {
+      "title": "Book Service",
+      "description": "Please fill in the form to book the selected service.",
+      "serviceImageAlt": "Service Image",
+      "priceUnit": "/ hour",
+      "fields": {
+        "name": {
+          "label": "Name",
+          "placeholder": "Enter your name"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Enter your email"
+        },
+        "date": {
+          "label": "Date",
+          "placeholder": "Select a date"
+        },
+        "duration": {
+          "label": "Duration (hours)",
+          "placeholder": "Enter the duration in hours"
+        },
+        "notes": {
+          "label": "Notes (optional)",
+          "placeholder": "Describe your photoshoot idea, location preferences or any special requests"
+        }
+      },
+      "submitButton": "Book"
+    },
+    "reviews": {
+      "verifiedReviews": "{count, plural, one {# verified review} other {# verified reviews}}"
+    }
+  },
   "utils": {
     "fileSize": {
       "bytes": "Bytes",

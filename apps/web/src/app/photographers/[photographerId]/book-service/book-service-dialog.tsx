@@ -16,25 +16,26 @@ import { Label } from '@shotly/ui/components/label';
 import { Separator } from '@shotly/ui/components/separator';
 import { Textarea } from '@shotly/ui/components/textarea';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+
 type BookServiceDialogProps = {
   children: React.ReactNode;
 };
 
 function BookServiceDialog({ children }: BookServiceDialogProps) {
+  const t = useTranslations('photographerProfile.bookService');
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
-        <DialogTitle>Book Service</DialogTitle>
-        <DialogDescription>
-          Please fill in the form to book the selected service.
-        </DialogDescription>
+        <DialogTitle>{t('title')}</DialogTitle>
+        <DialogDescription>{t('description')}</DialogDescription>
         <Card className="shadow-none p-2 flex-row items-center gap-4">
           <div className="size-[60px] overflow-hidden rounded-sm shrink-0">
             <Image
               unoptimized
               src="https://placehold.co/600x400"
-              alt="Service Image"
+              alt={t('serviceImageAlt')}
               width={100}
               height={100}
               className="object-cover w-full h-full"
@@ -49,13 +50,13 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
           <div>
             <span className="text-md font-bold">грн 8,000</span>{' '}
             <span className="text-xs text-muted-foreground text-nowrap">
-              / hour
+              {t('priceUnit')}
             </span>
           </div>
         </Card>
         <div>
           <Label htmlFor="name" className="mb-2">
-            Name
+            {t('fields.name.label')}
           </Label>
           <Input
             readOnly
@@ -63,12 +64,12 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
             name="name"
             id="name"
             value="John Doe"
-            placeholder="Enter your name"
+            placeholder={t('fields.name.placeholder')}
           />
         </div>
         <div>
           <Label htmlFor="email" className="mb-2">
-            Email
+            {t('fields.email.label')}
           </Label>
           <Input
             readOnly
@@ -76,14 +77,14 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
             name="email"
             id="email"
             value="john.doe@example.com"
-            placeholder="Enter your email"
+            placeholder={t('fields.email.placeholder')}
           />
         </div>
         <Separator className="my-3" />
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="email" className="mb-2">
-              Date
+            <Label htmlFor="date" className="mb-2">
+              {t('fields.date.label')}
             </Label>
             <DatePicker
               value={new Date()}
@@ -92,18 +93,18 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
               }}
               id="date"
               name="date"
-              placeholder="Select a date"
+              placeholder={t('fields.date.placeholder')}
             />
           </div>
           <div>
-            <Label htmlFor="email" className="mb-2">
-              Duration (hours)
+            <Label htmlFor="duration" className="mb-2">
+              {t('fields.duration.label')}
             </Label>
             <Input
               type="number"
               name="duration"
               id="duration"
-              placeholder="Enter the duration in hours"
+              placeholder={t('fields.duration.placeholder')}
               min={1}
               max={10}
               step={1}
@@ -112,7 +113,7 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
         </div>
         <div>
           <Label htmlFor="notes" className="mb-2">
-            Notes (optional)
+            {t('fields.notes.label')}
           </Label>
           <div className="space-y-2">
             <Textarea
@@ -122,12 +123,12 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
               rows={5}
               name="notes"
               id="notes"
-              placeholder="Describe your photoshoot idea, location preferences or any special requests"
+              placeholder={t('fields.notes.placeholder')}
             />
           </div>
         </div>
         <DialogFooter>
-          <Button className="w-full">Book</Button>
+          <Button className="w-full">{t('submitButton')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

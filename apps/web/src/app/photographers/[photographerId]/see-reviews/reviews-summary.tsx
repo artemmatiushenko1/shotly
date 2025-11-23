@@ -1,5 +1,8 @@
+'use client';
+
 import { StarIcon } from 'lucide-react';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 type ReviewsSummaryProps = {
   averageRating: number;
@@ -7,6 +10,8 @@ type ReviewsSummaryProps = {
 };
 
 function ReviewsSummary({ averageRating, totalReviews }: ReviewsSummaryProps) {
+  const t = useTranslations('photographerProfile.reviews');
+
   return (
     <div className="flex flex-col md:flex-row items-center gap-8 mb-10 bg-sidebar/80 p-8 rounded-2xl">
       <div className="text-center">
@@ -20,7 +25,7 @@ function ReviewsSummary({ averageRating, totalReviews }: ReviewsSummaryProps) {
           ))}
         </div>
         <div className="text-sm text-muted-foreground font-medium">
-          {totalReviews} verified reviews
+          {t('verifiedReviews', { count: totalReviews })}
         </div>
       </div>
       <div className="flex-1 w-full max-w-sm">

@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Tabs,
   TabsContent,
@@ -7,26 +9,29 @@ import {
 import SeePorfolio from './see-portfolio/see-porfolio';
 import SeeReviews from './see-reviews/see-reviews';
 import SeeServices from './see-services/see-services';
-
-const tabs = [
-  {
-    name: 'Portfolio',
-    value: 'portfolio',
-    content: <SeePorfolio />,
-  },
-  {
-    name: 'Services',
-    value: 'services',
-    content: <SeeServices />,
-  },
-  {
-    name: 'Reviews',
-    value: 'reviews',
-    content: <SeeReviews />,
-  },
-];
+import { useTranslations } from 'next-intl';
 
 const ProfileTabs = () => {
+  const t = useTranslations('photographerProfile.tabs');
+
+  const tabs = [
+    {
+      name: t('portfolio'),
+      value: 'portfolio',
+      content: <SeePorfolio />,
+    },
+    {
+      name: t('services'),
+      value: 'services',
+      content: <SeeServices />,
+    },
+    {
+      name: t('reviews'),
+      value: 'reviews',
+      content: <SeeReviews />,
+    },
+  ];
+
   return (
     <div className="w-full">
       <Tabs defaultValue="portfolio" className="gap-4">
