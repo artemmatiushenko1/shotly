@@ -1,6 +1,9 @@
+'use client';
+
 import { Card } from '@shotly/ui/components/card';
 import { ClockIcon } from 'lucide-react';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 interface ProfileUnderReviewCardProps {
   userEmail: string;
@@ -15,25 +18,33 @@ interface Step {
 export default function ProfileUnderReviewCard({
   userEmail,
 }: ProfileUnderReviewCardProps) {
+  const t = useTranslations('dashboard.profileUnderReview');
+
   const steps: Step[] = [
     {
-      title: 'Submission received',
-      description: "We've got your profile and it's queued for review.",
+      title: t('steps.submission.title'),
+      description: t('steps.submission.description'),
       completed: true,
     },
     {
-      title: 'Our team reviews your portfolio',
-      description: "We'll check your images, services, and profile details.",
+      title: t('steps.review.title'),
+      description: t('steps.review.description'),
       completed: false,
     },
     {
-      title: 'Get approved and go live',
-      description: (email) => (
-        <>
-          We&apos;ll email you at <span className="font-semibold">{email}</span>{' '}
-          when approved.
-        </>
-      ),
+      title: t('steps.approval.title'),
+      description: (email) => {
+        const text = t('steps.approval.description', { email });
+        // Split the text to insert styled email
+        const parts = text.split(email);
+        return (
+          <>
+            {parts[0]}
+            <span className="font-semibold">{email}</span>
+            {parts[1]}
+          </>
+        );
+      },
       completed: false,
     },
   ];
@@ -50,11 +61,9 @@ export default function ProfileUnderReviewCard({
             </div>
 
             <div className="flex-1">
-              <h2 className="text-2xl font-bold leading-tight">
-                Your profile is under review
-              </h2>
+              <h2 className="text-2xl font-bold leading-tight">{t('title')}</h2>
               <p className="text-sm text-muted-foreground mt-1">
-                Typically reviewed in 2-3 business days
+                {t('subtitle')}
               </p>
             </div>
           </div>
@@ -101,7 +110,7 @@ export default function ProfileUnderReviewCard({
 
         <div className="px-8 py-6 flex items-center justify-between">
           <p className="text-xs text-muted-foreground font-medium">
-            Questions? Check our help center for more info.
+            {t('footer')}
           </p>
           <svg
             className="w-4 h-4 text-[var(--color-text-secondary)]"

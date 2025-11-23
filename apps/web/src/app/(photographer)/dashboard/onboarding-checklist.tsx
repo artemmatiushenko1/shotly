@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useActionState, useEffect } from 'react';
 import { sendProfileToReview } from './actions';
 import { toast } from '@shotly/ui/components/sonner';
+import { useTranslations } from 'next-intl';
 
 export type OnboardingStep = {
   id: string;
@@ -26,6 +27,7 @@ type OnboardingChecklistProps = {
 
 function OnboardingChecklist(props: OnboardingChecklistProps) {
   const { steps, progressPercentage, allComplete } = props;
+  const t = useTranslations('dashboard.onboarding');
 
   const [state, formAction, pending] = useActionState(
     sendProfileToReview,
@@ -34,9 +36,9 @@ function OnboardingChecklist(props: OnboardingChecklistProps) {
 
   useEffect(() => {
     if (state?.success) {
-      toast.success('Profile submitted for review!');
+      toast.success(t('submitSuccess'));
     }
-  }, [state]);
+  }, [state, t]);
 
   return (
     <form action={formAction}>
@@ -44,13 +46,15 @@ function OnboardingChecklist(props: OnboardingChecklistProps) {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h1 className="text-[20px] font-bold mb-2 inline-flex gap-2">
-              <FlameIcon className="text-primary" /> Getting Started
+              <FlameIcon className="text-primary" /> {t('title')}
             </h1>
             <div className="flex items-center justify-between mb-2">
               <span className="text-lg font-medium mr-2">
                 {progressPercentage}%
               </span>
-              <span className="text-muted-foreground text-sm">completed</span>
+              <span className="text-muted-foreground text-sm">
+                {t('completed')}
+              </span>
             </div>
           </div>
 
@@ -116,7 +120,7 @@ function OnboardingChecklist(props: OnboardingChecklistProps) {
           className="w-full"
           loading={pending}
         >
-          Submit Profile for Review
+          {t('submitButton')}
         </Button>
       </Card>
     </form>

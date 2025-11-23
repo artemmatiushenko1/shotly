@@ -74,7 +74,49 @@
   },
   "dashboard": {
     "title": "Dashboard",
-    "description": "Welcome back, {name}!"
+    "description": "Welcome back, {name}!",
+    "onboarding": {
+      "title": "Getting Started",
+      "completed": "completed",
+      "submitButton": "Submit Profile for Review",
+      "submitSuccess": "Profile submitted for review!",
+      "steps": {
+        "profile": {
+          "title": "Set up your public profile",
+          "description": "Add your profile picture, bio, and location so clients can find and trust you.",
+          "actionLabel": "Go to Profile"
+        },
+        "portfolio": {
+          "title": "Upload your portfolio",
+          "description": "Showcase your best work. We recommend at least 10 high-quality images.",
+          "actionLabel": "Go to Portfolio"
+        },
+        "service": {
+          "title": "Create your first service",
+          "description": "Define a package, like a \"Portrait Session,\" with a price and details.",
+          "actionLabel": "Go to Services"
+        }
+      }
+    },
+    "profileUnderReview": {
+      "title": "Your profile is under review",
+      "subtitle": "Typically reviewed in 2-3 business days",
+      "footer": "Questions? Check our help center for more info.",
+      "steps": {
+        "submission": {
+          "title": "Submission received",
+          "description": "We've got your profile and it's queued for review."
+        },
+        "review": {
+          "title": "Our team reviews your portfolio",
+          "description": "We'll check your images, services, and profile details."
+        },
+        "approval": {
+          "title": "Get approved and go live",
+          "description": "We'll email you at {email} when approved."
+        }
+      }
+    }
   },
   "settings": {
     "title": "Settings",

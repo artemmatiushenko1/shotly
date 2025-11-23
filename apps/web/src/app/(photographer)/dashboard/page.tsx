@@ -57,36 +57,36 @@ const getOnboardingState = async (userId: string): Promise<OnboardingState> => {
   };
 };
 
-const getOnboardingStepsInfo = async (userId: string) => {
+const getOnboardingStepsInfo = async (
+  userId: string,
+  t: Awaited<ReturnType<typeof getTranslations>>,
+) => {
   const onboardingState = await getOnboardingState(userId);
 
   const steps: OnboardingStep[] = [
     {
       id: 'profile',
-      title: 'Set up your public profile',
-      description:
-        'Add your profile picture, bio, and location so clients can find and trust you.',
+      title: t('onboarding.steps.profile.title'),
+      description: t('onboarding.steps.profile.description'),
       isComplete: onboardingState.isProfileComplete,
       actionLink: '/settings',
-      actionLabel: 'Go to Profile',
+      actionLabel: t('onboarding.steps.profile.actionLabel'),
     },
     {
       id: 'portfolio',
-      title: 'Upload your portfolio',
-      description:
-        'Showcase your best work. We recommend at least 10 high-quality images.',
+      title: t('onboarding.steps.portfolio.title'),
+      description: t('onboarding.steps.portfolio.description'),
       isComplete: onboardingState.isPortfolioComplete,
       actionLink: '/portfolio',
-      actionLabel: 'Go to Portfolio',
+      actionLabel: t('onboarding.steps.portfolio.actionLabel'),
     },
     {
       id: 'service',
-      title: 'Create your first service',
-      description:
-        'Define a package, like a "Portrait Session," with a price and details.',
+      title: t('onboarding.steps.service.title'),
+      description: t('onboarding.steps.service.description'),
       isComplete: onboardingState.isServiceComplete,
       actionLink: '/services',
-      actionLabel: 'Go to Services',
+      actionLabel: t('onboarding.steps.service.actionLabel'),
     },
   ];
 
@@ -100,9 +100,8 @@ const getOnboardingStepsInfo = async (userId: string) => {
 async function Dashboard() {
   const user = await getUser();
 
-  const onboardingStepsInfo = await getOnboardingStepsInfo(user.id);
-
   const t = await getTranslations('dashboard');
+  const onboardingStepsInfo = await getOnboardingStepsInfo(user.id, t);
 
   let description = t('description', { name: user.name });
 
