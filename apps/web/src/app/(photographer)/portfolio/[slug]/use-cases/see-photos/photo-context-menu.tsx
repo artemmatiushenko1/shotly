@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@shotly/ui/components/button';
 import {
   DropdownMenu,
@@ -17,6 +19,7 @@ import {
 import { useState } from 'react';
 import { setCollectionCoverImage } from './actions';
 import { Spinner } from '@shotly/ui/components/spinner';
+import { useTranslations } from 'next-intl';
 
 type PhotoContextMenuProps = {
   isCoverPhoto: boolean;
@@ -26,6 +29,7 @@ type PhotoContextMenuProps = {
 
 function PhotoContextMenu(props: PhotoContextMenuProps) {
   const { collectionId, photoId, isCoverPhoto } = props;
+  const t = useTranslations('portfolio.collectionDetails.photoContextMenu');
 
   const [isTriggerVisible, setIsTriggerVisible] = useState(false);
   const [isSettingAsCoverImage, setIsSettingAsCoverImage] = useState(false);
@@ -64,7 +68,7 @@ function PhotoContextMenu(props: PhotoContextMenuProps) {
           disabled={isCoverPhoto}
         >
           <StarIcon />
-          Set as cover image
+          {t('setAsCoverImage')}
           {isSettingAsCoverImage && (
             <DropdownMenuShortcut>
               <Spinner size="sm" />
@@ -72,11 +76,11 @@ function PhotoContextMenu(props: PhotoContextMenuProps) {
           )}
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <DownloadIcon /> Download
+          <DownloadIcon /> {t('download')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive">
-          <TrashIcon /> Delete
+          <TrashIcon /> {t('delete')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

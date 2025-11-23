@@ -307,6 +307,11 @@
         },
         "continue": "Завантажити {count, plural, one {1 фотографію} other {# фотографій}}"
       },
+      "photoContextMenu": {
+        "setAsCoverImage": "Зробити обкладинкою",
+        "download": "Завантажити",
+        "delete": "Видалити"
+      },
       "settings": {
         "title": "Налаштування",
         "tabs": {

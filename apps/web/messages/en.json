@@ -307,6 +307,11 @@
         },
         "continue": "Upload {count} Photos"
       },
+      "photoContextMenu": {
+        "setAsCoverImage": "Set as cover image",
+        "download": "Download",
+        "delete": "Delete"
+      },
       "settings": {
         "title": "Settings",
         "tabs": {
