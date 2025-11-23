@@ -493,6 +493,77 @@
         "10000to20000": "10,000 - 20,000 ₴",
         "over20000": "Over 20,000 ₴"
       }
+    },
+    "searchPage": {
+      "title": "Find Photographers",
+      "description": "Find the perfect photographer for your needs.",
+      "resultsCount": "{count, plural, one {# photographer matches your needs} other {# photographers match your needs}}",
+      "filters": {
+        "category": {
+          "label": "I'm looking for",
+          "placeholder": "Select category",
+          "any": "Any Category"
+        },
+        "location": {
+          "label": "Location",
+          "placeholder": "Select location",
+          "any": "Any Location"
+        },
+        "price": {
+          "label": "Price",
+          "placeholder": "Select price range",
+          "any": "Any Price"
+        },
+        "delivery": {
+          "label": "I need photos by",
+          "placeholder": "Select delivery duration",
+          "any": "Any Duration"
+        },
+        "languages": {
+          "label": "Languages"
+        },
+        "experience": {
+          "label": "Experience"
+        },
+        "rating": {
+          "label": "Rating"
+        },
+        "sort": {
+          "label": "Sort by:",
+          "placeholder": "Sort by",
+          "priceLowToHigh": "Price: Low to High",
+          "priceHighToLow": "Price: High to Low",
+          "ratingHighest": "Rating: Highest",
+          "ratingLowest": "Rating: Lowest"
+        },
+        "searchByName": "Search by name"
+      },
+      "photographerCard": {
+        "viewProfile": "View Profile",
+        "portfolioImageAlt": "{name} portfolio",
+        "experience": "{years}+ Years",
+        "reviews": "({count, plural, one {# review} other {# reviews}})",
+        "rating": "Rating",
+        "experienceLabel": "Experience",
+        "priceUnit": "/ shoot",
+        "startingAt": "Starting at"
+      }
+    },
+    "footer": {
+      "description": "The easiest way to find and book professional photographers for any occasion. Built for quality and trust.",
+      "copyright": "© 2025 Shotly Inc. All rights reserved.",
+      "company": {
+        "title": "Company",
+        "aboutUs": "About Us",
+        "careers": "Careers",
+        "privacyPolicy": "Privacy Policy"
+      },
+      "support": {
+        "title": "Support",
+        "helpCenter": "Help Center",
+        "termsOfService": "Terms of Service",
+        "contact": "Contact"
+      }
     }
   },
   "utils": {

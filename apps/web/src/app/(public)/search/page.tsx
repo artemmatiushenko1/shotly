@@ -1,16 +1,17 @@
 import Filters from './filters';
 import PhotographerCard from './photographer-card';
+import { getTranslations } from 'next-intl/server';
 
-function PhotographersPage() {
+async function SearchPage() {
+  const t = await getTranslations('landing.searchPage');
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-      <h1 className="text-2xl font-bold">Find Photographers</h1>
-      <p className="text-sm text-muted-foreground mb-4">
-        Find the perfect photographer for your needs.
-      </p>
+      <h1 className="text-2xl font-bold">{t('title')}</h1>
+      <p className="text-sm text-muted-foreground mb-4">{t('description')}</p>
       <Filters />
       <p className="text-lg font-bold mb-4 mt-12">
-        4 photographers match your needs
+        {t('resultsCount', { count: 4 })}
       </p>
       <div className="min-h-[300px] grid grid-cols-2 gap-4">
         <PhotographerCard
@@ -66,4 +67,4 @@ function PhotographersPage() {
   );
 }
 
-export default PhotographersPage;
+export default SearchPage;

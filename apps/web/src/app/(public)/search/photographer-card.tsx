@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,6 +19,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@shotly/ui/lib/utils';
 import ImagePlaceholder from '@/components/image-placeholder';
+import { useTranslations } from 'next-intl';
 
 type PhotographerCardProps = {
   id: string;
@@ -45,6 +48,8 @@ function PhotographerCard({
   portfolioImages = [],
   className,
 }: PhotographerCardProps) {
+  const t = useTranslations('landing.searchPage.photographerCard');
+
   // Format name as "FirstName L." (first name + last initial)
   const nameParts = name.split(' ').filter(Boolean);
   const firstName = nameParts[0];
@@ -68,7 +73,7 @@ function PhotographerCard({
   // Format experience
   const experienceText =
     yearsOfExperience && yearsOfExperience > 0
-      ? `${yearsOfExperience}+ Years`
+      ? t('experience', { years: yearsOfExperience })
       : null;
 
   // Format price
@@ -110,7 +115,7 @@ function PhotographerCard({
               <BookmarkIcon className="size-4" />
             </Button>
             <Button asChild variant="default" className="rounded-full">
-              <Link href={`/photographers/${id}`}>View Profile</Link>
+              <Link href={`/photographers/${id}`}>{t('viewProfile')}</Link>
             </Button>
           </div>
         </div>
@@ -122,7 +127,7 @@ function PhotographerCard({
               <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
                 <Image
                   src={image1}
-                  alt={`${name} portfolio`}
+                  alt={t('portfolioImageAlt', { name })}
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -135,7 +140,7 @@ function PhotographerCard({
               <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
                 <Image
                   src={image2}
-                  alt={`${name} portfolio`}
+                  alt={t('portfolioImageAlt', { name })}
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -172,11 +177,11 @@ function PhotographerCard({
                       {typeof rating === 'number' ? rating.toFixed(1) : rating}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      (12 reviews)
+                      {t('reviews', { count: 12 })}
                     </span>
                   </div>
                   <span className="text-xs text-muted-foreground mt-0.5">
-                    Rating
+                    {t('rating')}
                   </span>
                 </>
               ) : (
@@ -193,7 +198,7 @@ function PhotographerCard({
                     <span className="font-bold text-sm">{experienceText}</span>
                   </div>
                   <span className="text-xs text-muted-foreground mt-0.5">
-                    Experience
+                    {t('experienceLabel')}
                   </span>
                 </>
               ) : (
@@ -208,11 +213,11 @@ function PhotographerCard({
                   <span className="font-bold text-sm">
                     {priceText}{' '}
                     <span className="text-xs text-muted-foreground font-normal">
-                      / shoot
+                      {t('priceUnit')}
                     </span>
                   </span>
                   <span className="text-xs text-muted-foreground mt-0.5">
-                    Starting at
+                    {t('startingAt')}
                   </span>
                 </>
               ) : (

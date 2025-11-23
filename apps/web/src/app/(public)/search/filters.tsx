@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { LabeledSelect } from './labeled-select';
 import {
@@ -9,54 +11,56 @@ import {
 } from '@shotly/ui/components/select';
 import CountSelect from './count-select';
 import { Input } from '@shotly/ui/components/input';
+import { useTranslations } from 'next-intl';
 
 function Filters() {
+  const t = useTranslations('landing.searchPage.filters');
   return (
     <div className="sticky top-0 z-10 p-4 rounded-3xl bg-[linear-gradient(to_right,_#e8ebff_0%,_#fff4ea_100%)] border">
       <div className="mb-4 lg:grid lg:grid-cols-4 lg:gap-4">
         <LabeledSelect
-          label="I'm looking for"
-          placeholder="Select category"
+          label={t('category.label')}
+          placeholder={t('category.placeholder')}
           className="max-w-xs"
           defaultValue="any"
         >
-          <SelectItem value="any">Any Category</SelectItem>
+          <SelectItem value="any">{t('category.any')}</SelectItem>
           <SelectItem value="1">Credit Card</SelectItem>
           <SelectItem value="2">Google Pay</SelectItem>
           <SelectItem value="3">PayPal</SelectItem>
           <SelectItem value="4">Bitcoin</SelectItem>
         </LabeledSelect>
         <LabeledSelect
-          label="Location"
-          placeholder="Select location"
+          label={t('location.label')}
+          placeholder={t('location.placeholder')}
           className="max-w-xs"
           defaultValue="any"
         >
-          <SelectItem value="any">Any Category</SelectItem>
+          <SelectItem value="any">{t('location.any')}</SelectItem>
           <SelectItem value="1">Credit Card</SelectItem>
           <SelectItem value="2">Google Pay</SelectItem>
           <SelectItem value="3">PayPal</SelectItem>
           <SelectItem value="4">Bitcoin</SelectItem>
         </LabeledSelect>
         <LabeledSelect
-          label="Price"
-          placeholder="Select price range"
+          label={t('price.label')}
+          placeholder={t('price.placeholder')}
           className="max-w-xs"
           defaultValue="any"
         >
-          <SelectItem value="any">Any Category</SelectItem>
+          <SelectItem value="any">{t('price.any')}</SelectItem>
           <SelectItem value="1">Credit Card</SelectItem>
           <SelectItem value="2">Google Pay</SelectItem>
           <SelectItem value="3">PayPal</SelectItem>
           <SelectItem value="4">Bitcoin</SelectItem>
         </LabeledSelect>
         <LabeledSelect
-          label="I need photos by"
-          placeholder="Select delivery duration"
+          label={t('delivery.label')}
+          placeholder={t('delivery.placeholder')}
           className="max-w-xs"
           defaultValue="any"
         >
-          <SelectItem value="any">Any Category</SelectItem>
+          <SelectItem value="any">{t('delivery.any')}</SelectItem>
           <SelectItem value="1">Credit Card</SelectItem>
           <SelectItem value="2">Google Pay</SelectItem>
           <SelectItem value="3">PayPal</SelectItem>
@@ -66,7 +70,7 @@ function Filters() {
       <div className="flex flex-row gap-4 items-start md:items-center">
         <div className="flex flex-wrap gap-2 items-center border-r border-muted pr-6">
           <CountSelect
-            label="Languages"
+            label={t('languages.label')}
             values={[]}
             options={[
               { value: 'english', label: 'English' },
@@ -75,7 +79,7 @@ function Filters() {
             ]}
           />
           <CountSelect
-            label="Experience"
+            label={t('experience.label')}
             values={[]}
             options={[
               { value: '1', label: '1 year' },
@@ -84,7 +88,7 @@ function Filters() {
             ]}
           />
           <CountSelect
-            label="Rating"
+            label={t('rating.label')}
             values={[]}
             options={[
               { value: '1', label: '1 star' },
@@ -97,20 +101,26 @@ function Filters() {
           <Select defaultValue="Low to High">
             <SelectTrigger className="border-none shadow-none">
               <span>
-                <span className="text-muted-foreground text-xs">Sort by:</span>{' '}
-                <SelectValue placeholder="Sort by" />
+                <span className="text-muted-foreground text-xs">
+                  {t('sort.label')}
+                </span>{' '}
+                <SelectValue placeholder={t('sort.placeholder')} />
               </span>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Low to High">Price: Low to High</SelectItem>
-              <SelectItem value="High to Low<">Price: High to Low</SelectItem>
-              <SelectItem value="Highest">Rating: Highest</SelectItem>
-              <SelectItem value="Lowest">Rating: Lowest</SelectItem>
+              <SelectItem value="Low to High">
+                {t('sort.priceLowToHigh')}
+              </SelectItem>
+              <SelectItem value="High to Low<">
+                {t('sort.priceHighToLow')}
+              </SelectItem>
+              <SelectItem value="Highest">{t('sort.ratingHighest')}</SelectItem>
+              <SelectItem value="Lowest">{t('sort.ratingLowest')}</SelectItem>
             </SelectContent>
           </Select>
           <Input
             type="search"
-            placeholder="Search by name"
+            placeholder={t('searchByName')}
             className="max-w-xs ml-auto shadow-none bg-background"
           />
         </div>

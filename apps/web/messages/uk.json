@@ -493,6 +493,77 @@
         "10000to20000": "10,000 - 20,000 ₴",
         "over20000": "Понад 20,000 ₴"
       }
+    },
+    "searchPage": {
+      "title": "Знайти фотографів",
+      "description": "Знайдіть ідеального фотографа для ваших потреб",
+      "resultsCount": "{count, plural, one {# фотограф відповідає вашим потребам} few {# фотографи відповідають вашому запиту} other {# фотографів відповідають вашому запиту}}",
+      "filters": {
+        "category": {
+          "label": "Я шукаю",
+          "placeholder": "Виберіть категорію",
+          "any": "Будь-яка категорія"
+        },
+        "location": {
+          "label": "Локація",
+          "placeholder": "Виберіть локацію",
+          "any": "Будь-яка локація"
+        },
+        "price": {
+          "label": "Ціна",
+          "placeholder": "Виберіть діапазон цін",
+          "any": "Будь-яка ціна"
+        },
+        "delivery": {
+          "label": "Мені потрібні фото до",
+          "placeholder": "Виберіть термін виконання",
+          "any": "Будь-який термін"
+        },
+        "languages": {
+          "label": "Мови"
+        },
+        "experience": {
+          "label": "Досвід"
+        },
+        "rating": {
+          "label": "Рейтинг"
+        },
+        "sort": {
+          "label": "Сортувати за:",
+          "placeholder": "Сортувати за",
+          "priceLowToHigh": "Ціна: від низької до високої",
+          "priceHighToLow": "Ціна: від високої до низької",
+          "ratingHighest": "Рейтинг: найвищий",
+          "ratingLowest": "Рейтинг: найнижчий"
+        },
+        "searchByName": "Пошук за ім'ям"
+      },
+      "photographerCard": {
+        "viewProfile": "Переглянути профіль",
+        "portfolioImageAlt": "Портфоліо {name}",
+        "experience": "{years}+ років",
+        "reviews": "({count, plural, one {# відгук} few {# відгуки} other {# відгуків}})",
+        "rating": "Рейтинг",
+        "experienceLabel": "Досвід",
+        "priceUnit": "/ зйомка",
+        "startingAt": "Від"
+      }
+    },
+    "footer": {
+      "description": "Найпростіший спосіб знайти та забронювати професійних фотографів для будь-якої події. Створено для якості та довіри.",
+      "copyright": "© 2025 Shotly Inc. Всі права захищені.",
+      "company": {
+        "title": "Компанія",
+        "aboutUs": "Про нас",
+        "careers": "Кар'єра",
+        "privacyPolicy": "Політика конфіденційності"
+      },
+      "support": {
+        "title": "Підтримка",
+        "helpCenter": "Центр допомоги",
+        "termsOfService": "Умови використання",
+        "contact": "Контакти"
+      }
     }
   },
   "utils": {
