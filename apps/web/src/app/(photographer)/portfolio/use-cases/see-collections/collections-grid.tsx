@@ -7,18 +7,21 @@ import { Collection } from '@/domain/collection';
 import { VisibilityStatus } from '@/domain/common';
 import { formatDateWithOrdinal } from '@/utils/date-formatting';
 import { unstable_ViewTransition as ViewTransition } from 'react';
+import { Category } from '@/domain/category';
 
 type CollectionsGridProps = {
   collections: Collection[];
   collectionIdToCoverPhotoUrlMap: Record<string, string>;
+  categories: Category[];
 };
 
 const CollectionsGrid = ({
   collections,
   collectionIdToCoverPhotoUrlMap,
+  categories,
 }: CollectionsGridProps) => {
   if (collections.length === 0) {
-    return <Empty />;
+    return <Empty categories={categories} />;
   }
 
   return (

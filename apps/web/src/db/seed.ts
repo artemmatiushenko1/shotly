@@ -62,30 +62,30 @@ const main = async () => {
 
   // TODO: we should run e2e on a clean test db
   // it would be perfect to run each test with a separate account
-  const [user] = await db
-    .insert(usersTable)
-    .values({
-      id: crypto.randomUUID(),
-      name: 'John Doe',
-      email: PHOTOGRAPHER_EMAIL,
-      emailVerified: true,
-    })
-    .returning()
-    .onConflictDoNothing();
+  // const [user] = await db
+  //   .insert(usersTable)
+  //   .values({
+  //     id: crypto.randomUUID(),
+  //     name: 'John Doe',
+  //     email: PHOTOGRAPHER_EMAIL,
+  //     emailVerified: true,
+  //   })
+  //   .returning()
+  //   .onConflictDoNothing();
 
-  if (!user) {
-    throw Error('User was not created!');
-  }
+  // if (!user) {
+  //   throw Error('User was not created!');
+  // }
 
-  await db.insert(accountsTable).values({
-    id: crypto.randomUUID(),
-    accountId: crypto.randomUUID(),
-    password: await hashPassword(PHOTOGRAPHER_PASSWORD),
-    userId: user?.id ?? '',
-    providerId: 'credential',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  });
+  // await db.insert(accountsTable).values({
+  //   id: crypto.randomUUID(),
+  //   accountId: crypto.randomUUID(),
+  //   password: await hashPassword(PHOTOGRAPHER_PASSWORD),
+  //   userId: user?.id ?? '',
+  //   providerId: 'credential',
+  //   createdAt: new Date(),
+  //   updatedAt: new Date(),
+  // });
 };
 
 main();

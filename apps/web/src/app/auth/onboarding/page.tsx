@@ -7,24 +7,24 @@ import { CameraIcon, UserIcon } from 'lucide-react';
 import { useActionState, useId } from 'react';
 import { updateUserRole } from './actions';
 import { Role } from '@/domain/user';
+import { useTranslations } from 'next-intl';
 
 function OnboardingPage() {
   const id = useId();
+  const t = useTranslations('auth.onboarding');
 
   const [, formAction, pending] = useActionState(updateUserRole, {});
 
   return (
     <div>
       <div className="text-center mt-10 mb-15">
-        <h1 className="text-3xl font-bold text-left mb-2">
-          Congrats! Your account is created.
-        </h1>
+        <h1 className="text-3xl font-bold text-left mb-2">{t('title')}</h1>
         <p className="text-sm text-left text-muted-foreground">
-          What brings you here?
+          {t('subtitle')}
         </p>
       </div>
       <form className="space-y-4" action={formAction}>
-        <h2 className="mb-4 text-lg font-medium">I am a...</h2>
+        <h2 className="mb-4 text-lg font-medium">{t('heading')}</h2>
         <RadioGroup
           name="role"
           defaultValue={Role.CUSTOMER}
@@ -43,12 +43,12 @@ function OnboardingPage() {
             />
             <div className="grid grow justify-items-start gap-3">
               <UserIcon />
-              <p>Customer</p>
+              <p>{t('roles.customer.label')}</p>
               <p
                 id={`${id}-1-description`}
                 className="text-muted-foreground text-left text-xs"
               >
-                I want to search, book, and manage my photo sessions.
+                {t('roles.customer.description')}
               </p>
             </div>
           </Label>
@@ -65,18 +65,18 @@ function OnboardingPage() {
             />
             <div className="grid grow justify-items-start gap-3">
               <CameraIcon />
-              <div>Photographer</div>
+              <div>{t('roles.photographer.label')}</div>
               <p
                 id={`${id}-2-description`}
                 className="text-muted-foreground text-left text-xs"
               >
-                I want to showcase my portfolio and get new clients.
+                {t('roles.photographer.description')}
               </p>
             </div>
           </Label>
         </RadioGroup>
         <Button type="submit" className="w-full" loading={pending}>
-          Continue
+          {t('continueButton')}
         </Button>
       </form>
     </div>

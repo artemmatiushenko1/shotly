@@ -2,12 +2,17 @@ import { Button } from '@shotly/ui/components/button';
 import { CreateCollectionDialog } from '../create-collection/create-collection-dialog';
 import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { Category } from '@/domain/category';
 
-function Empty() {
+type EmptyProps = {
+  categories: Category[];
+};
+
+function Empty({ categories }: EmptyProps) {
   const t = useTranslations('portfolio.empty');
 
   return (
-    <div className="w-full flex items-center justify-center flex-col flex-1 -mt-14">
+    <div className="w-full flex items-center justify-center flex-col flex-1 mt-50">
       <svg
         width="250"
         height="200"
@@ -90,7 +95,7 @@ function Empty() {
           {t('description.line2')}
         </p>
         <div className="mt-4">
-          <CreateCollectionDialog categories={[]}>
+          <CreateCollectionDialog categories={categories}>
             <Button>
               <PlusIcon /> {t('createCollection')}
             </Button>

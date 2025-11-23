@@ -11,51 +11,43 @@ async function SearchPage() {
       <p className="text-sm text-muted-foreground mb-4">{t('description')}</p>
       <Filters />
       <p className="text-lg font-bold mb-4 mt-12">
-        {t('resultsCount', { count: 4 })}
+        {t('resultsCount', { count: 3 })}
       </p>
       <div className="min-h-[300px] grid grid-cols-2 gap-4">
         <PhotographerCard
           id="8tm45VnSY2igu9m4Zj6Z25Xb3rDMhd6t"
-          name="John Doe"
+          name="Андрій Бойко"
           image="/avatar-1.jpg"
-          location="New York"
+          location="Київ"
           rating={4.5}
-          yearsOfExperience={10}
-          startingPrice={100}
+          yearsOfExperience={2}
+          startingPrice={2000}
           currency="грн"
-          categoryName="Wedding"
-          portfolioImages={[
-            '/auth-banner-2.jpg',
-            '/auth-banner-3.jpg',
-            '/auth-banner-4.jpg',
-          ]}
+          categoryName="Портрет"
+          portfolioImages={['/portrait-1.jpg', '/portrait-2.jpg']}
         />
         <PhotographerCard
           id="8tm45VnSY2igu9m4Zj6Z25Xb3rDMhd6t"
-          name="Jane Doe"
-          image="/avatar-2.jpg"
-          location="Los Angeles"
+          name="Марія Шевчук"
+          image="/avatar-4.jpg"
+          location="Київ"
           rating={4.5}
-          yearsOfExperience={10}
-          startingPrice={100}
+          yearsOfExperience={5}
+          startingPrice={1000}
           currency="грн"
-          categoryName="Photography"
-          portfolioImages={[
-            '/auth-banner-2.jpg',
-            '/auth-banner-3.jpg',
-            '/auth-banner-4.jpg',
-          ]}
+          categoryName="Landscape"
+          portfolioImages={['/landscape-1.jpg', '/landscape-2.jpg']}
         />
         <PhotographerCard
           id="8tm45VnSY2igu9m4Zj6Z25Xb3rDMhd6t"
-          name="John Doe"
+          name="Артем Гаврилюк"
           image="/avatar-3.jpg"
-          location="New York"
+          location="Київ"
           rating={4.5}
           yearsOfExperience={10}
-          startingPrice={100}
+          startingPrice={3000}
           currency="грн"
-          categoryName="Portrait"
+          categoryName="Комерційна"
           portfolioImages={[
             '/auth-banner-2.jpg',
             '/auth-banner-3.jpg',

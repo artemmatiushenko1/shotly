@@ -5,6 +5,7 @@ import { Button, buttonVariants } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
 import { ProfileImagePlaceholder } from './profile-image-placeholder';
 import { useImagePreview } from '@/lib/images/use-image-preview';
+import { useTranslations } from 'next-intl';
 
 type ProfileImageUploadProps = {
   existingImageUrl?: string | null;
@@ -21,6 +22,8 @@ export function ProfileImageUpload({
   error,
   onDeleteExisting,
 }: ProfileImageUploadProps) {
+  const t = useTranslations('settings.profile.fields.profileImageUpload');
+
   const {
     displayImageUrl,
     selectedPreviewUrl,
@@ -48,7 +51,7 @@ export function ProfileImageUpload({
           <Image
             fill
             src={displayImageUrl}
-            alt="Profile preview"
+            alt={t('alt')}
             className="object-cover"
           />
         </div>
@@ -64,7 +67,7 @@ export function ProfileImageUpload({
           )}
         >
           <Upload className="mr-2 h-4 w-4" />
-          Upload new image
+          {t('uploadButton')}
         </label>
         <input
           ref={fileInputRef}
@@ -84,7 +87,7 @@ export function ProfileImageUpload({
             onClick={handleRemove}
           >
             <Trash2 className="mr-2 h-4 w-4" />
-            {selectedPreviewUrl ? 'Remove selected' : 'Delete current image'}
+            {selectedPreviewUrl ? t('removeSelected') : t('deleteCurrent')}
           </Button>
         )}
         {(error || sizeError) && (

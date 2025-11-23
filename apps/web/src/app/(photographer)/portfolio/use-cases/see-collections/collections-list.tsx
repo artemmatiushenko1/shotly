@@ -35,7 +35,7 @@ const CollectionsList = ({
   } = useCollectionFilter(collections, categories);
 
   if (collections.length === 0) {
-    return <Empty />;
+    return <Empty categories={categories} />;
   }
 
   return (
@@ -62,6 +62,7 @@ const CollectionsList = ({
         </div>
       ) : (
         <CollectionsGrid
+          categories={categories}
           collections={filteredCollections}
           collectionIdToCoverPhotoUrlMap={collectionIdToCoverPhotoUrlMap}
         />

@@ -31,7 +31,7 @@ function Orders() {
               variant={selectedTab === 'pending' ? 'default' : 'secondary'}
               className="h-5 min-w-5 rounded-full px-1 ml-1"
             >
-              10
+              1
             </Badge>
           </TabsTrigger>
           <TabsTrigger value="confirmed">{t('tabs.upcoming')}</TabsTrigger>
@@ -44,7 +44,7 @@ function Orders() {
           userInfo={<ClientInfo orderStatus="pending" />}
           actions={<OrderActions status="pending" />}
         />
-        <OrderCard
+        {/* <OrderCard
           status="confirmed"
           userInfo={<ClientInfo orderStatus="confirmed" />}
           actions={<OrderActions status="confirmed" />}
@@ -58,7 +58,7 @@ function Orders() {
           status="cancelled"
           userInfo={<ClientInfo orderStatus="cancelled" />}
           actions={<OrderActions status="cancelled" />}
-        />
+        /> */}
       </div>
     </>
   );

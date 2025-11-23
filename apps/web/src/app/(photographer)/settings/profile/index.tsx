@@ -80,7 +80,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             <GlobeIcon /> {t('viewPublicProfile')}
           </Button>
           <p className="text-xs text-muted-foreground">
-            www.shotly.com/ph/artemko
+            www.shotly.com/photographers/{profile.username}
           </p>
         </div>
       </div>

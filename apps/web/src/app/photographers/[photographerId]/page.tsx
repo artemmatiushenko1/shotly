@@ -42,6 +42,7 @@ async function PhotographerPublicProfile({
             width={1000}
             height={400}
             className="w-full h-full object-cover inline-block"
+            style={{ objectPosition: '0 65%' }}
           />
         </div>
       </div>
@@ -85,11 +86,11 @@ async function PhotographerPublicProfile({
                 <div className="leading-relaxed space-y-4 text-muted-foreground">
                   {/* Add about me text to profile in db*/}
                   <p>
-                    Passionate about visual storytelling and creating lasting
-                    memories. My work has been featured in local exhibitions and
-                    online publications. I believe every shoot is unique and
-                    strive to make my clients feel comfortable and confident in
-                    front of the camera.
+                    Захоплююся створенням візуальних історій, що залишаються в
+                    пам&apos;яті назавжди. Мої роботи брали участь у локальних
+                    виставках та публікувалися онлайн. Для мене важливо, щоб
+                    кожен клієнт почувався впевнено та розкуто перед камерою,
+                    адже саме так народжуються найкращі кадри.
                   </p>
                 </div>
               </div>

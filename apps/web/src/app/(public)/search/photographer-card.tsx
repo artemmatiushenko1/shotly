@@ -50,15 +50,6 @@ function PhotographerCard({
 }: PhotographerCardProps) {
   const t = useTranslations('landing.searchPage.photographerCard');
 
-  // Format name as "FirstName L." (first name + last initial)
-  const nameParts = name.split(' ').filter(Boolean);
-  const firstName = nameParts[0];
-  const lastName = nameParts[nameParts.length - 1];
-  const displayName =
-    nameParts.length > 1 && firstName && lastName && lastName[0]
-      ? `${firstName} ${lastName[0]}.`
-      : firstName || name;
-
   const initials = name
     .split(' ')
     .map((n) => n[0])
@@ -78,7 +69,7 @@ function PhotographerCard({
 
   // Format price
   const priceText = startingPrice
-    ? `${currency} ${startingPrice.toLocaleString()}`
+    ? `${startingPrice.toLocaleString()} ${currency} `
     : null;
 
   return (
@@ -100,7 +91,7 @@ function PhotographerCard({
             </Avatar>
             <div className="flex-1 min-w-0">
               <h3 className="font-bold text-lg leading-tight truncate">
-                {displayName}
+                {name}
               </h3>
               {location && (
                 <div className="flex items-center gap-1 text-sm text-muted-foreground mt-0.5">

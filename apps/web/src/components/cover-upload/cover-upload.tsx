@@ -7,6 +7,7 @@ import { ImageIcon } from 'lucide-react';
 import { useImagePreview } from '@/lib/images/use-image-preview';
 import { cn } from '@shotly/ui/lib/utils';
 import ImagePlaceholder from '../image-placeholder';
+import { useTranslations } from 'next-intl';
 
 type CoverUploadProps = {
   existingImageUrl?: string | null;
@@ -17,6 +18,7 @@ type CoverUploadProps = {
 function CoverUpload(props: CoverUploadProps) {
   const { existingImageUrl = null, name, error } = props;
   const inputId = useId();
+  const t = useTranslations('settings.coverUpload');
 
   const { displayImageUrl, fileInputRef, handleFileChange, sizeError } =
     useImagePreview({
@@ -36,7 +38,7 @@ function CoverUpload(props: CoverUploadProps) {
         {displayImageUrl && (
           <Image
             src={displayImageUrl}
-            alt="Cover image"
+            alt={t('alt')}
             fill
             className="object-cover"
             priority
@@ -52,7 +54,7 @@ function CoverUpload(props: CoverUploadProps) {
             )}
           >
             <ImageIcon className="mr-2 h-4 w-4" />
-            {displayImageUrl ? 'Change cover image' : 'Edit your cover image'}
+            {displayImageUrl ? t('changeButton') : t('editButton')}
           </label>
         </div>
 

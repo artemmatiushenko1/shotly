@@ -62,7 +62,7 @@ function OrderCard({ status, actions, userInfo }: OrderCardProps) {
           <p className="text-xs text-muted-foreground mb-1">
             {t('bookingDate')}
           </p>
-          <p className="text-xl font-bold">Sat, Jan 1, 2025</p>
+          <p className="text-xl font-bold">Cб, 23 листопада 2025</p>
         </div>
         {userInfo}
         <div>
@@ -82,7 +82,7 @@ function OrderCard({ status, actions, userInfo }: OrderCardProps) {
           <div className="size-[60px] overflow-hidden rounded-sm shrink-0">
             <Image
               unoptimized
-              src="https://placehold.co/600x400"
+              src="https://firebasestorage.googleapis.com/v0/b/personal-website-4afb5.appspot.com/o/artworks%2FIMG_3102-min.jpg?alt=media&token=56790863-45c0-4d5a-89b1-725c3d72536f"
               alt={t('serviceImageAlt')}
               width={100}
               height={100}
@@ -90,13 +90,14 @@ function OrderCard({ status, actions, userInfo }: OrderCardProps) {
             />
           </div>
           <div>
-            <h3 className="text-sm font-bold">Full Day Wedding Coverage</h3>
+            <h3 className="text-sm font-bold">Індивідуальна фотосесія</h3>
             <p className="text-xs text-muted-foreground">
-              Full coverage capturing candid and posed moments.
+              Разом обираємо локацію та стиль фотосесії. Додатково підбираємо
+              гардероб та референси.
             </p>
           </div>
           <div className="ml-auto mr-2">
-            <span className="text-md font-bold">грн 8,000</span>{' '}
+            <span className="text-md font-bold">1800 грн</span>{' '}
             <span className="text-xs text-muted-foreground text-nowrap">
               {t('priceUnit')}
             </span>
@@ -107,7 +108,7 @@ function OrderCard({ status, actions, userInfo }: OrderCardProps) {
         <div>
           <p className="text-xs text-muted-foreground">{t('total')}</p>
           <p className="text-md font-bold">
-            16,000 грн{' '}
+            3600 грн{' '}
             <span className="text-xs text-muted-foreground text-nowrap font-normal">
               {t('duration', { hours: 2 })}
             </span>

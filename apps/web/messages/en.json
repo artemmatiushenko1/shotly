@@ -57,6 +57,22 @@
         "text": "Already have an account?",
         "link": "Log In"
       }
+    },
+    "onboarding": {
+      "title": "Congrats! Your account is created.",
+      "subtitle": "What brings you here?",
+      "heading": "I am a...",
+      "roles": {
+        "customer": {
+          "label": "Customer",
+          "description": "I want to search, book, and manage my photo sessions."
+        },
+        "photographer": {
+          "label": "Photographer",
+          "description": "I want to showcase my portfolio and get new clients."
+        }
+      },
+      "continueButton": "Continue"
     }
   },
   "sidebar": {
@@ -172,6 +188,12 @@
           "title": "Profile photo",
           "description": "This photo will be visible to others"
         },
+        "profileImageUpload": {
+          "alt": "Profile preview",
+          "uploadButton": "Upload new image",
+          "removeSelected": "Remove selected",
+          "deleteCurrent": "Delete current image"
+        },
         "about": {
           "title": "About you",
           "description": "Write a description for your profile"
@@ -204,6 +226,11 @@
         "cancel": "Cancel",
         "saveChanges": "Save changes"
       }
+    },
+    "coverUpload": {
+      "alt": "Cover image",
+      "changeButton": "Change cover image",
+      "editButton": "Edit your cover image"
     }
   },
   "portfolio": {

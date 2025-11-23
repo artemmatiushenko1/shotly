@@ -26,7 +26,7 @@ function AuthLayout(props: AuthLayoutProps) {
             forever.
           </h2>
           <p className="text-sm text-background absolute bottom-5 right-10">
-            2025 Shotly, All rights reserved
+            2025 Shotly, Всі права захищені
           </p>
         </div>
       </div>

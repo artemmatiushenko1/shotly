@@ -12,7 +12,7 @@ type ServiceCardProps = {
   coverUrl: string;
   name: string;
   description: string;
-  price: string;
+  price: number;
   priceUnit: string;
   categoryName: string;
   deliveryTime: string;
@@ -75,7 +75,7 @@ function ServiceCard(props: ServiceCardProps) {
               {t('fields.price')}
             </p>
             <p className="text-lg font-bold">
-              {priceUnit} {price}
+              {price} {priceUnit}
               <span className="text-muted-foreground text-sm font-normal">
                 {t('fields.priceUnit')}
               </span>
@@ -100,7 +100,7 @@ function ServiceCard(props: ServiceCardProps) {
             <p className="text-muted-foreground text-xs mb-1">
               {t('fields.features')}
             </p>
-            <p className="inline-flex gap-1 items-center font-medium text-sm w-56">
+            <p className="inline-flex gap-1 items-center font-medium text-sm w-58">
               <PackageIcon className="text-muted-foreground w-4" />{' '}
               {featuresLabel}
             </p>

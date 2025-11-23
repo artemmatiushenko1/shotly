@@ -18,7 +18,7 @@ const SignUpForm = () => {
 
   return (
     <div>
-      <div className="text-center mt-10 mb-15">
+      <div className="text-left mt-10 mb-15 ">
         <h1 className="text-3xl font-bold">{t('title')}</h1>
         <p className="text-sm text-muted-foreground">{t('description')}</p>
       </div>

@@ -15,6 +15,16 @@ import { useTranslations } from 'next-intl';
 
 function Filters() {
   const t = useTranslations('landing.searchPage.filters');
+  const tBudgetRanges = useTranslations('landing.search.budgetRanges');
+
+  const budgetRangesOptions = [
+    { label: tBudgetRanges('under1000'), value: '0-1000' },
+    { label: tBudgetRanges('1000to3000'), value: '1000-3000' },
+    { label: tBudgetRanges('3000to5000'), value: '3000-5000' },
+    { label: tBudgetRanges('5000to10000'), value: '5000-10000' },
+    { label: tBudgetRanges('10000to20000'), value: '10000-20000' },
+    { label: tBudgetRanges('over20000'), value: '20000+' },
+  ];
   return (
     <div className="sticky top-0 z-10 p-4 rounded-3xl bg-[linear-gradient(to_right,_#e8ebff_0%,_#fff4ea_100%)] border">
       <div className="mb-4 lg:grid lg:grid-cols-4 lg:gap-4">
@@ -37,10 +47,17 @@ function Filters() {
           defaultValue="any"
         >
           <SelectItem value="any">{t('location.any')}</SelectItem>
-          <SelectItem value="1">Credit Card</SelectItem>
-          <SelectItem value="2">Google Pay</SelectItem>
-          <SelectItem value="3">PayPal</SelectItem>
-          <SelectItem value="4">Bitcoin</SelectItem>
+          <SelectItem value="1">Київ</SelectItem>
+          <SelectItem value="2">Львів</SelectItem>
+          <SelectItem value="3">Одеса</SelectItem>
+          <SelectItem value="4">Харків</SelectItem>
+          <SelectItem value="5">Дніпро</SelectItem>
+          <SelectItem value="6">Запоріжжя</SelectItem>
+          <SelectItem value="7">Івано-Франківськ</SelectItem>
+          <SelectItem value="8">Кривий Ріг</SelectItem>
+          <SelectItem value="9">Миколаїв</SelectItem>
+          <SelectItem value="10">Херсон</SelectItem>
+          <SelectItem value="11">Черкаси</SelectItem>
         </LabeledSelect>
         <LabeledSelect
           label={t('price.label')}
@@ -49,10 +66,11 @@ function Filters() {
           defaultValue="any"
         >
           <SelectItem value="any">{t('price.any')}</SelectItem>
-          <SelectItem value="1">Credit Card</SelectItem>
-          <SelectItem value="2">Google Pay</SelectItem>
-          <SelectItem value="3">PayPal</SelectItem>
-          <SelectItem value="4">Bitcoin</SelectItem>
+          {budgetRangesOptions.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
         </LabeledSelect>
         <LabeledSelect
           label={t('delivery.label')}

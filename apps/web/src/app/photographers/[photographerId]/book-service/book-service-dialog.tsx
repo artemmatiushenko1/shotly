@@ -33,8 +33,7 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
         <Card className="shadow-none p-2 flex-row items-center gap-4">
           <div className="size-[60px] overflow-hidden rounded-sm shrink-0">
             <Image
-              unoptimized
-              src="https://placehold.co/600x400"
+              src="https://firebasestorage.googleapis.com/v0/b/personal-website-4afb5.appspot.com/o/artworks%2FIMG_3102-min.jpg?alt=media&token=56790863-45c0-4d5a-89b1-725c3d72536f"
               alt={t('serviceImageAlt')}
               width={100}
               height={100}
@@ -42,13 +41,14 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
             />
           </div>
           <div>
-            <h3 className="text-sm font-bold">Full Day Wedding Coverage</h3>
+            <h3 className="text-sm font-bold">Індивідуальна фотосесія</h3>
             <p className="text-xs text-muted-foreground">
-              Full coverage capturing candid and posed moments.
+              Разом обираємо локацію та стиль фотосесії. Додатково підбираємо
+              гардероб та референси.
             </p>
           </div>
           <div>
-            <span className="text-md font-bold">грн 8,000</span>{' '}
+            <span className="text-md font-bold">1800 грн</span>{' '}
             <span className="text-xs text-muted-foreground text-nowrap">
               {t('priceUnit')}
             </span>
@@ -63,7 +63,7 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
             disabled
             name="name"
             id="name"
-            value="John Doe"
+            value="Олена Коваленко"
             placeholder={t('fields.name.placeholder')}
           />
         </div>
@@ -76,7 +76,7 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
             disabled
             name="email"
             id="email"
-            value="john.doe@example.com"
+            value="olena.kovalenko@example.com"
             placeholder={t('fields.email.placeholder')}
           />
         </div>

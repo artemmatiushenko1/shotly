@@ -34,10 +34,10 @@ function LeaveReviewDialog({ children }: LeaveReviewDialogProps) {
         <div className="p-6">
           <div className="mb-6 text-center">
             <h4 className="text-base font-medium">
-              {t('question', { photographerName: 'Artem Matiushenko' })}
+              {t('question', { photographerName: 'Артем Матюшенко' })}
             </h4>
             <p className="text-sm text-muted-foreground mt-1">
-              Full Day Wedding Coverage
+              Індивідуальна фотосесія
             </p>
           </div>
           <div className="flex justify-center gap-2">
