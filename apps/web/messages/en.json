@@ -427,6 +427,39 @@
       }
     }
   },
+  "orders": {
+    "title": "Orders",
+    "caption": "Manage your orders",
+    "tabs": {
+      "requests": "Requests",
+      "upcoming": "Upcoming",
+      "history": "History"
+    },
+    "status": {
+      "completed": "Completed",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "pending": "Pending"
+    },
+    "actions": {
+      "reject": "Reject",
+      "accept": "Accept",
+      "complete": "Complete"
+    },
+    "clientInfo": {
+      "label": "Client",
+      "revealTooltip": "Accept to reveal contact info"
+    },
+    "card": {
+      "bookingDate": "Booking Date",
+      "bookingId": "Booking ID",
+      "status": "Status",
+      "serviceImageAlt": "Service Image",
+      "priceUnit": "/ hour",
+      "total": "Total",
+      "duration": "({hours, plural, one {# hour} other {# hours}})"
+    }
+  },
   "landing": {
     "navigation": {
       "home": "Home",

@@ -427,6 +427,39 @@
       }
     }
   },
+  "orders": {
+    "title": "Замовлення",
+    "caption": "Керуйте своїми замовленнями",
+    "tabs": {
+      "requests": "Запити",
+      "upcoming": "Майбутні",
+      "history": "Історія"
+    },
+    "status": {
+      "completed": "Завершено",
+      "confirmed": "Підтверджено",
+      "cancelled": "Скасовано",
+      "pending": "В очікуванні"
+    },
+    "actions": {
+      "reject": "Відхилити",
+      "accept": "Прийняти",
+      "complete": "Завершити"
+    },
+    "clientInfo": {
+      "label": "Клієнт",
+      "revealTooltip": "Прийміть, щоб відкрити контактну інформацію"
+    },
+    "card": {
+      "bookingDate": "Дата бронювання",
+      "bookingId": "ID бронювання",
+      "status": "Статус",
+      "serviceImageAlt": "Зображення послуги",
+      "priceUnit": "/ година",
+      "total": "Всього",
+      "duration": "({hours, plural, one {# година} few {# години} other {# годин}})"
+    }
+  },
   "landing": {
     "navigation": {
       "home": "Головна",

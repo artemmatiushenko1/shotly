@@ -1,6 +1,9 @@
+'use client';
+
 import { Button } from '@shotly/ui/components/button';
 import { CheckIcon } from 'lucide-react';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 type OrderActionsProps = {
   status: 'completed' | 'cancelled' | 'pending' | 'confirmed';
@@ -8,6 +11,7 @@ type OrderActionsProps = {
 
 function OrderActions(props: OrderActionsProps) {
   const { status } = props;
+  const t = useTranslations('orders.actions');
 
   if (status === 'pending') {
     return (
@@ -16,10 +20,10 @@ function OrderActions(props: OrderActionsProps) {
           variant="outline"
           className="rounded-full border-destructive text-destructive bg-transparent hover:bg-destructive/10 hover:text-destructive"
         >
-          Reject
+          {t('reject')}
         </Button>
         <Button className="rounded-full bg-green-500 hover:bg-green-500/90">
-          <CheckIcon /> Accept
+          <CheckIcon /> {t('accept')}
         </Button>
       </>
     );
@@ -28,7 +32,7 @@ function OrderActions(props: OrderActionsProps) {
   if (status === 'confirmed') {
     return (
       <Button className="rounded-full">
-        <CheckIcon /> Complete
+        <CheckIcon /> {t('complete')}
       </Button>
     );
   }

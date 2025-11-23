@@ -7,15 +7,17 @@ import ClientInfo from './client-info';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 import { Badge } from '@shotly/ui/components/badge';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 function Orders() {
+  const t = useTranslations('orders');
   const [selectedTab, setSelectedTab] = useState<
     'pending' | 'confirmed' | 'completed'
   >('pending');
 
   return (
     <>
-      <MainHeader title="Orders" caption="Manage your orders" />
+      <MainHeader title={t('title')} caption={t('caption')} />
       <Tabs
         value={selectedTab}
         onValueChange={(value) =>
@@ -24,7 +26,7 @@ function Orders() {
       >
         <TabsList className="px-4 mt-4">
           <TabsTrigger value="pending">
-            Requests{' '}
+            {t('tabs.requests')}{' '}
             <Badge
               variant={selectedTab === 'pending' ? 'default' : 'secondary'}
               className="h-5 min-w-5 rounded-full px-1 ml-1"
@@ -32,8 +34,8 @@ function Orders() {
               10
             </Badge>
           </TabsTrigger>
-          <TabsTrigger value="confirmed">Upcoming</TabsTrigger>
-          <TabsTrigger value="completed">History</TabsTrigger>
+          <TabsTrigger value="confirmed">{t('tabs.upcoming')}</TabsTrigger>
+          <TabsTrigger value="completed">{t('tabs.history')}</TabsTrigger>
         </TabsList>
       </Tabs>
       <div className="p-4 space-y-4">

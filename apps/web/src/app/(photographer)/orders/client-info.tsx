@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Avatar,
   AvatarFallback,
@@ -11,15 +13,18 @@ import {
 } from '@shotly/ui/components/tooltip';
 import { UserIcon } from 'lucide-react';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 type ClientInfoProps = {
   orderStatus: 'pending' | 'confirmed' | 'completed' | 'cancelled';
 };
 
 function ClientInfo({ orderStatus }: ClientInfoProps) {
+  const t = useTranslations('orders.clientInfo');
+
   return (
     <div>
-      <p className="text-xs text-muted-foreground mb-1">Client</p>
+      <p className="text-xs text-muted-foreground mb-1">{t('label')}</p>
       <div className="flex items-center gap-2">
         <Avatar>
           <AvatarImage src="" />
@@ -34,7 +39,7 @@ function ClientInfo({ orderStatus }: ClientInfoProps) {
                 <Skeleton animation="none" className="w-15 h-3 mb-1" />
                 <Skeleton animation="none" className="w-10 h-3" />
               </TooltipTrigger>
-              <TooltipContent>Accept to reveal contact info</TooltipContent>
+              <TooltipContent>{t('revealTooltip')}</TooltipContent>
             </Tooltip>
           ) : (
             <>
