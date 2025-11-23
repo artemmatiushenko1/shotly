@@ -1,26 +1,12 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@shotly/ui/components/avatar';
 import { Badge } from '@shotly/ui/components/badge';
-import { Button } from '@shotly/ui/components/button';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from '@shotly/ui/components/card';
-import {
-  ArrowUpRightIcon,
-  CopyIcon,
-  MessageSquareIcon,
-  StarIcon,
-  UserIcon,
-} from 'lucide-react';
+import { CopyIcon } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
-import LeaveReviewDialog from './leave-review-dialog';
 
 const BookingStatusBadge = ({
   status,
@@ -55,11 +41,13 @@ const BookingStatusBadge = ({
   }
 };
 
-type BookingCardProps = {
+type OrderCardProps = {
   status: 'completed' | 'cancelled' | 'pending' | 'confirmed';
+  actions: React.ReactNode;
+  userInfo: React.ReactNode;
 };
 
-function BookingCard({ status }: BookingCardProps) {
+function OrderCard({ status, actions, userInfo }: OrderCardProps) {
   return (
     <Card className="shadow-none pb-0 overflow-hidden">
       <CardHeader className="flex justify-between">
@@ -67,23 +55,7 @@ function BookingCard({ status }: BookingCardProps) {
           <p className="text-xs text-muted-foreground mb-1">Booking Date</p>
           <p className="text-xl font-bold">Sat, Jan 1, 2025</p>
         </div>
-        <div>
-          <p className="text-xs text-muted-foreground mb-1">Photographer</p>
-          <Link
-            href="/photographers/1234567890"
-            target="_blank"
-            className="flex items-center gap-2"
-          >
-            <Avatar>
-              <AvatarImage src="" />
-              <AvatarFallback>
-                <UserIcon className="size-4" />
-              </AvatarFallback>
-            </Avatar>
-            <p className="text-sm font-bold">John Doe</p>
-            <ArrowUpRightIcon className="size-4 text-muted-foreground" />
-          </Link>
-        </div>
+        {userInfo}
         <div>
           <p className="text-xs text-muted-foreground mb-1">Booking ID</p>
           <p className="text-md font-bold inline-flex items-center gap-2">
@@ -132,26 +104,10 @@ function BookingCard({ status }: BookingCardProps) {
             </span>
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="rounded-full">
-            <MessageSquareIcon /> Message Photographer
-          </Button>
-          {status === 'completed' && (
-            <LeaveReviewDialog>
-              <Button className="rounded-full">
-                <StarIcon /> Leave Review
-              </Button>
-            </LeaveReviewDialog>
-          )}
-          {status === 'pending' && (
-            <Button variant="destructive" className="rounded-full">
-              Cancel Booking
-            </Button>
-          )}
-        </div>
+        <div className="flex gap-2">{actions}</div>
       </CardFooter>
     </Card>
   );
 }
 
-export default BookingCard;
+export default OrderCard;

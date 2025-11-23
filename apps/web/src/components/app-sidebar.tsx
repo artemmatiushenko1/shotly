@@ -36,6 +36,7 @@ import { Separator } from '@shotly/ui/components/separator';
 import { StorageUsageInfo } from './storage-usage-info';
 import { useTranslations } from 'next-intl';
 import { StorageUsage } from '@/domain/user';
+import { Badge } from '@shotly/ui/components/badge';
 
 type AppSidebarProps = {
   user: User;
@@ -66,14 +67,16 @@ export function AppSidebar(props: AppSidebarProps) {
       icon: Blocks,
     },
     {
-      title: t('menu.calendar'),
-      url: '/calendar',
-      icon: CalendarRangeIcon,
-    },
-    {
       title: t('menu.services'),
       url: '/services',
       icon: Handshake,
+    },
+    {
+      title: t('menu.calendar'),
+      url: '/calendar',
+      icon: CalendarRangeIcon,
+      disabled: true,
+      extra: <Badge variant="secondary">Coming Soon</Badge>,
     },
   ];
 
@@ -106,6 +109,7 @@ export function AppSidebar(props: AppSidebarProps) {
               {items.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton
+                    disabled={item.disabled}
                     isActive={getIsActiveMenuItem(item.url)}
                     asChild
                     size="lg"
@@ -116,6 +120,7 @@ export function AppSidebar(props: AppSidebarProps) {
                       {getIsActiveMenuItem(item.url) && (
                         <ChevronRight className="text-fo" />
                       )}
+                      {item.extra}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
