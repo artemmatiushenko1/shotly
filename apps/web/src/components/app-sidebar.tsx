@@ -76,7 +76,7 @@ export function AppSidebar(props: AppSidebarProps) {
       url: '/calendar',
       icon: CalendarRangeIcon,
       disabled: true,
-      extra: <Badge variant="secondary">Coming Soon</Badge>,
+      extra: <Badge variant="secondary">{t('comingSoon')}</Badge>,
     },
   ];
 

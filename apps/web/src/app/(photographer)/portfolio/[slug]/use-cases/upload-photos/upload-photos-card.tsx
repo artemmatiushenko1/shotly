@@ -21,7 +21,9 @@ const UploadPhotosCard = ({ onClick }: UploadPhotosCardProps) => {
         <p className="text-sm font-medium text-muted-foreground">
           {t('title')}
         </p>
-        <p className="text-xs text-muted-foreground mt-1">{t('description')}</p>
+        <p className="text-xs text-center text-muted-foreground mt-1">
+          {t('description')}
+        </p>
       </div>
     </Card>
   );

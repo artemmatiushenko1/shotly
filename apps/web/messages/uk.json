@@ -1,7 +1,11 @@
 {
   "common": {
     "welcome": "Ласкаво просимо",
-    "hello": "Привіт"
+    "hello": "Привіт",
+    "visibility": {
+      "public": "Публічна",
+      "private": "Приватна"
+    }
   },
   "auth": {
     "signIn": {
@@ -68,9 +72,10 @@
     "logOut": "Вийти",
     "storage": {
       "label": "Cховищe",
-      "usageGb": "Використано {used} ГБ з {total} ГБ",
-      "usageMb": "Використано {used} МБ з {total} МБ"
-    }
+      "usageGb": "Використано {usedGb} ГБ з {totalGb} ГБ",
+      "usageMb": "Використано {usedMb} МБ з {totalGb} ГБ"
+    },
+    "comingSoon": "Очікується"
   },
   "dashboard": {
     "title": "Панель керування",

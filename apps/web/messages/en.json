@@ -1,7 +1,11 @@
 {
   "common": {
     "welcome": "Welcome",
-    "hello": "Hello"
+    "hello": "Hello",
+    "visibility": {
+      "public": "Public",
+      "private": "Private"
+    }
   },
   "auth": {
     "signIn": {
@@ -70,7 +74,8 @@
       "label": "Storage Used",
       "usageGb": "{usedGb} GB of {totalGb} GB used",
       "usageMb": "{usedMb} MB of {totalGb} GB used"
-    }
+    },
+    "comingSoon": "Coming Soon"
   },
   "dashboard": {
     "title": "Dashboard",

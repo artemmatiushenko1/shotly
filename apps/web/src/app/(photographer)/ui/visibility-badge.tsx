@@ -1,6 +1,9 @@
+'use client';
+
 import { Badge } from '@shotly/ui/components/badge';
 import { cn } from '@shotly/ui/lib/utils';
 import { GlobeIcon, LockIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 type VisibilityBadgeProps = {
   isPublic: boolean;
@@ -8,6 +11,8 @@ type VisibilityBadgeProps = {
 };
 
 const VisibilityBadge = ({ isPublic, className }: VisibilityBadgeProps) => {
+  const t = useTranslations('common.visibility');
+
   return (
     <Badge
       variant="outline"
@@ -26,11 +31,11 @@ const VisibilityBadge = ({ isPublic, className }: VisibilityBadgeProps) => {
       </span>
       {isPublic ? (
         <>
-          <GlobeIcon /> Public
+          <GlobeIcon /> {t('public')}
         </>
       ) : (
         <>
-          <LockIcon /> Private
+          <LockIcon /> {t('private')}
         </>
       )}
     </Badge>
