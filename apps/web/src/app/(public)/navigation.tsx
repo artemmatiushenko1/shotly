@@ -72,7 +72,7 @@ async function Navigation({ className, variant = 'default' }: NavigationProps) {
                       variant === 'contrast' ? 'text-foreground' : 'text-white',
                     )}
                   >
-                    Hi, {user.name}!
+                    {t('greeting', { name: user.name })}
                   </p>
                   <Avatar className="rounded-full">
                     <AvatarImage src={user.image ?? ''} alt={user.name} />
@@ -90,17 +90,17 @@ async function Navigation({ className, variant = 'default' }: NavigationProps) {
               {user.role === Role.PHOTOGRAPHER && (
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard">
-                    <LayoutGridIcon /> Photographer Studio
+                    <LayoutGridIcon /> {t('photographerStudio')}
                   </Link>
                 </DropdownMenuItem>
               )}
               <DropdownMenuItem asChild>
                 <Link href="/my-bookings">
-                  <CalendarIcon /> My Bookings
+                  <CalendarIcon /> {t('myBookings')}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <LogOutIcon /> Log Out
+                <LogOutIcon /> {t('logOut')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

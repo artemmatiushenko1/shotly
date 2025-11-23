@@ -12,12 +12,14 @@ import { Label } from '@shotly/ui/components/label';
 import { Textarea } from '@shotly/ui/components/textarea';
 import { StarIcon } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 type LeaveReviewDialogProps = {
   children: React.ReactNode;
 };
 
 function LeaveReviewDialog({ children }: LeaveReviewDialogProps) {
+  const t = useTranslations('myBookings.leaveReview');
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -27,12 +29,12 @@ function LeaveReviewDialog({ children }: LeaveReviewDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Leave Review</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
         <div className="p-6">
           <div className="mb-6 text-center">
             <h4 className="text-base font-medium">
-              How was your experience with Artem Matiushenko?
+              {t('question', { photographerName: 'Artem Matiushenko' })}
             </h4>
             <p className="text-sm text-muted-foreground mt-1">
               Full Day Wedding Coverage
@@ -60,23 +62,23 @@ function LeaveReviewDialog({ children }: LeaveReviewDialogProps) {
           </div>
         </div>
         <div className="space-y-2">
-          <Label>Your Feedback</Label>
+          <Label>{t('feedbackLabel')}</Label>
           <Textarea
             value={comment}
             showCharsCount
             maxChars={500}
             className="bg-muted resize-none shadow-none min-h-[125px]"
             onChange={(e) => setComment(e.target.value)}
-            placeholder="What did you like most about the photos? How was the communication?"
+            placeholder={t('feedbackPlaceholder')}
           />
         </div>
         <div></div>
         <div className="flex gap-3">
           <Button size="lg" variant="outline" className="flex-1">
-            Cancel
+            {t('cancel')}
           </Button>
           <Button size="lg" className="flex-1">
-            Post Review
+            {t('postReview')}
           </Button>
         </div>
       </DialogContent>

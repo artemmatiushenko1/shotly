@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Avatar,
   AvatarFallback,
@@ -6,11 +8,14 @@ import {
 import { ArrowUpRightIcon, UserIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 function PhotorgapherInfo() {
+  const t = useTranslations('myBookings.photographerInfo');
+
   return (
     <div>
-      <p className="text-xs text-muted-foreground mb-1">Photographer</p>
+      <p className="text-xs text-muted-foreground mb-1">{t('label')}</p>
       <Link
         href="/photographers/1234567890"
         target="_blank"

@@ -471,7 +471,11 @@
       "photographers": "Фотографи",
       "aboutUs": "Про нас",
       "signIn": "Увійти",
-      "signUp": "Зареєструватися"
+      "signUp": "Зареєструватися",
+      "greeting": "Привіт, {name}!",
+      "photographerStudio": "Студія фотографа",
+      "myBookings": "Мої бронювання",
+      "logOut": "Вийти"
     },
     "hero": {
       "title": "Знайдіть найкращих фотографів в Україні",
@@ -614,6 +618,31 @@
     },
     "reviews": {
       "verifiedReviews": "{count, plural, one {# перевірений відгук} few {# перевірені відгуки} other {# перевірених відгуків}}"
+    }
+  },
+  "myBookings": {
+    "title": "Мої бронювання",
+    "description": "Перегляньте статус ваших бронювань",
+    "tabs": {
+      "upcoming": "Майбутні",
+      "past": "Минулі",
+      "cancelled": "Скасовані"
+    },
+    "actions": {
+      "messagePhotographer": "Написати фотографу",
+      "leaveReview": "Залишити відгук",
+      "cancelBooking": "Скасувати бронювання"
+    },
+    "photographerInfo": {
+      "label": "Фотограф"
+    },
+    "leaveReview": {
+      "title": "Залишити відгук",
+      "question": "Як ваш досвід з {photographerName}?",
+      "feedbackLabel": "Ваш відгук",
+      "feedbackPlaceholder": "Що вам найбільше сподобалося в фотографіях? Як була комунікація?",
+      "cancel": "Скасувати",
+      "postReview": "Опублікувати відгук"
     }
   },
   "utils": {

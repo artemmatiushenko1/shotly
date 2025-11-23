@@ -471,7 +471,11 @@
       "photographers": "Photographers",
       "aboutUs": "About Us",
       "signIn": "Sign In",
-      "signUp": "Sign Up"
+      "signUp": "Sign Up",
+      "greeting": "Hi, {name}!",
+      "photographerStudio": "Photographer Studio",
+      "myBookings": "My Bookings",
+      "logOut": "Log Out"
     },
     "hero": {
       "title": "Your Marketplace for",
@@ -614,6 +618,31 @@
     },
     "reviews": {
       "verifiedReviews": "{count, plural, one {# verified review} other {# verified reviews}}"
+    }
+  },
+  "myBookings": {
+    "title": "My Bookings",
+    "description": "View the status of your bookings",
+    "tabs": {
+      "upcoming": "Upcoming",
+      "past": "Past",
+      "cancelled": "Cancelled"
+    },
+    "actions": {
+      "messagePhotographer": "Message Photographer",
+      "leaveReview": "Leave Review",
+      "cancelBooking": "Cancel Booking"
+    },
+    "photographerInfo": {
+      "label": "Photographer"
+    },
+    "leaveReview": {
+      "title": "Leave Review",
+      "question": "How was your experience with {photographerName}?",
+      "feedbackLabel": "Your Feedback",
+      "feedbackPlaceholder": "What did you like most about the photos? How was the communication?",
+      "cancel": "Cancel",
+      "postReview": "Post Review"
     }
   },
   "utils": {
