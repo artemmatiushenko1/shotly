@@ -1,11 +1,11 @@
 'use server';
 
+import z from 'zod';
 import { visibilityStatusSchema } from '@/domain/common';
 import { getUser } from '@/lib/auth/dal';
 import imageStorage from '@/lib/images/image-storage.service';
-import servicesRepository from '@/repositories/services.repository';
+import { createServiceUseCase } from '@/use-cases/services/create-service.use-case';
 import { revalidatePath } from 'next/cache';
-import z from 'zod';
 
 const inputSchema = z.object({
   name: z.string().min(1, { error: 'Name is required' }),
@@ -68,7 +68,7 @@ export const createService = async (
     },
   );
 
-  await servicesRepository.createService(user.id, {
+  await createServiceUseCase(user.id, {
     ...validatedInput,
     coverImageUrl: coverImageUploadResult.url,
   });

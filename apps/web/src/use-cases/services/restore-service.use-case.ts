@@ -1,6 +1,7 @@
 import { ForbiddenError, NotFoundError } from '@/domain/errors/common';
 import servicesRepository from '@/repositories/services.repository';
 
+// TODO: make restore service use case used in the frontend
 export const restoreServiceUseCase = async (
   userId: string,
   serviceId: string,

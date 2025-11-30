@@ -31,7 +31,7 @@ enum FormField {
   PRICE = 'price',
   FEATURES = 'features',
   DELIVERY_TIME_IN_DAYS = 'deliveryTimeInDays',
-  STATUS = 'status',
+  STATUS = 'visibilityStatus',
 }
 
 // TODO: idea is to add list of features,
@@ -206,7 +206,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             )
           }
         />
-        <input type="hidden" name={FormField.STATUS} value={status} />
+        <input type="hidden" name={FormField.STATUS} value={visibilityStatus} />
       </div>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
         <Button type="button" variant="ghost" onClick={onCancel}>
