@@ -101,7 +101,7 @@ class ServicesRepository {
       .returning();
 
     if (!service) {
-      throw new Error('Failed to create service.');
+      return null;
     }
 
     const features = input.features ?? [];
@@ -125,11 +125,6 @@ class ServicesRepository {
         featureId: feature.id,
       })),
     );
-
-    return serviceSchema.parse({
-      ...service,
-      features: createdFeatures.map((feature) => feature.name),
-    });
   }
 }
 

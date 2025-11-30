@@ -75,9 +75,7 @@ class UsersRepository {
           .returning({ id: locationsTable.id });
 
         if (!newLocation) {
-          throw new Error(
-            `Failed to create location with externalId: ${location.externalId}`,
-          );
+          return null;
         }
 
         locationId = newLocation.id;
