@@ -1,5 +1,5 @@
 {
-  "id": "7051219a-b6bf-4ed9-b56d-ba5aa08ff78b",
+  "id": "2654405d-1f3e-44dd-9628-2298196ca7d1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -105,143 +105,6 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.availability_rules": {
-      "name": "availability_rules",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "photographer_id": {
-          "name": "photographer_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "day_of_week": {
-          "name": "day_of_week",
-          "type": "day_of_week",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "start_time": {
-          "name": "start_time",
-          "type": "time",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "end_time": {
-          "name": "end_time",
-          "type": "time",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "photographer_day_start_idx": {
-          "name": "photographer_day_start_idx",
-          "columns": [
-            {
-              "expression": "photographer_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "day_of_week",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "start_time",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "availability_rules_photographer_id_user_id_fk": {
-          "name": "availability_rules_photographer_id_user_id_fk",
-          "tableFrom": "availability_rules",
-          "tableTo": "user",
-          "columnsFrom": ["photographer_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.blocked_times": {
-      "name": "blocked_times",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "photographer_id": {
-          "name": "photographer_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "start_time": {
-          "name": "start_time",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "end_time": {
-          "name": "end_time",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "reason": {
-          "name": "reason",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "blocked_times_photographer_id_user_id_fk": {
-          "name": "blocked_times_photographer_id_user_id_fk",
-          "tableFrom": "blocked_times",
-          "tableTo": "user",
-          "columnsFrom": ["photographer_id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.categories": {
       "name": "categories",
       "schema": "",
@@ -312,7 +175,7 @@
         },
         "visibility_status": {
           "name": "visibility_status",
-          "type": "view_status",
+          "type": "collection_visibility_status",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
@@ -323,6 +186,12 @@
           "type": "date",
           "primaryKey": false,
           "notNull": true
+        },
+        "cover_photo_id": {
+          "name": "cover_photo_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
         },
         "photographer_id": {
           "name": "photographer_id",
@@ -381,6 +250,15 @@
         }
       },
       "foreignKeys": {
+        "collections_cover_photo_id_photos_id_fk": {
+          "name": "collections_cover_photo_id_photos_id_fk",
+          "tableFrom": "collections",
+          "tableTo": "photos",
+          "columnsFrom": ["cover_photo_id"],
+          "columnsTo": ["id"],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
         "collections_photographer_id_user_id_fk": {
           "name": "collections_photographer_id_user_id_fk",
           "tableFrom": "collections",
@@ -937,9 +815,9 @@
           "primaryKey": false,
           "notNull": true
         },
-        "status": {
-          "name": "status",
-          "type": "service_status",
+        "visibility_status": {
+          "name": "visibility_status",
+          "type": "service_visibility_status",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
@@ -984,6 +862,12 @@
           "primaryKey": false,
           "notNull": false,
           "default": "now()"
+        },
+        "archived_at": {
+          "name": "archived_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -1242,7 +1126,7 @@
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
-          "default": "'customer'"
+          "default": "'unknown'"
         },
         "username": {
           "name": "username",
@@ -1308,6 +1192,14 @@
           "primaryKey": false,
           "notNull": true,
           "default": 0
+        },
+        "approval_status": {
+          "name": "approval_status",
+          "type": "approval_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'not_submitted'"
         }
       },
       "indexes": {},
@@ -1460,15 +1352,15 @@
     }
   },
   "enums": {
-    "public.view_status": {
-      "name": "view_status",
+    "public.approval_status": {
+      "name": "approval_status",
+      "schema": "public",
+      "values": ["not_submitted", "pending_review", "approved", "rejected"]
+    },
+    "public.collection_visibility_status": {
+      "name": "collection_visibility_status",
       "schema": "public",
       "values": ["public", "private"]
-    },
-    "public.day_of_week": {
-      "name": "day_of_week",
-      "schema": "public",
-      "values": ["1", "2", "3", "4", "5", "6", "7"]
     },
     "public.order_status": {
       "name": "order_status",
@@ -1478,12 +1370,12 @@
     "public.role": {
       "name": "role",
       "schema": "public",
-      "values": ["photographer", "customer"]
+      "values": ["photographer", "customer", "unknown"]
     },
-    "public.service_status": {
-      "name": "service_status",
+    "public.service_visibility_status": {
+      "name": "service_visibility_status",
       "schema": "public",
-      "values": ["public", "private", "archived"]
+      "values": ["public", "private"]
     }
   },
   "schemas": {},
