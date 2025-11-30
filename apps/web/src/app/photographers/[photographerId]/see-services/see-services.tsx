@@ -1,10 +1,15 @@
+'use client';
+
 import ServiceCard from '@/app/(photographer)/services/use-cases/see-services/service-card';
 import { ServiceStatus } from '@/domain/service';
 import { Button } from '@shotly/ui/components/button';
 import { CalendarCheckIcon } from 'lucide-react';
 import BookServiceDialog from '../book-service/book-service-dialog';
+import { useTranslations } from 'next-intl';
 
 function SeeServices() {
+  const t = useTranslations('photographerProfile.seeServices');
+
   return (
     <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 space-y-4">
       <ServiceCard
@@ -22,7 +27,7 @@ function SeeServices() {
         extraActions={
           <BookServiceDialog>
             <Button className="mr-4 mt-4 rounded-full">
-              <CalendarCheckIcon /> Book
+              <CalendarCheckIcon /> {t('bookButton')}
             </Button>
           </BookServiceDialog>
         }
@@ -42,7 +47,7 @@ function SeeServices() {
         extraActions={
           <Button className="mr-4 mt-4 rounded-full">
             <CalendarCheckIcon />
-            Book
+            {t('bookButton')}
           </Button>
         }
       />
@@ -61,7 +66,7 @@ function SeeServices() {
         extraActions={
           <Button className="mr-4 mt-4 rounded-full">
             <CalendarCheckIcon />
-            Book
+            {t('bookButton')}
           </Button>
         }
       />

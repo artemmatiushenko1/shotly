@@ -614,6 +614,9 @@
       "services": "Services",
       "reviews": "Reviews"
     },
+    "seeServices": {
+      "bookButton": "Book"
+    },
     "bookService": {
       "title": "Book Service",
       "description": "Please fill in the form to book the selected service.",
