@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
-import { Service, ServiceStatus } from '@/domain/service';
+import { Service } from '@/domain/service';
+import { VisibilityStatus } from '@/domain/common';
 
 export type ServiceFilterTab = 'All' | 'Public' | 'Private' | 'Archived';
 
@@ -10,14 +11,19 @@ export const SERVICE_FILTER_TABS: ServiceFilterTab[] = [
   'Archived',
 ];
 
-const takeServicesByStatus = (services: Service[], status: ServiceStatus) => {
-  return services.filter((service) => service.status === status);
+const takeServicesByStatus = (
+  services: Service[],
+  status: VisibilityStatus,
+) => {
+  return services.filter((service) => service.visibilityStatus === status);
 };
 
 const excludeArchivedServices = (services: Service[]) => {
-  return services.filter(
-    (service) => service.status !== ServiceStatus.ARCHIVED,
-  );
+  return services.filter((service) => !service.archivedAt);
+};
+
+const takeArchivedServices = (services: Service[]) => {
+  return services.filter((service) => service.archivedAt);
 };
 
 // TODO: move hook to services folder
@@ -28,9 +34,13 @@ export function useServiceFilter(services: Service[]) {
   const counts = useMemo(
     () => ({
       All: excludeArchivedServices(services).length,
-      Public: takeServicesByStatus(services, ServiceStatus.PUBLIC).length,
-      Private: takeServicesByStatus(services, ServiceStatus.PRIVATE).length,
-      Archived: takeServicesByStatus(services, ServiceStatus.ARCHIVED).length,
+      Public: excludeArchivedServices(
+        takeServicesByStatus(services, VisibilityStatus.PUBLIC),
+      ).length,
+      Private: excludeArchivedServices(
+        takeServicesByStatus(services, VisibilityStatus.PRIVATE),
+      ).length,
+      Archived: takeArchivedServices(services).length,
     }),
     [services],
   );
@@ -40,19 +50,23 @@ export function useServiceFilter(services: Service[]) {
       return excludeArchivedServices(services);
     }
 
-    const statusMap: Record<ServiceFilterTab, ServiceStatus | null> = {
-      All: null,
-      Public: ServiceStatus.PUBLIC,
-      Private: ServiceStatus.PRIVATE,
-      Archived: ServiceStatus.ARCHIVED,
-    };
-
-    const status = statusMap[selectedTab];
-    if (!status) {
-      return services;
+    if (selectedTab === 'Archived') {
+      return takeArchivedServices(services);
     }
 
-    return takeServicesByStatus(services, status);
+    if (selectedTab === 'Public') {
+      return excludeArchivedServices(
+        takeServicesByStatus(services, VisibilityStatus.PUBLIC),
+      );
+    }
+
+    if (selectedTab === 'Private') {
+      return excludeArchivedServices(
+        takeServicesByStatus(services, VisibilityStatus.PRIVATE),
+      );
+    }
+
+    return services;
   }, [services, selectedTab]);
 
   return {

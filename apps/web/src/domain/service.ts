@@ -1,10 +1,5 @@
 import z from 'zod';
-
-export enum ServiceStatus {
-  PUBLIC = 'public',
-  PRIVATE = 'private',
-  ARCHIVED = 'archived',
-}
+import { visibilityStatusSchema } from './common';
 
 export const serviceSchema = z.object({
   id: z.string(),
@@ -14,9 +9,10 @@ export const serviceSchema = z.object({
   price: z.number(),
   currency: z.string(),
   deliveryTimeInDays: z.number(),
-  status: z.enum(Object.values(ServiceStatus)),
+  visibilityStatus: visibilityStatusSchema,
   features: z.array(z.string()),
   categoryId: z.uuid(),
+  archivedAt: z.date().nullable(),
 });
 
 export type Service = z.infer<typeof serviceSchema>;
@@ -28,7 +24,7 @@ export const createServiceInputSchema = serviceSchema.pick({
   price: true,
   currency: true,
   deliveryTimeInDays: true,
-  status: true,
+  visibilityStatus: true,
   features: true,
   categoryId: true,
 });

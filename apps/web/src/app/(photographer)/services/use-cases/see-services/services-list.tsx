@@ -61,23 +61,23 @@ function ServicesList(props: ServicesListProps) {
         {filteredServices.map((service) => (
           <ViewTransition key={service.id} name={service.id}>
             <ServiceCard
-              isPublicView
+              isPublicView={false}
               key={service.id}
               id={service.id}
               coverUrl={service.coverImageUrl}
               name={service.name}
               description={service.description}
-              price={service.price.toString()}
+              price={service.price}
               priceUnit={service.currency}
               deliveryTime={service.deliveryTimeInDays.toString()}
               features={service.features}
-              status={service.status}
+              visibilityStatus={service.visibilityStatus}
               categoryName={categoryMap[service.categoryId] ?? '-'}
               extraActions={
                 <ServiceCardActions
                   serviceId={service.id}
                   serviceName={service.name}
-                  status={service.status}
+                  archivedAt={service.archivedAt}
                   onEdit={() => {}}
                 />
               }

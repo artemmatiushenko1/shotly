@@ -19,9 +19,9 @@ import { Button } from '@shotly/ui/components/button';
 import { PlusCircleIcon } from 'lucide-react';
 import { Badge } from '@shotly/ui/components/badge';
 import { Category } from '@/domain/category';
-import { ServiceStatus } from '@/domain/service';
 import { createService } from './actions';
 import { useTranslations } from 'next-intl';
+import { VisibilityStatus } from '@/domain/common';
 
 enum FormField {
   NAME = 'name',
@@ -56,7 +56,9 @@ function CreateServiceForm(props: CreateServiceFormProps) {
   const [feature, setfeature] = useState('');
 
   const [categoryId, setCategoryId] = useState<string | null>(null);
-  const [status, setStatus] = useState<ServiceStatus>(ServiceStatus.PRIVATE);
+  const [visibilityStatus, setVisibilityStatus] = useState<VisibilityStatus>(
+    VisibilityStatus.PRIVATE,
+  );
 
   const nameId = useId();
   const descriptionId = useId();
@@ -197,9 +199,11 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           </p>
         </div>
         <Switch
-          checked={status === ServiceStatus.PUBLIC}
+          checked={visibilityStatus === VisibilityStatus.PUBLIC}
           onCheckedChange={(checked) =>
-            setStatus(checked ? ServiceStatus.PUBLIC : ServiceStatus.PRIVATE)
+            setVisibilityStatus(
+              checked ? VisibilityStatus.PUBLIC : VisibilityStatus.PRIVATE,
+            )
           }
         />
         <input type="hidden" name={FormField.STATUS} value={status} />

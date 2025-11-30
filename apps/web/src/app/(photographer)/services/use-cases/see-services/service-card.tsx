@@ -4,8 +4,8 @@ import { Card, CardDescription } from '@shotly/ui/components/card';
 import Image from 'next/image';
 import { VisibilityBadge } from '../../../ui/visibility-badge';
 import { ClockIcon, PackageIcon } from 'lucide-react';
-import { ServiceStatus } from '@/domain/service';
 import { useTranslations } from 'next-intl';
+import { VisibilityStatus } from '@/domain/common';
 
 type ServiceCardProps = {
   id: string;
@@ -18,7 +18,7 @@ type ServiceCardProps = {
   deliveryTime: string;
   features: string[];
   isPublicView?: boolean;
-  status: ServiceStatus;
+  visibilityStatus: VisibilityStatus;
   extraActions?: React.ReactNode;
 };
 
@@ -32,7 +32,7 @@ function ServiceCard(props: ServiceCardProps) {
     categoryName,
     deliveryTime,
     features,
-    status,
+    visibilityStatus,
     isPublicView = false,
     extraActions,
   } = props;
@@ -110,7 +110,9 @@ function ServiceCard(props: ServiceCardProps) {
               <p className="text-muted-foreground text-xs mb-1">
                 {t('fields.status')}
               </p>
-              <VisibilityBadge isPublic={status === ServiceStatus.PUBLIC} />
+              <VisibilityBadge
+                isPublic={visibilityStatus === VisibilityStatus.PUBLIC}
+              />
             </div>
           )}
         </div>

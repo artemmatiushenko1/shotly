@@ -6,7 +6,7 @@ import usersRepository from '@/repositories/users.repository';
 import collectionsRepository from '@/repositories/collections.repository';
 import servicesRepository from '@/repositories/services.repository';
 import { VisibilityStatus } from '@/domain/common';
-import { Service, ServiceStatus } from '@/domain/service';
+import { Service } from '@/domain/service';
 import { ApprovalStatus, UserProfile } from '@/domain/user';
 import { Collection } from '@/domain/collection';
 import ProfileUnderReviewCard from './profile-under-review';
@@ -42,7 +42,9 @@ const isPortfolioComplete = (collections: Collection[]) => {
 };
 
 const isServiceComplete = (services: Service[]) => {
-  return services.some((service) => service.status === ServiceStatus.PUBLIC);
+  return services.some(
+    (service) => service.visibilityStatus === VisibilityStatus.PUBLIC,
+  );
 };
 
 const getOnboardingState = async (userId: string): Promise<OnboardingState> => {

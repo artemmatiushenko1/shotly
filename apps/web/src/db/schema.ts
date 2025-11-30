@@ -1,3 +1,4 @@
+import { VisibilityStatus } from '@/domain/common';
 import { PhotoMetadata } from '@/domain/photos';
 import { ApprovalStatus, Role } from '@/domain/user';
 import { sql } from 'drizzle-orm';
@@ -122,10 +123,10 @@ export const verificationsTable = pgTable('verification', {
   ),
 });
 
-export const collectionViewStatus = pgEnum('view_status', [
-  'public',
-  'private',
-]);
+export const collectionVisibilityStatusEnum = pgEnum(
+  'collection_visibility_status',
+  [VisibilityStatus.PUBLIC, VisibilityStatus.PRIVATE],
+);
 
 export const collectionsTable = pgTable(
   'collections',
@@ -134,9 +135,9 @@ export const collectionsTable = pgTable(
     name: text('name').notNull(),
     description: text('description'),
     coverImageUrl: text('cover_image_url'),
-    visibilityStatus: collectionViewStatus('visibility_status')
+    visibilityStatus: collectionVisibilityStatusEnum('visibility_status')
       .notNull()
-      .default('private'),
+      .default(VisibilityStatus.PRIVATE),
     shootDate: date('shoot_date').notNull(),
     coverPhotoId: uuid('cover_photo_id').references(
       (): AnyPgColumn => photosTable.id,
@@ -234,11 +235,9 @@ export const featuresTable = pgTable(
   ],
 );
 
-// TODO: use visibilityStatus from common module
-export const serviceStatusEnum = pgEnum('service_status', [
-  'public',
-  'private',
-  'archived', // TODO: use archivedAt timestamp instead
+export const serviceVisibilityStatusEnum = pgEnum('service_visibility_status', [
+  VisibilityStatus.PUBLIC,
+  VisibilityStatus.PRIVATE,
 ]);
 
 export const servicesTable = pgTable('services', {
@@ -256,7 +255,9 @@ export const servicesTable = pgTable('services', {
    */
   deliveryTimeInDays: integer('delivery_time_in_days').notNull(),
 
-  status: serviceStatusEnum('status').notNull().default('private'),
+  visibilityStatus: serviceVisibilityStatusEnum('visibility_status')
+    .notNull()
+    .default(VisibilityStatus.PRIVATE),
 
   photographerId: text('photographer_id')
     .notNull()
@@ -280,6 +281,7 @@ export const servicesTable = pgTable('services', {
 
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow(),
+  archivedAt: timestamp('archived_at'),
 });
 
 export const servicesToFeaturesTable = pgTable(
@@ -315,6 +317,7 @@ export const photosTable = pgTable('photos', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+// TODO: fix order status enum
 export const orderStatusEnum = pgEnum('order_status', [
   'pending',
   'paid',

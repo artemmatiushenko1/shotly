@@ -1,6 +1,6 @@
 'use server';
 
-import { ServiceStatus } from '@/domain/service';
+import { visibilityStatusSchema } from '@/domain/common';
 import { getUser } from '@/lib/auth/dal';
 import imageStorage from '@/lib/images/image-storage.service';
 import servicesRepository from '@/repositories/services.repository';
@@ -24,7 +24,7 @@ const inputSchema = z.object({
     .number()
     .min(1, { error: 'Delivery time must be greater than 0' })
     .max(60, { error: 'Delivery time must be less than 60 days' }),
-  status: z.enum(ServiceStatus),
+  visibilityStatus: visibilityStatusSchema,
 });
 
 export const createService = async (

@@ -4,12 +4,7 @@ import {
   servicesTable,
   servicesToFeaturesTable,
 } from '@/db/schema';
-import {
-  CreateServiceInput,
-  Service,
-  serviceSchema,
-  ServiceStatus,
-} from '@/domain/service';
+import { CreateServiceInput, Service, serviceSchema } from '@/domain/service';
 import { desc, eq, inArray } from 'drizzle-orm';
 
 // TODO: use drizzle relations
@@ -17,7 +12,9 @@ class ServicesRepository {
   async archiveService(serviceId: string) {
     await db
       .update(servicesTable)
-      .set({ status: ServiceStatus.ARCHIVED })
+      .set({
+        archivedAt: new Date(),
+      })
       .where(eq(servicesTable.id, serviceId));
   }
 
@@ -94,7 +91,7 @@ class ServicesRepository {
         deliveryTimeInDays: input.deliveryTimeInDays,
         price: input.price ?? 0,
         currency: input.currency ?? 'UAH',
-        status: input.status,
+        visibilityStatus: input.visibilityStatus,
         photographerId: userId,
         categoryId: input.categoryId,
       })

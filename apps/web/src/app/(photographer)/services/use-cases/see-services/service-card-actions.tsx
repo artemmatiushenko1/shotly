@@ -1,4 +1,3 @@
-import { ServiceStatus } from '@/domain/service';
 import { Button } from '@shotly/ui/components/button';
 import { ConfirmationDialog } from '@shotly/ui/components/confirmation-dialog';
 import { ArchiveIcon, ArchiveRestoreIcon, EditIcon } from 'lucide-react';
@@ -10,12 +9,12 @@ import { toast } from '@shotly/ui/components/sonner';
 type ServiceCardActionsProps = {
   serviceId: string;
   serviceName: string;
-  status: ServiceStatus;
+  archivedAt: Date | null;
   onEdit: () => void;
 };
 
 function ServiceCardActions(props: ServiceCardActionsProps) {
-  const { serviceName, status, serviceId, onEdit } = props;
+  const { serviceName, archivedAt, serviceId, onEdit } = props;
 
   const t = useTranslations('services.serviceCard');
 
@@ -32,7 +31,7 @@ function ServiceCardActions(props: ServiceCardActionsProps) {
 
   return (
     <div className="flex flex-col gap-2 p-3">
-      {status !== ServiceStatus.ARCHIVED && (
+      {archivedAt === null && (
         <Button variant="outline" onClick={onEdit}>
           <EditIcon /> {t('actions.edit')}
         </Button>
@@ -47,13 +46,13 @@ function ServiceCardActions(props: ServiceCardActionsProps) {
         confirmLabel={t('archiveDialog.confirmLabel')}
       >
         <div>
-          {status !== ServiceStatus.ARCHIVED && (
+          {archivedAt === null && (
             <Button variant="ghost">
               <ArchiveIcon /> {t('actions.archive')}
             </Button>
           )}
           {/* TODO: implement restore service action */}
-          {status === ServiceStatus.ARCHIVED && (
+          {archivedAt !== null && (
             <Button variant="ghost">
               <ArchiveRestoreIcon /> {t('actions.restore')}
             </Button>
