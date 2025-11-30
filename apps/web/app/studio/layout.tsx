@@ -1,6 +1,6 @@
 import React from 'react';
 import { SidebarProvider } from '@shotly/ui/components/sidebar';
-import { AppSidebar } from '../_components/app-sidebar';
+import { AppSidebar } from './app-sidebar';
 import { getUser } from '@/lib/auth/dal';
 import usersRepository from '@/repositories/users.repository';
 import { ThemeProvider } from '@shotly/ui/components/theme-provider';

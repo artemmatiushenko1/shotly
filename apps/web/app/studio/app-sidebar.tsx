@@ -53,27 +53,27 @@ export function AppSidebar(props: AppSidebarProps) {
   const items = [
     {
       title: t('menu.dashboard'),
-      url: '/dashboard',
+      url: '/studio/dashboard',
       icon: LayoutGrid,
     },
     {
       title: t('menu.portfolio'),
-      url: '/portfolio',
+      url: '/studio/portfolio',
       icon: Image,
     },
     {
       title: t('menu.orders'),
-      url: '/orders',
+      url: '/studio/orders',
       icon: Blocks,
     },
     {
       title: t('menu.services'),
-      url: '/services',
+      url: '/studio/services',
       icon: Handshake,
     },
     {
       title: t('menu.calendar'),
-      url: '/calendar',
+      url: '/studio/calendar',
       icon: CalendarRangeIcon,
       disabled: true,
       extra: <Badge variant="secondary">{t('comingSoon')}</Badge>,

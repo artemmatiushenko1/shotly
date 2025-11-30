@@ -9,7 +9,7 @@ export const signInWithGoogle = async () => {
   const res = await auth.api.signInSocial({
     body: {
       provider: 'google',
-      callbackURL: '/dashboard',
+      callbackURL: '/studio/dashboard',
     },
   });
 
@@ -54,7 +54,7 @@ export const signInWithPassword = async (
       body: {
         email: data.email,
         password: data.password,
-        callbackURL: '/dashboard',
+        callbackURL: '/studio/dashboard',
       },
     });
 

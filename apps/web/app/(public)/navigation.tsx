@@ -89,7 +89,7 @@ async function Navigation({ className, variant = 'default' }: NavigationProps) {
               <DropdownMenuSeparator />
               {user.role === Role.PHOTOGRAPHER && (
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard">
+                  <Link href="/studio/dashboard">
                     <LayoutGridIcon /> {t('photographerStudio')}
                   </Link>
                 </DropdownMenuItem>

@@ -13,7 +13,7 @@ export const sendProfileToReview = async () => {
     ApprovalStatus.PENDING_REVIEW,
   );
 
-  revalidatePath('/dashboard');
+  revalidatePath('/studio/dashboard');
 
   return { success: true };
 };

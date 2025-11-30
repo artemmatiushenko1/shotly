@@ -1,6 +1,6 @@
 'use client';
 
-import ServiceCard from '../../../(photographer)/services/use-cases/see-services/service-card';
+import ServiceCard from '../../../studio/services/use-cases/see-services/service-card';
 import { ServiceStatus } from '@/domain/service';
 import { Button } from '@shotly/ui/components/button';
 import { CalendarCheckIcon } from 'lucide-react';

@@ -30,7 +30,7 @@ export const updateUserRole = async (_: { error?: string }, form: FormData) => {
   if (role === Role.CUSTOMER) {
     redirect('/');
   } else if (role === Role.PHOTOGRAPHER) {
-    redirect('/dashboard');
+    redirect('/studio/dashboard');
   } else {
     redirect('/auth/onboarding');
   }
