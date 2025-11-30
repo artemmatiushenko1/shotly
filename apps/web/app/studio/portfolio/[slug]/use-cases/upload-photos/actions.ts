@@ -17,9 +17,9 @@ const uploadPhotosAction = async (
       // abort if not
       const uploadedFile = await persistentImageStorage.upload(file, {
         folder: `portfolio/${collectionId}`,
-        maxSize: 20 * 1024 * 1024, // 20MB
+        maxSize: 20 * 1024 * 1024, // 20MB // TODO: move to client env
         allowedMimeTypes: [
-          MimeType.JPEG,
+          MimeType.JPEG, // TODO: move into shared constants
           MimeType.JPG,
           MimeType.PNG,
           MimeType.WEBP,
