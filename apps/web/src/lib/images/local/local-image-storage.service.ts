@@ -8,6 +8,7 @@ import {
   UploadOptions,
   UploadResult,
 } from '../image-storage.interface';
+import { MimeType } from '@/lib/files/enums';
 
 /**
  * Local file system implementation of image storage
@@ -120,12 +121,12 @@ export class LocalImageStorageService implements IImageStorage {
 
   private mimeTypeToExtension(mimeType: string): string {
     const mimeMap: Record<string, string> = {
-      'image/jpeg': 'jpg',
-      'image/jpg': 'jpg',
-      'image/png': 'png',
-      'image/gif': 'gif',
-      'image/webp': 'webp',
-      'image/svg+xml': 'svg',
+      [MimeType.JPEG]: 'jpg',
+      [MimeType.JPG]: 'jpg',
+      [MimeType.PNG]: 'png',
+      [MimeType.WEBP]: 'webp',
+      [MimeType.GIF]: 'gif',
+      [MimeType.SVG]: 'svg',
     };
     return mimeMap[mimeType.toLowerCase()] || '';
   }

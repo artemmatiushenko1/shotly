@@ -7,6 +7,7 @@ import { ProfileImagePlaceholder } from './profile-image-placeholder';
 import { useImagePreview } from '../../../_components/cover-upload/use-image-preview';
 import { useTranslations } from 'next-intl';
 import { uploadProfileTmpProfileImage } from './actions';
+import { MimeType } from '@/lib/files/enums';
 
 type ProfileImageUploadProps = {
   existingImageUrl?: string | null;
@@ -76,7 +77,12 @@ export function ProfileImageUpload({
           id={inputId}
           name={inputName}
           type="file"
-          accept="image/jpeg,image/jpg,image/png,image/webp"
+          accept={[
+            MimeType.JPEG,
+            MimeType.JPG,
+            MimeType.PNG,
+            MimeType.WEBP,
+          ].join(',')}
           className="hidden"
           onChange={handleFileChange}
         />

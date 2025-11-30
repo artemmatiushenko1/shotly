@@ -1,5 +1,6 @@
 'use server';
 
+import { MimeType } from '@/lib/files/enums';
 import { persistentImageStorage } from '@/lib/images/image-storage.service';
 import collectionsRepository from '@/repositories/collections.repository';
 import usersRepository from '@/repositories/users.repository';
@@ -18,10 +19,10 @@ const uploadPhotosAction = async (
         folder: `portfolio/${collectionId}`,
         maxSize: 20 * 1024 * 1024, // 20MB
         allowedMimeTypes: [
-          'image/jpeg',
-          'image/jpg',
-          'image/png',
-          'image/webp',
+          MimeType.JPEG,
+          MimeType.JPG,
+          MimeType.PNG,
+          MimeType.WEBP,
         ],
       });
 

@@ -1,10 +1,12 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { uploadTmpCoverImage } from './actions';
 import { UploadResult } from '@/lib/images/image-storage.interface';
+import { MimeType } from '@/lib/files/enums';
 
 export type UseImagePreviewOptions = {
   existingImageUrl?: string | null;
   maxSize?: number;
+  allowedMimeTypes?: MimeType[];
   uploadAction: (file: File) => Promise<UploadResult>;
 };
 
@@ -12,16 +14,16 @@ export type UseImagePreviewResult = {
   displayImageUrl: string | null;
   selectedPreviewUrl: string | null;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
-  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  clearSelectedPreview: () => void;
   sizeError: string | null;
   isUploading: boolean;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  clearSelectedPreview: () => void;
 };
 
 export function useImagePreview(
   options: UseImagePreviewOptions,
 ): UseImagePreviewResult {
-  const { existingImageUrl = null, maxSize } = options;
+  const { existingImageUrl = null, maxSize, allowedMimeTypes } = options;
 
   const [selectedPreviewUrl, setSelectedPreviewUrl] = useState<string | null>(
     null,
@@ -40,13 +42,25 @@ export function useImagePreview(
   const handleFileChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
+
       if (!file) {
         setSizeError(null);
         return;
       }
 
+      if (
+        allowedMimeTypes &&
+        !allowedMimeTypes.includes(file.type as MimeType)
+      ) {
+        setSizeError(
+          `Invalid file type. Allowed types: ${allowedMimeTypes?.join(', ')}`,
+        );
+        return;
+      }
+
       if (maxSize && file.size > maxSize) {
         const maxSizeMB = (maxSize / (1024 * 1024)).toFixed(1);
+
         setSizeError(`Image must be less than ${maxSizeMB}MB`);
 
         if (fileInputRef.current) {
@@ -64,7 +78,7 @@ export function useImagePreview(
       const uploadResult = await uploadFile(file);
       setSelectedPreviewUrl(uploadResult.url);
     },
-    [selectedPreviewUrl, maxSize, uploadFile],
+    [selectedPreviewUrl, maxSize, uploadFile, allowedMimeTypes],
   );
 
   const clearSelectedPreview = useCallback(() => {
