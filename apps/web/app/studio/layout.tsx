@@ -1,4 +1,3 @@
-import React from 'react';
 import { SidebarProvider } from '@shotly/ui/components/sidebar';
 import { AppSidebar } from './app-sidebar';
 import { getUser } from '@/lib/auth/dal';

@@ -10,6 +10,12 @@ export class NotFoundError extends Error {
   }
 }
 
+export class ForbiddenError extends Error {
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, options);
+  }
+}
+
 export class InputParseError extends Error {
   constructor(message: string, options?: ErrorOptions) {
     super(message, options);

@@ -9,11 +9,32 @@ import { desc, eq, inArray } from 'drizzle-orm';
 
 // TODO: use drizzle relations
 class ServicesRepository {
+  async getServiceById(serviceId: string): Promise<Service | null> {
+    const [service] = await db
+      .select()
+      .from(servicesTable)
+      .where(eq(servicesTable.id, serviceId));
+
+    return serviceSchema.parse({
+      ...service,
+      features: [],
+    });
+  }
+
   async archiveService(serviceId: string) {
     await db
       .update(servicesTable)
       .set({
         archivedAt: new Date(),
+      })
+      .where(eq(servicesTable.id, serviceId));
+  }
+
+  async restoreService(serviceId: string) {
+    await db
+      .update(servicesTable)
+      .set({
+        archivedAt: null,
       })
       .where(eq(servicesTable.id, serviceId));
   }

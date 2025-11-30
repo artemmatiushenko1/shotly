@@ -1,7 +1,7 @@
 'use server';
 
 import { getUser } from '@/lib/auth/dal';
-import servicesRepository from '@/repositories/services.repository';
+import { archiveServiceUseCase } from '@/use-cases/services/archive-service.use-case';
 import { revalidatePath } from 'next/cache';
 
 export const archiveService = async (
@@ -11,11 +11,9 @@ export const archiveService = async (
   },
   serviceId: string,
 ) => {
-  await getUser();
-
   try {
-    // TODO: first check if it exists
-    await servicesRepository.archiveService(serviceId);
+    const user = await getUser();
+    await archiveServiceUseCase(user.id, serviceId);
     revalidatePath('/services');
     return { success: true, error: false };
   } catch (_: unknown) {

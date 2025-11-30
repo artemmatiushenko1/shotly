@@ -3,6 +3,7 @@ import { visibilityStatusSchema } from './common';
 
 export const serviceSchema = z.object({
   id: z.string(),
+  photographerId: z.string(),
   name: z.string(),
   description: z.string(),
   coverImageUrl: z.string(),
