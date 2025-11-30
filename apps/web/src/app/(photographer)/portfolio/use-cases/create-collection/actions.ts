@@ -41,6 +41,11 @@ export const createCollection = async (
     validatedInput,
   );
 
+  if (!collection) {
+    // TODO: should be some custom error
+    throw Error('Failed to create collection!');
+  }
+
   redirect(`/portfolio/${collection.id}`);
 
   return {

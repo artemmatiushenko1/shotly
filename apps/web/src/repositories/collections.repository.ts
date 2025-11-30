@@ -31,10 +31,11 @@ class CollectionsRepository {
   async createCollection(
     userId: string,
     input: CreateCollectionInput,
-  ): Promise<Collection> {
+  ): Promise<Collection | null> {
     // TODO: Format date as YYYY-MM-DD string for PostgreSQL date type
     const shootDateString = input.shootDate.toISOString().split('T')[0];
 
+    // TODO: this should be on business logic layer
     if (!shootDateString) {
       throw new Error('Wrong shoot date format.');
     }
@@ -51,7 +52,7 @@ class CollectionsRepository {
       .returning();
 
     if (!collection) {
-      throw new Error('Failed to create collection.');
+      return null;
     }
 
     return this.parseCollection({ ...collection, photosCount: 0 });
@@ -98,19 +99,12 @@ class CollectionsRepository {
   async updateCollectionVisibilityStatus(
     id: string,
     status: VisibilityStatus,
-  ): Promise<Collection> {
-    const [collection] = await db
+  ): Promise<void> {
+    await db
       .update(collectionsTable)
       .set({ visibilityStatus: status })
       .where(eq(collectionsTable.id, id))
       .returning();
-
-    if (!collection) {
-      // TODO: throw NotFoundError
-      throw new Error('Collection not found.');
-    }
-
-    return this.parseCollection(collection);
   }
 
   // TODO: create schema for input parameters
@@ -125,8 +119,8 @@ class CollectionsRepository {
     photoHeight: number,
     photoFormat: string,
     photoMetadata: PhotoMetadata,
-  ): Promise<Photo> {
-    const [photo] = await db
+  ): Promise<void> {
+    await db
       .insert(photosTable)
       .values({
         collectionId,
@@ -141,12 +135,6 @@ class CollectionsRepository {
         metadata: photoMetadata,
       })
       .returning();
-
-    if (!photo) {
-      throw new Error('Failed to create photo.');
-    }
-
-    return photoSchema.parse(photo);
   }
 
   async getPhotosByCollectionId(collectionId: string): Promise<Photo[]> {
@@ -184,18 +172,12 @@ class CollectionsRepository {
   async updateCollectionCoverImage(
     collectionId: string,
     photoId: string,
-  ): Promise<Collection | null> {
-    const [collection] = await db
+  ): Promise<void> {
+    await db
       .update(collectionsTable)
       .set({ coverPhotoId: photoId })
       .where(eq(collectionsTable.id, collectionId))
       .returning();
-
-    if (!collection) {
-      return null;
-    }
-
-    return this.parseCollection(collection);
   }
 }
 

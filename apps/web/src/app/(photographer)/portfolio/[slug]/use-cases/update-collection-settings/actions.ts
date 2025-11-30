@@ -10,15 +10,12 @@ const changeCollectionVisibilityStatusAction = async (
 ) => {
   // TODO: collection must have a least one photo to be public
 
-  const collection =
-    await collectionsRepository.updateCollectionVisibilityStatus(
-      collectionId,
-      status,
-    );
+  await collectionsRepository.updateCollectionVisibilityStatus(
+    collectionId,
+    status,
+  );
 
-  revalidatePath(`/portfolio/${collection.id}`);
-
-  return collection;
+  revalidatePath(`/portfolio/${collectionId}`);
 };
 
 export { changeCollectionVisibilityStatusAction };
