@@ -1,7 +1,7 @@
 'use server';
 
 import z from 'zod';
-import { visibilityStatusSchema } from '@/domain/common';
+import { VisibilityStatus, visibilityStatusSchema } from '@/domain/common';
 import { getUser } from '@/lib/auth/dal';
 import imageStorage from '@/lib/images/image-storage.service';
 import { createServiceUseCase } from '@/use-cases/services/create-service.use-case';
@@ -30,6 +30,7 @@ const inputSchema = z.object({
 export const createService = async (
   // TODO: prevent form reset on error by using initialState, pass default values to form fields
   initialState: {
+    inputs?: z.infer<typeof inputSchema>;
     hasErrors: boolean;
     validationErrors?: z.core.$ZodFlattenedError<z.infer<typeof inputSchema>>;
   },
@@ -55,6 +56,17 @@ export const createService = async (
   if (inputParseError) {
     return {
       hasErrors: true,
+      inputs: {
+        name: form.get('name') as string,
+        coverImage: new File([], 'cover-image.jpg'), // TODO: provide default features
+        currency: 'UAH',
+        description: form.get('description') as string,
+        categoryId: form.get('categoryId') as string,
+        price: form.get('price') as unknown as number,
+        features: [], // TODO: provide default features
+        deliveryTimeInDays: 0, // TODO: provide default features
+        visibilityStatus: form.get('visibilityStatus') as VisibilityStatus,
+      },
       validationErrors: z.flattenError(inputParseError),
     };
   }
@@ -77,5 +89,6 @@ export const createService = async (
 
   return {
     hasErrors: false,
+    inputs: undefined,
   };
 };

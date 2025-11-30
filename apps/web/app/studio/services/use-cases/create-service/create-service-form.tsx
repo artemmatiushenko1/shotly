@@ -47,6 +47,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
 
   const [state, formAction, pending] = useActionState(createService, {
     hasErrors: false,
+    inputs: undefined,
     validationErrors: undefined,
   });
 
@@ -75,6 +76,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         <Input
           id={nameId}
           name={FormField.NAME}
+          defaultValue={state.inputs?.name ?? ''}
           placeholder={t('fields.name.placeholder')}
           error={validationErrors?.fieldErrors.name?.toString()}
         />
@@ -86,6 +88,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         </Label>
         <CoverUpload
           name={FormField.COVER_IMAGE}
+          // defaultValue={state.inputs?.coverImage ?? undefined} TODO: add default value
           error={validationErrors?.fieldErrors.coverImage?.toString()}
         />
       </div>
@@ -102,13 +105,18 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           id={descriptionId}
           maxChars={500}
           placeholder={t('fields.description.placeholder')}
+          defaultValue={state.inputs?.description ?? ''}
           error={validationErrors?.fieldErrors.description?.toString() ?? ''}
         />
       </div>
       <div className="flex space-x-3 items-start">
         <div className="grid gap-3 w-full">
           <Label htmlFor="username-1">{t('fields.category.label')}</Label>
-          <Select value={categoryId ?? undefined} onValueChange={setCategoryId}>
+          <Select
+            defaultValue={state.inputs?.categoryId ?? undefined}
+            value={categoryId ?? undefined}
+            onValueChange={setCategoryId}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder={t('fields.category.placeholder')} />
             </SelectTrigger>
@@ -133,6 +141,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             type="hidden"
             name={FormField.CATEGORY_ID}
             value={categoryId ?? undefined}
+            defaultValue={state.inputs?.categoryId ?? undefined}
           />
         </div>
         <div className="grid gap-3 w-full">
@@ -141,6 +150,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             placeholder={t('fields.price.placeholder')}
             name={FormField.PRICE}
             id={priceId}
+            defaultValue={state.inputs?.price?.toString() ?? ''}
             error={validationErrors?.fieldErrors.price?.toString()}
           />
         </div>
@@ -175,6 +185,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           type="hidden"
           name={FormField.FEATURES}
           value={features.join(',')}
+          // defaultValue={state.inputs?.features?.join(',') ?? ''}
         />
       </div>
       <div className="grid gap-3 w-full">
@@ -186,6 +197,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           placeholder={t('fields.deliveryTime.placeholder')}
           name={FormField.DELIVERY_TIME_IN_DAYS}
           id={deliveryTimeId}
+          defaultValue={state.inputs?.deliveryTimeInDays?.toString() ?? ''}
           error={validationErrors?.fieldErrors.deliveryTimeInDays?.toString()}
         />
       </div>
@@ -206,7 +218,15 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             )
           }
         />
-        <input type="hidden" name={FormField.STATUS} value={visibilityStatus} />
+        <input
+          type="hidden"
+          name={FormField.STATUS}
+          value={visibilityStatus}
+          defaultValue={
+            (state.inputs?.visibilityStatus as VisibilityStatus) ??
+            VisibilityStatus.PRIVATE
+          }
+        />
       </div>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
         <Button type="button" variant="ghost" onClick={onCancel}>

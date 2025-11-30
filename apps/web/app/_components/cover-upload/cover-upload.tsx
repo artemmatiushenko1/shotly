@@ -17,13 +17,14 @@ type CoverUploadProps = {
 
 function CoverUpload(props: CoverUploadProps) {
   const { existingImageUrl = null, name, error } = props;
+
   const inputId = useId();
   const t = useTranslations('settings.coverUpload');
 
   const { displayImageUrl, fileInputRef, handleFileChange, sizeError } =
     useImagePreview({
       existingImageUrl,
-      maxSize: 1 * 1024 * 1024, // 1MB
+      maxSize: 2 * 1024 * 1024, // 2MB
     });
 
   return (
