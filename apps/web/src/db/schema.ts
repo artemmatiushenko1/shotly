@@ -18,7 +18,6 @@ import {
   date,
   bigint,
   jsonb,
-  time,
   check,
   numeric,
   AnyPgColumn,
@@ -324,16 +323,6 @@ export const orderStatusEnum = pgEnum('order_status', [
   'refunded',
 ]);
 
-export const dayOfWeekEnum = pgEnum('day_of_week', [
-  '1', // Monday
-  '2', // Tuesday
-  '3', // Wednesday
-  '4', // Thursday
-  '5', // Friday
-  '6', // Saturday
-  '7', // Sunday
-]);
-
 /**
  * Orders (for a Service)
  * Snapshots price and includes booking times.
@@ -362,43 +351,6 @@ export const ordersTable = pgTable('orders', {
   updatedAt: timestamp('updated_at', { withTimezone: true }).$onUpdate(
     () => new Date(),
   ),
-});
-
-/**
- * Availability Rules (Recurring weekly template)
- */
-export const availabilityRulesTable = pgTable(
-  'availability_rules',
-  {
-    id: uuid('id').defaultRandom().primaryKey(),
-    photographerId: text('photographer_id')
-      .notNull()
-      .references(() => usersTable.id, { onDelete: 'cascade' }),
-    dayOfWeek: dayOfWeekEnum('day_of_week').notNull(),
-    startTime: time('start_time').notNull(), // e.g., '09:00:00'
-    endTime: time('end_time').notNull(), // e.g., '17:00:00'
-  },
-  (table) => [
-    uniqueIndex('photographer_day_start_idx').on(
-      table.photographerId,
-      table.dayOfWeek,
-      table.startTime,
-    ),
-  ],
-);
-
-/**
- * Blocked Times (One-off exceptions)
- * e.g., "Doctor's Appointment"
- */
-export const blockedTimesTable = pgTable('blocked_times', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  photographerId: text('photographer_id')
-    .notNull()
-    .references(() => usersTable.id, { onDelete: 'cascade' }),
-  startTime: timestamp('start_time', { withTimezone: true }).notNull(),
-  endTime: timestamp('end_time', { withTimezone: true }).notNull(),
-  reason: text('reason'),
 });
 
 export const reviewsTable = pgTable(
