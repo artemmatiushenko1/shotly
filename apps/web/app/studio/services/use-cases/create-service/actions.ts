@@ -3,9 +3,9 @@
 import z from 'zod';
 import { VisibilityStatus, visibilityStatusSchema } from '@/domain/common';
 import { getUser } from '@/lib/auth/dal';
-import imageStorage from '@/lib/images/image-storage.service';
 import { createServiceUseCase } from '@/use-cases/services/create-service.use-case';
 import { revalidatePath } from 'next/cache';
+import { persistentImageStorage } from '@/lib/images/image-storage.service';
 
 const inputSchema = z.object({
   name: z.string().min(1, { error: 'Name is required' }),
@@ -71,7 +71,7 @@ export const createService = async (
     };
   }
 
-  const coverImageUploadResult = await imageStorage.upload(
+  const coverImageUploadResult = await persistentImageStorage.upload(
     validatedInput.coverImage,
     {
       folder: 'services',

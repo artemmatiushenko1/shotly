@@ -2,7 +2,11 @@
 
 import { locationDetailsSchema } from '@/domain/locations';
 import { getUser } from '@/lib/auth/dal';
-import imageStorage from '@/lib/images/image-storage.service';
+import {
+  persistentImageStorage,
+  tmpImageStorage,
+  UploadResult,
+} from '@/lib/images/image-storage.service';
 import usersRepository from '@/repositories/users.repository';
 import { revalidatePath } from 'next/cache';
 import z from 'zod';
@@ -92,22 +96,38 @@ export const updateProfileAction = async (
   // Upload profile image if provided
   let profileImageUrl: string | undefined;
   if (validatedInput.profileImg) {
-    const uploadResult = await imageStorage.upload(validatedInput.profileImg, {
-      folder: 'profiles',
-      maxSize: 5 * 1024 * 1024, // 5MB
-      allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
-    });
+    const uploadResult = await persistentImageStorage.upload(
+      validatedInput.profileImg,
+      {
+        folder: 'profiles',
+        maxSize: 5 * 1024 * 1024, // 5MB
+        allowedMimeTypes: [
+          'image/jpeg',
+          'image/jpg',
+          'image/png',
+          'image/webp',
+        ],
+      },
+    );
     profileImageUrl = uploadResult.url;
   }
 
   // Upload cover image if provided
   let coverImageUrl: string | undefined;
   if (validatedInput.coverImg) {
-    const uploadResult = await imageStorage.upload(validatedInput.coverImg, {
-      folder: 'covers',
-      maxSize: 5 * 1024 * 1024, // 5MB
-      allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
-    });
+    const uploadResult = await persistentImageStorage.upload(
+      validatedInput.coverImg,
+      {
+        folder: 'covers',
+        maxSize: 5 * 1024 * 1024, // 5MB
+        allowedMimeTypes: [
+          'image/jpeg',
+          'image/jpg',
+          'image/png',
+          'image/webp',
+        ],
+      },
+    );
     coverImageUrl = uploadResult.url;
   }
 
@@ -127,7 +147,19 @@ export const updateProfileAction = async (
   await usersRepository.updateUserLanguages(user.id, validatedInput.languages);
   await usersRepository.updateUserLocations(user.id, validatedInput.locations);
 
-  revalidatePath('/settings');
+  revalidatePath('/studio/settings');
 
   return { hasErrors: false };
+};
+
+export const uploadProfileTmpProfileImage = async (
+  file: File,
+): Promise<UploadResult> => {
+  const uploadResult = await tmpImageStorage.upload(file, {
+    folder: 'profiles',
+    maxSize: 2 * 1024 * 1024, // 2MB
+    allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+  });
+
+  return uploadResult;
 };

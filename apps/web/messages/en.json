@@ -229,8 +229,8 @@
     },
     "coverUpload": {
       "alt": "Cover image",
-      "changeButton": "Change cover image",
-      "editButton": "Edit your cover image"
+      "chooseButton": "Choose cover image",
+      "changeButton": "Change your cover image"
     }
   },
   "portfolio": {

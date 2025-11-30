@@ -137,12 +137,12 @@ export function AppSidebar(props: AppSidebarProps) {
             <SidebarMenuButton
               asChild
               size="lg"
-              isActive={getIsActiveMenuItem('/settings')}
+              isActive={getIsActiveMenuItem('/studio/settings')}
             >
-              <Link href="/settings">
+              <Link href="/studio/settings">
                 <SettingsIcon />
                 <span className="mr-auto text-sm">{t('settings')}</span>
-                {getIsActiveMenuItem('/settings') && (
+                {getIsActiveMenuItem('/studio/settings') && (
                   <ChevronRight className="text-fo" />
                 )}
               </Link>

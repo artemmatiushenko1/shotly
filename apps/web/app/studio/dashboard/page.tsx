@@ -71,7 +71,7 @@ const getOnboardingStepsInfo = async (
       title: t('onboarding.steps.profile.title'),
       description: t('onboarding.steps.profile.description'),
       isComplete: onboardingState.isProfileComplete,
-      actionLink: '/settings',
+      actionLink: '/studio/settings',
       actionLabel: t('onboarding.steps.profile.actionLabel'),
     },
     {
@@ -79,7 +79,7 @@ const getOnboardingStepsInfo = async (
       title: t('onboarding.steps.portfolio.title'),
       description: t('onboarding.steps.portfolio.description'),
       isComplete: onboardingState.isPortfolioComplete,
-      actionLink: '/portfolio',
+      actionLink: '/studio/portfolio',
       actionLabel: t('onboarding.steps.portfolio.actionLabel'),
     },
     {
@@ -87,7 +87,7 @@ const getOnboardingStepsInfo = async (
       title: t('onboarding.steps.service.title'),
       description: t('onboarding.steps.service.description'),
       isComplete: onboardingState.isServiceComplete,
-      actionLink: '/services',
+      actionLink: '/studio/services',
       actionLabel: t('onboarding.steps.service.actionLabel'),
     },
   ];

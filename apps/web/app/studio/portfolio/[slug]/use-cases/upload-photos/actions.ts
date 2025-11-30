@@ -1,6 +1,6 @@
 'use server';
 
-import imageStorage from '@/lib/images/image-storage.service';
+import { persistentImageStorage } from '@/lib/images/image-storage.service';
 import collectionsRepository from '@/repositories/collections.repository';
 import usersRepository from '@/repositories/users.repository';
 import { revalidatePath } from 'next/cache';
@@ -14,7 +14,7 @@ const uploadPhotosAction = async (
     files.map(async (file) => {
       // TODO: should check if the user has enough storage
       // abort if not
-      const uploadedFile = await imageStorage.upload(file, {
+      const uploadedFile = await persistentImageStorage.upload(file, {
         folder: `portfolio/${collectionId}`,
         maxSize: 20 * 1024 * 1024, // 20MB
         allowedMimeTypes: [

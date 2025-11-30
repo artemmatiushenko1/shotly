@@ -10,13 +10,22 @@ import { serverEnv } from '@/env/server';
  * This is the main entry point for image upload operations.
  * To change the storage provider, simply swap the implementation here.
  */
-const uploadsFolderPath = path.join(process.cwd(), 'public', 'uploads');
-const imageStorage: IImageStorage = new LocalImageStorageService(
-  uploadsFolderPath,
-  serverEnv.IMAGE_STORAGE_BASE_URL,
+const persistentUploadsFolderPath = path.join(
+  process.cwd(),
+  'public',
+  'uploads',
 );
+export const persistentImageStorage: IImageStorage =
+  new LocalImageStorageService(
+    persistentUploadsFolderPath,
+    serverEnv.IMAGE_STORAGE_BASE_URL + '/uploads',
+  );
 
-export default imageStorage;
+const tmpUploadsFolderPath = path.join(process.cwd(), 'public', 'tmp');
+export const tmpImageStorage: IImageStorage = new LocalImageStorageService(
+  tmpUploadsFolderPath,
+  serverEnv.IMAGE_STORAGE_BASE_URL + '/tmp',
+);
 
 export type {
   IImageStorage,

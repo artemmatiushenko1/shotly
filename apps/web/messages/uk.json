@@ -229,8 +229,8 @@
     },
     "coverUpload": {
       "alt": "Обкладинка",
-      "changeButton": "Змінити обкладинку",
-      "editButton": "Редагувати обкладинку"
+      "chooseButton": "Обрати обкладинку",
+      "changeButton": "Змінити обкладинку"
     }
   },
   "portfolio": {

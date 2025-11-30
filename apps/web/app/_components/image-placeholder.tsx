@@ -4,12 +4,11 @@ import { cn } from '@shotly/ui/lib/utils';
 
 type ImagePlaceholderProps = {
   className?: string;
-  children?: React.ReactNode;
   alt?: string;
 };
 
 function ImagePlaceholder(props: ImagePlaceholderProps) {
-  const { className, children, alt = 'No image available' } = props;
+  const { className, alt = 'No image available' } = props;
 
   return (
     <div
@@ -21,7 +20,6 @@ function ImagePlaceholder(props: ImagePlaceholderProps) {
       aria-label={alt}
     >
       <ImageIcon className="opacity-50 size-12" aria-hidden="true" />
-      {children}
     </div>
   );
 }

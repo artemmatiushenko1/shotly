@@ -223,8 +223,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           name={FormField.STATUS}
           value={visibilityStatus}
           defaultValue={
-            (state.inputs?.visibilityStatus as VisibilityStatus) ??
-            VisibilityStatus.PRIVATE
+            (state.inputs?.visibilityStatus as VisibilityStatus) ?? undefined
           }
         />
       </div>
