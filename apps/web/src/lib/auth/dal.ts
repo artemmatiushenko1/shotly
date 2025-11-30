@@ -4,6 +4,7 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { auth } from './auth';
 import { Role } from '@/domain/user';
+import { UnauthorizedError } from '@/domain/errors/auth';
 
 export const getUser = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -15,14 +16,22 @@ export const getUser = async () => {
   return session.user;
 };
 
-export const isCustomer = async () => {
+export const requireCustomerRole = async () => {
   const user = await getUser();
-  return user.role === Role.CUSTOMER;
+  const isCustomer = user.role === Role.CUSTOMER;
+
+  if (!isCustomer) {
+    throw new UnauthorizedError("You're not allowed to access this page.");
+  }
 };
 
-export const isPhotographer = async () => {
+export const requirePhotographerRole = async () => {
   const user = await getUser();
-  return user.role === Role.PHOTOGRAPHER;
+  const isPhotographer = user.role === Role.PHOTOGRAPHER;
+
+  if (!isPhotographer) {
+    throw new UnauthorizedError("You're not allowed to access this page.");
+  }
 };
 
 export const isNewUser = async () => {
