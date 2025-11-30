@@ -1,11 +1,11 @@
 'use client';
 
 import ServiceCard from '../../../studio/services/use-cases/see-services/service-card';
-import { ServiceStatus } from '@/domain/service';
 import { Button } from '@shotly/ui/components/button';
 import { CalendarCheckIcon } from 'lucide-react';
 import BookServiceDialog from '../book-service/book-service-dialog';
 import { useTranslations } from 'next-intl';
+import { VisibilityStatus } from '@/domain/common';
 
 function SeeServices() {
   const t = useTranslations('photographerProfile.seeServices');
@@ -23,7 +23,7 @@ function SeeServices() {
         categoryName="Тварини"
         deliveryTime="10"
         features={['100 фото', '10 друкованих копій']}
-        status={ServiceStatus.PUBLIC}
+        visibilityStatus={VisibilityStatus.PUBLIC}
         extraActions={
           <BookServiceDialog>
             <Button className="mr-4 mt-4 rounded-full">
@@ -43,7 +43,7 @@ function SeeServices() {
         categoryName="Їжа"
         deliveryTime="25"
         features={['Фото-дизайн меню', '100 фотографій']}
-        status={ServiceStatus.PUBLIC}
+        visibilityStatus={VisibilityStatus.PUBLIC}
         extraActions={
           <Button className="mr-4 mt-4 rounded-full">
             <CalendarCheckIcon />
@@ -62,7 +62,7 @@ function SeeServices() {
         categoryName="Портрет"
         deliveryTime="10"
         features={['10 портретів з ретушюванням']}
-        status={ServiceStatus.PUBLIC}
+        visibilityStatus={VisibilityStatus.PUBLIC}
         extraActions={
           <Button className="mr-4 mt-4 rounded-full">
             <CalendarCheckIcon />
