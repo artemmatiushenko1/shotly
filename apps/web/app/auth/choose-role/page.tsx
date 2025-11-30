@@ -9,7 +9,7 @@ import { updateUserRole } from './actions';
 import { Role } from '@/domain/user';
 import { useTranslations } from 'next-intl';
 
-function OnboardingPage() {
+function ChooseRolePage() {
   const id = useId();
   const t = useTranslations('auth.onboarding');
 
@@ -83,4 +83,4 @@ function OnboardingPage() {
   );
 }
 
-export default OnboardingPage;
+export default ChooseRolePage;

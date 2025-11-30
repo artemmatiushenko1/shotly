@@ -150,10 +150,10 @@ export function AppSidebar(props: AppSidebarProps) {
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg" onClick={handleSignOut}>
-              <Link href="/settings">
+              <span>
                 <LogOutIcon />
                 <span className="mr-auto text-sm">{t('logOut')}</span>
-              </Link>
+              </span>
             </SidebarMenuButton>
             <Separator className="my-2" />
             <div className="flex gap-2 p-2 py-3">

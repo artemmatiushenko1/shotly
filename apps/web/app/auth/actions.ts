@@ -118,7 +118,7 @@ export const signUp = async (
     });
 
     if (response.token) {
-      redirectUrl = '/auth/onboarding';
+      redirectUrl = '/auth/choose-role';
     }
   } catch (e: unknown) {
     if (e instanceof APIError) {

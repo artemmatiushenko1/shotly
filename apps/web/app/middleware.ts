@@ -12,9 +12,9 @@ export async function middleware(request: NextRequest) {
   if (
     session?.user &&
     session.user.role === Role.UNKNOWN &&
-    request.nextUrl.pathname !== '/auth/onboarding'
+    request.nextUrl.pathname !== '/auth/choose-role'
   ) {
-    return NextResponse.redirect(new URL('/auth/onboarding', request.url));
+    return NextResponse.redirect(new URL('/auth/choose-role', request.url));
   }
 }
 

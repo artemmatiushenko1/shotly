@@ -32,7 +32,7 @@ export const updateUserRole = async (_: { error?: string }, form: FormData) => {
   } else if (role === Role.PHOTOGRAPHER) {
     redirect('/studio/dashboard');
   } else {
-    redirect('/auth/onboarding');
+    redirect('/auth/choose-role');
   }
 
   return {};
