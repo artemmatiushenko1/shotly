@@ -455,7 +455,12 @@
         "confirmLabel": "Archive"
       },
       "errors": {
-        "archiveFailed": "Failed to archive service"
+        "archiveFailed": "Failed to archive service \"{name}\"",
+        "restoreFailed": "Failed to restore service \"{name}\""
+      },
+      "success": {
+        "archive": "Service \"{name}\" archived successfully!",
+        "restore": "Service \"{name}\" restored successfully!"
       }
     }
   },

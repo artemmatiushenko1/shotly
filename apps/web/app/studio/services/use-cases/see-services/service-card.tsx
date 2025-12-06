@@ -52,7 +52,7 @@ function ServiceCard(props: ServiceCardProps) {
 
   return (
     <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 cursor-pointer gap-4">
-      <div className="relative p-2 overflow-hidden">
+      <div className="relative p-2 overflow-hidden w-50">
         <Image
           unoptimized
           alt={name}
@@ -70,7 +70,7 @@ function ServiceCard(props: ServiceCardProps) {
           </CardDescription>
         </div>
         <div className="flex items-center justify-start gap-10">
-          <div className="flex flex-col">
+          <div className="flex flex-col w-1/5">
             <p className="text-muted-foreground text-xs mb-1">
               {t('fields.price')}
             </p>
@@ -81,32 +81,32 @@ function ServiceCard(props: ServiceCardProps) {
               </span>
             </p>
           </div>
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col items-start w-1/5">
             <p className="text-muted-foreground text-xs mb-1">
               {t('fields.category')}
             </p>
             <p className="font-medium text-sm">{categoryName}</p>
           </div>
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col items-start w-1/5">
             <p className="text-muted-foreground text-xs mb-1">
               {t('fields.deliveryTime')}
             </p>
-            <p className="inline-flex gap-1 items-center font-medium text-sm">
+            <p className="inline-flex gap-1 items-center font-medium text-sm flex-1/4">
               <ClockIcon className="w-4 text-muted-foreground" />
               {t('fields.deliveryTimeValue', { days: deliveryTime })}
             </p>
           </div>
-          <div className="flex flex-col items-start">
+          <div className="flex flex-col items-start w-1/5">
             <p className="text-muted-foreground text-xs mb-1">
               {t('fields.features')}
             </p>
-            <p className="inline-flex gap-1 items-center font-medium text-sm w-58">
+            <p className="inline-flex gap-1 items-center font-medium text-sm">
               <PackageIcon className="text-muted-foreground w-4" />{' '}
               {featuresLabel}
             </p>
           </div>
           {!isPublicView && (
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-start w-1/5">
               <p className="text-muted-foreground text-xs mb-1">
                 {t('fields.status')}
               </p>
@@ -117,7 +117,7 @@ function ServiceCard(props: ServiceCardProps) {
           )}
         </div>
       </div>
-      {extraActions}
+      <div className="w-1/6 flex justify-end">{extraActions}</div>
     </Card>
   );
 }

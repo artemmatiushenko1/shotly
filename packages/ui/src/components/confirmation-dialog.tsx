@@ -45,7 +45,7 @@ const iconVariants = cva(
 const confirmButtonVariants = cva('', {
   variants: {
     severity: {
-      neutral: 'bg-gray-500 hover:bg-gray-500/90',
+      neutral: 'bg-primary hover:bg-primary/90',
       danger: 'bg-destructive hover:bg-destructive/90',
       caution: 'bg-yellow-500 hover:bg-yellow-500/90',
       success: 'bg-green-500 hover:bg-green-500/90',
@@ -109,7 +109,7 @@ export function ConfirmationDialog({
   };
 
   const severityIcon = {
-    neutral: <InfoIcon className="size-6 text-gray-500" />,
+    neutral: <InfoIcon className="size-6 text-primary" />,
     danger: <Trash2Icon className="size-6 text-destructive" />,
     caution: <AlertCircleIcon className="size-6 text-caution" />,
     success: <CheckCircleIcon className="size-6 text-success" />,
