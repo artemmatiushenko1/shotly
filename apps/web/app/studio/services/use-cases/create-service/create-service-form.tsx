@@ -16,8 +16,7 @@ import {
 import { Textarea } from '@shotly/ui/components/textarea';
 import React, { useActionState, useId, useState } from 'react';
 import { Button } from '@shotly/ui/components/button';
-import { PlusCircleIcon } from 'lucide-react';
-import { Badge } from '@shotly/ui/components/badge';
+import { FeaturesInput } from './features-input';
 import { Category } from '@/domain/category';
 import { createServiceAction } from './actions';
 import { useTranslations } from 'next-intl';
@@ -54,7 +53,6 @@ function CreateServiceForm(props: CreateServiceFormProps) {
   const { validationErrors } = state;
 
   const [features, setFeatures] = useState<string[]>([]);
-  const [feature, setfeature] = useState('');
 
   const [categoryId, setCategoryId] = useState<string>('');
   const [visibilityStatus, setVisibilityStatus] = useState<VisibilityStatus>(
@@ -146,39 +144,15 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           />
         </div>
       </div>
-      <div className="grid gap-3 w-full">
-        <Label htmlFor={featuresId}>{t('fields.features.label')}</Label>
-        {/* TODO: Specify UX friendly description for this field (what are features etc.) */}
-        <div className="w-full flex gap-3">
-          <Input
-            id={featuresId}
-            value={feature}
-            min={0}
-            className="flex-1"
-            onChange={(e) => setfeature(e.target.value)}
-            placeholder={t('fields.features.placeholder')}
-            error={validationErrors?.fieldErrors.features?.toString()}
-          />
-          <Button
-            type="button"
-            onClick={() => setFeatures((prev) => [...prev, feature])}
-          >
-            <PlusCircleIcon />
-          </Button>
-        </div>
-        <div className="flex gap-2 flex-wrap">
-          {features.map((feature) => (
-            <Badge key={feature} variant="secondary">
-              {feature}
-            </Badge>
-          ))}
-        </div>
-        <input
-          type="hidden"
-          name={FormField.FEATURES}
-          value={features.join(',')}
-        />
-      </div>
+      <FeaturesInput
+        id={featuresId}
+        label={t('fields.features.label')}
+        placeholder={t('fields.features.placeholder')}
+        error={validationErrors?.fieldErrors.features?.toString()}
+        name={FormField.FEATURES}
+        value={features}
+        onChange={setFeatures}
+      />
       <div className="grid gap-3 w-full">
         <Label htmlFor={deliveryTimeId}>{t('fields.deliveryTime.label')}</Label>
         <Input
