@@ -1,36 +1,39 @@
 'use server';
 
 import z from 'zod';
-import { VisibilityStatus, visibilityStatusSchema } from '@/domain/common';
+import { visibilityStatusSchema } from '@/domain/common';
 import { getUser } from '@/lib/auth/dal';
 import { createServiceUseCase } from '@/use-cases/services/create-service.use-case';
 import { revalidatePath } from 'next/cache';
-import { persistentImageStorage } from '@/lib/images/image-storage.service';
 
 const inputSchema = z.object({
   name: z.string().min(1, { error: 'Name is required' }),
-  coverImage: z.instanceof(File).refine((file) => file.size <= 1024 * 1024, {
-    error: 'Cover image must be less than 1MB',
-  }),
+  coverImageUrl: z.url({ error: 'Cover image is required' }),
   currency: z.string().min(1, { error: 'Currency is required' }),
   description: z.string(),
   categoryId: z.string().min(1, { error: 'Category is required' }),
-  price: z.coerce.number().min(0, { error: 'Price must be greater than 0' }),
+  price: z.coerce.number().positive({ error: 'Price must be greater than 0' }),
   features: z
     .string()
-    .transform((str) => str.split(','))
+    .transform((str) =>
+      str
+        .split(',')
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0),
+    )
     .pipe(z.array(z.string()).min(1, { error: 'Features are required' })),
   deliveryTimeInDays: z.coerce
     .number()
-    .min(1, { error: 'Delivery time must be greater than 0' })
+    .positive({ error: 'Delivery time must be greater than 0' })
     .max(60, { error: 'Delivery time must be less than 60 days' }),
   visibilityStatus: visibilityStatusSchema,
 });
 
-export const createService = async (
+export const createServiceAction = async (
   // TODO: prevent form reset on error by using initialState, pass default values to form fields
   initialState: {
-    inputs?: z.infer<typeof inputSchema>;
+    // TODO: using Record looks more like a workaround...
+    inputs?: Record<string, string>;
     hasErrors: boolean;
     validationErrors?: z.core.$ZodFlattenedError<z.infer<typeof inputSchema>>;
   },
@@ -40,50 +43,31 @@ export const createService = async (
 
   const data = Object.fromEntries(form.entries());
 
-  // Handle file separately since FormData.get() returns File | null
-  const coverImageFile = form.get('coverImage') as File | null;
-  const formDataWithoutFile = { ...data };
-  delete formDataWithoutFile.coverImage;
-
   const { data: validatedInput, error: inputParseError } =
-    inputSchema.safeParse({
-      ...formDataWithoutFile,
+    await inputSchema.safeParseAsync({
+      ...data,
       currency: 'UAH',
-      coverImage:
-        coverImageFile && coverImageFile.size > 0 ? coverImageFile : undefined,
     });
 
   if (inputParseError) {
     return {
       hasErrors: true,
       inputs: {
-        name: form.get('name') as string,
-        coverImage: new File([], 'cover-image.jpg'), // TODO: provide default features
+        name: data.name as string,
+        coverImageUrl: data.coverImageUrl as string,
         currency: 'UAH',
-        description: form.get('description') as string,
-        categoryId: form.get('categoryId') as string,
-        price: form.get('price') as unknown as number,
-        features: [], // TODO: provide default features
-        deliveryTimeInDays: 0, // TODO: provide default features
-        visibilityStatus: form.get('visibilityStatus') as VisibilityStatus,
+        description: data.description as string,
+        categoryId: data.categoryId as string,
+        price: data.price as string,
+        features: data.features as string,
+        deliveryTimeInDays: data.deliveryTimeInDays as string,
+        visibilityStatus: data.visibilityStatus as string,
       },
       validationErrors: z.flattenError(inputParseError),
     };
   }
 
-  const coverImageUploadResult = await persistentImageStorage.upload(
-    validatedInput.coverImage,
-    {
-      folder: 'services',
-      maxSize: 1 * 1024 * 1024, // 1MB
-      allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
-    },
-  );
-
-  await createServiceUseCase(user.id, {
-    ...validatedInput,
-    coverImageUrl: coverImageUploadResult.url,
-  });
+  await createServiceUseCase(user.id, validatedInput);
 
   revalidatePath('/services');
 

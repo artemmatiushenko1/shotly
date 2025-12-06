@@ -19,13 +19,13 @@ import { Button } from '@shotly/ui/components/button';
 import { PlusCircleIcon } from 'lucide-react';
 import { Badge } from '@shotly/ui/components/badge';
 import { Category } from '@/domain/category';
-import { createService } from './actions';
+import { createServiceAction } from './actions';
 import { useTranslations } from 'next-intl';
 import { VisibilityStatus } from '@/domain/common';
 
 enum FormField {
   NAME = 'name',
-  COVER_IMAGE = 'coverImage',
+  COVER_IMAGE = 'coverImageUrl',
   DESCRIPTION = 'description',
   CATEGORY_ID = 'categoryId',
   PRICE = 'price',
@@ -45,7 +45,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
   const { categories, onCancel } = props;
   const t = useTranslations('services.createServiceDialog.form');
 
-  const [state, formAction, pending] = useActionState(createService, {
+  const [state, formAction, pending] = useActionState(createServiceAction, {
     hasErrors: false,
     inputs: undefined,
     validationErrors: undefined,
@@ -74,6 +74,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           {t('fields.name.label')} <span className="text-destructive">*</span>
         </Label>
         <Input
+          required
           id={nameId}
           name={FormField.NAME}
           defaultValue={state.inputs?.name ?? ''}
@@ -82,23 +83,15 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         />
       </div>
       <div className="grid gap-3">
-        <Label>
-          {t('fields.coverImage.label')}{' '}
-          <span className="text-destructive">*</span>
-        </Label>
+        <Label>{t('fields.coverImage.label')}</Label>
         <CoverUpload
           name={FormField.COVER_IMAGE}
-          // defaultValue={state.inputs?.coverImage ?? undefined} TODO: add default value
-          error={validationErrors?.fieldErrors.coverImage?.toString()}
+          existingImageUrl={state.inputs?.coverImageUrl ?? undefined}
+          error={validationErrors?.fieldErrors.coverImageUrl?.toString()}
         />
       </div>
       <div className="grid gap-3">
-        <Label htmlFor={descriptionId}>
-          {t('fields.description.label')}{' '}
-          <span className="text-xs text-muted-foreground">
-            ({t('fields.description.optional')})
-          </span>
-        </Label>
+        <Label htmlFor={descriptionId}>{t('fields.description.label')}</Label>
         <Textarea
           showCharsCount
           name={FormField.DESCRIPTION}
@@ -112,7 +105,9 @@ function CreateServiceForm(props: CreateServiceFormProps) {
       <div className="flex space-x-3 items-start">
         <div className="grid gap-3 w-full">
           <Label htmlFor="username-1">{t('fields.category.label')}</Label>
+          {/* TODO: add error style for select */}
           <Select
+            required
             defaultValue={state.inputs?.categoryId ?? undefined}
             value={categoryId ?? undefined}
             onValueChange={setCategoryId}
@@ -147,6 +142,8 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         <div className="grid gap-3 w-full">
           <Label htmlFor={priceId}>{t('fields.price.label')}</Label>
           <Input
+            required
+            type="number"
             placeholder={t('fields.price.placeholder')}
             name={FormField.PRICE}
             id={priceId}
@@ -160,11 +157,12 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         {/* TODO: Specify UX friendly description for this field (what are features etc.) */}
         <div className="w-full flex gap-3">
           <Input
-            placeholder={t('fields.features.placeholder')}
-            value={feature}
-            onChange={(e) => setfeature(e.target.value)}
             id={featuresId}
+            value={feature}
+            min={0}
             className="flex-1"
+            onChange={(e) => setfeature(e.target.value)}
+            placeholder={t('fields.features.placeholder')}
             error={validationErrors?.fieldErrors.features?.toString()}
           />
           <Button
@@ -185,7 +183,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           type="hidden"
           name={FormField.FEATURES}
           value={features.join(',')}
-          // defaultValue={state.inputs?.features?.join(',') ?? ''}
+          defaultValue={state.inputs?.features ?? ''}
         />
       </div>
       <div className="grid gap-3 w-full">
