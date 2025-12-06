@@ -56,7 +56,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
   const [features, setFeatures] = useState<string[]>([]);
   const [feature, setfeature] = useState('');
 
-  const [categoryId, setCategoryId] = useState<string | null>(null);
+  const [categoryId, setCategoryId] = useState<string>('');
   const [visibilityStatus, setVisibilityStatus] = useState<VisibilityStatus>(
     VisibilityStatus.PRIVATE,
   );
@@ -106,12 +106,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         <div className="grid gap-3 w-full">
           <Label htmlFor="username-1">{t('fields.category.label')}</Label>
           {/* TODO: add error style for select */}
-          <Select
-            required
-            defaultValue={state.inputs?.categoryId ?? undefined}
-            value={categoryId ?? undefined}
-            onValueChange={setCategoryId}
-          >
+          <Select required value={categoryId} onValueChange={setCategoryId}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder={t('fields.category.placeholder')} />
             </SelectTrigger>
@@ -135,8 +130,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           <input
             type="hidden"
             name={FormField.CATEGORY_ID}
-            value={categoryId ?? undefined}
-            defaultValue={state.inputs?.categoryId ?? undefined}
+            value={categoryId}
           />
         </div>
         <div className="grid gap-3 w-full">
@@ -215,14 +209,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             )
           }
         />
-        <input
-          type="hidden"
-          name={FormField.STATUS}
-          value={visibilityStatus}
-          defaultValue={
-            (state.inputs?.visibilityStatus as VisibilityStatus) ?? undefined
-          }
-        />
+        <input type="hidden" name={FormField.STATUS} value={visibilityStatus} />
       </div>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
         <Button type="button" variant="ghost" onClick={onCancel}>
