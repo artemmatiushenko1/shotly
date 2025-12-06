@@ -183,7 +183,6 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           type="hidden"
           name={FormField.FEATURES}
           value={features.join(',')}
-          defaultValue={state.inputs?.features ?? ''}
         />
       </div>
       <div className="grid gap-3 w-full">
