@@ -1,5 +1,5 @@
 {
-  "id": "2654405d-1f3e-44dd-9628-2298196ca7d1",
+  "id": "6340b821-048d-4adf-870d-63ffdccdcb81",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -315,29 +315,7 @@
           "notNull": true
         }
       },
-      "indexes": {
-        "photographer_name_idx": {
-          "name": "photographer_name_idx",
-          "columns": [
-            {
-              "expression": "photographer_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "name",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
         "features_photographer_id_user_id_fk": {
           "name": "features_photographer_id_user_id_fk",

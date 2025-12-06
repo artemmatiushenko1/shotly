@@ -211,6 +211,5 @@ ALTER TABLE "user_languages" ADD CONSTRAINT "user_languages_language_code_langua
 ALTER TABLE "users_to_locations" ADD CONSTRAINT "users_to_locations_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "users_to_locations" ADD CONSTRAINT "users_to_locations_location_id_locations_id_fk" FOREIGN KEY ("location_id") REFERENCES "public"."locations"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 CREATE UNIQUE INDEX "collection_photographer_name_idx" ON "collections" USING btree ("photographer_id","name");--> statement-breakpoint
-CREATE UNIQUE INDEX "photographer_name_idx" ON "features" USING btree ("photographer_id","name");--> statement-breakpoint
 CREATE INDEX "users_to_locations_user_idx" ON "users_to_locations" USING btree ("user_id");--> statement-breakpoint
 CREATE INDEX "users_to_locations_location_idx" ON "users_to_locations" USING btree ("location_id");

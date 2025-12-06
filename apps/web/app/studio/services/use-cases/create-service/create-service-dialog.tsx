@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
 import { HandshakeIcon } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import CreateServiceForm from './create-service-form';
 import { Category } from '@/domain/category';
 import { useTranslations } from 'next-intl';
@@ -19,13 +19,19 @@ type CreateServiceDialogProps = {
   children: React.ReactNode;
 };
 
-// TODO: close dialog on success, currently it glitches when form is submitted
-// because of revalidation path
 function CreateServiceDialog(props: CreateServiceDialogProps) {
   const { children: trigger, categories } = props;
   const t = useTranslations('services.createServiceDialog.dialog');
 
   const [open, setOpen] = useState(false);
+
+  const handleSuccess = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
+
+  const handleCancel = useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -41,10 +47,10 @@ function CreateServiceDialog(props: CreateServiceDialogProps) {
           </div>
         </DialogHeader>
         <div className="flex-1">
-          {/* TODO: close dialog on success */}
           <CreateServiceForm
             categories={categories}
-            onCancel={() => setOpen(false)}
+            onSuccess={handleSuccess}
+            onCancel={handleCancel}
           />
         </div>
       </DialogContent>

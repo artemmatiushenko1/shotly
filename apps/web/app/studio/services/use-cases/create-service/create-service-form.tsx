@@ -14,13 +14,14 @@ import {
   SelectValue,
 } from '@shotly/ui/components/select';
 import { Textarea } from '@shotly/ui/components/textarea';
-import React, { useActionState, useId, useState } from 'react';
+import React, { useActionState, useEffect, useId, useState } from 'react';
 import { Button } from '@shotly/ui/components/button';
 import { FeaturesInput } from './features-input';
 import { Category } from '@/domain/category';
 import { createServiceAction } from './actions';
 import { useTranslations } from 'next-intl';
 import { VisibilityStatus } from '@/domain/common';
+import { toast } from '@shotly/ui/components/sonner';
 
 enum FormField {
   NAME = 'name',
@@ -37,18 +38,29 @@ enum FormField {
 // user can select which ones are included in base price, and what might be included additionally
 type CreateServiceFormProps = {
   categories: Category[];
+  onSuccess: () => void;
   onCancel: () => void;
 };
 
 function CreateServiceForm(props: CreateServiceFormProps) {
-  const { categories, onCancel } = props;
+  const { categories, onCancel, onSuccess } = props;
+
   const t = useTranslations('services.createServiceDialog.form');
 
   const [state, formAction, pending] = useActionState(createServiceAction, {
     hasErrors: false,
+    success: false,
     inputs: undefined,
     validationErrors: undefined,
+    serviceName: '',
   });
+
+  useEffect(() => {
+    if (state.success) {
+      onSuccess();
+      toast.success(`Service ${state.serviceName} created successfully!`);
+    }
+  }, [state.success, onSuccess, state.serviceName]);
 
   const { validationErrors } = state;
 

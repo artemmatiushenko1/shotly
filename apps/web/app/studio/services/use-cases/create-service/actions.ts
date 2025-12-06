@@ -52,6 +52,7 @@ export const createServiceAction = async (
   if (inputParseError) {
     return {
       hasErrors: true,
+      success: false,
       inputs: {
         name: data.name as string,
         coverImageUrl: data.coverImageUrl as string,
@@ -63,6 +64,7 @@ export const createServiceAction = async (
         deliveryTimeInDays: data.deliveryTimeInDays as string,
         visibilityStatus: data.visibilityStatus as string,
       },
+      serviceName: data.name as string,
       validationErrors: z.flattenError(inputParseError),
     };
   }
@@ -73,6 +75,7 @@ export const createServiceAction = async (
 
   return {
     hasErrors: false,
-    inputs: undefined,
+    success: true,
+    serviceName: validatedInput.name,
   };
 };

@@ -219,21 +219,14 @@ export const categoriesTable = pgTable('categories', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
-export const featuresTable = pgTable(
-  'features',
-  {
-    id: uuid('id').defaultRandom().primaryKey(),
-    name: text('name').notNull(),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
-    photographerId: text('photographer_id')
-      .notNull()
-      .references(() => usersTable.id, { onDelete: 'cascade' }),
-  },
-  (table) => [
-    // Ensures a feature name is unique per photographer.
-    uniqueIndex('photographer_name_idx').on(table.photographerId, table.name),
-  ],
-);
+export const featuresTable = pgTable('features', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  name: text('name').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  photographerId: text('photographer_id')
+    .notNull()
+    .references(() => usersTable.id, { onDelete: 'cascade' }),
+});
 
 export const serviceVisibilityStatusEnum = pgEnum('service_visibility_status', [
   VisibilityStatus.PUBLIC,
