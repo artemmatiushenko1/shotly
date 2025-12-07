@@ -2,8 +2,10 @@
 
 import { revalidatePath } from 'next/cache';
 import { getUser } from '@/lib/auth/dal';
-import { createServiceUseCase } from '@/use-cases/services/create-service.use-case';
-import updateServiceUseCase from '@/use-cases/services/update-service.use-case';
+import {
+  createServiceUseCase,
+  updateServiceUseCase,
+} from '@/application/use-cases/services';
 import {
   serviceFormSchema,
   ServiceFormState,

@@ -3,7 +3,7 @@ import { CreateServiceInput } from '@/domain/service';
 import { getUser } from '@/lib/auth/dal';
 import servicesRepository from '@/repositories/services.repository';
 
-const updateServiceUseCase = async (
+export const updateServiceUseCase = async (
   userId: string,
   serviceId: string,
   input: Partial<CreateServiceInput>,
@@ -24,5 +24,3 @@ const updateServiceUseCase = async (
 
   await servicesRepository.updateService(serviceId, input);
 };
-
-export default updateServiceUseCase;

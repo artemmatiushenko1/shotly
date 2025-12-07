@@ -5,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 import ServiceCard from './service-card';
 import { Service } from '@/domain/service';
 import { Category } from '@/domain/category';
-import { useServiceFilter, ServiceFilterTab } from './use-service-filter';
+import { useServiceFilter, ServiceFilterTab } from './use-service-filter.hook';
 import { useTranslations } from 'next-intl';
 import { startTransition } from 'react';
 import ServiceCardButtons from './service-card-buttons';
