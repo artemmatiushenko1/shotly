@@ -21,20 +21,12 @@ import { Category } from '@/domain/category';
 import { useTranslations } from 'next-intl';
 import { VisibilityStatus } from '@/domain/common';
 import { toast } from '@shotly/ui/components/sonner';
-import { ServiceFormState, ServiceFormValues } from './service-form.schema';
+import {
+  DESCRIPTION_MAX_LENGTH,
+  ServiceFormState,
+  ServiceFormValues,
+} from './service-form.schema';
 import { ClockIcon } from 'lucide-react';
-
-enum FormField {
-  NAME = 'name',
-  COVER_IMAGE = 'coverImageUrl',
-  DESCRIPTION = 'description',
-  CATEGORY_ID = 'categoryId',
-  PRICE = 'price',
-  FEATURES = 'features',
-  DELIVERY_TIME_IN_DAYS = 'deliveryTimeInDays',
-  STATUS = 'visibilityStatus',
-  SERVICE_ID = 'serviceId',
-}
 
 type CreateServiceFormProps = {
   categories: Category[];
@@ -104,7 +96,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         <Input
           required
           id={nameId}
-          name={FormField.NAME}
+          name="name"
           defaultValue={values.name}
           placeholder={t('fields.name.placeholder')}
           error={errors?.name?.join(', ')}
@@ -113,7 +105,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
       <div className="grid gap-3">
         <Label>{t('fields.coverImage.label')}</Label>
         <CoverUpload
-          name={FormField.COVER_IMAGE}
+          name="coverImageUrl"
           existingImageUrl={values.coverImageUrl}
           error={errors?.coverImageUrl?.join(', ')}
         />
@@ -122,9 +114,9 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         <Label htmlFor={descriptionId}>{t('fields.description.label')}</Label>
         <Textarea
           showCharsCount
-          name={FormField.DESCRIPTION}
+          name="description"
           id={descriptionId}
-          maxChars={500}
+          maxChars={DESCRIPTION_MAX_LENGTH}
           placeholder={t('fields.description.placeholder')}
           defaultValue={values.description}
           error={errors?.description?.join(', ')}
@@ -155,11 +147,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
               {errors?.categoryId?.join(', ')}
             </div>
           )}
-          <input
-            type="hidden"
-            name={FormField.CATEGORY_ID}
-            value={categoryId}
-          />
+          <input type="hidden" name="categoryId" value={categoryId} />
         </div>
         <div className="grid gap-3 w-full">
           <Label htmlFor={priceId}>{t('fields.price.label')}</Label>
@@ -172,7 +160,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
               type="number"
               className="pl-12"
               placeholder={t('fields.price.placeholder')}
-              name={FormField.PRICE}
+              name="price"
               id={priceId}
               defaultValue={values.price?.toString()}
               error={errors?.price?.join(', ')}
@@ -185,7 +173,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         label={t('fields.features.label')}
         placeholder={t('fields.features.placeholder')}
         error={errors?.features?.join(', ')}
-        name={FormField.FEATURES}
+        name="features"
         value={features}
         onChange={setFeatures}
       />
@@ -201,7 +189,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             type="number"
             className="pl-9"
             id={deliveryTimeId}
-            name={FormField.DELIVERY_TIME_IN_DAYS}
+            name="deliveryTimeInDays"
             placeholder={t('fields.deliveryTime.placeholder')}
             defaultValue={values.deliveryTimeInDays?.toString()}
             error={errors?.deliveryTimeInDays?.join(', ')}
@@ -225,7 +213,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             )
           }
         />
-        <input type="hidden" name={FormField.STATUS} value={visibilityStatus} />
+        <input type="hidden" name="visibilityStatus" value={visibilityStatus} />
       </div>
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
         <Button
