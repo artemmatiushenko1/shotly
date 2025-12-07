@@ -1,4 +1,5 @@
 import { LocationDetails, locationDetailsSchema } from '@/domain/locations';
+
 import { IGeocodingService } from '../geocoding-service.interface';
 import { NovaBaseResponseSchema, NovaPostSettlement } from './nova-post.schema';
 

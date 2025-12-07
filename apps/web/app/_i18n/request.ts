@@ -1,8 +1,8 @@
 import 'server-only';
-
-import { getRequestConfig } from 'next-intl/server';
 import { cookies } from 'next/headers';
-import { Locale, locales, LOCALE_COOKIE_NAME } from './config';
+import { getRequestConfig } from 'next-intl/server';
+
+import { Locale, LOCALE_COOKIE_NAME, locales } from './config';
 
 export default getRequestConfig(async () => {
   // Get locale from cookie, default to 'en'

@@ -1,14 +1,16 @@
 'use client';
 
-import { Button } from '@shotly/ui/components/button';
-import { Card } from '@shotly/ui/components/card';
-import { cn } from '@shotly/ui/lib/utils';
 import { CheckCircle2, FlameIcon } from 'lucide-react';
 import Link from 'next/link';
-import { useActionState, useEffect } from 'react';
-import { sendProfileToReview } from './actions';
-import { toast } from '@shotly/ui/components/sonner';
 import { useTranslations } from 'next-intl';
+import { useActionState, useEffect } from 'react';
+
+import { Button } from '@shotly/ui/components/button';
+import { Card } from '@shotly/ui/components/card';
+import { toast } from '@shotly/ui/components/sonner';
+import { cn } from '@shotly/ui/lib/utils';
+
+import { sendProfileToReview } from './actions';
 
 export type OnboardingStep = {
   id: string;

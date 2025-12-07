@@ -1,9 +1,10 @@
 'use client';
 
-import { Button } from '@shotly/ui/components/button';
 import { CheckIcon } from 'lucide-react';
-import React from 'react';
 import { useTranslations } from 'next-intl';
+import React from 'react';
+
+import { Button } from '@shotly/ui/components/button';
 
 type OrderActionsProps = {
   status: 'completed' | 'cancelled' | 'pending' | 'confirmed';

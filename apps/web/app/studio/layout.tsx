@@ -1,8 +1,10 @@
-import { SidebarProvider } from '@shotly/ui/components/sidebar';
-import { AppSidebar } from './app-sidebar';
 import { getUser } from '@/lib/auth/dal';
 import usersRepository from '@/repositories/users.repository';
+
+import { SidebarProvider } from '@shotly/ui/components/sidebar';
 import { ThemeProvider } from '@shotly/ui/components/theme-provider';
+
+import { AppSidebar } from './app-sidebar';
 
 async function Layout({ children }: { children: React.ReactNode }) {
   const user = await getUser();

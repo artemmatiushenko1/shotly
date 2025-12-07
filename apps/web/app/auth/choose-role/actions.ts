@@ -1,10 +1,11 @@
 'use server';
 
+import { redirect } from 'next/navigation';
+import z from 'zod';
+
 import { Role } from '@/domain/user';
 import { getUser } from '@/lib/auth/dal';
 import usersRepository from '@/repositories/users.repository';
-import { redirect } from 'next/navigation';
-import z from 'zod';
 
 const updateUserRoleSchema = z.object({
   role: z.enum(Role),

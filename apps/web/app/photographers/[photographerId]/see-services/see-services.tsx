@@ -1,11 +1,14 @@
 'use client';
 
-import ServiceCard from '../../../studio/services/use-cases/see-services/service-card';
-import { Button } from '@shotly/ui/components/button';
 import { CalendarCheckIcon } from 'lucide-react';
-import BookServiceDialog from '../book-service/book-service-dialog';
 import { useTranslations } from 'next-intl';
+
 import { VisibilityStatus } from '@/domain/common';
+
+import { Button } from '@shotly/ui/components/button';
+
+import ServiceCard from '../../../studio/services/use-cases/see-services/service-card';
+import BookServiceDialog from '../book-service/book-service-dialog';
 
 function SeeServices() {
   const t = useTranslations('photographerProfile.seeServices');

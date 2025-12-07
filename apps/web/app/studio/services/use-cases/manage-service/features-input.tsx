@@ -1,11 +1,12 @@
 'use client';
 
-import { Input } from '@shotly/ui/components/input';
-import { Label } from '@shotly/ui/components/label';
-import { Button } from '@shotly/ui/components/button';
-import { Badge } from '@shotly/ui/components/badge';
 import { PlusCircleIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
+
+import { Badge } from '@shotly/ui/components/badge';
+import { Button } from '@shotly/ui/components/button';
+import { Input } from '@shotly/ui/components/input';
+import { Label } from '@shotly/ui/components/label';
 
 type FeaturesInputProps = {
   id: string;

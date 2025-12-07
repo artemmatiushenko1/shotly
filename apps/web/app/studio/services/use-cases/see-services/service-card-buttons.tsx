@@ -1,13 +1,16 @@
-import { Button } from '@shotly/ui/components/button';
-import { ConfirmationDialog } from '@shotly/ui/components/confirmation-dialog';
 import { ArchiveIcon, ArchiveRestoreIcon, EditIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useTransition } from 'react';
-import { archiveServiceAction, restoreServiceAction } from './actions';
-import { toast } from '@shotly/ui/components/sonner';
-import CreateServiceDialog from '../manage-service/service-dialog';
+
 import { Category } from '@/domain/category';
 import { Service } from '@/domain/service';
+
+import { Button } from '@shotly/ui/components/button';
+import { ConfirmationDialog } from '@shotly/ui/components/confirmation-dialog';
+import { toast } from '@shotly/ui/components/sonner';
+
+import CreateServiceDialog from '../manage-service/service-dialog';
+import { archiveServiceAction, restoreServiceAction } from './actions';
 
 type ServiceCardActionsProps = {
   categories: Category[];

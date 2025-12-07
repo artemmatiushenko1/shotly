@@ -1,6 +1,7 @@
 import React from 'react';
-import ReviewsSummary from './reviews-summary';
+
 import ReviewList, { MOCK_REVIEWS } from './review-list';
+import ReviewsSummary from './reviews-summary';
 
 function SeeReviews() {
   return (

@@ -1,7 +1,8 @@
 'use client';
 
-import GradientLoadingProgress from '../../../_components/gradient-progress';
 import { Skeleton } from '@shotly/ui/components/skeleton';
+
+import GradientLoadingProgress from '../../../_components/gradient-progress';
 
 const Loading = () => {
   return (

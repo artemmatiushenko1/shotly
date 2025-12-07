@@ -1,13 +1,15 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+
+import { Badge } from '@shotly/ui/components/badge';
+import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
+
 import OrderCard from '../../_components/booking-card';
 import MainHeader from '../../_components/main-header';
-import OrderActions from './order-actions';
 import ClientInfo from './client-info';
-import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
-import { Badge } from '@shotly/ui/components/badge';
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import OrderActions from './order-actions';
 
 function Orders() {
   const t = useTranslations('orders');

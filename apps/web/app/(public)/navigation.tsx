@@ -1,21 +1,22 @@
-import { buttonVariants } from '@shotly/ui/components/button';
-import { Logo } from '@shotly/ui/components/logo';
-import { cn } from '@shotly/ui/lib/utils';
 import {
   CalendarIcon,
   LayoutGridIcon,
   LogInIcon,
   LogOutIcon,
 } from 'lucide-react';
+import { headers } from 'next/headers';
 import Link from 'next/link';
-import LanguageSwitcher from './(landing)/language-switcher';
 import { getTranslations } from 'next-intl/server';
-import NavLinks from './nav-links';
+
+import { Role } from '@/domain/user';
+import { auth } from '@/lib/auth/auth';
+
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@shotly/ui/components/avatar';
+import { buttonVariants } from '@shotly/ui/components/button';
 import { Card, CardContent } from '@shotly/ui/components/card';
 import {
   DropdownMenu,
@@ -24,9 +25,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@shotly/ui/components/dropdown-menu';
-import { Role } from '@/domain/user';
-import { auth } from '@/lib/auth/auth';
-import { headers } from 'next/headers';
+import { Logo } from '@shotly/ui/components/logo';
+import { cn } from '@shotly/ui/lib/utils';
+
+import LanguageSwitcher from './(landing)/language-switcher';
+import NavLinks from './nav-links';
 
 type NavigationProps = {
   className?: string;

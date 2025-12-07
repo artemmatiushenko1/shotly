@@ -1,9 +1,10 @@
 'use client';
 
-import { Badge } from '@shotly/ui/components/badge';
-import { cn } from '@shotly/ui/lib/utils';
 import { GlobeIcon, LockIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
+import { Badge } from '@shotly/ui/components/badge';
+import { cn } from '@shotly/ui/lib/utils';
 
 type VisibilityBadgeProps = {
   isPublic: boolean;

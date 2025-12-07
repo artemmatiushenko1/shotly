@@ -1,7 +1,10 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
 import { ImageIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import React, { useCallback, useState } from 'react';
+
+import { Button } from '@shotly/ui/components/button';
 import {
   Dialog,
   DialogContent,
@@ -11,10 +14,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
-import { Button } from '@shotly/ui/components/button';
-import { useTranslations } from 'next-intl';
-import SelectedFilesList from './selected-files-list';
+
 import uploadPhotosAction from './actions';
+import SelectedFilesList from './selected-files-list';
 
 type UploadFile = {
   id: string;

@@ -1,6 +1,8 @@
 'use client';
 
 import { ChevronDown } from 'lucide-react';
+import { useState } from 'react';
+
 import { Button } from '@shotly/ui/components/button';
 import {
   DropdownMenu,
@@ -9,7 +11,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@shotly/ui/components/dropdown-menu';
-import { useState } from 'react';
 import { cn } from '@shotly/ui/lib/utils';
 
 type CountSelectProps = {

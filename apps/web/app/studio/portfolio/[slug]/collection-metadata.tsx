@@ -1,11 +1,13 @@
 'use client';
 
-import { IconWithText } from '../../../_components/icon-with-text';
 import { CalendarIcon, ImagesIcon, TagIcon } from 'lucide-react';
-import { VisibilityBadge } from '../../ui/visibility-badge';
+import { useTranslations } from 'next-intl';
+
 import { VisibilityStatus } from '@/domain/common';
 import { formatDateWithOrdinal } from '@/utils/date-formatting';
-import { useTranslations } from 'next-intl';
+
+import { IconWithText } from '../../../_components/icon-with-text';
+import { VisibilityBadge } from '../../ui/visibility-badge';
 
 type CollectionMetadataProps = {
   name: string;

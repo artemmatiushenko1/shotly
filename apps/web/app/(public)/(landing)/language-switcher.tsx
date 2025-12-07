@@ -1,9 +1,10 @@
 'use client';
 
 import { Globe } from 'lucide-react';
-import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
 import { useTransition } from 'react';
+
 import {
   Select,
   SelectContent,
@@ -11,9 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@shotly/ui/components/select';
+import { cn } from '@shotly/ui/lib/utils';
+
 import { setLocale } from '../../_i18n/actions';
 import { Locale, locales } from '../../_i18n/config';
-import { cn } from '@shotly/ui/lib/utils';
 
 const localeNames: Record<Locale, string> = {
   en: 'English',

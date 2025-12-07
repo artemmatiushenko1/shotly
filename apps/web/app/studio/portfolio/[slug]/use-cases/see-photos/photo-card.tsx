@@ -1,7 +1,9 @@
-import { Card } from '@shotly/ui/components/card';
-import Image from 'next/image';
-import PhotoContextMenu from './photo-context-menu';
 import { StarIcon } from 'lucide-react';
+import Image from 'next/image';
+
+import { Card } from '@shotly/ui/components/card';
+
+import PhotoContextMenu from './photo-context-menu';
 
 type PhotoCardProps = {
   id: string;

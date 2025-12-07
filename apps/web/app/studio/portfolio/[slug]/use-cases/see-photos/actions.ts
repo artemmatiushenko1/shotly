@@ -1,8 +1,9 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 import { NotFoundError } from '@/domain/errors/common';
 import collectionsRepository from '@/repositories/collections.repository';
-import { revalidatePath } from 'next/cache';
 
 export const setCollectionCoverImage = async (
   collectionId: string,

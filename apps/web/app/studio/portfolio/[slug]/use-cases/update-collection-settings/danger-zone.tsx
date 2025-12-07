@@ -1,7 +1,10 @@
-import { Button } from '@shotly/ui/components/button';
 import { TrashIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { Collection } from '@/domain/collection';
+
+import { Button } from '@shotly/ui/components/button';
+
 import SettingsTabLayout from './settings-tab-layout';
 
 type DangerZoneSettingsProps = {

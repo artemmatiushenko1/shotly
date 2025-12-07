@@ -1,8 +1,10 @@
+import { Trash2Icon } from 'lucide-react';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+
 import { Button } from '@shotly/ui/components/button';
 import { Spinner } from '@shotly/ui/components/spinner';
-import { Trash2Icon } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import Image from 'next/image';
+
 import { formatBytes } from '../../utils';
 
 type FilePreviewProps = {

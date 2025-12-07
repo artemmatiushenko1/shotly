@@ -1,5 +1,10 @@
 'use client';
 
+import { SearchIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+
+import { Category } from '@/domain/category';
+
 import { Badge } from '@shotly/ui/components/badge';
 import { Input } from '@shotly/ui/components/input';
 import {
@@ -12,14 +17,12 @@ import {
   SelectValue,
 } from '@shotly/ui/components/select';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
-import { SearchIcon } from 'lucide-react';
+
 import {
+  COLLECTION_FILTER_TABS,
   CollectionFilterTab,
   SortOption,
-  COLLECTION_FILTER_TABS,
 } from './use-collection-filter';
-import { Category } from '@/domain/category';
-import { useTranslations } from 'next-intl';
 
 type CollectionsToolbarProps = {
   selectedTab: CollectionFilterTab;

@@ -1,14 +1,15 @@
 import 'server-only';
-
+import { randomBytes } from 'crypto';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { randomBytes } from 'crypto';
+
+import { MimeType } from '@/lib/files/enums';
+
 import {
   IImageStorage,
   UploadOptions,
   UploadResult,
 } from '../image-storage.interface';
-import { MimeType } from '@/lib/files/enums';
 
 /**
  * Local file system implementation of image storage

@@ -1,4 +1,5 @@
 import { UserRound } from 'lucide-react';
+
 import { cn } from '@shotly/ui/lib/utils';
 
 type ProfileImagePlaceholderProps = {

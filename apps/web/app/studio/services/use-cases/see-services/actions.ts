@@ -1,11 +1,12 @@
 'use server';
 
-import { getUser } from '@/lib/auth/dal';
+import { revalidatePath } from 'next/cache';
+
 import {
   archiveServiceUseCase,
   restoreServiceUseCase,
 } from '@/application/use-cases/services';
-import { revalidatePath } from 'next/cache';
+import { getUser } from '@/lib/auth/dal';
 
 export const archiveServiceAction = async (serviceId: string) => {
   try {

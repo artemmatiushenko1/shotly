@@ -1,6 +1,7 @@
-import { Logo } from '@shotly/ui/components/logo';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
+
+import { Logo } from '@shotly/ui/components/logo';
 
 async function Footer() {
   const t = await getTranslations('landing.footer');

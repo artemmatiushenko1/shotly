@@ -1,7 +1,9 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { uploadTmpCoverImage } from './actions';
-import { UploadResult } from '@/lib/images/image-storage.interface';
+
 import { MimeType } from '@/lib/files/enums';
+import { UploadResult } from '@/lib/images/image-storage.interface';
+
+import { uploadTmpCoverImage } from './actions';
 
 export type UseImagePreviewOptions = {
   existingImageUrl?: string | null;

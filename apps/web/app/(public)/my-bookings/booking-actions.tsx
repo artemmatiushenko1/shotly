@@ -1,10 +1,12 @@
 'use client';
 
-import { Button } from '@shotly/ui/components/button';
 import { MessageSquareIcon, StarIcon } from 'lucide-react';
-import React from 'react';
-import LeaveReviewDialog from './leave-review-dialog';
 import { useTranslations } from 'next-intl';
+import React from 'react';
+
+import { Button } from '@shotly/ui/components/button';
+
+import LeaveReviewDialog from './leave-review-dialog';
 
 type BookingActionsProps = {
   status: 'completed' | 'cancelled' | 'pending' | 'confirmed';

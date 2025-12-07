@@ -1,18 +1,20 @@
 'use client';
 
+import debounce from 'debounce';
 import {
   ChevronsUpDownIcon,
   MapPinPlus,
   SearchIcon,
   XIcon,
 } from 'lucide-react';
+import { useState } from 'react';
+
+import { LocationDetails } from '@/domain/locations';
+import { clientEnv } from '@/env/client';
+import { NovaPostGeocodingService } from '@/lib/geocoding/nova-post/nova-post-geocoding.service';
 
 import { Badge } from '@shotly/ui/components/badge';
 import { Button } from '@shotly/ui/components/button';
-import { cn } from '@shotly/ui/lib/utils';
-import { useState } from 'react';
-import debounce from 'debounce';
-import { Input } from '@shotly/ui/components/input';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -21,9 +23,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@shotly/ui/components/dropdown-menu';
-import { LocationDetails } from '@/domain/locations';
-import { NovaPostGeocodingService } from '@/lib/geocoding/nova-post/nova-post-geocoding.service';
-import { clientEnv } from '@/env/client';
+import { Input } from '@shotly/ui/components/input';
+import { cn } from '@shotly/ui/lib/utils';
 
 const geocodingService = new NovaPostGeocodingService(
   clientEnv.NEXT_PUBLIC_NOVA_POST_API_URL,

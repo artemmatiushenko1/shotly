@@ -1,12 +1,15 @@
 'use client';
 
-import { Card, CardDescription } from '@shotly/ui/components/card';
-import Image from 'next/image';
-import { VisibilityBadge } from '../../../ui/visibility-badge';
 import { ClockIcon, PackageIcon } from 'lucide-react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+
 import { VisibilityStatus } from '@/domain/common';
 import { Service } from '@/domain/service';
+
+import { Card, CardDescription } from '@shotly/ui/components/card';
+
+import { VisibilityBadge } from '../../../ui/visibility-badge';
 
 type ServiceCardProps = {
   service: Service;

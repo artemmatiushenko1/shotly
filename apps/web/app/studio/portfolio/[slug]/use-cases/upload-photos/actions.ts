@@ -1,10 +1,11 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 import { MimeType } from '@/lib/files/enums';
 import { persistentImageStorage } from '@/lib/images/image-storage.service';
 import collectionsRepository from '@/repositories/collections.repository';
 import usersRepository from '@/repositories/users.repository';
-import { revalidatePath } from 'next/cache';
 
 const uploadPhotosAction = async (
   photographerId: string,

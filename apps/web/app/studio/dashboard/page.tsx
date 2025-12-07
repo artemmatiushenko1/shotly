@@ -1,14 +1,16 @@
-import MainHeader from '../../_components/main-header';
-import { getUser } from '@/lib/auth/dal';
 import { getTranslations } from 'next-intl/server';
-import OnboardingChecklist, { OnboardingStep } from './onboarding-checklist';
-import usersRepository from '@/repositories/users.repository';
-import collectionsRepository from '@/repositories/collections.repository';
-import servicesRepository from '@/repositories/services.repository';
+
+import { Collection } from '@/domain/collection';
 import { VisibilityStatus } from '@/domain/common';
 import { Service } from '@/domain/service';
 import { ApprovalStatus, UserProfile } from '@/domain/user';
-import { Collection } from '@/domain/collection';
+import { getUser } from '@/lib/auth/dal';
+import collectionsRepository from '@/repositories/collections.repository';
+import servicesRepository from '@/repositories/services.repository';
+import usersRepository from '@/repositories/users.repository';
+
+import MainHeader from '../../_components/main-header';
+import OnboardingChecklist, { OnboardingStep } from './onboarding-checklist';
 import ProfileUnderReviewCard from './profile-under-review';
 
 type OnboardingState = {

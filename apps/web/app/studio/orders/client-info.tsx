@@ -1,5 +1,9 @@
 'use client';
 
+import { UserIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import React from 'react';
+
 import {
   Avatar,
   AvatarFallback,
@@ -11,9 +15,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@shotly/ui/components/tooltip';
-import { UserIcon } from 'lucide-react';
-import React from 'react';
-import { useTranslations } from 'next-intl';
 
 type ClientInfoProps = {
   orderStatus: 'pending' | 'confirmed' | 'completed' | 'cancelled';

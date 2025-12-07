@@ -1,8 +1,11 @@
-import { Button } from '@shotly/ui/components/button';
-import { CreateCollectionDialog } from '../create-collection/create-collection-dialog';
 import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
 import { Category } from '@/domain/category';
+
+import { Button } from '@shotly/ui/components/button';
+
+import { CreateCollectionDialog } from '../create-collection/create-collection-dialog';
 
 type EmptyProps = {
   categories: Category[];

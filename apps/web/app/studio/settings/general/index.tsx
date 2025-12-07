@@ -1,5 +1,8 @@
 'use client';
 
+import { useLocale, useTranslations } from 'next-intl';
+import { useEffect, useId, useState, useTransition } from 'react';
+
 import { Input } from '@shotly/ui/components/input';
 import {
   Select,
@@ -8,12 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@shotly/ui/components/select';
-import { LabeledControl } from '../labeled-control';
-import { useTranslations, useLocale } from 'next-intl';
-import { useTransition, useId, useEffect, useState } from 'react';
+import { useTheme } from '@shotly/ui/hooks/use-theme';
+
 import { setLocale } from '../../../_i18n/actions';
 import { Locale, locales } from '../../../_i18n/config';
-import { useTheme } from '@shotly/ui/hooks/use-theme';
+import { LabeledControl } from '../labeled-control';
 
 type GeneralSettingsProps = {
   userEmail: string;

@@ -1,8 +1,8 @@
 'use client';
 
 import { StarIcon } from 'lucide-react';
-import React from 'react';
 import { useTranslations } from 'next-intl';
+import React from 'react';
 
 type ReviewsSummaryProps = {
   averageRating: number;

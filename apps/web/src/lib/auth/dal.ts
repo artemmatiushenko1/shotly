@@ -1,10 +1,11 @@
 import 'server-only';
-
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { auth } from './auth';
-import { Role } from '@/domain/user';
+
 import { UnauthorizedError } from '@/domain/errors/auth';
+import { Role } from '@/domain/user';
+
+import { auth } from './auth';
 
 export const getUser = async () => {
   const session = await auth.api.getSession({ headers: await headers() });

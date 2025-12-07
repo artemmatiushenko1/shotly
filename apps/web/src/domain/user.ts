@@ -1,4 +1,5 @@
 import z from 'zod';
+
 import { languageSchema } from './language';
 import { locationDetailsSchema } from './locations';
 

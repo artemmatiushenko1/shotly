@@ -1,14 +1,17 @@
 'use client';
 
-import { Badge } from '@shotly/ui/components/badge';
-import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
-import ServiceCard from './service-card';
-import { Service } from '@/domain/service';
-import { Category } from '@/domain/category';
-import { useServiceFilter, ServiceFilterTab } from './use-service-filter.hook';
 import { useTranslations } from 'next-intl';
 import { startTransition } from 'react';
+
+import { Category } from '@/domain/category';
+import { Service } from '@/domain/service';
+
+import { Badge } from '@shotly/ui/components/badge';
+import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
+
+import ServiceCard from './service-card';
 import ServiceCardButtons from './service-card-buttons';
+import { ServiceFilterTab, useServiceFilter } from './use-service-filter.hook';
 
 type ServicesListProps = {
   categories: Category[];

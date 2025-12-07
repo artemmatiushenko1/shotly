@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  DownloadIcon,
+  EllipsisVerticalIcon,
+  StarIcon,
+  TrashIcon,
+} from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+
 import { Button } from '@shotly/ui/components/button';
 import {
   DropdownMenu,
@@ -9,17 +18,10 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@shotly/ui/components/dropdown-menu';
-import { cn } from '@shotly/ui/lib/utils';
-import {
-  DownloadIcon,
-  EllipsisVerticalIcon,
-  StarIcon,
-  TrashIcon,
-} from 'lucide-react';
-import { useState } from 'react';
-import { setCollectionCoverImage } from './actions';
 import { Spinner } from '@shotly/ui/components/spinner';
-import { useTranslations } from 'next-intl';
+import { cn } from '@shotly/ui/lib/utils';
+
+import { setCollectionCoverImage } from './actions';
 
 type PhotoContextMenuProps = {
   isCoverPhoto: boolean;

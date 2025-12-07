@@ -1,13 +1,16 @@
+import { PlusIcon } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
+
+import { getUser } from '@/lib/auth/dal';
+import categoriesRepository from '@/repositories/categories.repository';
+import collectionsRepository from '@/repositories/collections.repository';
+
+import { Button } from '@shotly/ui/components/button';
+import FadeIn from '@shotly/ui/components/fade-in';
+
 import MainHeader from '../../_components/main-header';
 import { CreateCollectionDialog } from './use-cases/create-collection/create-collection-dialog';
 import { CollectionsList } from './use-cases/see-collections/collections-list';
-import { PlusIcon } from 'lucide-react';
-import { Button } from '@shotly/ui/components/button';
-import categoriesRepository from '@/repositories/categories.repository';
-import collectionsRepository from '@/repositories/collections.repository';
-import { getUser } from '@/lib/auth/dal';
-import { getTranslations } from 'next-intl/server';
-import FadeIn from '@shotly/ui/components/fade-in';
 
 const Portfolio = async () => {
   const t = await getTranslations('portfolio');

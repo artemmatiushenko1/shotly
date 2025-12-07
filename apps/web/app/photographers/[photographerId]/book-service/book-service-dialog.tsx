@@ -1,5 +1,8 @@
 'use client';
 
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+
 import { Button } from '@shotly/ui/components/button';
 import { Card } from '@shotly/ui/components/card';
 import { DatePicker } from '@shotly/ui/components/date-picker';
@@ -15,8 +18,6 @@ import { Input } from '@shotly/ui/components/input';
 import { Label } from '@shotly/ui/components/label';
 import { Separator } from '@shotly/ui/components/separator';
 import { Textarea } from '@shotly/ui/components/textarea';
-import Image from 'next/image';
-import { useTranslations } from 'next-intl';
 
 type BookServiceDialogProps = {
   children: React.ReactNode;

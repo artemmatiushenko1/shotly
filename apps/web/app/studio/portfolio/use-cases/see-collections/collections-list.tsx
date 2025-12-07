@@ -1,13 +1,15 @@
 'use client';
 
-import { CollectionsToolbar } from './collections-toolbar';
-import { CollectionsGrid } from './collections-grid';
-import { useCollectionFilter } from './use-collection-filter';
-import { Collection } from '@/domain/collection';
-import { Category } from '@/domain/category';
-import Empty from './empty';
 import { useTranslations } from 'next-intl';
 import { startTransition } from 'react';
+
+import { Category } from '@/domain/category';
+import { Collection } from '@/domain/collection';
+
+import { CollectionsGrid } from './collections-grid';
+import { CollectionsToolbar } from './collections-toolbar';
+import Empty from './empty';
+import { useCollectionFilter } from './use-collection-filter';
 
 type CollectionsListProps = {
   collections: Collection[];

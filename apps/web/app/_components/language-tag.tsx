@@ -1,6 +1,7 @@
-import { Badge } from '@shotly/ui/components/badge';
 import { XIcon } from 'lucide-react';
 import React from 'react';
+
+import { Badge } from '@shotly/ui/components/badge';
 
 type LanguageTagProps = {
   flag: string;

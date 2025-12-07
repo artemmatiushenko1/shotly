@@ -1,10 +1,12 @@
+import '@shotly/ui/globals.css';
 import type { Metadata } from 'next';
-import { Inter, Borel } from 'next/font/google';
+import { Borel, Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { getLocale } from './_i18n/locale';
-import '@shotly/ui/globals.css';
+
 import { Toaster } from '@shotly/ui/components/sonner';
+
+import { getLocale } from './_i18n/locale';
 
 const interSans = Inter({
   variable: '--font-inter-sans',

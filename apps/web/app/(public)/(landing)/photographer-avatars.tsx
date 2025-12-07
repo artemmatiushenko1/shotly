@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Avatar, AvatarImage } from '@shotly/ui/components/avatar';
 
 // Using existing profile images from the public folder

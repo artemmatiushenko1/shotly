@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { visibilityStatusSchema } from '@/domain/common';
 
 export const DESCRIPTION_MAX_LENGTH = 500;

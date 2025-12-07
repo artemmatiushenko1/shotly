@@ -1,19 +1,22 @@
-import MainHeader from '../../_components/main-header';
+import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
+
+import { getUser } from '@/lib/auth/dal';
+import languagesRepository from '@/repositories/languages.repository';
+import usersRepository from '@/repositories/users.repository';
+
+import FadeIn from '@shotly/ui/components/fade-in';
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@shotly/ui/components/tabs';
-import { ProfileSettings } from './profile';
-import { PrivacyAndSecuritySettings } from './privacy-and-security';
+
+import MainHeader from '../../_components/main-header';
 import { GeneralSettings } from './general';
-import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
-import usersRepository from '@/repositories/users.repository';
-import languagesRepository from '@/repositories/languages.repository';
-import { getUser } from '@/lib/auth/dal';
-import { getTranslations } from 'next-intl/server';
-import FadeIn from '@shotly/ui/components/fade-in';
+import { PrivacyAndSecuritySettings } from './privacy-and-security';
+import { ProfileSettings } from './profile';
 
 const getProfileTabData = (userId: string) => {
   return Promise.all([

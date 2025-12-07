@@ -1,5 +1,9 @@
 'use client';
 
+import { StarIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+
 import { Button } from '@shotly/ui/components/button';
 import {
   Dialog,
@@ -10,9 +14,6 @@ import {
 } from '@shotly/ui/components/dialog';
 import { Label } from '@shotly/ui/components/label';
 import { Textarea } from '@shotly/ui/components/textarea';
-import { StarIcon } from 'lucide-react';
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 
 type LeaveReviewDialogProps = {
   children: React.ReactNode;

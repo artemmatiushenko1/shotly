@@ -1,8 +1,9 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { StorageUsage } from '@/domain/user';
 import { convertBytesToGb, convertBytesToMb } from '@/lib/images/utils';
-import { useTranslations } from 'next-intl';
 
 type StorageUsageInfoProps = {
   storageUsage: StorageUsage;

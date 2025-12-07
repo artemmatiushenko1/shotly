@@ -1,25 +1,27 @@
 'use client';
 
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
 import {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-} from '@shotly/ui/components/avatar';
-import { Button } from '@shotly/ui/components/button';
-import { Badge } from '@shotly/ui/components/badge';
-import { Card, CardContent } from '@shotly/ui/components/card';
-import {
+  BadgeCheckIcon,
+  BookmarkIcon,
   MapPinIcon,
   StarIcon,
-  BookmarkIcon,
-  BadgeCheckIcon,
 } from 'lucide-react';
-import { cn } from '@shotly/ui/lib/utils';
-import ImagePlaceholder from '../../_components/image-placeholder';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import React from 'react';
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@shotly/ui/components/avatar';
+import { Badge } from '@shotly/ui/components/badge';
+import { Button } from '@shotly/ui/components/button';
+import { Card, CardContent } from '@shotly/ui/components/card';
+import { cn } from '@shotly/ui/lib/utils';
+
+import ImagePlaceholder from '../../_components/image-placeholder';
 
 type PhotographerCardProps = {
   id: string;

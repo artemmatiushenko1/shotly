@@ -1,16 +1,19 @@
 'use client';
 
-import { useId } from 'react';
-import { buttonVariants } from '@shotly/ui/components/button';
 import { ImageIcon } from 'lucide-react';
-import { useImagePreview } from './use-image-preview';
-import { cn } from '@shotly/ui/lib/utils';
 import { useTranslations } from 'next-intl';
+import { useId } from 'react';
+
+import { clientEnv } from '@/env/client';
+import { MimeType } from '@/lib/files/enums';
+import { mbToBytes } from '@/lib/files/utils';
+
+import { buttonVariants } from '@shotly/ui/components/button';
+import { cn } from '@shotly/ui/lib/utils';
+
 import { uploadTmpCoverImage } from './actions';
 import ImageDisplay from './image-display';
-import { clientEnv } from '@/env/client';
-import { mbToBytes } from '@/lib/files/utils';
-import { MimeType } from '@/lib/files/enums';
+import { useImagePreview } from './use-image-preview';
 
 type CoverUploadProps = {
   existingImageUrl?: string;

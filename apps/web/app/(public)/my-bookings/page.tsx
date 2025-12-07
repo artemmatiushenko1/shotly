@@ -1,16 +1,18 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+import { unstable_ViewTransition as ViewTransition } from 'react';
+
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@shotly/ui/components/tabs';
+
 import OrderCard from '../../_components/booking-card';
-import { unstable_ViewTransition as ViewTransition } from 'react';
 import BookingActions from './booking-actions';
 import PhotorgapherInfo from './photographer-info';
-import { useTranslations } from 'next-intl';
 
 function MyBookings() {
   const t = useTranslations('myBookings');

@@ -1,13 +1,15 @@
 'use client';
 
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import React, { useActionState } from 'react';
-import { Label } from '@shotly/ui/components/label';
-import { Input } from '@shotly/ui/components/input';
+
 import { Button } from '@shotly/ui/components/button';
 import { GoogleIcon } from '@shotly/ui/components/google-icon';
-import Link from 'next/link';
+import { Input } from '@shotly/ui/components/input';
+import { Label } from '@shotly/ui/components/label';
+
 import { signInWithGoogle, signUp } from '../actions';
-import { useTranslations } from 'next-intl';
 
 const SignUpForm = () => {
   const t = useTranslations('auth.signUp');

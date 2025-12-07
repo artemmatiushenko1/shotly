@@ -1,3 +1,5 @@
+import { desc, eq, inArray } from 'drizzle-orm';
+
 import { db } from '@/db/drizzle';
 import {
   featuresTable,
@@ -5,7 +7,6 @@ import {
   servicesToFeaturesTable,
 } from '@/db/schema';
 import { CreateServiceInput, Service, serviceSchema } from '@/domain/service';
-import { desc, eq, inArray } from 'drizzle-orm';
 
 // TODO: use drizzle relations
 class ServicesRepository {

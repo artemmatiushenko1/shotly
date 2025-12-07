@@ -1,7 +1,9 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import React from 'react';
-import { LabeledSelect } from './labeled-select';
+
+import { Input } from '@shotly/ui/components/input';
 import {
   Select,
   SelectContent,
@@ -9,9 +11,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@shotly/ui/components/select';
+
 import CountSelect from './count-select';
-import { Input } from '@shotly/ui/components/input';
-import { useTranslations } from 'next-intl';
+import { LabeledSelect } from './labeled-select';
 
 function Filters() {
   const t = useTranslations('landing.searchPage.filters');

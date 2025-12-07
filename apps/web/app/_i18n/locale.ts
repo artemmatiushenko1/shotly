@@ -1,7 +1,7 @@
 import 'server-only';
-
 import { cookies } from 'next/headers';
-import { Locale, locales, LOCALE_COOKIE_NAME } from './config';
+
+import { Locale, LOCALE_COOKIE_NAME, locales } from './config';
 
 export async function getLocale(): Promise<Locale> {
   const cookieStore = await cookies();

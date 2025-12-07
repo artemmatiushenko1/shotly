@@ -1,12 +1,14 @@
 'use client';
 
-import { IconWithText } from '../../../../_components/icon-with-text';
-import { Card, CardContent } from '@shotly/ui/components/card';
 import { CalendarIcon, ImagesIcon } from 'lucide-react';
 import Image from 'next/image';
-import { VisibilityBadge } from '../../../ui/visibility-badge';
-import ImagePlaceholder from '../../../../_components/image-placeholder';
 import { useTranslations } from 'next-intl';
+
+import { Card, CardContent } from '@shotly/ui/components/card';
+
+import { IconWithText } from '../../../../_components/icon-with-text';
+import ImagePlaceholder from '../../../../_components/image-placeholder';
+import { VisibilityBadge } from '../../../ui/visibility-badge';
 
 type CollectionCardProps = {
   isPublic?: boolean;

@@ -1,6 +1,7 @@
 import React from 'react';
-import Navigation from '../(public)/navigation';
+
 import Footer from '../(public)/footer';
+import Navigation from '../(public)/navigation';
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (

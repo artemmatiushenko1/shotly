@@ -1,23 +1,26 @@
 'use client';
 
+import { CircleXIcon, GlobeIcon, InstagramIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+import { useActionState, useId, useState } from 'react';
+
+import { Language } from '@/domain/language';
+import { LocationDetails } from '@/domain/locations';
+import { UserProfile } from '@/domain/user';
+
 import { Button } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';
 import { Textarea } from '@shotly/ui/components/textarea';
-import { InstagramIcon, GlobeIcon, CircleXIcon } from 'lucide-react';
-import { SocialLinkInput } from './social-link-input';
-import { LabeledControl } from '../labeled-control';
-import { LocationSelector } from './location-selector';
-import { LanguageSelector } from './language-selector';
-import { ExperienceSlider } from './experience-slider';
-import { useRouter } from 'next/navigation';
+
 import CoverUpload from '../../../_components/cover-upload/cover-upload';
-import { useActionState, useId, useState } from 'react';
+import { LabeledControl } from '../labeled-control';
 import { updateProfileAction } from './actions';
-import { UserProfile } from '@/domain/user';
-import { Language } from '@/domain/language';
-import { LocationDetails } from '@/domain/locations';
+import { ExperienceSlider } from './experience-slider';
+import { LanguageSelector } from './language-selector';
+import { LocationSelector } from './location-selector';
 import { ProfileImageUpload } from './profile-image-upload';
-import { useTranslations } from 'next-intl';
+import { SocialLinkInput } from './social-link-input';
 
 enum FormField {
   NAME = 'name',

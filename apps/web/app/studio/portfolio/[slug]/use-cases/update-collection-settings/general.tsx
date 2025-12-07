@@ -1,7 +1,9 @@
 import { useTranslations } from 'next-intl';
-import CreateCollectionForm from '../../../use-cases/create-collection/create-collection-form';
+
 import { Category } from '@/domain/category';
 import { Collection } from '@/domain/collection';
+
+import CreateCollectionForm from '../../../use-cases/create-collection/create-collection-form';
 import SettingsTabLayout from './settings-tab-layout';
 
 type GeneralCollectionSettingsProps = {

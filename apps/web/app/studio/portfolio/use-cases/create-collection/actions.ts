@@ -1,9 +1,10 @@
 'use server';
 
-import { getUser } from '@/lib/auth/dal';
-import collectionsRepository from '@/repositories/collections.repository';
 import { redirect } from 'next/navigation';
 import z from 'zod';
+
+import { getUser } from '@/lib/auth/dal';
+import collectionsRepository from '@/repositories/collections.repository';
 
 const inputSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),

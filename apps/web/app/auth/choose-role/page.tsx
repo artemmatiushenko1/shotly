@@ -1,13 +1,16 @@
 'use client';
 
+import { CameraIcon, UserIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useActionState, useId } from 'react';
+
+import { Role } from '@/domain/user';
+
 import { Button } from '@shotly/ui/components/button';
 import { Label } from '@shotly/ui/components/label';
 import { RadioGroup, RadioGroupItem } from '@shotly/ui/components/radio-group';
-import { CameraIcon, UserIcon } from 'lucide-react';
-import { useActionState, useId } from 'react';
+
 import { updateUserRole } from './actions';
-import { Role } from '@/domain/user';
-import { useTranslations } from 'next-intl';
 
 function ChooseRolePage() {
   const id = useId();

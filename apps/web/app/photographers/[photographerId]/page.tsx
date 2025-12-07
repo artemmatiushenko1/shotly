@@ -1,3 +1,10 @@
+import { ArrowUpRightIcon, BookmarkIcon } from 'lucide-react';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
+
+import usersRepository from '@/repositories/users.repository';
+
 import { Avatar, AvatarImage } from '@shotly/ui/components/avatar';
 import { Button } from '@shotly/ui/components/button';
 import {
@@ -5,12 +12,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@shotly/ui/components/tooltip';
-import usersRepository from '@/repositories/users.repository';
-import { ArrowUpRightIcon, BookmarkIcon } from 'lucide-react';
-import Image from 'next/image';
-import { notFound } from 'next/navigation';
+
 import ProfileTabs from './tabs';
-import { getTranslations } from 'next-intl/server';
 
 type PhotographerPublicProfileProps = {
   params: Promise<{ photographerId: string }>;

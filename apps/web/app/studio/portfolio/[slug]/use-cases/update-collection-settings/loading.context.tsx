@@ -1,5 +1,6 @@
-import GradientLoadingProgress from '../../../../../_components/gradient-progress';
 import { createContext, useContext, useState } from 'react';
+
+import GradientLoadingProgress from '../../../../../_components/gradient-progress';
 
 const CollectionSettingsLoadingContext = createContext<{
   loading: boolean;

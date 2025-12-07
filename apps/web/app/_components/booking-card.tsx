@@ -1,5 +1,9 @@
 'use client';
 
+import { CopyIcon } from 'lucide-react';
+import Image from 'next/image';
+import { useTranslations } from 'next-intl';
+
 import { Badge } from '@shotly/ui/components/badge';
 import {
   Card,
@@ -7,9 +11,6 @@ import {
   CardFooter,
   CardHeader,
 } from '@shotly/ui/components/card';
-import { CopyIcon } from 'lucide-react';
-import Image from 'next/image';
-import { useTranslations } from 'next-intl';
 
 const BookingStatusBadge = ({
   status,

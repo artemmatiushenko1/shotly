@@ -1,5 +1,12 @@
 'use client';
 
+import { LockIcon, SettingsIcon, TrashIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+
+import { Category } from '@/domain/category';
+import { Collection } from '@/domain/collection';
+
 import {
   Dialog,
   DialogContent,
@@ -14,14 +21,10 @@ import {
   TabsList,
   TabsTrigger,
 } from '@shotly/ui/components/tabs';
-import { LockIcon, SettingsIcon, TrashIcon } from 'lucide-react';
-import { useState } from 'react';
-import { Category } from '@/domain/category';
-import { Collection } from '@/domain/collection';
-import { useTranslations } from 'next-intl';
-import GeneralCollectionSettings from './general';
+
 import AccessAndVisibilitySettings from './access-and-visibility';
 import DangerZoneSettings from './danger-zone';
+import GeneralCollectionSettings from './general';
 import { CollectionSettingsLoadingProvider } from './loading.context';
 
 type CollectionSettingsDialogProps = {

@@ -1,13 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import CollectionCard from './collection-card';
-import Empty from './empty';
+import { unstable_ViewTransition as ViewTransition } from 'react';
+
+import { Category } from '@/domain/category';
 import { Collection } from '@/domain/collection';
 import { VisibilityStatus } from '@/domain/common';
 import { formatDateWithOrdinal } from '@/utils/date-formatting';
-import { unstable_ViewTransition as ViewTransition } from 'react';
-import { Category } from '@/domain/category';
+
+import CollectionCard from './collection-card';
+import Empty from './empty';
 
 type CollectionsGridProps = {
   collections: Collection[];

@@ -1,22 +1,25 @@
-import { PhotosGrid } from './use-cases/see-photos/photos-grid';
-import { CollectionCover } from './collection-cover';
-import { CollectionMetadata } from './collection-metadata';
-import collectionsRepository from '@/repositories/collections.repository';
-import categoriesRepository from '@/repositories/categories.repository';
-import Link from 'next/link';
-import { Button, buttonVariants } from '@shotly/ui/components/button';
-import { cn } from '@shotly/ui/lib/utils';
 import { ChevronLeftIcon, SettingsIcon } from 'lucide-react';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
+
+import { getUser } from '@/lib/auth/dal';
+import categoriesRepository from '@/repositories/categories.repository';
+import collectionsRepository from '@/repositories/collections.repository';
+
+import { Button, buttonVariants } from '@shotly/ui/components/button';
+import FadeIn from '@shotly/ui/components/fade-in';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@shotly/ui/components/tooltip';
-import { getTranslations } from 'next-intl/server';
+import { cn } from '@shotly/ui/lib/utils';
+
+import { CollectionCover } from './collection-cover';
+import { CollectionMetadata } from './collection-metadata';
+import { PhotosGrid } from './use-cases/see-photos/photos-grid';
 import CollectionSettingsDialog from './use-cases/update-collection-settings/collection-settings-dialog';
-import { getUser } from '@/lib/auth/dal';
-import FadeIn from '@shotly/ui/components/fade-in';
-import { notFound } from 'next/navigation';
 
 type CollectionDetailsProps = {
   params: Promise<{ slug: string }>;

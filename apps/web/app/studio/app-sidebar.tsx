@@ -1,6 +1,31 @@
 'use client';
 
+import { User } from 'better-auth';
+import {
+  Blocks,
+  CalendarRangeIcon,
+  ChevronRight,
+  Handshake,
+  Image,
+  LayoutGrid,
+  LogOutIcon,
+  SettingsIcon,
+} from 'lucide-react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
+
+import { StorageUsage } from '@/domain/user';
+import { authClient } from '@/lib/auth/auth-client';
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@shotly/ui/components/avatar';
+import { Badge } from '@shotly/ui/components/badge';
 import { Logo } from '@shotly/ui/components/logo';
+import { Separator } from '@shotly/ui/components/separator';
 import {
   Sidebar,
   SidebarContent,
@@ -13,30 +38,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@shotly/ui/components/sidebar';
-import {
-  Blocks,
-  CalendarRangeIcon,
-  ChevronRight,
-  Handshake,
-  Image,
-  LayoutGrid,
-  LogOutIcon,
-  SettingsIcon,
-} from 'lucide-react';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@shotly/ui/components/avatar';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { authClient } from '@/lib/auth/auth-client';
-import { User } from 'better-auth';
-import { Separator } from '@shotly/ui/components/separator';
+
 import { StorageUsageInfo } from './storage-usage-info';
-import { useTranslations } from 'next-intl';
-import { StorageUsage } from '@/domain/user';
-import { Badge } from '@shotly/ui/components/badge';
 
 type AppSidebarProps = {
   user: User;

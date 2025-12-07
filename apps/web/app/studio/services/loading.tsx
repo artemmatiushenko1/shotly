@@ -1,11 +1,13 @@
-import MainHeader from '../../_components/main-header';
-import GradientLoadingProgress from '../../_components/gradient-progress';
+import { PlusIcon } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
+
 import { Badge } from '@shotly/ui/components/badge';
 import { Button } from '@shotly/ui/components/button';
 import { Skeleton } from '@shotly/ui/components/skeleton';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
-import { PlusIcon } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+
+import GradientLoadingProgress from '../../_components/gradient-progress';
+import MainHeader from '../../_components/main-header';
 
 export async function Loading() {
   const t = await getTranslations('services');

@@ -1,10 +1,11 @@
 'use client';
 
-import { buttonVariants } from '@shotly/ui/components/button';
-import { cn } from '@shotly/ui/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+
+import { buttonVariants } from '@shotly/ui/components/button';
+import { cn } from '@shotly/ui/lib/utils';
 
 type NavLinksProps = {
   variant?: 'contrast' | 'default';

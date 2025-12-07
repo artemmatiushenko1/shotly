@@ -1,6 +1,13 @@
 'use client';
 
+import { ChevronRightIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
+
+import { Category } from '@/domain/category';
+
+import { Button } from '@shotly/ui/components/button';
 import {
   Select,
   SelectContent,
@@ -8,11 +15,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@shotly/ui/components/select';
-import { Button } from '@shotly/ui/components/button';
-import { ChevronRightIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import { Category } from '@/domain/category';
 
 type LandingSearchBarProps = {
   categories: Category[];

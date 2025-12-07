@@ -1,9 +1,10 @@
 'use client';
 
-import { Card } from '@shotly/ui/components/card';
 import { ClockIcon } from 'lucide-react';
-import React from 'react';
 import { useTranslations } from 'next-intl';
+import React from 'react';
+
+import { Card } from '@shotly/ui/components/card';
 
 interface ProfileUnderReviewCardProps {
   userEmail: string;

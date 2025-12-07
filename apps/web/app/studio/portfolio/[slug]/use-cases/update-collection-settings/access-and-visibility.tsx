@@ -1,14 +1,17 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+import { startTransition, useId, useOptimistic, useState } from 'react';
+
+import { VisibilityStatus, visibilityStatusSchema } from '@/domain/common';
+
 import { Label } from '@shotly/ui/components/label';
 import { RadioGroup, RadioGroupItem } from '@shotly/ui/components/radio-group';
-import { useTranslations } from 'next-intl';
-import SettingsTabLayout from './settings-tab-layout';
-import { startTransition, useId, useOptimistic, useState } from 'react';
-import { VisibilityStatus, visibilityStatusSchema } from '@/domain/common';
-import { useCollectionSettingsLoading } from './loading.context';
-import { changeCollectionVisibilityStatusAction } from './actions';
 import { toast } from '@shotly/ui/components/sonner';
+
+import { changeCollectionVisibilityStatusAction } from './actions';
+import { useCollectionSettingsLoading } from './loading.context';
+import SettingsTabLayout from './settings-tab-layout';
 
 type AccessAndVisibilitySettingsProps = {
   defaultVisibility: VisibilityStatus;

@@ -1,28 +1,29 @@
+import { sql } from 'drizzle-orm';
+import {
+  AnyPgColumn,
+  bigint,
+  boolean,
+  check,
+  date,
+  decimal,
+  index,
+  integer,
+  jsonb,
+  numeric,
+  pgEnum,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+  unique,
+  uniqueIndex,
+  uuid,
+  varchar,
+} from 'drizzle-orm/pg-core';
+
 import { VisibilityStatus } from '@/domain/common';
 import { PhotoMetadata } from '@/domain/photos';
 import { ApprovalStatus, Role } from '@/domain/user';
-import { sql } from 'drizzle-orm';
-import {
-  pgTable,
-  text,
-  timestamp,
-  boolean,
-  pgEnum,
-  integer,
-  uuid,
-  varchar,
-  decimal,
-  primaryKey,
-  unique,
-  index,
-  uniqueIndex,
-  date,
-  bigint,
-  jsonb,
-  check,
-  numeric,
-  AnyPgColumn,
-} from 'drizzle-orm/pg-core';
 
 export const roleEnum = pgEnum('role', [
   Role.PHOTOGRAPHER,

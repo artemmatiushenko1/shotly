@@ -1,15 +1,17 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@shotly/ui/components/tabs';
+
 import SeePorfolio from './see-portfolio/see-porfolio';
 import SeeReviews from './see-reviews/see-reviews';
 import SeeServices from './see-services/see-services';
-import { useTranslations } from 'next-intl';
 
 const ProfileTabs = () => {
   const t = useTranslations('photographerProfile.tabs');

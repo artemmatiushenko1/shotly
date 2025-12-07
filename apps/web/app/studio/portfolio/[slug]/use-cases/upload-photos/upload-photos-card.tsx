@@ -1,8 +1,9 @@
 'use client';
 
-import { Card } from '@shotly/ui/components/card';
 import { UploadIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
+import { Card } from '@shotly/ui/components/card';
 
 type UploadPhotosCardProps = {
   onClick?: () => void;

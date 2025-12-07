@@ -1,9 +1,10 @@
-import { db } from '@/db/drizzle';
-import { schema } from '@/db/schema';
-import { serverEnv } from '@/env/server';
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { nextCookies } from 'better-auth/next-js';
+
+import { db } from '@/db/drizzle';
+import { schema } from '@/db/schema';
+import { serverEnv } from '@/env/server';
 
 export const auth = betterAuth({
   plugins: [nextCookies()], // nextCookies should be last

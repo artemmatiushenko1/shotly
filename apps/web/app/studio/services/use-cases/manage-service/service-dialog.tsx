@@ -1,5 +1,12 @@
 'use client';
 
+import { HandshakeIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import React, { useCallback, useState } from 'react';
+
+import { Category } from '@/domain/category';
+import { Service } from '@/domain/service';
+
 import {
   Dialog,
   DialogContent,
@@ -8,12 +15,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
-import { HandshakeIcon } from 'lucide-react';
-import React, { useCallback, useState } from 'react';
+
 import CreateServiceForm from './service-form';
-import { Category } from '@/domain/category';
-import { useTranslations } from 'next-intl';
-import { Service } from '@/domain/service';
 import {
   createServiceAction,
   updateServiceAction,

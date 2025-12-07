@@ -1,6 +1,9 @@
 'use client';
 
 import { CheckIcon, ChevronsUpDownIcon, Languages } from 'lucide-react';
+import { useState } from 'react';
+
+import { Language } from '@/domain/language';
 
 import { Button } from '@shotly/ui/components/button';
 import {
@@ -17,9 +20,8 @@ import {
   PopoverTrigger,
 } from '@shotly/ui/components/popover';
 import { cn } from '@shotly/ui/lib/utils';
+
 import LanguageTag from '../../../../_components/language-tag';
-import { Language } from '@/domain/language';
-import { useState } from 'react';
 
 type LanguageSelectorProps = {
   value: Language[];

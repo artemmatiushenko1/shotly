@@ -1,9 +1,15 @@
 'use client';
 
-import CoverUpload from '../../../../_components/cover-upload/cover-upload';
+import { ClockIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import React, { useActionState, useEffect, useId, useState } from 'react';
+
+import { Category } from '@/domain/category';
+import { VisibilityStatus } from '@/domain/common';
+
+import { Button } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';
 import { Label } from '@shotly/ui/components/label';
-import { Switch } from '@shotly/ui/components/switch';
 import {
   Select,
   SelectContent,
@@ -13,20 +19,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@shotly/ui/components/select';
-import { Textarea } from '@shotly/ui/components/textarea';
-import React, { useActionState, useEffect, useId, useState } from 'react';
-import { Button } from '@shotly/ui/components/button';
-import { FeaturesInput } from './features-input';
-import { Category } from '@/domain/category';
-import { useTranslations } from 'next-intl';
-import { VisibilityStatus } from '@/domain/common';
 import { toast } from '@shotly/ui/components/sonner';
+import { Switch } from '@shotly/ui/components/switch';
+import { Textarea } from '@shotly/ui/components/textarea';
+
+import CoverUpload from '../../../../_components/cover-upload/cover-upload';
+import { FeaturesInput } from './features-input';
 import {
   DESCRIPTION_MAX_LENGTH,
   ServiceFormState,
   ServiceFormValues,
 } from './service-form.schema';
-import { ClockIcon } from 'lucide-react';
 
 type CreateServiceFormProps = {
   categories: Category[];

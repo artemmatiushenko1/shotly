@@ -1,9 +1,12 @@
 import { Search } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
+
+import categoriesRepository from '@/repositories/categories.repository';
+
+import { Badge } from '@shotly/ui/components/badge';
+
 import LandingSearchBar from './landing-search-bar';
 import PhotographerAvatars from './photographer-avatars';
-import categoriesRepository from '@/repositories/categories.repository';
-import { Badge } from '@shotly/ui/components/badge';
 
 async function LandingPage() {
   const categories = await categoriesRepository.getCategories();

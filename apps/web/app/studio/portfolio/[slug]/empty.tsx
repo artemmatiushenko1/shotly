@@ -1,8 +1,10 @@
 'use client';
 
-import { Button } from '@shotly/ui/components/button';
 import { Upload } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
+import { Button } from '@shotly/ui/components/button';
+
 import UploadPhotosDialog from './use-cases/upload-photos/upload-photos-dialog';
 
 type EmptyProps = {

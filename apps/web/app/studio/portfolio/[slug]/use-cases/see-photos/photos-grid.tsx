@@ -1,12 +1,14 @@
 'use client';
 
-import { PhotoCard } from './photo-card';
-import UploadPhotosDialog from '../upload-photos/upload-photos-dialog';
-import { Empty } from '../../empty';
-import { Photo } from '@/domain/photos';
-import { formatBytes } from '../../utils';
 import { useTranslations } from 'next-intl';
+
+import { Photo } from '@/domain/photos';
+
+import { Empty } from '../../empty';
+import { formatBytes } from '../../utils';
 import { UploadPhotosCard } from '../upload-photos/upload-photos-card';
+import UploadPhotosDialog from '../upload-photos/upload-photos-dialog';
+import { PhotoCard } from './photo-card';
 
 type PhotosGridProps = {
   collectionId: string;

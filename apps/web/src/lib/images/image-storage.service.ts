@@ -1,9 +1,10 @@
 import 'server-only';
+import path from 'node:path';
+
+import { serverEnv } from '@/env/server';
 
 import { IImageStorage } from './image-storage.interface';
 import { LocalImageStorageService } from './local/local-image-storage.service';
-import path from 'node:path';
-import { serverEnv } from '@/env/server';
 
 /**
  * Image storage service

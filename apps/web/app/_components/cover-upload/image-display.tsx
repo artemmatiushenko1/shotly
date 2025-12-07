@@ -1,8 +1,9 @@
-import { Spinner } from '@shotly/ui/components/spinner';
-import { cn } from '@shotly/ui/lib/utils';
 import { ImageIcon } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react';
+
+import { Spinner } from '@shotly/ui/components/spinner';
+import { cn } from '@shotly/ui/lib/utils';
 
 type ImageDisplayProps = {
   isLoading: boolean;

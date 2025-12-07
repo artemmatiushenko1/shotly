@@ -1,9 +1,9 @@
 'use server';
 
 import { clientEnv } from '@/env/client';
-import { tmpImageStorage } from '@/lib/images/image-storage.service';
-import { mbToBytes } from '@/lib/files/utils';
 import { MimeType } from '@/lib/files/enums';
+import { mbToBytes } from '@/lib/files/utils';
+import { tmpImageStorage } from '@/lib/images/image-storage.service';
 
 export const uploadTmpCoverImage = async (file: File) => {
   const uploadResult = await tmpImageStorage.upload(file, {

@@ -1,6 +1,7 @@
+import { getTranslations } from 'next-intl/server';
+
 import Filters from './filters';
 import PhotographerCard from './photographer-card';
-import { getTranslations } from 'next-intl/server';
 
 async function SearchPage() {
   const t = await getTranslations('landing.searchPage');

@@ -1,8 +1,13 @@
 'use client';
 
-import { useState, useActionState, useId } from 'react';
+import { useTranslations } from 'next-intl';
+import { useActionState, useId, useState } from 'react';
+
 import { Category } from '@/domain/category';
+import { Collection } from '@/domain/collection';
+
 import { Button } from '@shotly/ui/components/button';
+import { DatePicker } from '@shotly/ui/components/date-picker';
 import { Input } from '@shotly/ui/components/input';
 import { Label } from '@shotly/ui/components/label';
 import {
@@ -15,11 +20,9 @@ import {
   SelectValue,
 } from '@shotly/ui/components/select';
 import { Textarea } from '@shotly/ui/components/textarea';
-import { DatePicker } from '@shotly/ui/components/date-picker';
-import { createCollection } from './actions';
 import { cn } from '@shotly/ui/lib/utils';
-import { Collection } from '@/domain/collection';
-import { useTranslations } from 'next-intl';
+
+import { createCollection } from './actions';
 
 enum FormField {
   NAME = 'name',

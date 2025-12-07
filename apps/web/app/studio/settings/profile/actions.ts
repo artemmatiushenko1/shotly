@@ -1,5 +1,8 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+import z from 'zod';
+
 import { locationDetailsSchema } from '@/domain/locations';
 import { getUser } from '@/lib/auth/dal';
 import {
@@ -8,8 +11,6 @@ import {
   UploadResult,
 } from '@/lib/images/image-storage.service';
 import usersRepository from '@/repositories/users.repository';
-import { revalidatePath } from 'next/cache';
-import z from 'zod';
 
 const inputSchema = z.object({
   name: z.string().min(1, { error: 'Name must not be empty.' }),

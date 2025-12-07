@@ -1,4 +1,5 @@
 import z from 'zod';
+
 import { visibilityStatusSchema } from './common';
 
 export const serviceSchema = z.object({

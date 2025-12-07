@@ -1,14 +1,15 @@
 'use client';
 
+import { ArrowUpRightIcon, UserIcon } from 'lucide-react';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import React from 'react';
+
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from '@shotly/ui/components/avatar';
-import { ArrowUpRightIcon, UserIcon } from 'lucide-react';
-import Link from 'next/link';
-import React from 'react';
-import { useTranslations } from 'next-intl';
 
 function PhotorgapherInfo() {
   const t = useTranslations('myBookings.photographerInfo');

@@ -1,7 +1,8 @@
-import { serverEnv } from '@/env/server';
 import { config } from 'dotenv';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import Pool from 'pg-pool';
+
+import { serverEnv } from '@/env/server';
 
 config({ path: '.env' });
 

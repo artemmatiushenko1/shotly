@@ -1,6 +1,11 @@
 'use client';
 
+import { Folder } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+
 import { Category } from '@/domain/category';
+
 import {
   Dialog,
   DialogContent,
@@ -9,10 +14,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
-import { Folder } from 'lucide-react';
+
 import CreateCollectionForm from './create-collection-form';
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
 
 type CreateCollectionDialogProps = {
   categories: Category[];

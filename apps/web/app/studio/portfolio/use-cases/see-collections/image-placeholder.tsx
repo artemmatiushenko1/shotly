@@ -1,5 +1,6 @@
-import { cn } from '@shotly/ui/lib/utils';
 import { CameraIcon } from 'lucide-react';
+
+import { cn } from '@shotly/ui/lib/utils';
 
 type ImagePlaceholderProps = {
   className?: string;

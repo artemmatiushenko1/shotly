@@ -1,9 +1,10 @@
 'use client';
 
-import ImagePlaceholder from '../../../_components/image-placeholder';
 import Image from 'next/image';
-import React from 'react';
 import { useTranslations } from 'next-intl';
+import React from 'react';
+
+import ImagePlaceholder from '../../../_components/image-placeholder';
 
 type CollectionCoverProps = {
   coverImageUrl?: string | null;

@@ -1,10 +1,12 @@
-import MainHeader from '../../_components/main-header';
-import GradientLoadingProgress from '../../_components/gradient-progress';
+import { PlusIcon } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
+
+import { Button } from '@shotly/ui/components/button';
 import { Card, CardContent } from '@shotly/ui/components/card';
 import { Skeleton } from '@shotly/ui/components/skeleton';
-import { getTranslations } from 'next-intl/server';
-import { Button } from '@shotly/ui/components/button';
-import { PlusIcon } from 'lucide-react';
+
+import GradientLoadingProgress from '../../_components/gradient-progress';
+import MainHeader from '../../_components/main-header';
 
 export async function Loading() {
   const t = await getTranslations('portfolio');

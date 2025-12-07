@@ -1,13 +1,16 @@
 'use client';
+import { Trash2, Upload } from 'lucide-react';
 import Image from 'next/image';
-import { Upload, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+
+import { MimeType } from '@/lib/files/enums';
+
 import { Button, buttonVariants } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
-import { ProfileImagePlaceholder } from './profile-image-placeholder';
+
 import { useImagePreview } from '../../../_components/cover-upload/use-image-preview';
-import { useTranslations } from 'next-intl';
 import { uploadProfileTmpProfileImage } from './actions';
-import { MimeType } from '@/lib/files/enums';
+import { ProfileImagePlaceholder } from './profile-image-placeholder';
 
 type ProfileImageUploadProps = {
   existingImageUrl?: string | null;
