@@ -11,7 +11,7 @@ type ServiceCardProps = {
   id: string;
   coverUrl: string;
   name: string;
-  description: string;
+  description?: string;
   price: number;
   priceUnit: string;
   categoryName: string;
@@ -62,7 +62,7 @@ function ServiceCard(props: ServiceCardProps) {
           className="size-40 w-50 object-cover rounded-lg border"
         />
       </div>
-      <div className="p-3 flex flex-col justify-between flex-1">
+      <div className="p-3 flex flex-col justify-between flex-1 w-0">
         <div>
           <h2 className="font-bold text-lg">{name}</h2>
           <CardDescription className="mb-2 max-w-lg">
@@ -117,7 +117,7 @@ function ServiceCard(props: ServiceCardProps) {
           )}
         </div>
       </div>
-      <div className="w-1/6 flex justify-end">{extraActions}</div>
+      <div className="w-1/8 flex justify-end">{extraActions}</div>
     </Card>
   );
 }

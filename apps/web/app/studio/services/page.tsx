@@ -2,7 +2,7 @@ import MainHeader from '../../_components/main-header';
 import { Button } from '@shotly/ui/components/button';
 import { PlusIcon } from 'lucide-react';
 import CreateServiceDialog from './use-cases/manage-service/service-dialog';
-import ServicesList from './use-cases/see-services/services-list';
+import ServicesList from './use-cases/see-services/service-list';
 import categoriesRepository from '@/repositories/categories.repository';
 import { getUser } from '@/lib/auth/dal';
 import { getTranslations } from 'next-intl/server';
