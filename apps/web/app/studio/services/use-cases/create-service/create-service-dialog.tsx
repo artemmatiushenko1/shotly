@@ -14,6 +14,7 @@ import CreateServiceForm from './create-service-form';
 import { Category } from '@/domain/category';
 import { useTranslations } from 'next-intl';
 import { Service } from '@/domain/service';
+import { createServiceAction, updateServiceAction } from './actions';
 
 type CreateServiceDialogProps = {
   categories: Category[];
@@ -24,7 +25,7 @@ type CreateServiceDialogProps = {
 function CreateServiceDialog(props: CreateServiceDialogProps) {
   const { children: trigger, categories, service } = props;
 
-  const t = useTranslations('services.createServiceDialog.dialog');
+  const t = useTranslations('services.createServiceDialog');
 
   const [open, setOpen] = useState(false);
 
@@ -36,6 +37,17 @@ function CreateServiceDialog(props: CreateServiceDialogProps) {
     setOpen(false);
   }, [setOpen]);
 
+  const isEditMode = !!service;
+
+  const formAction =
+    isEditMode && service
+      ? updateServiceAction.bind(null, service.id)
+      : createServiceAction;
+
+  const submitLabel = isEditMode
+    ? t('form.actions.saveChanges')
+    : t('form.actions.create');
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -45,12 +57,14 @@ function CreateServiceDialog(props: CreateServiceDialogProps) {
             <HandshakeIcon className="text-primary size-4" />
           </div>
           <div>
-            <DialogTitle className="mb-1">{t('title')}</DialogTitle>
-            <DialogDescription>{t('description')}</DialogDescription>
+            <DialogTitle className="mb-1">{t('dialog.title')}</DialogTitle>
+            <DialogDescription>{t('dialog.description')}</DialogDescription>
           </div>
         </DialogHeader>
         <div className="flex-1">
           <CreateServiceForm
+            action={formAction}
+            submitLabel={submitLabel}
             defaultValues={service}
             categories={categories}
             onSuccess={handleSuccess}

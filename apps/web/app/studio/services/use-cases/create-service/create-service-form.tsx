@@ -18,11 +18,10 @@ import React, { useActionState, useEffect, useId, useState } from 'react';
 import { Button } from '@shotly/ui/components/button';
 import { FeaturesInput } from './features-input';
 import { Category } from '@/domain/category';
-import { createServiceAction, updateServiceAction } from './actions';
 import { useTranslations } from 'next-intl';
 import { VisibilityStatus } from '@/domain/common';
 import { toast } from '@shotly/ui/components/sonner';
-import { Service } from '@/domain/service';
+import { ServiceFormState, ServiceFormValues } from './form.schema';
 
 enum FormField {
   NAME = 'name',
@@ -36,18 +35,32 @@ enum FormField {
   SERVICE_ID = 'serviceId',
 }
 
-// TODO: idea is to add list of features,
-// user can select which ones are included in base price, and what might be included additionally
 type CreateServiceFormProps = {
   categories: Category[];
-  defaultValues?: Service;
-
+  defaultValues?: Partial<ServiceFormValues>;
+  action: (
+    state: ServiceFormState,
+    payload: FormData,
+  ) => Promise<ServiceFormState>;
   onSuccess: () => void;
   onCancel: () => void;
+  submitLabel: string;
+};
+
+const INITIAL_STATE: ServiceFormState = {
+  status: 'idle',
+  message: '',
 };
 
 function CreateServiceForm(props: CreateServiceFormProps) {
-  const { categories, defaultValues, onCancel, onSuccess } = props;
+  const {
+    categories,
+    defaultValues,
+    onCancel,
+    onSuccess,
+    action,
+    submitLabel,
+  } = props;
 
   const nameId = useId();
   const descriptionId = useId();
@@ -57,45 +70,11 @@ function CreateServiceForm(props: CreateServiceFormProps) {
 
   const t = useTranslations('services.createServiceDialog.form');
 
-  const [createState, createServiceFormAction, isCreatePending] =
-    useActionState(createServiceAction, {
-      hasErrors: false,
-      success: false,
-      inputs: undefined,
-      validationErrors: undefined,
-      serviceName: '',
-    });
+  const [state, formAction, isPending] = useActionState(action, INITIAL_STATE);
 
-  const [editState, editServiceFormAction, isEditPending] = useActionState(
-    updateServiceAction,
-    {
-      hasErrors: false,
-      success: false,
-      inputs: undefined,
-      validationErrors: undefined,
-      serviceName: '',
-    },
-  );
+  const values = { ...defaultValues, ...state.inputs };
 
-  useEffect(() => {
-    if (createState.success) {
-      onSuccess();
-      toast.success(`Service ${createState.serviceName} created successfully!`);
-    }
-  }, [createState.success, onSuccess, createState.serviceName]);
-
-  useEffect(() => {
-    if (editState.success) {
-      onSuccess();
-      toast.success(`Service ${editState.serviceName} updated successfully!`);
-    }
-  }, [editState.success, onSuccess, editState.serviceName]);
-
-  const { validationErrors } = defaultValues ? editState : createState;
-
-  const [features, setFeatures] = useState<string[]>(
-    defaultValues?.features ?? [],
-  );
+  const [features, setFeatures] = useState<string[]>(values.features ?? []);
 
   const [categoryId, setCategoryId] = useState<string>(
     defaultValues?.categoryId ?? '',
@@ -104,15 +83,18 @@ function CreateServiceForm(props: CreateServiceFormProps) {
     defaultValues?.visibilityStatus ?? VisibilityStatus.PRIVATE,
   );
 
-  const isEditMode = !!defaultValues;
+  useEffect(() => {
+    if (state.status === 'success') {
+      toast.success(state.message);
+      onSuccess();
+    }
 
-  const formAction = isEditMode
-    ? editServiceFormAction
-    : createServiceFormAction;
+    if (state.status === 'error') {
+      toast.error(state.message);
+    }
+  }, [state.status, state.message, onSuccess]);
 
-  const formPending = isEditMode ? isEditPending : isCreatePending;
-
-  const formInputs = isEditMode ? editState.inputs : createState.inputs;
+  const errors = state.errors ?? {};
 
   return (
     <form className="space-y-5" action={formAction}>
@@ -122,19 +104,17 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           required
           id={nameId}
           name={FormField.NAME}
-          defaultValue={formInputs?.name ?? defaultValues?.name ?? ''}
+          defaultValue={values.name}
           placeholder={t('fields.name.placeholder')}
-          error={validationErrors?.fieldErrors.name?.toString()}
+          error={errors?.name?.join(', ')}
         />
       </div>
       <div className="grid gap-3">
         <Label>{t('fields.coverImage.label')}</Label>
         <CoverUpload
           name={FormField.COVER_IMAGE}
-          existingImageUrl={
-            formInputs?.coverImageUrl ?? defaultValues?.coverImageUrl
-          }
-          error={validationErrors?.fieldErrors.coverImageUrl?.toString()}
+          existingImageUrl={values.coverImageUrl}
+          error={errors?.coverImageUrl?.join(', ')}
         />
       </div>
       <div className="grid gap-3">
@@ -145,10 +125,8 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           id={descriptionId}
           maxChars={500}
           placeholder={t('fields.description.placeholder')}
-          defaultValue={
-            formInputs?.description ?? defaultValues?.description ?? ''
-          }
-          error={validationErrors?.fieldErrors.description?.toString() ?? ''}
+          defaultValue={values.description}
+          error={errors?.description?.join(', ')}
         />
       </div>
       <div className="flex space-x-3 items-start">
@@ -170,10 +148,10 @@ function CreateServiceForm(props: CreateServiceFormProps) {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {validationErrors?.fieldErrors.categoryId?.toString() && (
+          {errors?.categoryId?.length && (
             // TODO: create common component for this form error
             <div className="text-sm text-destructive mt-2">
-              {validationErrors?.fieldErrors.categoryId?.toString()}
+              {errors?.categoryId?.join(', ')}
             </div>
           )}
           <input
@@ -190,12 +168,8 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             placeholder={t('fields.price.placeholder')}
             name={FormField.PRICE}
             id={priceId}
-            defaultValue={
-              formInputs?.price?.toString() ??
-              defaultValues?.price?.toString() ??
-              ''
-            }
-            error={validationErrors?.fieldErrors.price?.toString()}
+            defaultValue={values.price?.toString()}
+            error={errors?.price?.join(', ')}
           />
         </div>
       </div>
@@ -203,7 +177,7 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         id={featuresId}
         label={t('fields.features.label')}
         placeholder={t('fields.features.placeholder')}
-        error={validationErrors?.fieldErrors.features?.toString()}
+        error={errors?.features?.join(', ')}
         name={FormField.FEATURES}
         value={features}
         onChange={setFeatures}
@@ -217,12 +191,8 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           id={deliveryTimeId}
           name={FormField.DELIVERY_TIME_IN_DAYS}
           placeholder={t('fields.deliveryTime.placeholder')}
-          defaultValue={
-            formInputs?.deliveryTimeInDays?.toString() ??
-            defaultValues?.deliveryTimeInDays?.toString() ??
-            ''
-          }
-          error={validationErrors?.fieldErrors.deliveryTimeInDays?.toString()}
+          defaultValue={values.deliveryTimeInDays?.toString()}
+          error={errors?.deliveryTimeInDays?.join(', ')}
         />
       </div>
       <div className="w-full flex justify-between">
@@ -244,22 +214,17 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         />
         <input type="hidden" name={FormField.STATUS} value={visibilityStatus} />
       </div>
-      <input
-        type="hidden"
-        name={FormField.SERVICE_ID}
-        value={defaultValues?.id}
-      />
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
         <Button
-          disabled={formPending}
+          disabled={isPending}
           type="button"
           variant="ghost"
           onClick={onCancel}
         >
           {t('actions.cancel')}
         </Button>
-        <Button type="submit" loading={formPending}>
-          {isEditMode ? t('actions.saveChanges') : t('actions.create')}
+        <Button type="submit" loading={isPending}>
+          {submitLabel}
         </Button>
       </div>
     </form>

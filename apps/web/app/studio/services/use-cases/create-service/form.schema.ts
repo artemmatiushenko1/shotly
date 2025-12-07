@@ -1,0 +1,39 @@
+import { z } from 'zod';
+import { visibilityStatusSchema } from '@/domain/common';
+
+export const serviceFormSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }),
+  coverImageUrl: z.string().min(1, { message: 'Cover image is required' }),
+  currency: z.string().default('UAH'),
+  description: z.string().optional(),
+  categoryId: z.string().min(1, { message: 'Category is required' }),
+  price: z.coerce
+    .number()
+    .positive({ message: 'Price must be greater than 0' }),
+  features: z
+    .string()
+    .transform((str) =>
+      str
+        .split(',')
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0),
+    )
+    .pipe(
+      z
+        .array(z.string())
+        .min(1, { message: 'At least one feature is required' }),
+    ),
+  deliveryTimeInDays: z.coerce
+    .number()
+    .positive({ message: 'Delivery time must be positive' }),
+  visibilityStatus: visibilityStatusSchema,
+});
+
+export type ServiceFormValues = z.infer<typeof serviceFormSchema>;
+
+export type ServiceFormState = {
+  status: 'idle' | 'success' | 'error';
+  message: string;
+  errors?: z.core.$ZodFlattenedError<ServiceFormValues>['fieldErrors'];
+  inputs?: Partial<ServiceFormValues>;
+};

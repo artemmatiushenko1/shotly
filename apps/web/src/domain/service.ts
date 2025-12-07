@@ -5,7 +5,7 @@ export const serviceSchema = z.object({
   id: z.string(),
   photographerId: z.string(),
   name: z.string(),
-  description: z.string(),
+  description: z.string().optional(),
   coverImageUrl: z.string(),
   price: z.number(),
   currency: z.string(),

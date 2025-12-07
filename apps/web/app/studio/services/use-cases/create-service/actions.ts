@@ -1,140 +1,93 @@
 'use server';
 
-import z from 'zod';
-import { visibilityStatusSchema } from '@/domain/common';
+import { revalidatePath } from 'next/cache';
 import { getUser } from '@/lib/auth/dal';
 import { createServiceUseCase } from '@/use-cases/services/create-service.use-case';
-import { revalidatePath } from 'next/cache';
 import updateServiceUseCase from '@/use-cases/services/update-service.use-case';
+import {
+  serviceFormSchema,
+  ServiceFormState,
+  ServiceFormValues,
+} from './form.schema';
+import z from 'zod';
 
-const createInputSchema = z.object({
-  name: z.string().min(1, { error: 'Name is required' }),
-  coverImageUrl: z.url({ error: 'Cover image is required' }),
-  currency: z.string().min(1, { error: 'Currency is required' }),
-  description: z.string(),
-  categoryId: z.string().min(1, { error: 'Category is required' }),
-  price: z.coerce.number().positive({ error: 'Price must be greater than 0' }),
-  features: z
-    .string()
-    .transform((str) =>
-      str
-        .split(',')
-        .map((s) => s.trim())
-        .filter((s) => s.length > 0),
-    )
-    .pipe(z.array(z.string()).min(1, { error: 'Features are required' })),
-  deliveryTimeInDays: z.coerce
-    .number()
-    .positive({ error: 'Delivery time must be greater than 0' })
-    .max(60, { error: 'Delivery time must be less than 60 days' }),
-  visibilityStatus: visibilityStatusSchema,
-});
+const parseFormData = (formData: FormData): Partial<ServiceFormValues> => {
+  const data = Object.fromEntries(formData.entries());
 
-export const createServiceAction = async (
-  initialState: {
-    // TODO: using Record looks more like a workaround...
-    inputs?: Record<string, string>;
-    hasErrors: boolean;
-    validationErrors?: z.core.$ZodFlattenedError<
-      z.infer<typeof createInputSchema>
-    >;
-  },
-  form: FormData,
-) => {
+  return {
+    ...data,
+    currency: (data.currency as string) || 'UAH',
+  } as unknown as Partial<ServiceFormValues>;
+};
+
+export async function createServiceAction(
+  prevState: ServiceFormState,
+  formData: FormData,
+): Promise<ServiceFormState> {
   const user = await getUser();
+  const rawInputs = parseFormData(formData);
+  const validation = serviceFormSchema.safeParse(rawInputs);
 
-  const data = Object.fromEntries(form.entries());
-
-  const { data: validatedInput, error: inputParseError } =
-    await createInputSchema.safeParseAsync({
-      ...data,
-      currency: 'UAH',
-    });
-
-  if (inputParseError) {
+  if (validation.error) {
     return {
-      hasErrors: true,
-      success: false,
-      inputs: {
-        name: data.name as string,
-        coverImageUrl: data.coverImageUrl as string,
-        currency: 'UAH',
-        description: data.description as string,
-        categoryId: data.categoryId as string,
-        price: data.price as string,
-        features: data.features as string,
-        deliveryTimeInDays: data.deliveryTimeInDays as string,
-        visibilityStatus: data.visibilityStatus as string,
-      },
-      serviceName: data.name as string,
-      validationErrors: z.flattenError(inputParseError),
+      status: 'error',
+      message: 'Validation failed',
+      errors: z.flattenError(validation.error).fieldErrors,
+      inputs: rawInputs,
     };
   }
 
-  await createServiceUseCase(user.id, validatedInput);
-
-  revalidatePath('/services');
-
-  return {
-    hasErrors: false,
-    success: true,
-    serviceName: validatedInput.name,
-  };
-};
-
-const updateInputSchema = createInputSchema.extend({
-  serviceId: z.string().min(1, { error: 'Service ID is required' }),
-});
-
-export const updateServiceAction = async (
-  // TODO: prevent form reset on error by using initialState, pass default values to form fields
-  initialState: {
-    // TODO: using Record looks more like a workaround...
-    inputs?: Record<string, string>;
-    hasErrors: boolean;
-    validationErrors?: z.core.$ZodFlattenedError<
-      z.infer<typeof updateInputSchema>
-    >;
-  },
-  form: FormData,
-) => {
-  const user = await getUser();
-
-  const data = Object.fromEntries(form.entries());
-
-  const { data: validatedInput, error: inputParseError } =
-    await updateInputSchema.safeParseAsync({
-      ...data,
-      currency: 'UAH',
-    });
-
-  if (inputParseError) {
+  try {
+    await createServiceUseCase(user.id, validation.data);
+    revalidatePath('/services');
     return {
-      hasErrors: true,
-      success: false,
-      inputs: {
-        name: data.name as string,
-        coverImageUrl: data.coverImageUrl as string,
-        currency: 'UAH',
-        description: data.description as string,
-        categoryId: data.categoryId as string,
-        price: data.price as string,
-        features: data.features as string,
-        deliveryTimeInDays: data.deliveryTimeInDays as string,
-        visibilityStatus: data.visibilityStatus as string,
-      },
-      serviceName: data.name as string,
-      validationErrors: z.flattenError(inputParseError),
+      status: 'success',
+      message: `Service "${validation.data.name}" created successfully!`,
+    };
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unexpected error occurred';
+
+    return {
+      status: 'error',
+      message: errorMessage,
+      inputs: rawInputs,
+    };
+  }
+}
+
+export async function updateServiceAction(
+  serviceId: string,
+  prevState: ServiceFormState,
+  formData: FormData,
+): Promise<ServiceFormState> {
+  const user = await getUser();
+  const rawInputs = parseFormData(formData);
+  const validation = serviceFormSchema.safeParse(rawInputs);
+
+  if (!validation.success) {
+    return {
+      status: 'error',
+      message: 'Validation failed',
+      errors: z.flattenError(validation.error).fieldErrors,
+      inputs: rawInputs,
     };
   }
 
-  await updateServiceUseCase(user.id, validatedInput.serviceId, validatedInput);
-
-  revalidatePath('/services');
-
-  return {
-    hasErrors: false,
-    success: true,
-    serviceName: validatedInput.name,
-  };
-};
+  try {
+    await updateServiceUseCase(user.id, serviceId, validation.data);
+    revalidatePath('/services');
+    return {
+      status: 'success',
+      message: `Service "${validation.data.name}" updated successfully!`,
+    };
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unexpected error occurred';
+    return {
+      status: 'error',
+      message: errorMessage,
+      inputs: rawInputs,
+    };
+  }
+}
