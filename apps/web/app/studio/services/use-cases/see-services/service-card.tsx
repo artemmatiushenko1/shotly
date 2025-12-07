@@ -70,7 +70,7 @@ function ServiceCard(props: ServiceCardProps) {
           </CardDescription>
         </div>
         <div className="flex items-center justify-start gap-10">
-          <div className="flex flex-col w-1/5">
+          <div className="flex flex-col w-1/3">
             <p className="text-muted-foreground text-xs mb-1">
               {t('fields.price')}
             </p>

@@ -427,7 +427,8 @@
         },
         "actions": {
           "cancel": "Cancel",
-          "saveChanges": "Save Changes"
+          "saveChanges": "Save Changes",
+          "create": "Create service"
         }
       }
     },

@@ -13,14 +13,17 @@ import React, { useCallback, useState } from 'react';
 import CreateServiceForm from './create-service-form';
 import { Category } from '@/domain/category';
 import { useTranslations } from 'next-intl';
+import { Service } from '@/domain/service';
 
 type CreateServiceDialogProps = {
   categories: Category[];
   children: React.ReactNode;
+  service?: Service;
 };
 
 function CreateServiceDialog(props: CreateServiceDialogProps) {
-  const { children: trigger, categories } = props;
+  const { children: trigger, categories, service } = props;
+
   const t = useTranslations('services.createServiceDialog.dialog');
 
   const [open, setOpen] = useState(false);
@@ -48,6 +51,7 @@ function CreateServiceDialog(props: CreateServiceDialogProps) {
         </DialogHeader>
         <div className="flex-1">
           <CreateServiceForm
+            defaultValues={service}
             categories={categories}
             onSuccess={handleSuccess}
             onCancel={handleCancel}

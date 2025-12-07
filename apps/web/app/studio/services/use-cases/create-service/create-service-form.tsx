@@ -18,10 +18,11 @@ import React, { useActionState, useEffect, useId, useState } from 'react';
 import { Button } from '@shotly/ui/components/button';
 import { FeaturesInput } from './features-input';
 import { Category } from '@/domain/category';
-import { createServiceAction } from './actions';
+import { createServiceAction, updateServiceAction } from './actions';
 import { useTranslations } from 'next-intl';
 import { VisibilityStatus } from '@/domain/common';
 import { toast } from '@shotly/ui/components/sonner';
+import { Service } from '@/domain/service';
 
 enum FormField {
   NAME = 'name',
@@ -32,44 +33,21 @@ enum FormField {
   FEATURES = 'features',
   DELIVERY_TIME_IN_DAYS = 'deliveryTimeInDays',
   STATUS = 'visibilityStatus',
+  SERVICE_ID = 'serviceId',
 }
 
 // TODO: idea is to add list of features,
 // user can select which ones are included in base price, and what might be included additionally
 type CreateServiceFormProps = {
   categories: Category[];
+  defaultValues?: Service;
+
   onSuccess: () => void;
   onCancel: () => void;
 };
 
 function CreateServiceForm(props: CreateServiceFormProps) {
-  const { categories, onCancel, onSuccess } = props;
-
-  const t = useTranslations('services.createServiceDialog.form');
-
-  const [state, formAction, pending] = useActionState(createServiceAction, {
-    hasErrors: false,
-    success: false,
-    inputs: undefined,
-    validationErrors: undefined,
-    serviceName: '',
-  });
-
-  useEffect(() => {
-    if (state.success) {
-      onSuccess();
-      toast.success(`Service ${state.serviceName} created successfully!`);
-    }
-  }, [state.success, onSuccess, state.serviceName]);
-
-  const { validationErrors } = state;
-
-  const [features, setFeatures] = useState<string[]>([]);
-
-  const [categoryId, setCategoryId] = useState<string>('');
-  const [visibilityStatus, setVisibilityStatus] = useState<VisibilityStatus>(
-    VisibilityStatus.PRIVATE,
-  );
+  const { categories, defaultValues, onCancel, onSuccess } = props;
 
   const nameId = useId();
   const descriptionId = useId();
@@ -77,17 +55,74 @@ function CreateServiceForm(props: CreateServiceFormProps) {
   const featuresId = useId();
   const deliveryTimeId = useId();
 
+  const t = useTranslations('services.createServiceDialog.form');
+
+  const [createState, createServiceFormAction, isCreatePending] =
+    useActionState(createServiceAction, {
+      hasErrors: false,
+      success: false,
+      inputs: undefined,
+      validationErrors: undefined,
+      serviceName: '',
+    });
+
+  const [editState, editServiceFormAction, isEditPending] = useActionState(
+    updateServiceAction,
+    {
+      hasErrors: false,
+      success: false,
+      inputs: undefined,
+      validationErrors: undefined,
+      serviceName: '',
+    },
+  );
+
+  useEffect(() => {
+    if (createState.success) {
+      onSuccess();
+      toast.success(`Service ${createState.serviceName} created successfully!`);
+    }
+  }, [createState.success, onSuccess, createState.serviceName]);
+
+  useEffect(() => {
+    if (editState.success) {
+      onSuccess();
+      toast.success(`Service ${editState.serviceName} updated successfully!`);
+    }
+  }, [editState.success, onSuccess, editState.serviceName]);
+
+  const { validationErrors } = defaultValues ? editState : createState;
+
+  const [features, setFeatures] = useState<string[]>(
+    defaultValues?.features ?? [],
+  );
+
+  const [categoryId, setCategoryId] = useState<string>(
+    defaultValues?.categoryId ?? '',
+  );
+  const [visibilityStatus, setVisibilityStatus] = useState<VisibilityStatus>(
+    defaultValues?.visibilityStatus ?? VisibilityStatus.PRIVATE,
+  );
+
+  const isEditMode = !!defaultValues;
+
+  const formAction = isEditMode
+    ? editServiceFormAction
+    : createServiceFormAction;
+
+  const formPending = isEditMode ? isEditPending : isCreatePending;
+
+  const formInputs = isEditMode ? editState.inputs : createState.inputs;
+
   return (
     <form className="space-y-5" action={formAction}>
       <div className="grid gap-3">
-        <Label htmlFor={nameId}>
-          {t('fields.name.label')} <span className="text-destructive">*</span>
-        </Label>
+        <Label htmlFor={nameId}>{t('fields.name.label')}</Label>
         <Input
           required
           id={nameId}
           name={FormField.NAME}
-          defaultValue={state.inputs?.name ?? ''}
+          defaultValue={formInputs?.name ?? defaultValues?.name ?? ''}
           placeholder={t('fields.name.placeholder')}
           error={validationErrors?.fieldErrors.name?.toString()}
         />
@@ -96,7 +131,9 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         <Label>{t('fields.coverImage.label')}</Label>
         <CoverUpload
           name={FormField.COVER_IMAGE}
-          existingImageUrl={state.inputs?.coverImageUrl ?? undefined}
+          existingImageUrl={
+            formInputs?.coverImageUrl ?? defaultValues?.coverImageUrl
+          }
           error={validationErrors?.fieldErrors.coverImageUrl?.toString()}
         />
       </div>
@@ -108,7 +145,9 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           id={descriptionId}
           maxChars={500}
           placeholder={t('fields.description.placeholder')}
-          defaultValue={state.inputs?.description ?? ''}
+          defaultValue={
+            formInputs?.description ?? defaultValues?.description ?? ''
+          }
           error={validationErrors?.fieldErrors.description?.toString() ?? ''}
         />
       </div>
@@ -151,7 +190,11 @@ function CreateServiceForm(props: CreateServiceFormProps) {
             placeholder={t('fields.price.placeholder')}
             name={FormField.PRICE}
             id={priceId}
-            defaultValue={state.inputs?.price?.toString() ?? ''}
+            defaultValue={
+              formInputs?.price?.toString() ??
+              defaultValues?.price?.toString() ??
+              ''
+            }
             error={validationErrors?.fieldErrors.price?.toString()}
           />
         </div>
@@ -168,13 +211,17 @@ function CreateServiceForm(props: CreateServiceFormProps) {
       <div className="grid gap-3 w-full">
         <Label htmlFor={deliveryTimeId}>{t('fields.deliveryTime.label')}</Label>
         <Input
-          type="number"
+          required
           min={1}
-          max={60}
-          placeholder={t('fields.deliveryTime.placeholder')}
-          name={FormField.DELIVERY_TIME_IN_DAYS}
+          type="number"
           id={deliveryTimeId}
-          defaultValue={state.inputs?.deliveryTimeInDays?.toString() ?? ''}
+          name={FormField.DELIVERY_TIME_IN_DAYS}
+          placeholder={t('fields.deliveryTime.placeholder')}
+          defaultValue={
+            formInputs?.deliveryTimeInDays?.toString() ??
+            defaultValues?.deliveryTimeInDays?.toString() ??
+            ''
+          }
           error={validationErrors?.fieldErrors.deliveryTimeInDays?.toString()}
         />
       </div>
@@ -197,12 +244,22 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         />
         <input type="hidden" name={FormField.STATUS} value={visibilityStatus} />
       </div>
+      <input
+        type="hidden"
+        name={FormField.SERVICE_ID}
+        value={defaultValues?.id}
+      />
       <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end mt-auto pt-4">
-        <Button type="button" variant="ghost" onClick={onCancel}>
+        <Button
+          disabled={formPending}
+          type="button"
+          variant="ghost"
+          onClick={onCancel}
+        >
           {t('actions.cancel')}
         </Button>
-        <Button type="submit" loading={pending}>
-          {t('actions.saveChanges')}
+        <Button type="submit" loading={formPending}>
+          {isEditMode ? t('actions.saveChanges') : t('actions.create')}
         </Button>
       </div>
     </form>

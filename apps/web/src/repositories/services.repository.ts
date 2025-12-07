@@ -144,6 +144,56 @@ class ServicesRepository {
       })),
     );
   }
+
+  async updateService(serviceId: string, input: Partial<CreateServiceInput>) {
+    return await db.transaction(async (tx) => {
+      const [updatedService] = await tx
+        .update(servicesTable)
+        .set({
+          name: input.name,
+          description: input.description,
+          coverImageUrl: input.coverImageUrl,
+          deliveryTimeInDays: input.deliveryTimeInDays,
+          price: input.price,
+          currency: input.currency,
+          visibilityStatus: input.visibilityStatus,
+          categoryId: input.categoryId,
+        })
+        .where(eq(servicesTable.id, serviceId))
+        .returning();
+
+      if (!updatedService) {
+        return null;
+      }
+
+      if (input.features !== undefined) {
+        await tx
+          .delete(servicesToFeaturesTable)
+          .where(eq(servicesToFeaturesTable.serviceId, serviceId));
+
+        if (input.features.length > 0) {
+          const featuresToInsert = input.features.map((name) => ({
+            name: name,
+            photographerId: updatedService.photographerId,
+          }));
+
+          const createdFeatures = await tx
+            .insert(featuresTable)
+            .values(featuresToInsert)
+            .returning({ id: featuresTable.id });
+
+          await tx.insert(servicesToFeaturesTable).values(
+            createdFeatures.map((feature) => ({
+              serviceId: updatedService.id,
+              featureId: feature.id,
+            })),
+          );
+        }
+      }
+
+      return updatedService;
+    });
+  }
 }
 
 const servicesRepository = new ServicesRepository();

@@ -5,16 +5,17 @@ import { useTranslations } from 'next-intl';
 import { startTransition, useActionState, useEffect } from 'react';
 import { archiveServiceAction, restoreServiceAction } from './actions';
 import { toast } from '@shotly/ui/components/sonner';
+import CreateServiceDialog from '../create-service/create-service-dialog';
+import { Category } from '@/domain/category';
+import { Service } from '@/domain/service';
 
 type ServiceCardActionsProps = {
-  serviceId: string;
-  serviceName: string;
-  archivedAt: Date | null;
-  onEdit: () => void;
+  categories: Category[];
+  service: Service;
 };
 
 function ServiceCardActions(props: ServiceCardActionsProps) {
-  const { serviceName, archivedAt, serviceId, onEdit } = props;
+  const { service, categories } = props;
 
   const t = useTranslations('services.serviceCard');
 
@@ -58,39 +59,37 @@ function ServiceCardActions(props: ServiceCardActionsProps) {
   }, [restoreState.success, restoreState.error, t]);
 
   const handleArchiveConfirm = () => {
-    startTransition(() => archiveService(serviceId));
+    startTransition(() => archiveService(service.id));
   };
 
   const handleRestoreConfirm = () => {
-    startTransition(() => restoreService(serviceId));
+    startTransition(() => restoreService(service.id));
   };
 
   return (
     <div className="inline-flex flex-col items-end gap-2 p-3">
-      {archivedAt === null && (
-        <Button variant="outline" className="self-center" onClick={onEdit}>
-          <EditIcon /> {t('actions.edit')}
-        </Button>
+      {service.archivedAt === null && (
+        <CreateServiceDialog categories={categories} service={service}>
+          <Button variant="outline">
+            <EditIcon /> {t('actions.edit')}
+          </Button>
+        </CreateServiceDialog>
       )}
       <ConfirmationDialog
         actionSeverity="neutral"
-        title={t('archiveDialog.title', { name: serviceName })}
+        title={t('archiveDialog.title', { name: service.name })}
         description={t('archiveDialog.description')}
         onConfirm={handleArchiveConfirm}
         icon={<ArchiveIcon />}
         confirmLabel={t('archiveDialog.confirmLabel')}
       >
-        {archivedAt === null && (
-          <Button
-            variant="ghost"
-            className="self-center"
-            loading={isArchivePending}
-          >
+        {service.archivedAt === null && (
+          <Button variant="ghost" loading={isArchivePending}>
             <ArchiveIcon /> {t('actions.archive')}
           </Button>
         )}
       </ConfirmationDialog>
-      {archivedAt !== null && (
+      {service.archivedAt !== null && (
         <Button
           variant="ghost"
           loading={isRestorePending}

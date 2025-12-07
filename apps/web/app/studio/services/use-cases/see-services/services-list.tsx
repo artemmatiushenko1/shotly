@@ -7,7 +7,6 @@ import { Service } from '@/domain/service';
 import { Category } from '@/domain/category';
 import { useServiceFilter, ServiceFilterTab } from './use-service-filter';
 import { useTranslations } from 'next-intl';
-import { unstable_ViewTransition as ViewTransition } from 'react';
 import { startTransition } from 'react';
 import ServiceCardActions from './service-card-actions';
 
@@ -18,6 +17,7 @@ type ServicesListProps = {
 
 function ServicesList(props: ServicesListProps) {
   const { categories, services } = props;
+
   const t = useTranslations('services.filters');
 
   const categoryMap = categories.reduce(
@@ -56,30 +56,26 @@ function ServicesList(props: ServicesListProps) {
       </Tabs>
       <div className="flex flex-col gap-4">
         {filteredServices.map((service) => (
-          <ViewTransition key={service.id} name={service.id}>
-            <ServiceCard
-              isPublicView={false}
-              key={service.id}
-              id={service.id}
-              coverUrl={service.coverImageUrl}
-              name={service.name}
-              description={service.description}
-              price={service.price}
-              priceUnit={service.currency}
-              deliveryTime={service.deliveryTimeInDays.toString()}
-              features={service.features}
-              visibilityStatus={service.visibilityStatus}
-              categoryName={categoryMap[service.categoryId] ?? '-'}
-              extraActions={
-                <ServiceCardActions
-                  serviceId={service.id}
-                  serviceName={service.name}
-                  archivedAt={service.archivedAt}
-                  onEdit={() => {}}
-                />
-              }
-            />
-          </ViewTransition>
+          // TODO: add view transition back, currently when edit service, it displays a card over the modal for a sec
+          // <ViewTransition key={service.id}>
+          <ServiceCard
+            key={service.id}
+            isPublicView={false}
+            id={service.id}
+            coverUrl={service.coverImageUrl}
+            name={service.name}
+            description={service.description}
+            price={service.price}
+            priceUnit={service.currency}
+            deliveryTime={service.deliveryTimeInDays.toString()}
+            features={service.features}
+            visibilityStatus={service.visibilityStatus}
+            categoryName={categoryMap[service.categoryId] ?? '-'}
+            extraActions={
+              <ServiceCardActions service={service} categories={categories} />
+            }
+          />
+          // </ViewTransition>
         ))}
       </div>
     </div>

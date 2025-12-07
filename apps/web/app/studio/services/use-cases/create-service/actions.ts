@@ -5,8 +5,9 @@ import { visibilityStatusSchema } from '@/domain/common';
 import { getUser } from '@/lib/auth/dal';
 import { createServiceUseCase } from '@/use-cases/services/create-service.use-case';
 import { revalidatePath } from 'next/cache';
+import updateServiceUseCase from '@/use-cases/services/update-service.use-case';
 
-const inputSchema = z.object({
+const createInputSchema = z.object({
   name: z.string().min(1, { error: 'Name is required' }),
   coverImageUrl: z.url({ error: 'Cover image is required' }),
   currency: z.string().min(1, { error: 'Currency is required' }),
@@ -30,12 +31,13 @@ const inputSchema = z.object({
 });
 
 export const createServiceAction = async (
-  // TODO: prevent form reset on error by using initialState, pass default values to form fields
   initialState: {
     // TODO: using Record looks more like a workaround...
     inputs?: Record<string, string>;
     hasErrors: boolean;
-    validationErrors?: z.core.$ZodFlattenedError<z.infer<typeof inputSchema>>;
+    validationErrors?: z.core.$ZodFlattenedError<
+      z.infer<typeof createInputSchema>
+    >;
   },
   form: FormData,
 ) => {
@@ -44,7 +46,7 @@ export const createServiceAction = async (
   const data = Object.fromEntries(form.entries());
 
   const { data: validatedInput, error: inputParseError } =
-    await inputSchema.safeParseAsync({
+    await createInputSchema.safeParseAsync({
       ...data,
       currency: 'UAH',
     });
@@ -70,6 +72,63 @@ export const createServiceAction = async (
   }
 
   await createServiceUseCase(user.id, validatedInput);
+
+  revalidatePath('/services');
+
+  return {
+    hasErrors: false,
+    success: true,
+    serviceName: validatedInput.name,
+  };
+};
+
+const updateInputSchema = createInputSchema.extend({
+  serviceId: z.string().min(1, { error: 'Service ID is required' }),
+});
+
+export const updateServiceAction = async (
+  // TODO: prevent form reset on error by using initialState, pass default values to form fields
+  initialState: {
+    // TODO: using Record looks more like a workaround...
+    inputs?: Record<string, string>;
+    hasErrors: boolean;
+    validationErrors?: z.core.$ZodFlattenedError<
+      z.infer<typeof updateInputSchema>
+    >;
+  },
+  form: FormData,
+) => {
+  const user = await getUser();
+
+  const data = Object.fromEntries(form.entries());
+
+  const { data: validatedInput, error: inputParseError } =
+    await updateInputSchema.safeParseAsync({
+      ...data,
+      currency: 'UAH',
+    });
+
+  if (inputParseError) {
+    return {
+      hasErrors: true,
+      success: false,
+      inputs: {
+        name: data.name as string,
+        coverImageUrl: data.coverImageUrl as string,
+        currency: 'UAH',
+        description: data.description as string,
+        categoryId: data.categoryId as string,
+        price: data.price as string,
+        features: data.features as string,
+        deliveryTimeInDays: data.deliveryTimeInDays as string,
+        visibilityStatus: data.visibilityStatus as string,
+      },
+      serviceName: data.name as string,
+      validationErrors: z.flattenError(inputParseError),
+    };
+  }
+
+  await updateServiceUseCase(user.id, validatedInput.serviceId, validatedInput);
 
   revalidatePath('/services');
 
