@@ -6,57 +6,42 @@ import { VisibilityBadge } from '../../../ui/visibility-badge';
 import { ClockIcon, PackageIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { VisibilityStatus } from '@/domain/common';
+import { Service } from '@/domain/service';
 
 type ServiceCardProps = {
-  id: string;
-  coverUrl: string;
-  name: string;
-  description?: string;
-  price: number;
-  priceUnit: string;
+  service: Service;
   categoryName: string;
-  deliveryTime: string;
-  features: string[];
   isPublicView?: boolean;
-  visibilityStatus: VisibilityStatus;
   extraActions?: React.ReactNode;
 };
 
+const getFeaturesLabel = (
+  features: string[],
+  t: ReturnType<typeof useTranslations>,
+) => {
+  if (features.length === 0) return '—';
+  if (features.length === 1) return features[0];
+
+  return t('features.more', {
+    first: features[0] ?? '',
+    count: features.length - 1,
+  });
+};
+
 function ServiceCard(props: ServiceCardProps) {
-  const {
-    coverUrl,
-    name,
-    description,
-    price,
-    priceUnit = '',
-    categoryName,
-    deliveryTime,
-    features,
-    visibilityStatus,
-    isPublicView = false,
-    extraActions,
-  } = props;
+  const { service, isPublicView = false, extraActions, categoryName } = props;
 
   const t = useTranslations('services.serviceCard');
 
-  // TODO: refactor this to use a more elegant solution
-  const featuresLabel =
-    features.length === 0
-      ? '—'
-      : features.length === 1
-        ? features[0]
-        : t('features.more', {
-            first: features[0] ?? '',
-            count: features.length - 1,
-          });
+  const featuresLabel = getFeaturesLabel(service.features, t);
 
   return (
     <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 cursor-pointer gap-4">
       <div className="relative p-2 overflow-hidden w-50">
         <Image
           unoptimized
-          alt={name}
-          src={coverUrl}
+          alt={service.name}
+          src={service.coverImageUrl}
           width={200}
           height={200}
           className="size-40 w-50 object-cover rounded-lg border"
@@ -64,9 +49,9 @@ function ServiceCard(props: ServiceCardProps) {
       </div>
       <div className="p-3 flex flex-col justify-between flex-1 w-0">
         <div>
-          <h2 className="font-bold text-lg">{name}</h2>
+          <h2 className="font-bold text-lg">{service.name}</h2>
           <CardDescription className="mb-2 max-w-lg">
-            {description}
+            {service.description}
           </CardDescription>
         </div>
         <div className="flex items-center justify-start gap-10">
@@ -75,7 +60,7 @@ function ServiceCard(props: ServiceCardProps) {
               {t('fields.price')}
             </p>
             <p className="text-lg font-bold">
-              {price} {priceUnit}
+              {service.price} {service.currency}
               <span className="text-muted-foreground text-sm font-normal">
                 {t('fields.priceUnit')}
               </span>
@@ -93,7 +78,9 @@ function ServiceCard(props: ServiceCardProps) {
             </p>
             <p className="inline-flex gap-1 items-center font-medium text-sm flex-1/4">
               <ClockIcon className="w-4 text-muted-foreground" />
-              {t('fields.deliveryTimeValue', { days: deliveryTime })}
+              {t('fields.deliveryTimeValue', {
+                days: service.deliveryTimeInDays,
+              })}
             </p>
           </div>
           <div className="flex flex-col items-start w-1/5">
@@ -111,7 +98,7 @@ function ServiceCard(props: ServiceCardProps) {
                 {t('fields.status')}
               </p>
               <VisibilityBadge
-                isPublic={visibilityStatus === VisibilityStatus.PUBLIC}
+                isPublic={service.visibilityStatus === VisibilityStatus.PUBLIC}
               />
             </div>
           )}

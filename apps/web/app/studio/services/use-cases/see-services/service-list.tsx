@@ -60,16 +60,8 @@ function ServicesList(props: ServicesListProps) {
           // <ViewTransition key={service.id}>
           <ServiceCard
             key={service.id}
+            service={service}
             isPublicView={false}
-            id={service.id}
-            coverUrl={service.coverImageUrl}
-            name={service.name}
-            description={service.description}
-            price={service.price}
-            priceUnit={service.currency}
-            deliveryTime={service.deliveryTimeInDays.toString()}
-            features={service.features}
-            visibilityStatus={service.visibilityStatus}
             categoryName={categoryMap[service.categoryId] ?? '-'}
             extraActions={
               <ServiceCardActions service={service} categories={categories} />
