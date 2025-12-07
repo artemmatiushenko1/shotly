@@ -22,6 +22,7 @@ import { useTranslations } from 'next-intl';
 import { VisibilityStatus } from '@/domain/common';
 import { toast } from '@shotly/ui/components/sonner';
 import { ServiceFormState, ServiceFormValues } from './service-form.schema';
+import { ClockIcon } from 'lucide-react';
 
 enum FormField {
   NAME = 'name',
@@ -162,15 +163,21 @@ function CreateServiceForm(props: CreateServiceFormProps) {
         </div>
         <div className="grid gap-3 w-full">
           <Label htmlFor={priceId}>{t('fields.price.label')}</Label>
-          <Input
-            required
-            type="number"
-            placeholder={t('fields.price.placeholder')}
-            name={FormField.PRICE}
-            id={priceId}
-            defaultValue={values.price?.toString()}
-            error={errors?.price?.join(', ')}
-          />
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+              UAH
+            </span>
+            <Input
+              required
+              type="number"
+              className="pl-12"
+              placeholder={t('fields.price.placeholder')}
+              name={FormField.PRICE}
+              id={priceId}
+              defaultValue={values.price?.toString()}
+              error={errors?.price?.join(', ')}
+            />
+          </div>
         </div>
       </div>
       <FeaturesInput
@@ -184,16 +191,22 @@ function CreateServiceForm(props: CreateServiceFormProps) {
       />
       <div className="grid gap-3 w-full">
         <Label htmlFor={deliveryTimeId}>{t('fields.deliveryTime.label')}</Label>
-        <Input
-          required
-          min={1}
-          type="number"
-          id={deliveryTimeId}
-          name={FormField.DELIVERY_TIME_IN_DAYS}
-          placeholder={t('fields.deliveryTime.placeholder')}
-          defaultValue={values.deliveryTimeInDays?.toString()}
-          error={errors?.deliveryTimeInDays?.join(', ')}
-        />
+        <div className="relative">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+            <ClockIcon className="w-4 h-4" />
+          </span>
+          <Input
+            required
+            min={1}
+            type="number"
+            className="pl-9"
+            id={deliveryTimeId}
+            name={FormField.DELIVERY_TIME_IN_DAYS}
+            placeholder={t('fields.deliveryTime.placeholder')}
+            defaultValue={values.deliveryTimeInDays?.toString()}
+            error={errors?.deliveryTimeInDays?.join(', ')}
+          />
+        </div>
       </div>
       <div className="w-full flex justify-between">
         <div>
