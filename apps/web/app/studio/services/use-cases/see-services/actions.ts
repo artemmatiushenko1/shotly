@@ -5,36 +5,24 @@ import { archiveServiceUseCase } from '@/use-cases/services/archive-service.use-
 import { restoreServiceUseCase } from '@/use-cases/services/restore-service.use-case';
 import { revalidatePath } from 'next/cache';
 
-export const archiveServiceAction = async (
-  state: {
-    success: boolean;
-    error: boolean;
-  },
-  serviceId: string,
-) => {
+export const archiveServiceAction = async (serviceId: string) => {
   try {
     const user = await getUser();
     await archiveServiceUseCase(user.id, serviceId);
     revalidatePath('/services');
-    return { success: true, error: false };
+    return { success: true };
   } catch (_: unknown) {
-    return { success: false, error: true };
+    return { success: false };
   }
 };
 
-export const restoreServiceAction = async (
-  state: {
-    success: boolean;
-    error: boolean;
-  },
-  serviceId: string,
-) => {
+export const restoreServiceAction = async (serviceId: string) => {
   try {
     const user = await getUser();
     await restoreServiceUseCase(user.id, serviceId);
     revalidatePath('/services');
-    return { success: true, error: false };
+    return { success: true };
   } catch (_: unknown) {
-    return { success: false, error: true };
+    return { success: false };
   }
 };

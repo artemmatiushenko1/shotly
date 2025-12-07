@@ -8,7 +8,7 @@ import { Category } from '@/domain/category';
 import { useServiceFilter, ServiceFilterTab } from './use-service-filter';
 import { useTranslations } from 'next-intl';
 import { startTransition } from 'react';
-import ServiceCardActions from './service-card-actions';
+import ServiceCardButtons from './service-card-buttons';
 
 type ServicesListProps = {
   categories: Category[];
@@ -64,7 +64,7 @@ function ServicesList(props: ServicesListProps) {
             isPublicView={false}
             categoryName={categoryMap[service.categoryId] ?? '-'}
             extraActions={
-              <ServiceCardActions service={service} categories={categories} />
+              <ServiceCardButtons service={service} categories={categories} />
             }
           />
           // </ViewTransition>

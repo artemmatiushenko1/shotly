@@ -2,7 +2,7 @@ import { Button } from '@shotly/ui/components/button';
 import { ConfirmationDialog } from '@shotly/ui/components/confirmation-dialog';
 import { ArchiveIcon, ArchiveRestoreIcon, EditIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { startTransition, useActionState, useEffect } from 'react';
+import { useTransition } from 'react';
 import { archiveServiceAction, restoreServiceAction } from './actions';
 import { toast } from '@shotly/ui/components/sonner';
 import CreateServiceDialog from '../manage-service/service-dialog';
@@ -17,53 +17,30 @@ type ServiceCardActionsProps = {
 function ServiceCardActions(props: ServiceCardActionsProps) {
   const { service, categories } = props;
 
+  const [isPending, startTransition] = useTransition();
+
   const t = useTranslations('services.serviceCard');
 
-  const [archiveState, archiveService, isArchivePending] = useActionState(
-    archiveServiceAction,
-    {
-      error: false,
-      success: false,
-    },
-  );
-
-  const [restoreState, restoreService, isRestorePending] = useActionState(
-    restoreServiceAction,
-    {
-      error: false,
-      success: false,
-    },
-  );
-
-  // TODO: use callbacks for toasts
-  // https://www.robinwieruch.de/react-server-actions-toast-useactionstate/
-  // This doesn't work because component gets unmounted
-  useEffect(() => {
-    if (archiveState.success) {
-      toast.success(t('success.archiveSuccess'));
-    }
-
-    if (archiveState.error) {
-      toast.error(t('errors.archiveFailed'));
-    }
-  }, [archiveState.success, archiveState.error, t]);
-
-  useEffect(() => {
-    if (restoreState.success) {
-      toast.success(t('success.restoreSuccess'));
-    }
-
-    if (restoreState.error) {
-      toast.error(t('errors.restoreFailed'));
-    }
-  }, [restoreState.success, restoreState.error, t]);
-
-  const handleArchiveConfirm = () => {
-    startTransition(() => archiveService(service.id));
+  const handleArchive = () => {
+    startTransition(async () => {
+      const result = await archiveServiceAction(service.id);
+      if (result.success) {
+        toast.success(t('success.archive', { name: service.name }));
+      } else {
+        toast.error(t('error.archive', { name: service.name }));
+      }
+    });
   };
 
-  const handleRestoreConfirm = () => {
-    startTransition(() => restoreService(service.id));
+  const handleRestore = () => {
+    startTransition(async () => {
+      const result = await restoreServiceAction(service.id);
+      if (result.success) {
+        toast.success(t('success.restore', { name: service.name }));
+      } else {
+        toast.error(t('error.restore', { name: service.name }));
+      }
+    });
   };
 
   return (
@@ -79,22 +56,18 @@ function ServiceCardActions(props: ServiceCardActionsProps) {
         actionSeverity="neutral"
         title={t('archiveDialog.title', { name: service.name })}
         description={t('archiveDialog.description')}
-        onConfirm={handleArchiveConfirm}
+        onConfirm={handleArchive}
         icon={<ArchiveIcon />}
         confirmLabel={t('archiveDialog.confirmLabel')}
       >
         {service.archivedAt === null && (
-          <Button variant="ghost" loading={isArchivePending}>
+          <Button variant="ghost" loading={isPending}>
             <ArchiveIcon /> {t('actions.archive')}
           </Button>
         )}
       </ConfirmationDialog>
       {service.archivedAt !== null && (
-        <Button
-          variant="ghost"
-          loading={isRestorePending}
-          onClick={handleRestoreConfirm}
-        >
+        <Button variant="ghost" loading={isPending} onClick={handleRestore}>
           <ArchiveRestoreIcon /> {t('actions.restore')}
         </Button>
       )}

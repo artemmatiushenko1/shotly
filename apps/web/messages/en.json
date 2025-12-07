@@ -455,9 +455,9 @@
         "description": "This service will be hidden from your public profile and new clients. You can find and restore it any time from the Archived tab.",
         "confirmLabel": "Archive"
       },
-      "errors": {
-        "archiveFailed": "Failed to archive service \"{name}\"",
-        "restoreFailed": "Failed to restore service \"{name}\""
+      "error": {
+        "archive": "Failed to archive service \"{name}\"",
+        "restore": "Failed to restore service \"{name}\""
       },
       "success": {
         "archive": "Service \"{name}\" archived successfully!",

@@ -26,8 +26,6 @@ const takeArchivedServices = (services: Service[]) => {
   return services.filter((service) => service.archivedAt);
 };
 
-// TODO: move hook to services folder
-
 export function useServiceFilter(services: Service[]) {
   const [selectedTab, setSelectedTab] = useState<ServiceFilterTab>('All');
 
