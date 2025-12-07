@@ -10,11 +10,14 @@ import {
 } from '@shotly/ui/components/dialog';
 import { HandshakeIcon } from 'lucide-react';
 import React, { useCallback, useState } from 'react';
-import CreateServiceForm from './create-service-form';
+import CreateServiceForm from './service-form';
 import { Category } from '@/domain/category';
 import { useTranslations } from 'next-intl';
 import { Service } from '@/domain/service';
-import { createServiceAction, updateServiceAction } from './actions';
+import {
+  createServiceAction,
+  updateServiceAction,
+} from './service-form.actions';
 
 type CreateServiceDialogProps = {
   categories: Category[];

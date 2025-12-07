@@ -8,7 +8,7 @@ import {
   serviceFormSchema,
   ServiceFormState,
   ServiceFormValues,
-} from './form.schema';
+} from './service-form.schema';
 import z from 'zod';
 
 const parseFormData = (formData: FormData): Partial<ServiceFormValues> => {

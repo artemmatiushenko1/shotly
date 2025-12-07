@@ -21,7 +21,7 @@ import { Category } from '@/domain/category';
 import { useTranslations } from 'next-intl';
 import { VisibilityStatus } from '@/domain/common';
 import { toast } from '@shotly/ui/components/sonner';
-import { ServiceFormState, ServiceFormValues } from './form.schema';
+import { ServiceFormState, ServiceFormValues } from './service-form.schema';
 
 enum FormField {
   NAME = 'name',
@@ -38,13 +38,13 @@ enum FormField {
 type CreateServiceFormProps = {
   categories: Category[];
   defaultValues?: Partial<ServiceFormValues>;
+  submitLabel: string;
   action: (
     state: ServiceFormState,
     payload: FormData,
   ) => Promise<ServiceFormState>;
   onSuccess: () => void;
   onCancel: () => void;
-  submitLabel: string;
 };
 
 const INITIAL_STATE: ServiceFormState = {

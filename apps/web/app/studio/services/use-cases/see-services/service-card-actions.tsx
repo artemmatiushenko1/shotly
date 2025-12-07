@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { startTransition, useActionState, useEffect } from 'react';
 import { archiveServiceAction, restoreServiceAction } from './actions';
 import { toast } from '@shotly/ui/components/sonner';
-import CreateServiceDialog from '../create-service/create-service-dialog';
+import CreateServiceDialog from '../manage-service/service-dialog';
 import { Category } from '@/domain/category';
 import { Service } from '@/domain/service';
 
