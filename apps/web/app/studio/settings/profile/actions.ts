@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import z from 'zod';
 
+import { updateProfileUseCase } from '@/application/use-cases/account';
 import {
   ALLOWED_USERNAME_CHARS,
   MAX_USERNAME_LENGTH,
@@ -11,7 +12,6 @@ import {
 import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
 import { locationDetailsSchema } from '@/entities/models/locations';
 import { clientEnv } from '@/env/client';
-import usersRepository from '@/infrastructure/repositories/users.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
 import { UploadResult } from '@/infrastructure/services/image-storage-service';
 import { mbToBytes } from '@/utils/files/utils';
@@ -45,37 +45,14 @@ const inputSchema = z.object({
     .string()
     .transform((str) => JSON.parse(str))
     .pipe(z.array(locationDetailsSchema)),
-  // TODO: remove this
-  profileImg: z
-    .instanceof(File)
-    .optional()
-    .refine(
-      (file) => !file || file.size <= 1 * 1024 * 1024,
-      'Image must be less than 1MB',
-    )
-    .refine(
-      (file) =>
-        !file ||
-        ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(
-          file.type,
-        ),
-      'Image must be JPEG, PNG, or WebP',
-    ),
-  coverImg: z
-    .instanceof(File)
-    .optional()
-    .refine(
-      (file) => !file || file.size <= 1 * 1024 * 1024,
-      'Image must be less than 1MB',
-    )
-    .refine(
-      (file) =>
-        !file ||
-        ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'].includes(
-          file.type,
-        ),
-      'Image must be JPEG, PNG, or WebP',
-    ),
+  coverImageUrl: z.preprocess(
+    (val) => (val === '' ? undefined : val),
+    z.url().optional(),
+  ),
+  profileImageUrl: z.preprocess(
+    (val) => (val === '' ? undefined : val),
+    z.url().optional(),
+  ),
 });
 
 type UpdateProfileValidationErrors = z.core.$ZodFlattenedError<
@@ -93,21 +70,8 @@ export const updateProfileAction = async (
 
   const data = Object.fromEntries(form.entries());
 
-  const profileImgFile = form.get('profileImg') as File | null;
-  const coverImgFile = form.get('coverImg') as File | null;
-
-  const formDataWithoutFiles = { ...data };
-  delete formDataWithoutFiles.profileImg;
-  delete formDataWithoutFiles.coverImg;
-
   const { data: validatedInput, error: inputParseError } =
-    inputSchema.safeParse({
-      ...formDataWithoutFiles,
-      profileImg:
-        profileImgFile && profileImgFile.size > 0 ? profileImgFile : undefined,
-      coverImg:
-        coverImgFile && coverImgFile.size > 0 ? coverImgFile : undefined,
-    });
+    inputSchema.safeParse(data);
 
   if (inputParseError) {
     return {
@@ -116,51 +80,7 @@ export const updateProfileAction = async (
     };
   }
 
-  // Upload profile image if provided
-  let profileImageUrl: string | undefined;
-  if (validatedInput.profileImg) {
-    // TODO: we already have tmp image upload, move tmp image file in use case
-    const PERMANENT_PROFILE_IMAGE_STORAGE_PATH = 'profiles';
-
-    const { url } = await uploadImageUseCase(
-      validatedInput.profileImg,
-      PERMANENT_PROFILE_IMAGE_STORAGE_PATH,
-      mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_IMAGE_SIZE_MB),
-    );
-
-    profileImageUrl = url;
-  }
-
-  // Upload cover image if provided
-  let coverImageUrl: string | undefined;
-  if (validatedInput.coverImg) {
-    // TODO: we already have tmp image upload, move tmp image file in use case
-    const PERMANENT_COVER_IMAGE_STORAGE_PATH = 'covers';
-
-    const { url } = await uploadImageUseCase(
-      validatedInput.coverImg,
-      PERMANENT_COVER_IMAGE_STORAGE_PATH,
-      mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_COVER_IMAGE_SIZE_MB),
-    );
-
-    coverImageUrl = url;
-  }
-
-  // Prepare update data (exclude files as they're not part of UserUpdate)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { profileImg, coverImg, ...baseUpdateData } = validatedInput;
-
-  // Build the update object, including image URLs only if new ones were uploaded
-  const userUpdateData = {
-    ...baseUpdateData,
-    ...(profileImageUrl ? { image: profileImageUrl } : {}),
-    ...(coverImageUrl ? { coverImageUrl } : {}),
-  };
-
-  // TODO: should be a single transaction
-  await usersRepository.updateUser(user.id, userUpdateData);
-  await usersRepository.updateUserLanguages(user.id, validatedInput.languages);
-  await usersRepository.updateUserLocations(user.id, validatedInput.locations);
+  await updateProfileUseCase(user.id, validatedInput);
 
   revalidatePath('/studio/settings');
 

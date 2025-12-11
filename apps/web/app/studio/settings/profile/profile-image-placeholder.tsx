@@ -12,7 +12,7 @@ const ProfileImagePlaceholder = (props: ProfileImagePlaceholderProps) => {
   return (
     <div
       className={cn(
-        'flex h-24 w-24 items-center justify-center rounded-xl border border-dashed border-muted-foreground/40 bg-muted text-muted-foreground',
+        'flex h-24 w-24 items-center justify-center rounded-xl border-muted-foreground/40 bg-muted text-muted-foreground',
         className,
       )}
     >

@@ -1,7 +1,7 @@
 'use client';
 
-import { CircleXIcon, GlobeIcon, InstagramIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { CircleXIcon, ExternalLink, InstagramIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { useActionState, useId, useState } from 'react';
 
@@ -9,9 +9,10 @@ import { Language } from '@/entities/models/language';
 import { LocationDetails } from '@/entities/models/locations';
 import { UserProfile } from '@/entities/models/user';
 
-import { Button } from '@shotly/ui/components/button';
+import { Button, buttonVariants } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';
 import { Textarea } from '@shotly/ui/components/textarea';
+import { cn } from '@shotly/ui/lib/utils';
 
 import CoverUpload from '../../../_components/cover-upload/cover-upload';
 import { LabeledControl } from '../labeled-control';
@@ -22,19 +23,6 @@ import { LocationSelector } from './location-selector';
 import { ProfileImageUpload } from './profile-image-upload';
 import { SocialLinkInput } from './social-link-input';
 
-enum FormField {
-  NAME = 'name',
-  BIO = 'bio',
-  USERNAME = 'username',
-  LANGUAGES = 'languages',
-  LOCATIONS = 'locations',
-  WEBSITE_URL = 'websiteUrl',
-  INSTAGRAM_TAG = 'instagramTag',
-  EXPERIENCE_YEARS = 'yearsOfExperience',
-  PROFILE_IMG = 'profileImg',
-  COVER_IMG = 'coverImg',
-}
-
 type ProfileSettingsProps = {
   userId: string;
   profile: UserProfile;
@@ -42,9 +30,9 @@ type ProfileSettingsProps = {
 };
 
 const ProfileSettings = (props: ProfileSettingsProps) => {
-  const { profile, languageOptions, userId } = props;
+  const { profile, languageOptions } = props;
+
   const t = useTranslations('settings.profile');
-  const router = useRouter();
 
   const [state, formAction, pending] = useActionState(updateProfileAction, {
     hasErrors: false,
@@ -75,23 +63,33 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           <p className="text-sm text-muted-foreground">{t('description')}</p>
         </div>
         <div className="ml-auto space-y-1">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => router.push(`/photographers/${userId}`)}
-          >
-            <GlobeIcon /> {t('viewPublicProfile')}
-          </Button>
-          <p className="text-xs text-muted-foreground">
-            www.shotly.com/photographers/{profile.username}
+          <p className="text-xs text-muted-foreground text-right">
+            {t('viewPublicProfile')}
           </p>
+          <div className="relative">
+            <Input
+              readOnly
+              className="pr-10 w-xs"
+              value={`shotly.com/photographers/${profile.username}`}
+            />
+            <Link
+              target="_blank"
+              href={`/photographers/${profile.username}`}
+              className={cn(
+                buttonVariants({ variant: 'ghost', size: 'icon' }),
+                'absolute right-1 top-1/2 -translate-y-1/2 text-sm text-muted-foreground hover:bg-transparent',
+              )}
+            >
+              <ExternalLink />
+            </Link>
+          </div>
         </div>
       </div>
       <form className="space-y-8" action={formAction}>
         <CoverUpload
-          name={FormField.COVER_IMG}
+          name="coverImageUrl"
           existingImageUrl={profile.coverImageUrl ?? undefined}
-          error={validationErrors?.fieldErrors.coverImg?.toString()}
+          error={validationErrors?.fieldErrors.coverImageUrl?.toString()}
         />
         <LabeledControl
           title={t('fields.fullName.title')}
@@ -100,7 +98,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           controlNode={
             <Input
               id={fullNameId}
-              name={FormField.NAME}
+              name="name"
               defaultValue={profile.name}
               error={validationErrors?.fieldErrors.name?.toString()}
             />
@@ -113,7 +111,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           controlNode={
             <Input
               id={usernameId}
-              name={FormField.USERNAME}
+              name="username"
               defaultValue={profile.username ?? undefined}
               error={validationErrors?.fieldErrors.username?.toString()}
             />
@@ -125,9 +123,9 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           controlNode={
             <ProfileImageUpload
               existingImageUrl={profile.image}
-              inputName={FormField.PROFILE_IMG}
+              inputName="profileImageUrl"
               inputId={profileImageId}
-              error={validationErrors?.fieldErrors.profileImg?.toString()}
+              error={validationErrors?.fieldErrors.profileImageUrl?.toString()}
               onDeleteExisting={() => {
                 // TODO: implement delete functionality for existing image
               }}
@@ -141,7 +139,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           controlNode={
             <Textarea
               id={bioId}
-              name={FormField.BIO}
+              name="bio"
               defaultValue={profile.bio ?? undefined}
               className="min-h-32 resize-none"
             />
@@ -154,7 +152,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           controlId={experienceYearsId}
           controlNode={
             <ExperienceSlider
-              name={FormField.EXPERIENCE_YEARS}
+              name="yearsOfExperience"
               inputId={experienceYearsId}
               defaultYears={profile.yearsOfExperience ?? undefined}
               error={validationErrors?.fieldErrors.yearsOfExperience?.toString()}
@@ -176,7 +174,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
               />
               <input
                 type="hidden"
-                name={FormField.LOCATIONS}
+                name="locations"
                 value={JSON.stringify(locations)}
               />
             </>
@@ -198,7 +196,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
               />
               <input
                 type="hidden"
-                name={FormField.LANGUAGES}
+                name="languages"
                 value={languages.map((language) => language.code)}
               />
             </>
@@ -212,7 +210,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           controlNode={
             <Input
               id={personalWebsiteUrlId}
-              name={FormField.WEBSITE_URL}
+              name="websiteUrl"
               defaultValue={profile.websiteUrl ?? undefined}
               error={validationErrors?.fieldErrors.websiteUrl?.toString()}
             />
@@ -225,7 +223,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           controlNode={
             <SocialLinkInput
               id={instagramTagId}
-              name={FormField.INSTAGRAM_TAG}
+              name="instagramTag"
               socialIcon={<InstagramIcon />}
               socialBaseUrl="instagram.com/"
               defaultValue={profile.instagramTag ?? undefined}

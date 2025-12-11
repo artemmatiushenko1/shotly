@@ -2,6 +2,7 @@
 import { Trash2, Upload } from 'lucide-react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { useId } from 'react';
 
 import { clientEnv } from '@/env/client';
 import { MimeType } from '@/utils/files/enums';
@@ -30,6 +31,8 @@ export function ProfileImageUpload({
   onDeleteExisting,
 }: ProfileImageUploadProps) {
   const t = useTranslations('settings.profile.fields.profileImageUpload');
+
+  const fileInputId = useId();
 
   const {
     displayImageUrl,
@@ -68,7 +71,7 @@ export function ProfileImageUpload({
       )}
       <div className="flex flex-col gap-2">
         <label
-          htmlFor={inputId}
+          htmlFor={fileInputId}
           className={cn(
             buttonVariants({ variant: 'outline', size: 'sm' }),
             'cursor-pointer',
@@ -79,8 +82,7 @@ export function ProfileImageUpload({
         </label>
         <input
           ref={fileInputRef}
-          id={inputId}
-          name={inputName}
+          id={fileInputId}
           type="file"
           accept={[
             MimeType.JPEG,
@@ -90,6 +92,12 @@ export function ProfileImageUpload({
           ].join(',')}
           className="hidden"
           onChange={handleFileChange}
+        />
+        <input
+          type="hidden"
+          id={inputId}
+          name={inputName}
+          value={selectedPreviewUrl ?? existingImageUrl ?? ''}
         />
         {displayImageUrl && (
           <Button
