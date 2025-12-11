@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 
 import { Slider } from '@shotly/ui/components/slider';
 
@@ -27,7 +27,7 @@ const ExperienceSlider = (props: ExperienceSliderProps) => {
   } = props;
 
   const normalizedDefault = clamp(defaultYears, minYears, maxYears);
-  const [years, setYears] = React.useState<number>(normalizedDefault);
+  const [years, setYears] = useState<number>(normalizedDefault);
 
   const displayValue =
     years >= maxYears

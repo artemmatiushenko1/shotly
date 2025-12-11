@@ -25,7 +25,7 @@ type ThemeOption = 'light' | 'dark';
 
 const GeneralSettings = ({ userEmail }: GeneralSettingsProps) => {
   const t = useTranslations('settings.general');
-  const locale = useLocale() as Locale;
+  const locale = useLocale();
   const [isPending, startTransition] = useTransition();
   const { resolvedTheme, setTheme } = useTheme();
   const [isThemeMounted, setIsThemeMounted] = useState(false);

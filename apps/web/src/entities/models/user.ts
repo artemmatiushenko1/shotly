@@ -19,7 +19,7 @@ export enum Role {
 export const userSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
-  username: z.string().min(1).nullable(), // TODO: generate random username on signup
+  username: z.string().nullable(),
   email: z.email(),
   coverImageUrl: z.url().nullable(),
   image: z.url().nullable(), // profile picture

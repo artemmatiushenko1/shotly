@@ -39,7 +39,7 @@ function ServiceCard(props: ServiceCardProps) {
   const featuresLabel = getFeaturesLabel(service.features, t);
 
   return (
-    <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 cursor-pointer gap-4">
+    <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 gap-4">
       <div className="relative p-2 overflow-hidden w-50">
         <Image
           unoptimized

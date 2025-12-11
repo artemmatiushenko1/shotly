@@ -198,6 +198,16 @@ class UsersRepository {
       .where(eq(usersTable.id, userId))
       .returning();
   }
+
+  async setUsername(userId: string, username: string) {
+    const [query] = await db
+      .update(usersTable)
+      .set({ username })
+      .where(eq(usersTable.id, userId))
+      .returning();
+
+    return userSchema.parse(query);
+  }
 }
 
 const usersRepository = new UsersRepository();
