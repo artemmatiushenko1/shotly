@@ -11,6 +11,10 @@ export const sendProfileToReviewUseCase = async (userId: string) => {
     throw new NotFoundError('User not found');
   }
 
+  if (user.approvalStatus !== ApprovalStatus.NOT_SUBMITTED) {
+    throw new ForbiddenError('Profile has already been sent to review once.');
+  }
+
   const onboardingState = await getOnboardingStateUseCase(userId);
 
   const canSendProfileToReview =
