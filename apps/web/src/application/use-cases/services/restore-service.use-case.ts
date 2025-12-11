@@ -1,4 +1,4 @@
-import { ForbiddenError, NotFoundError } from '@/domain/errors/common';
+import { ForbiddenError, NotFoundError } from '@/entities/errors/common';
 import servicesRepository from '@/infrastructure/repositories/services.repository';
 
 export const restoreServiceUseCase = async (

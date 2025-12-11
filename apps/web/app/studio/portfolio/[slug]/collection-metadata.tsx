@@ -3,7 +3,7 @@
 import { CalendarIcon, ImagesIcon, TagIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { VisibilityStatus } from '@/domain/common';
+import { VisibilityStatus } from '@/entities/models/common';
 import { formatDateWithOrdinal } from '@/utils/date-formatting';
 
 import { IconWithText } from '../../../_components/icon-with-text';

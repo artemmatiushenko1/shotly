@@ -4,7 +4,7 @@ import { Folder } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-import { Category } from '@/domain/category';
+import { Category } from '@/entities/models/category';
 
 import {
   Dialog,

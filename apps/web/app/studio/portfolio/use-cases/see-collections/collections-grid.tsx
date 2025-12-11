@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { unstable_ViewTransition as ViewTransition } from 'react';
 
-import { Category } from '@/domain/category';
-import { Collection } from '@/domain/collection';
-import { VisibilityStatus } from '@/domain/common';
+import { Category } from '@/entities/models/category';
+import { Collection } from '@/entities/models/collection';
+import { VisibilityStatus } from '@/entities/models/common';
 import { formatDateWithOrdinal } from '@/utils/date-formatting';
 
 import CollectionCard from './collection-card';

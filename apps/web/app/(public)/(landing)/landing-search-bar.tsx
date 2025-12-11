@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 
-import { Category } from '@/domain/category';
+import { Category } from '@/entities/models/category';
 
 import { Button } from '@shotly/ui/components/button';
 import {

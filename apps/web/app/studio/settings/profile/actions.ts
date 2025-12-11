@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import z from 'zod';
 
 import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
-import { locationDetailsSchema } from '@/domain/locations';
+import { locationDetailsSchema } from '@/entities/models/locations';
 import { clientEnv } from '@/env/client';
 import usersRepository from '@/infrastructure/repositories/users.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';

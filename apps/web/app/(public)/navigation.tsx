@@ -8,7 +8,7 @@ import { headers } from 'next/headers';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
-import { Role } from '@/domain/user';
+import { Role } from '@/entities/models/user';
 import { auth } from '@/infrastructure/services/auth/auth';
 
 import {

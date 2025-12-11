@@ -1,4 +1,4 @@
-import { VisibilityStatus } from '@/domain/common';
+import { VisibilityStatus } from '@/entities/models/common';
 import servicesRepository from '@/infrastructure/repositories/services.repository';
 import { imageStorage } from '@/infrastructure/services/image-storage-service';
 

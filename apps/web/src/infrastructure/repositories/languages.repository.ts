@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 
-import { Language, languageSchema } from '@/domain/language';
+import { Language, languageSchema } from '@/entities/models/language';
 
 import { db } from '../../../drizzle';
 import { languagesTable, userLanguagesTable } from '../../../drizzle/schema';

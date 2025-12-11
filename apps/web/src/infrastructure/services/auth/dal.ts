@@ -2,8 +2,8 @@ import 'server-only';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { UnauthorizedError } from '@/domain/errors/auth';
-import { Role } from '@/domain/user';
+import { UnauthorizedError } from '@/entities/errors/auth';
+import { Role } from '@/entities/models/user';
 
 import { auth } from './auth';
 

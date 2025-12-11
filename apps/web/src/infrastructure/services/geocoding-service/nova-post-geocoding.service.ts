@@ -1,4 +1,7 @@
-import { LocationDetails, locationDetailsSchema } from '@/domain/locations';
+import {
+  LocationDetails,
+  locationDetailsSchema,
+} from '@/entities/models/locations';
 
 import { IGeocodingService } from '../../../application/services/geocoding-service.interface';
 import { NovaBaseResponseSchema, NovaPostSettlement } from './nova-post.schema';

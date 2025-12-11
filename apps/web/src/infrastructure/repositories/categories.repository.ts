@@ -1,4 +1,4 @@
-import { Category, categorySchema } from '@/domain/category';
+import { Category, categorySchema } from '@/entities/models/category';
 
 import { db } from '../../../drizzle';
 import { categoriesTable } from '../../../drizzle/schema';

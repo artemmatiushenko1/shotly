@@ -21,9 +21,9 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
-import { VisibilityStatus } from '@/domain/common';
-import { PhotoMetadata } from '@/domain/photos';
-import { ApprovalStatus, Role } from '@/domain/user';
+import { VisibilityStatus } from '@/entities/models/common';
+import { PhotoMetadata } from '@/entities/models/photos';
+import { ApprovalStatus, Role } from '@/entities/models/user';
 
 export const roleEnum = pgEnum('role', [
   Role.PHOTOGRAPHER,

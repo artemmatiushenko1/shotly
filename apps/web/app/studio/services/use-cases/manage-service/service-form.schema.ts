@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { visibilityStatusSchema } from '@/domain/common';
+import { visibilityStatusSchema } from '@/entities/models/common';
 
 export const DESCRIPTION_MAX_LENGTH = 500;
 

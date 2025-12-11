@@ -3,7 +3,10 @@
 import { useTranslations } from 'next-intl';
 import { startTransition, useId, useOptimistic, useState } from 'react';
 
-import { VisibilityStatus, visibilityStatusSchema } from '@/domain/common';
+import {
+  VisibilityStatus,
+  visibilityStatusSchema,
+} from '@/entities/models/common';
 
 import { Label } from '@shotly/ui/components/label';
 import { RadioGroup, RadioGroupItem } from '@shotly/ui/components/radio-group';

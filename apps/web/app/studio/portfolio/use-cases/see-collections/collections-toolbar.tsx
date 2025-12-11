@@ -3,7 +3,7 @@
 import { SearchIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Category } from '@/domain/category';
+import { Category } from '@/entities/models/category';
 
 import { Badge } from '@shotly/ui/components/badge';
 import { Input } from '@shotly/ui/components/input';

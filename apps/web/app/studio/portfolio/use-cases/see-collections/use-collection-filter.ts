@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
-import { Collection } from '@/domain/collection';
-import { VisibilityStatus } from '@/domain/common';
+import { Collection } from '@/entities/models/collection';
+import { VisibilityStatus } from '@/entities/models/common';
 
 export type CollectionFilterTab = 'All' | 'Public' | 'Private';
 

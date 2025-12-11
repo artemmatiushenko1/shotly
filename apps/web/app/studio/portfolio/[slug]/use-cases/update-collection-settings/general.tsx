@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 
-import { Category } from '@/domain/category';
-import { Collection } from '@/domain/collection';
+import { Category } from '@/entities/models/category';
+import { Collection } from '@/entities/models/collection';
 
 import CreateCollectionForm from '../../../use-cases/create-collection/create-collection-form';
 import SettingsTabLayout from './settings-tab-layout';

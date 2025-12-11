@@ -1,4 +1,4 @@
-import { Service } from '@/domain/service';
+import { Service } from '@/entities/models/service';
 import servicesRepository from '@/infrastructure/repositories/services.repository';
 
 // TODO: inject repository

@@ -1,9 +1,9 @@
 import { getTranslations } from 'next-intl/server';
 
-import { Collection } from '@/domain/collection';
-import { VisibilityStatus } from '@/domain/common';
-import { Service } from '@/domain/service';
-import { ApprovalStatus, UserProfile } from '@/domain/user';
+import { Collection } from '@/entities/models/collection';
+import { VisibilityStatus } from '@/entities/models/common';
+import { Service } from '@/entities/models/service';
+import { ApprovalStatus, UserProfile } from '@/entities/models/user';
 import collectionsRepository from '@/infrastructure/repositories/collections.repository';
 import servicesRepository from '@/infrastructure/repositories/services.repository';
 import usersRepository from '@/infrastructure/repositories/users.repository';

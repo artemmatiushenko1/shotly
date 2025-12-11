@@ -4,7 +4,7 @@ import { CameraIcon, UserIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useActionState, useId } from 'react';
 
-import { Role } from '@/domain/user';
+import { Role } from '@/entities/models/user';
 
 import { Button } from '@shotly/ui/components/button';
 import { Label } from '@shotly/ui/components/label';

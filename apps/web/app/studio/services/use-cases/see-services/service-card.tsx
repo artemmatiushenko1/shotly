@@ -4,8 +4,8 @@ import { ClockIcon, PackageIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
-import { VisibilityStatus } from '@/domain/common';
-import { Service } from '@/domain/service';
+import { VisibilityStatus } from '@/entities/models/common';
+import { Service } from '@/entities/models/service';
 
 import { Card, CardDescription } from '@shotly/ui/components/card';
 

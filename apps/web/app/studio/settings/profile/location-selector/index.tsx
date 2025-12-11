@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
-import { LocationDetails } from '@/domain/locations';
+import { LocationDetails } from '@/entities/models/locations';
 import { clientEnv } from '@/env/client';
 import { NovaPostGeocodingService } from '@/infrastructure/services/geocoding-service/nova-post-geocoding.service';
 

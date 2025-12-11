@@ -3,7 +3,7 @@
 import { CheckIcon, ChevronsUpDownIcon, Languages } from 'lucide-react';
 import { useState } from 'react';
 
-import { Language } from '@/domain/language';
+import { Language } from '@/entities/models/language';
 
 import { Button } from '@shotly/ui/components/button';
 import {

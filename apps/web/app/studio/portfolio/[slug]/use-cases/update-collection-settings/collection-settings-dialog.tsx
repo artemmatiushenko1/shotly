@@ -4,8 +4,8 @@ import { LockIcon, SettingsIcon, TrashIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-import { Category } from '@/domain/category';
-import { Collection } from '@/domain/collection';
+import { Category } from '@/entities/models/category';
+import { Collection } from '@/entities/models/collection';
 
 import {
   Dialog,

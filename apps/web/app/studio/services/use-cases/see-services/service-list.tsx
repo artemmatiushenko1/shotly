@@ -3,8 +3,8 @@
 import { useTranslations } from 'next-intl';
 import { startTransition } from 'react';
 
-import { Category } from '@/domain/category';
-import { Service } from '@/domain/service';
+import { Category } from '@/entities/models/category';
+import { Service } from '@/entities/models/service';
 
 import { Badge } from '@shotly/ui/components/badge';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';

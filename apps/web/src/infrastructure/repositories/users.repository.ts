@@ -1,7 +1,7 @@
 import 'server-only';
 import { eq, inArray, sql } from 'drizzle-orm';
 
-import { LocationDetails } from '@/domain/locations';
+import { LocationDetails } from '@/entities/models/locations';
 import {
   ApprovalStatus,
   Role,
@@ -12,7 +12,7 @@ import {
   userProfileSchema,
   userSchema,
   UserUpdate,
-} from '@/domain/user';
+} from '@/entities/models/user';
 
 import { db } from '../../../drizzle';
 import {

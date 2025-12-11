@@ -1,7 +1,7 @@
 import { TrashIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Collection } from '@/domain/collection';
+import { Collection } from '@/entities/models/collection';
 
 import { Button } from '@shotly/ui/components/button';
 

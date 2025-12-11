@@ -3,7 +3,7 @@
 import { CalendarCheckIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { VisibilityStatus } from '@/domain/common';
+import { VisibilityStatus } from '@/entities/models/common';
 
 import { Button } from '@shotly/ui/components/button';
 

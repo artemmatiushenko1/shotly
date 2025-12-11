@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { Photo } from '@/domain/photos';
+import { Photo } from '@/entities/models/photos';
 
 import { Empty } from '../../empty';
 import { formatBytes } from '../../utils';

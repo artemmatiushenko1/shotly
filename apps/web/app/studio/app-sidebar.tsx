@@ -15,7 +15,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
-import { StorageUsage } from '@/domain/user';
+import { StorageUsage } from '@/entities/models/user';
 import { authClient } from '@/infrastructure/services/auth/auth-client';
 
 import {

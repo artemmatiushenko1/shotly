@@ -4,9 +4,9 @@ import {
   Collection,
   collectionSchema,
   CreateCollectionInput,
-} from '@/domain/collection';
-import { VisibilityStatus } from '@/domain/common';
-import { Photo, PhotoMetadata, photoSchema } from '@/domain/photos';
+} from '@/entities/models/collection';
+import { VisibilityStatus } from '@/entities/models/common';
+import { Photo, PhotoMetadata, photoSchema } from '@/entities/models/photos';
 
 // TODO: make it possible to import from @/drizzle
 import { db } from '../../../drizzle';

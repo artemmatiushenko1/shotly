@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
-import { VisibilityStatus } from '@/domain/common';
-import { Service } from '@/domain/service';
+import { VisibilityStatus } from '@/entities/models/common';
+import { Service } from '@/entities/models/service';
 
 export type ServiceFilterTab = 'All' | 'Public' | 'Private' | 'Archived';
 

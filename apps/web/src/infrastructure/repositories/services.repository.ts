@@ -1,6 +1,10 @@
 import { desc, eq, inArray } from 'drizzle-orm';
 
-import { CreateServiceInput, Service, serviceSchema } from '@/domain/service';
+import {
+  CreateServiceInput,
+  Service,
+  serviceSchema,
+} from '@/entities/models/service';
 
 import { db } from '../../../drizzle';
 import {

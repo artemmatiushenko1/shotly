@@ -1,5 +1,5 @@
-import { VisibilityStatus } from '@/domain/common';
-import { ForbiddenError, NotFoundError } from '@/domain/errors/common';
+import { ForbiddenError, NotFoundError } from '@/entities/errors/common';
+import { VisibilityStatus } from '@/entities/models/common';
 import servicesRepository from '@/infrastructure/repositories/services.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
 import { imageStorage } from '@/infrastructure/services/image-storage-service';

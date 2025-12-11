@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useActionState, useId, useState } from 'react';
 
-import { Language } from '@/domain/language';
-import { LocationDetails } from '@/domain/locations';
-import { UserProfile } from '@/domain/user';
+import { Language } from '@/entities/models/language';
+import { LocationDetails } from '@/entities/models/locations';
+import { UserProfile } from '@/entities/models/user';
 
 import { Button } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';

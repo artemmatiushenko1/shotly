@@ -4,8 +4,8 @@ import { HandshakeIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React, { useCallback, useState } from 'react';
 
-import { Category } from '@/domain/category';
-import { Service } from '@/domain/service';
+import { Category } from '@/entities/models/category';
+import { Service } from '@/entities/models/service';
 
 import {
   Dialog,

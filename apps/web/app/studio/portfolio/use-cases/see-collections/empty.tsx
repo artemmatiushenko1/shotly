@@ -1,7 +1,7 @@
 import { PlusIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { Category } from '@/domain/category';
+import { Category } from '@/entities/models/category';
 
 import { Button } from '@shotly/ui/components/button';
 

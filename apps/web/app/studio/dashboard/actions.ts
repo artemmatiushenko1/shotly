@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { ApprovalStatus } from '@/domain/user';
+import { ApprovalStatus } from '@/entities/models/user';
 import usersRepository from '@/infrastructure/repositories/users.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
 

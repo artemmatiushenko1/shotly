@@ -3,8 +3,8 @@
 import { useTranslations } from 'next-intl';
 import { useActionState, useId, useState } from 'react';
 
-import { Category } from '@/domain/category';
-import { Collection } from '@/domain/collection';
+import { Category } from '@/entities/models/category';
+import { Collection } from '@/entities/models/collection';
 
 import { Button } from '@shotly/ui/components/button';
 import { DatePicker } from '@shotly/ui/components/date-picker';

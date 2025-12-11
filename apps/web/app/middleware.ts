@@ -2,7 +2,7 @@ import { headers } from 'next/headers';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { Role } from '../src/domain/user';
+import { Role } from '../src/entities/models/user';
 import { auth } from '../src/infrastructure/services/auth/auth';
 
 export async function middleware(request: NextRequest) {

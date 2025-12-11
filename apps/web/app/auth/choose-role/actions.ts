@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import z from 'zod';
 
-import { Role } from '@/domain/user';
+import { Role } from '@/entities/models/user';
 import usersRepository from '@/infrastructure/repositories/users.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
 

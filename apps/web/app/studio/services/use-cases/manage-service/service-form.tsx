@@ -4,8 +4,8 @@ import { ClockIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React, { useActionState, useEffect, useId, useState } from 'react';
 
-import { Category } from '@/domain/category';
-import { VisibilityStatus } from '@/domain/common';
+import { Category } from '@/entities/models/category';
+import { VisibilityStatus } from '@/entities/models/common';
 
 import { Button } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';
