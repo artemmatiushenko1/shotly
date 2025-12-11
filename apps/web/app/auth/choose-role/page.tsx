@@ -10,13 +10,13 @@ import { Button } from '@shotly/ui/components/button';
 import { Label } from '@shotly/ui/components/label';
 import { RadioGroup, RadioGroupItem } from '@shotly/ui/components/radio-group';
 
-import { updateUserRole } from './actions';
+import { updateUserRoleAction } from './actions';
 
 function ChooseRolePage() {
   const id = useId();
   const t = useTranslations('auth.onboarding');
 
-  const [, formAction, pending] = useActionState(updateUserRole, {});
+  const [, formAction, pending] = useActionState(updateUserRoleAction, {});
 
   return (
     <div>

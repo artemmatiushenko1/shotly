@@ -3,15 +3,18 @@
 import { redirect } from 'next/navigation';
 import z from 'zod';
 
+import setRoleUseCase from '@/application/use-cases/account/set-role.use-case';
 import { Role } from '@/entities/models/user';
-import usersRepository from '@/infrastructure/repositories/users.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
 
 const updateUserRoleSchema = z.object({
   role: z.enum(Role),
 });
 
-export const updateUserRole = async (_: { error?: string }, form: FormData) => {
+export const updateUserRoleAction = async (
+  _: { error?: string },
+  form: FormData,
+) => {
   const user = await getUser();
 
   const { data } = updateUserRoleSchema.safeParse({
@@ -26,7 +29,7 @@ export const updateUserRole = async (_: { error?: string }, form: FormData) => {
 
   const role = data.role;
 
-  await usersRepository.updateUserRole(user.id, data.role);
+  await setRoleUseCase(user.id, data.role);
 
   if (role === Role.CUSTOMER) {
     redirect('/');
