@@ -47,7 +47,7 @@ export const createCollection = async (
     throw Error('Failed to create collection!');
   }
 
-  redirect(`/portfolio/${collection.id}`);
+  redirect(`/studio/portfolio/${collection.id}`);
 
   return {
     hasErrors: false,

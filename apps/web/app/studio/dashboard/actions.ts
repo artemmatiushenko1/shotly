@@ -2,17 +2,13 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { ApprovalStatus } from '@/entities/models/user';
-import usersRepository from '@/infrastructure/repositories/users.repository';
+import { sendProfileToReviewUseCase } from '@/application/use-cases/account';
 import { getUser } from '@/infrastructure/services/auth/dal';
 
-export const sendProfileToReview = async () => {
+export const sendProfileToReviewAction = async () => {
   const user = await getUser();
 
-  await usersRepository.changeApprovalStatus(
-    user.id,
-    ApprovalStatus.PENDING_REVIEW,
-  );
+  await sendProfileToReviewUseCase(user.id);
 
   revalidatePath('/studio/dashboard');
 

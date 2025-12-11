@@ -1,71 +1,18 @@
 import { getTranslations } from 'next-intl/server';
 
-import { Collection } from '@/entities/models/collection';
-import { VisibilityStatus } from '@/entities/models/common';
-import { Service } from '@/entities/models/service';
-import { ApprovalStatus, UserProfile } from '@/entities/models/user';
-import collectionsRepository from '@/infrastructure/repositories/collections.repository';
-import servicesRepository from '@/infrastructure/repositories/services.repository';
-import usersRepository from '@/infrastructure/repositories/users.repository';
+import { getOnboardingStateUseCase } from '@/application/use-cases/account';
+import { ApprovalStatus } from '@/entities/models/user';
 import { getUser } from '@/infrastructure/services/auth/dal';
 
 import MainHeader from '../../_components/main-header';
 import OnboardingChecklist, { OnboardingStep } from './onboarding-checklist';
 import ProfileUnderReviewCard from './profile-under-review';
 
-type OnboardingState = {
-  isProfileComplete: boolean;
-  isPortfolioComplete: boolean;
-  isServiceComplete: boolean;
-};
-
-// TODO: move these functions to the domain layer
-const isProfileComplete = (userProfile: UserProfile) => {
-  return (
-    userProfile.coverImageUrl !== null &&
-    userProfile.bio !== null &&
-    userProfile.bio.length > 0 &&
-    userProfile.locations.length > 0 &&
-    userProfile.languages.length > 0 &&
-    userProfile.yearsOfExperience !== null &&
-    userProfile.instagramTag !== null &&
-    userProfile.username !== null &&
-    userProfile.username.length > 0
-  );
-};
-
-const isPortfolioComplete = (collections: Collection[]) => {
-  return collections.some(
-    (collection) =>
-      collection.visibilityStatus === VisibilityStatus.PUBLIC &&
-      collection.photosCount > 10 &&
-      collection.archivedAt === null,
-  );
-};
-
-const isServiceComplete = (services: Service[]) => {
-  return services.some(
-    (service) => service.visibilityStatus === VisibilityStatus.PUBLIC,
-  );
-};
-
-const getOnboardingState = async (userId: string): Promise<OnboardingState> => {
-  const userProfile = await usersRepository.getUserProfile(userId);
-  const collections = await collectionsRepository.getAllCollections(userId);
-  const services = await servicesRepository.getAllServices(userId);
-
-  return {
-    isProfileComplete: isProfileComplete(userProfile),
-    isPortfolioComplete: isPortfolioComplete(collections),
-    isServiceComplete: isServiceComplete(services),
-  };
-};
-
 const getOnboardingStepsInfo = async (
   userId: string,
   t: Awaited<ReturnType<typeof getTranslations>>,
 ) => {
-  const onboardingState = await getOnboardingState(userId);
+  const onboardingState = await getOnboardingStateUseCase(userId);
 
   const steps: OnboardingStep[] = [
     {

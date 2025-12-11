@@ -5,7 +5,7 @@ import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.
 import { clientEnv } from '@/env/client';
 import { mbToBytes } from '@/utils/files/utils';
 
-export const uploadTmpCoverImage = async (file: File) => {
+export const uploadTmpCoverImageAction = async (file: File) => {
   const tmpCoverImageUrl = await uploadImageUseCase(
     file,
     TEMP_COVER_IMAGE_STORAGE_PATH,

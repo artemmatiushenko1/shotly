@@ -11,7 +11,7 @@ import { mbToBytes } from '@/utils/files/utils';
 import { buttonVariants } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
 
-import { uploadTmpCoverImage } from './actions';
+import { uploadTmpCoverImageAction } from './actions';
 import ImageDisplay from './image-display';
 import { useImagePreview } from './use-image-preview';
 
@@ -45,7 +45,7 @@ function CoverUpload(props: CoverUploadProps) {
   } = useImagePreview({
     existingImageUrl,
     maxSize: mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_COVER_IMAGE_SIZE_MB),
-    uploadAction: uploadTmpCoverImage,
+    uploadAction: uploadTmpCoverImageAction,
     allowedMimeTypes,
   });
 

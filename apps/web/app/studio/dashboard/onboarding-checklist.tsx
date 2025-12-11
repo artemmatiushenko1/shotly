@@ -10,7 +10,7 @@ import { Card } from '@shotly/ui/components/card';
 import { toast } from '@shotly/ui/components/sonner';
 import { cn } from '@shotly/ui/lib/utils';
 
-import { sendProfileToReview } from './actions';
+import { sendProfileToReviewAction } from './actions';
 
 export type OnboardingStep = {
   id: string;
@@ -32,7 +32,7 @@ function OnboardingChecklist(props: OnboardingChecklistProps) {
   const t = useTranslations('dashboard.onboarding');
 
   const [state, formAction, pending] = useActionState(
-    sendProfileToReview,
+    sendProfileToReviewAction,
     null,
   );
 
@@ -59,8 +59,6 @@ function OnboardingChecklist(props: OnboardingChecklistProps) {
               </span>
             </div>
           </div>
-
-          {/* Progress Bar */}
           <div className="mb-8">
             <div className="w-full bg-muted rounded-full h-2">
               <div
@@ -70,12 +68,9 @@ function OnboardingChecklist(props: OnboardingChecklistProps) {
             </div>
           </div>
         </div>
-
-        {/* Steps List */}
         <div className="space-y-6 mb-8">
           {steps.map((step, index) => (
             <div key={step.id} className="flex gap-4">
-              {/* Icon */}
               <div className="flex-shrink-0 pt-1">
                 {step.isComplete ? (
                   <CheckCircle2 className="w-7 h-7 text-accent fill-primary" />
@@ -85,8 +80,6 @@ function OnboardingChecklist(props: OnboardingChecklistProps) {
                   </div>
                 )}
               </div>
-
-              {/* Content */}
               <div className="flex-1">
                 <h3
                   className={cn(
@@ -104,7 +97,6 @@ function OnboardingChecklist(props: OnboardingChecklistProps) {
                 >
                   {step.description}
                 </p>
-
                 {!step.isComplete && (
                   <Link href={step.actionLink}>
                     <Button size="sm" variant="secondary">
