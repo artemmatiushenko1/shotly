@@ -9,7 +9,7 @@ import {
   IImageStorage,
   UploadOptions,
   UploadResult,
-} from '../../application/services/image-storage.interface';
+} from '../../../application/services/image-storage.interface';
 
 /**
  * Local file system implementation of image storage

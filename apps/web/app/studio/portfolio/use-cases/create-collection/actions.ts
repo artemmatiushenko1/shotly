@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import z from 'zod';
 
-import { getUser } from '@/infrastructure/auth/dal';
+import { getUser } from '@/infrastructure/services/auth/dal';
 import collectionsRepository from '@/repositories/collections.repository';
 
 const inputSchema = z.object({

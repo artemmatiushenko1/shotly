@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 import { LocationDetails } from '@/domain/locations';
 import { clientEnv } from '@/env/client';
-import { NovaPostGeocodingService } from '@/infrastructure/geocoding-service/nova-post-geocoding.service';
+import { NovaPostGeocodingService } from '@/infrastructure/services/geocoding-service/nova-post-geocoding.service';
 
 import { Badge } from '@shotly/ui/components/badge';
 import { Button } from '@shotly/ui/components/button';

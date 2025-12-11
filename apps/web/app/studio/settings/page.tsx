@@ -1,7 +1,7 @@
 import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
-import { getUser } from '@/infrastructure/auth/dal';
+import { getUser } from '@/infrastructure/services/auth/dal';
 import languagesRepository from '@/repositories/languages.repository';
 import usersRepository from '@/repositories/users.repository';
 

@@ -4,7 +4,7 @@ import { Collection } from '@/domain/collection';
 import { VisibilityStatus } from '@/domain/common';
 import { Service } from '@/domain/service';
 import { ApprovalStatus, UserProfile } from '@/domain/user';
-import { getUser } from '@/infrastructure/auth/dal';
+import { getUser } from '@/infrastructure/services/auth/dal';
 import collectionsRepository from '@/repositories/collections.repository';
 import servicesRepository from '@/repositories/services.repository';
 import usersRepository from '@/repositories/users.repository';

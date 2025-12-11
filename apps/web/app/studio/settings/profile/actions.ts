@@ -6,8 +6,8 @@ import z from 'zod';
 import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
 import { locationDetailsSchema } from '@/domain/locations';
 import { clientEnv } from '@/env/client';
-import { getUser } from '@/infrastructure/auth/dal';
-import { UploadResult } from '@/infrastructure/image-storage-service';
+import { getUser } from '@/infrastructure/services/auth/dal';
+import { UploadResult } from '@/infrastructure/services/image-storage-service';
 import usersRepository from '@/repositories/users.repository';
 import { mbToBytes } from '@/utils/files/utils';
 

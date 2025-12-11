@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { Role } from '../src/domain/user';
-import { auth } from '../src/infrastructure/auth/auth';
+import { auth } from '../src/infrastructure/services/auth/auth';
 
 export async function middleware(request: NextRequest) {
   const session = await auth.api.getSession({

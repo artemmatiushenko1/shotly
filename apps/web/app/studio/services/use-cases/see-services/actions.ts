@@ -6,7 +6,7 @@ import {
   archiveServiceUseCase,
   restoreServiceUseCase,
 } from '@/application/use-cases/services';
-import { getUser } from '@/infrastructure/auth/dal';
+import { getUser } from '@/infrastructure/services/auth/dal';
 
 export const archiveServiceAction = async (serviceId: string) => {
   try {
