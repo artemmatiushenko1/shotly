@@ -16,6 +16,7 @@ import {
 import ProfileTabs from './tabs';
 
 type PhotographerPublicProfileProps = {
+  // TODO: rename to usernameOrUserId
   params: Promise<{ photographerId: string }>;
 };
 

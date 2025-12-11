@@ -139,9 +139,6 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
               inputName="profileImageUrl"
               inputId={profileImageId}
               error={errors.profileImageUrl?.join(', ')}
-              onDeleteExisting={() => {
-                // TODO: implement delete functionality for existing image
-              }}
             />
           }
         />
@@ -153,6 +150,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             <Textarea
               id={bioId}
               name="bio"
+              placeholder="Write about yourself..."
               defaultValue={values.bio ?? undefined}
               className="min-h-32 resize-none"
               error={errors.bio?.join(', ')}
@@ -225,6 +223,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             <Input
               id={personalWebsiteUrlId}
               name="websiteUrl"
+              placeholder="https://example.com"
               defaultValue={values.websiteUrl ?? undefined}
               error={errors.websiteUrl?.join(', ')}
             />
@@ -254,10 +253,6 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             </p>
           )}
           <div className="space-x-3 ml-auto">
-            {/* TODO: implement form reset */}
-            <Button type="button" variant="ghost">
-              {t('actions.cancel')}
-            </Button>
             <Button type="submit" loading={isPending}>
               {t('actions.saveChanges')}
             </Button>

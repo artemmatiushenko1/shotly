@@ -20,7 +20,6 @@ type ProfileImageUploadProps = {
   inputName: string;
   inputId: string;
   error?: string;
-  onDeleteExisting?: () => void;
 };
 
 export function ProfileImageUpload({
@@ -28,7 +27,6 @@ export function ProfileImageUpload({
   inputName,
   inputId,
   error,
-  onDeleteExisting,
 }: ProfileImageUploadProps) {
   const t = useTranslations('settings.profile.fields.profileImageUpload');
 
@@ -50,8 +48,6 @@ export function ProfileImageUpload({
   const handleRemove = () => {
     if (selectedPreviewUrl) {
       clearSelectedPreview();
-    } else if (existingImageUrl && onDeleteExisting) {
-      onDeleteExisting();
     }
   };
 
@@ -99,7 +95,7 @@ export function ProfileImageUpload({
           name={inputName}
           value={selectedPreviewUrl ?? existingImageUrl ?? ''}
         />
-        {displayImageUrl && (
+        {selectedPreviewUrl && (
           <Button
             type="button"
             variant="ghost"
@@ -108,7 +104,7 @@ export function ProfileImageUpload({
             onClick={handleRemove}
           >
             <Trash2 className="mr-2 h-4 w-4" />
-            {selectedPreviewUrl ? t('removeSelected') : t('deleteCurrent')}
+            {t('removeSelected')}
           </Button>
         )}
         {(error || sizeError) && (
