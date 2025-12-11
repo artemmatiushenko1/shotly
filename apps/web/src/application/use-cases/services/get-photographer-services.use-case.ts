@@ -1,5 +1,5 @@
 import { Service } from '@/domain/service';
-import servicesRepository from '@/repositories/services.repository';
+import servicesRepository from '@/infrastructure/repositories/services.repository';
 
 // TODO: inject repository
 export const getPhotographerServicesUseCase = async (

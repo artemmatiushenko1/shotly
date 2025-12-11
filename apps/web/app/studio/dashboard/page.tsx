@@ -4,10 +4,10 @@ import { Collection } from '@/domain/collection';
 import { VisibilityStatus } from '@/domain/common';
 import { Service } from '@/domain/service';
 import { ApprovalStatus, UserProfile } from '@/domain/user';
+import collectionsRepository from '@/infrastructure/repositories/collections.repository';
+import servicesRepository from '@/infrastructure/repositories/services.repository';
+import usersRepository from '@/infrastructure/repositories/users.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
-import collectionsRepository from '@/repositories/collections.repository';
-import servicesRepository from '@/repositories/services.repository';
-import usersRepository from '@/repositories/users.repository';
 
 import MainHeader from '../../_components/main-header';
 import OnboardingChecklist, { OnboardingStep } from './onboarding-checklist';

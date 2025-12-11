@@ -1,9 +1,9 @@
 import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
+import languagesRepository from '@/infrastructure/repositories/languages.repository';
+import usersRepository from '@/infrastructure/repositories/users.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
-import languagesRepository from '@/repositories/languages.repository';
-import usersRepository from '@/repositories/users.repository';
 
 import FadeIn from '@shotly/ui/components/fade-in';
 import {

@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 
 import { VisibilityStatus } from '@/domain/common';
-import collectionsRepository from '@/repositories/collections.repository';
+import collectionsRepository from '@/infrastructure/repositories/collections.repository';
 
 const changeCollectionVisibilityStatusAction = async (
   collectionId: string,

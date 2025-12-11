@@ -1,6 +1,7 @@
-import { db } from '@/db/drizzle';
-import { categoriesTable } from '@/db/schema';
 import { Category, categorySchema } from '@/domain/category';
+
+import { db } from '../../../drizzle';
+import { categoriesTable } from '../../../drizzle/schema';
 
 class CategoriesRepository {
   async getCategories(): Promise<Category[]> {

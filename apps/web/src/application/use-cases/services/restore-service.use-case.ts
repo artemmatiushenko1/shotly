@@ -1,5 +1,5 @@
 import { ForbiddenError, NotFoundError } from '@/domain/errors/common';
-import servicesRepository from '@/repositories/services.repository';
+import servicesRepository from '@/infrastructure/repositories/services.repository';
 
 export const restoreServiceUseCase = async (
   userId: string,

@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 
 import { NotFoundError } from '@/domain/errors/common';
-import collectionsRepository from '@/repositories/collections.repository';
+import collectionsRepository from '@/infrastructure/repositories/collections.repository';
 
 export const setCollectionCoverImage = async (
   collectionId: string,

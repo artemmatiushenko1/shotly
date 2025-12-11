@@ -1,14 +1,6 @@
 import 'server-only';
 import { eq, inArray, sql } from 'drizzle-orm';
 
-import { db } from '@/db/drizzle';
-import {
-  languagesTable,
-  locationsTable,
-  userLanguagesTable,
-  usersTable,
-  usersToLocationsTable,
-} from '@/db/schema';
 import { LocationDetails } from '@/domain/locations';
 import {
   ApprovalStatus,
@@ -21,6 +13,15 @@ import {
   userSchema,
   UserUpdate,
 } from '@/domain/user';
+
+import { db } from '../../../drizzle';
+import {
+  languagesTable,
+  locationsTable,
+  userLanguagesTable,
+  usersTable,
+  usersToLocationsTable,
+} from '../../../drizzle/schema';
 
 class UsersRepository {
   async updateUserLanguages(userId: string, languageCodes: string[]) {

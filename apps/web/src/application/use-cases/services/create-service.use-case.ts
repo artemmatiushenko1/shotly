@@ -1,6 +1,6 @@
 import { VisibilityStatus } from '@/domain/common';
+import servicesRepository from '@/infrastructure/repositories/services.repository';
 import { imageStorage } from '@/infrastructure/services/image-storage-service';
-import servicesRepository from '@/repositories/services.repository';
 
 import { PERMANENT_COVER_IMAGE_STORAGE_PATH } from './constants';
 

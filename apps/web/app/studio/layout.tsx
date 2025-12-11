@@ -1,5 +1,5 @@
+import usersRepository from '@/infrastructure/repositories/users.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
-import usersRepository from '@/repositories/users.repository';
 
 import { SidebarProvider } from '@shotly/ui/components/sidebar';
 import { ThemeProvider } from '@shotly/ui/components/theme-provider';

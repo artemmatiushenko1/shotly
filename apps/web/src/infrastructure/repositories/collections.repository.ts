@@ -1,7 +1,5 @@
 import { count, eq } from 'drizzle-orm';
 
-import { db } from '@/db/drizzle';
-import { collectionsTable, photosTable } from '@/db/schema';
 import {
   Collection,
   collectionSchema,
@@ -9,6 +7,10 @@ import {
 } from '@/domain/collection';
 import { VisibilityStatus } from '@/domain/common';
 import { Photo, PhotoMetadata, photoSchema } from '@/domain/photos';
+
+// TODO: make it possible to import from @/drizzle
+import { db } from '../../../drizzle';
+import { collectionsTable, photosTable } from '../../../drizzle/schema';
 
 type CollectionRow = typeof collectionsTable.$inferSelect & {
   photosCount?: number;

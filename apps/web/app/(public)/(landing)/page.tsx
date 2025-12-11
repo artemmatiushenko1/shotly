@@ -1,7 +1,7 @@
 import { Search } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
-import categoriesRepository from '@/repositories/categories.repository';
+import categoriesRepository from '@/infrastructure/repositories/categories.repository';
 
 import { Badge } from '@shotly/ui/components/badge';
 

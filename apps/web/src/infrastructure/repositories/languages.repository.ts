@@ -1,8 +1,9 @@
 import { eq } from 'drizzle-orm';
 
-import { db } from '@/db/drizzle';
-import { languagesTable, userLanguagesTable } from '@/db/schema';
 import { Language, languageSchema } from '@/domain/language';
+
+import { db } from '../../../drizzle';
+import { languagesTable, userLanguagesTable } from '../../../drizzle/schema';
 
 class LanguagesRepository {
   getAllLanguages = async (): Promise<Language[]> => {

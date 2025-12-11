@@ -3,8 +3,8 @@
 import { redirect } from 'next/navigation';
 import z from 'zod';
 
+import collectionsRepository from '@/infrastructure/repositories/collections.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
-import collectionsRepository from '@/repositories/collections.repository';
 
 const inputSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
