@@ -16,10 +16,11 @@ import { cn } from '@shotly/ui/lib/utils';
 
 import CoverUpload from '../../../_components/cover-upload/cover-upload';
 import { LabeledControl } from '../labeled-control';
-import { updateProfileAction } from './actions';
 import { ExperienceSlider } from './experience-slider';
 import { LanguageSelector } from './language-selector';
 import { LocationSelector } from './location-selector';
+import { updateProfileAction } from './profile-form.actions';
+import { ProfileFormState } from './profile-form.schema';
 import { ProfileImageUpload } from './profile-image-upload';
 import { SocialLinkInput } from './social-link-input';
 
@@ -29,15 +30,20 @@ type ProfileSettingsProps = {
   languageOptions: Language[];
 };
 
+const INITIAL_STATE: ProfileFormState = {
+  status: 'idle',
+  message: '',
+};
+
 const ProfileSettings = (props: ProfileSettingsProps) => {
   const { profile, languageOptions } = props;
 
   const t = useTranslations('settings.profile');
 
-  const [state, formAction, pending] = useActionState(updateProfileAction, {
-    hasErrors: false,
-  });
-  const { validationErrors } = state;
+  const [state, formAction, isPending] = useActionState(
+    updateProfileAction,
+    INITIAL_STATE,
+  );
 
   const [languages, setLanguages] = useState<Language[]>(profile.languages);
   const [locations, setLocations] = useState<LocationDetails[]>(
@@ -52,6 +58,9 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
   const experienceYearsId = useId();
   const personalWebsiteUrlId = useId();
   const profileImageId = useId();
+
+  const errors = state.errors ?? {};
+  const values = { ...profile, ...state.inputs };
 
   return (
     <div className="space-y-8 pb-4">
@@ -88,8 +97,10 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
       <form className="space-y-8" action={formAction}>
         <CoverUpload
           name="coverImageUrl"
-          existingImageUrl={profile.coverImageUrl ?? undefined}
-          error={validationErrors?.fieldErrors.coverImageUrl?.toString()}
+          // Specifing key prop helps to reset underlying input with image url
+          key={values.coverImageUrl}
+          existingImageUrl={values.coverImageUrl ?? undefined}
+          error={errors.coverImageUrl?.join(', ')}
         />
         <LabeledControl
           title={t('fields.fullName.title')}
@@ -99,8 +110,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             <Input
               id={fullNameId}
               name="name"
-              defaultValue={profile.name}
-              error={validationErrors?.fieldErrors.name?.toString()}
+              defaultValue={values.name}
+              error={errors.name?.join(', ')}
             />
           }
         />
@@ -112,8 +123,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             <Input
               id={usernameId}
               name="username"
-              defaultValue={profile.username ?? undefined}
-              error={validationErrors?.fieldErrors.username?.toString()}
+              defaultValue={values.username}
+              error={errors.username?.toString()}
             />
           }
         />
@@ -122,10 +133,12 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           description={t('fields.profilePhoto.description')}
           controlNode={
             <ProfileImageUpload
-              existingImageUrl={profile.image}
+              // Specifing key prop helps to reset underlying input with image url
+              key={values.profileImageUrl}
+              existingImageUrl={values.profileImageUrl}
               inputName="profileImageUrl"
               inputId={profileImageId}
-              error={validationErrors?.fieldErrors.profileImageUrl?.toString()}
+              error={errors.profileImageUrl?.join(', ')}
               onDeleteExisting={() => {
                 // TODO: implement delete functionality for existing image
               }}
@@ -140,8 +153,9 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             <Textarea
               id={bioId}
               name="bio"
-              defaultValue={profile.bio ?? undefined}
+              defaultValue={values.bio ?? undefined}
               className="min-h-32 resize-none"
+              error={errors.bio?.join(', ')}
             />
           }
         />
@@ -154,8 +168,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             <ExperienceSlider
               name="yearsOfExperience"
               inputId={experienceYearsId}
-              defaultYears={profile.yearsOfExperience ?? undefined}
-              error={validationErrors?.fieldErrors.yearsOfExperience?.toString()}
+              defaultYears={values.yearsOfExperience ?? undefined}
+              error={errors.yearsOfExperience?.join(', ')}
             />
           }
         />
@@ -170,7 +184,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
                 inputId="locations"
                 value={locations}
                 onChange={setLocations}
-                error={validationErrors?.fieldErrors.locations?.toString()}
+                error={errors.locations?.join(', ')}
               />
               <input
                 type="hidden"
@@ -192,7 +206,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
                 inputId={languagesId}
                 languageOptions={languageOptions}
                 onChange={(newLanguages) => setLanguages(newLanguages)}
-                error={validationErrors?.fieldErrors.languages?.toString()}
+                error={errors.languages?.join(', ')}
               />
               <input
                 type="hidden"
@@ -211,8 +225,8 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             <Input
               id={personalWebsiteUrlId}
               name="websiteUrl"
-              defaultValue={profile.websiteUrl ?? undefined}
-              error={validationErrors?.fieldErrors.websiteUrl?.toString()}
+              defaultValue={values.websiteUrl ?? undefined}
+              error={errors.websiteUrl?.join(', ')}
             />
           }
         />
@@ -226,14 +240,14 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
               name="instagramTag"
               socialIcon={<InstagramIcon />}
               socialBaseUrl="instagram.com/"
-              defaultValue={profile.instagramTag ?? undefined}
-              error={validationErrors?.fieldErrors.instagramTag?.toString()}
+              defaultValue={values.instagramTag ?? undefined}
+              error={errors.instagramTag?.join(', ')}
             />
           }
         />
 
         <div className="flex gap-3 justify-between items-center">
-          {state.hasErrors && (
+          {state.status === 'error' && (
             <p className="text-sm inline-flex gap-2 items-center text-destructive">
               <CircleXIcon className="size-4" />
               {t('errors.saveFailed')}
@@ -244,7 +258,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             <Button type="button" variant="ghost">
               {t('actions.cancel')}
             </Button>
-            <Button type="submit" loading={pending}>
+            <Button type="submit" loading={isPending}>
               {t('actions.saveChanges')}
             </Button>
           </div>

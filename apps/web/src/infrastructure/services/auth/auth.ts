@@ -19,6 +19,9 @@ export const auth = betterAuth({
     },
   }),
   user: {
+    fields: {
+      image: 'profileImageUrl',
+    },
     additionalFields: {
       role: {
         type: 'string',

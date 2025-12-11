@@ -32,7 +32,7 @@ async function PhotographerPublicProfile({
   }
 
   const coverImageUrl = profile.coverImageUrl || '/default-cover.jpg';
-  const profileImageUrl = profile.image || undefined;
+  const profileImageUrl = profile.profileImageUrl || undefined;
 
   return (
     <div>

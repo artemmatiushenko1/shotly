@@ -46,7 +46,7 @@ export const usersTable = pgTable('user', {
   emailVerified: boolean('email_verified')
     .$defaultFn(() => false)
     .notNull(),
-  image: text('image'),
+  profileImageUrl: text('profile_image_url'),
   createdAt: timestamp('created_at')
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),

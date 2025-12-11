@@ -3,8 +3,6 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { UploadResult } from '@/application/services/image-storage.interface';
 import { MimeType } from '@/utils/files/enums';
 
-import { uploadTmpCoverImage } from './actions';
-
 export type UseImagePreviewOptions = {
   existingImageUrl?: string | null;
   maxSize?: number;
@@ -25,7 +23,12 @@ export type UseImagePreviewResult = {
 export function useImagePreview(
   options: UseImagePreviewOptions,
 ): UseImagePreviewResult {
-  const { existingImageUrl = null, maxSize, allowedMimeTypes } = options;
+  const {
+    existingImageUrl = null,
+    maxSize,
+    allowedMimeTypes,
+    uploadAction,
+  } = options;
 
   const [selectedPreviewUrl, setSelectedPreviewUrl] = useState<string | null>(
     null,
@@ -34,12 +37,15 @@ export function useImagePreview(
   const [sizeError, setSizeError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const uploadFile = useCallback(async (file: File) => {
-    setIsUploading(true);
-    const uploadResult = await uploadTmpCoverImage(file);
-    setIsUploading(false);
-    return uploadResult;
-  }, []);
+  const uploadFile = useCallback(
+    async (file: File) => {
+      setIsUploading(true);
+      const uploadResult = await uploadAction(file);
+      setIsUploading(false);
+      return uploadResult;
+    },
+    [uploadAction],
+  );
 
   const handleFileChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {

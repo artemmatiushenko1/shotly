@@ -50,7 +50,7 @@ const updateProfileUseCase = async (
     coverImageUrl = url;
   }
 
-  let profileImageUrl = user.image;
+  let profileImageUrl = user.profileImageUrl;
 
   if (input.profileImageUrl && profileImageUrl !== input.profileImageUrl) {
     const { url } = await imageStorage.move(input.profileImageUrl, {
@@ -62,7 +62,7 @@ const updateProfileUseCase = async (
 
   await usersRepository.updateUser(userId, {
     name: input.name,
-    image: profileImageUrl,
+    profileImageUrl,
     coverImageUrl,
     bio: input.bio,
     websiteUrl: input.websiteUrl,

@@ -12,7 +12,7 @@ import { Button, buttonVariants } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
 
 import { useImagePreview } from '../../../_components/cover-upload/use-image-preview';
-import { uploadTmpProfileImage } from './actions';
+import { uploadTmpProfileImage } from './profile-form.actions';
 import { ProfileImagePlaceholder } from './profile-image-placeholder';
 
 type ProfileImageUploadProps = {
