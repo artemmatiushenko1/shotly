@@ -23,7 +23,8 @@ const isProfileComplete = (userProfile: UserProfile) => {
     userProfile.locations.length > 0 &&
     userProfile.languages.length > 0 &&
     userProfile.yearsOfExperience !== null &&
-    userProfile.instagramTag !== null
+    userProfile.instagramTag !== null &&
+    userProfile.aboutMe !== null
   );
 };
 
