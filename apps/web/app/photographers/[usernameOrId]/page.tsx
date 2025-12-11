@@ -1,9 +1,8 @@
 import { ArrowUpRightIcon, BookmarkIcon } from 'lucide-react';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
-import usersRepository from '@/infrastructure/repositories/users.repository';
+import { getProfileByUsernameOrIdUseCase } from '@/application/use-cases/account';
 
 import { Avatar, AvatarImage } from '@shotly/ui/components/avatar';
 import { Button } from '@shotly/ui/components/button';
@@ -16,21 +15,17 @@ import {
 import ProfileTabs from './tabs';
 
 type PhotographerPublicProfileProps = {
-  // TODO: rename to usernameOrUserId
-  params: Promise<{ photographerId: string }>;
+  params: Promise<{ usernameOrId: string }>;
 };
 
 async function PhotographerPublicProfile({
   params,
 }: PhotographerPublicProfileProps) {
-  const { photographerId } = await params;
+  const { usernameOrId } = await params;
+
   const t = await getTranslations('photographerProfile');
 
-  const profile = await usersRepository.getUserProfile(photographerId);
-
-  if (!profile) {
-    notFound();
-  }
+  const profile = await getProfileByUsernameOrIdUseCase(usernameOrId);
 
   const coverImageUrl = profile.coverImageUrl || '/default-cover.jpg';
   const profileImageUrl = profile.profileImageUrl || undefined;
