@@ -21,6 +21,7 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
+import { generateDefaultUsername } from '@/application/use-cases/account/utils';
 import { VisibilityStatus } from '@/entities/models/common';
 import { PhotoMetadata } from '@/entities/models/photos';
 import { ApprovalStatus, Role } from '@/entities/models/user';
@@ -53,7 +54,10 @@ export const usersTable = pgTable('user', {
     .$defaultFn(() => /* @__PURE__ */ new Date())
     .notNull(),
   role: roleEnum('role').notNull().default(Role.UNKNOWN),
-  username: text('username').unique(),
+  username: text('username')
+    .unique()
+    .notNull()
+    .$defaultFn(() => generateDefaultUsername()),
   websiteUrl: text('website_url'),
   instagramTag: text('instagram_tag'),
   coverImageUrl: text('cover_image_url'),

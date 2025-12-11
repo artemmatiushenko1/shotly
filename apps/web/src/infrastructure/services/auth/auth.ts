@@ -2,7 +2,6 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { nextCookies } from 'better-auth/next-js';
 
-import { setInitialUsernameUseCase } from '@/application/use-cases/account';
 import { serverEnv } from '@/env/server';
 
 import { db } from '../../../../drizzle';
@@ -19,15 +18,6 @@ export const auth = betterAuth({
       session: schema.sessionsTable,
     },
   }),
-  databaseHooks: {
-    user: {
-      create: {
-        after: async (user) => {
-          await setInitialUsernameUseCase(user.id);
-        },
-      },
-    },
-  },
   user: {
     additionalFields: {
       role: {

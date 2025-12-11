@@ -1,8 +1,6 @@
-import usersRepository from '@/infrastructure/repositories/users.repository';
-
 import { ALLOWED_USERNAME_CHARS, DEFAULT_USERNAME_LENGTH } from './constants';
 
-const setInitialUsernameUseCase = async (userId: string) => {
+export const generateDefaultUsername = () => {
   let username = 'user_';
 
   for (let i = 0; i < DEFAULT_USERNAME_LENGTH; i++) {
@@ -11,7 +9,5 @@ const setInitialUsernameUseCase = async (userId: string) => {
     );
   }
 
-  await usersRepository.setUsername(userId, username);
+  return username;
 };
-
-export { setInitialUsernameUseCase };
