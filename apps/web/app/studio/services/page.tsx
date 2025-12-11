@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
 import { getPhotographerServicesUseCase } from '@/application/use-cases/services';
-import { getUser } from '@/lib/auth/dal';
+import { getUser } from '@/infrastructure/auth/dal';
 
 import { Button } from '@shotly/ui/components/button';
 import FadeIn from '@shotly/ui/components/fade-in';

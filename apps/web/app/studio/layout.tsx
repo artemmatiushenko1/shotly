@@ -1,4 +1,4 @@
-import { getUser } from '@/lib/auth/dal';
+import { getUser } from '@/infrastructure/auth/dal';
 import usersRepository from '@/repositories/users.repository';
 
 import { SidebarProvider } from '@shotly/ui/components/sidebar';

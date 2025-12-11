@@ -2,7 +2,7 @@
 
 import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
 import { clientEnv } from '@/env/client';
-import { mbToBytes } from '@/lib/files/utils';
+import { mbToBytes } from '@/utils/files/utils';
 
 const TMP_COVER_IMAGE_PATH = '/tmp/covers';
 

@@ -3,8 +3,8 @@ import path from 'node:path';
 
 import { serverEnv } from '@/env/server';
 
-import { IImageStorage } from './image-storage.interface';
-import { LocalImageStorageService } from './local/local-image-storage.service';
+import { IImageStorage } from '../../application/services/image-storage.interface';
+import { LocalImageStorageService } from './local-image-storage.service';
 
 /**
  * Image storage service
@@ -22,4 +22,4 @@ export type {
   IImageStorage,
   UploadOptions,
   UploadResult,
-} from './image-storage.interface';
+} from '../../application/services/image-storage.interface';

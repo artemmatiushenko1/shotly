@@ -3,13 +3,13 @@ import { randomBytes } from 'crypto';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-import { MimeType } from '@/lib/files/enums';
+import { MimeType } from '@/utils/files/enums';
 
 import {
   IImageStorage,
   UploadOptions,
   UploadResult,
-} from '../image-storage.interface';
+} from '../../application/services/image-storage.interface';
 
 /**
  * Local file system implementation of image storage

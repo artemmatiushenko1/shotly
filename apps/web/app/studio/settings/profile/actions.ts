@@ -6,10 +6,10 @@ import z from 'zod';
 import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
 import { locationDetailsSchema } from '@/domain/locations';
 import { clientEnv } from '@/env/client';
-import { getUser } from '@/lib/auth/dal';
-import { mbToBytes } from '@/lib/files/utils';
-import { UploadResult } from '@/lib/images/image-storage.service';
+import { getUser } from '@/infrastructure/auth/dal';
+import { UploadResult } from '@/infrastructure/image-storage-service';
 import usersRepository from '@/repositories/users.repository';
+import { mbToBytes } from '@/utils/files/utils';
 
 const inputSchema = z.object({
   name: z.string().min(1, { error: 'Name must not be empty.' }),

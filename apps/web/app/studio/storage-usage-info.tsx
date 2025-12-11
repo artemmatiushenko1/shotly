@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { StorageUsage } from '@/domain/user';
-import { convertBytesToGb, convertBytesToMb } from '@/lib/images/utils';
+import { convertBytesToGb, convertBytesToMb } from '@/utils/files/utils';
 
 type StorageUsageInfoProps = {
   storageUsage: StorageUsage;

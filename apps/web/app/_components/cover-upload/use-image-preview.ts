@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 
-import { MimeType } from '@/lib/files/enums';
-import { UploadResult } from '@/lib/images/image-storage.interface';
+import { UploadResult } from '@/application/services/image-storage.interface';
+import { MimeType } from '@/utils/files/enums';
 
 import { uploadTmpCoverImage } from './actions';
 

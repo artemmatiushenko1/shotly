@@ -4,7 +4,7 @@ import { APIError } from 'better-auth/api';
 import { redirect } from 'next/navigation';
 import z from 'zod';
 
-import { auth } from '@/lib/auth/auth';
+import { auth } from '@/infrastructure/auth/auth';
 
 export const signInWithGoogle = async () => {
   const res = await auth.api.signInSocial({

@@ -4,9 +4,9 @@ import { revalidatePath } from 'next/cache';
 
 import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
 import { clientEnv } from '@/env/client';
-import { mbToBytes } from '@/lib/files/utils';
 import collectionsRepository from '@/repositories/collections.repository';
 import usersRepository from '@/repositories/users.repository';
+import { mbToBytes } from '@/utils/files/utils';
 
 const uploadPhotosAction = async (
   photographerId: string,

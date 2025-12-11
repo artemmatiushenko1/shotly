@@ -1,7 +1,7 @@
 import { PlusIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
-import { getUser } from '@/lib/auth/dal';
+import { getUser } from '@/infrastructure/auth/dal';
 import categoriesRepository from '@/repositories/categories.repository';
 import collectionsRepository from '@/repositories/collections.repository';
 

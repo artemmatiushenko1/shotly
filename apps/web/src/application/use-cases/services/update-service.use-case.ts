@@ -1,7 +1,7 @@
 import { VisibilityStatus } from '@/domain/common';
 import { ForbiddenError, NotFoundError } from '@/domain/errors/common';
-import { getUser } from '@/lib/auth/dal';
-import { imageStorage } from '@/lib/images/image-storage.service';
+import { getUser } from '@/infrastructure/auth/dal';
+import { imageStorage } from '@/infrastructure/image-storage-service';
 import servicesRepository from '@/repositories/services.repository';
 
 import { PERMANENT_COVER_IMAGE_STORAGE_PATH } from './constants';

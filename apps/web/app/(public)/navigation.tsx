@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
 import { Role } from '@/domain/user';
-import { auth } from '@/lib/auth/auth';
+import { auth } from '@/infrastructure/auth/auth';
 
 import {
   Avatar,

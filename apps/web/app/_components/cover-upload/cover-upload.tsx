@@ -5,8 +5,8 @@ import { useTranslations } from 'next-intl';
 import { useId } from 'react';
 
 import { clientEnv } from '@/env/client';
-import { MimeType } from '@/lib/files/enums';
-import { mbToBytes } from '@/lib/files/utils';
+import { MimeType } from '@/utils/files/enums';
+import { mbToBytes } from '@/utils/files/utils';
 
 import { buttonVariants } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';

@@ -1,5 +1,5 @@
-import { MimeType } from '@/lib/files/enums';
-import { imageStorage } from '@/lib/images/image-storage.service';
+import { imageStorage } from '@/infrastructure/image-storage-service';
+import { MimeType } from '@/utils/files/enums';
 
 export const uploadImageUseCase = async (
   file: File,

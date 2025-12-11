@@ -1,6 +1,6 @@
 import { LocationDetails, locationDetailsSchema } from '@/domain/locations';
 
-import { IGeocodingService } from '../geocoding-service.interface';
+import { IGeocodingService } from '../../application/services/geocoding-service.interface';
 import { NovaBaseResponseSchema, NovaPostSettlement } from './nova-post.schema';
 
 export class NovaPostGeocodingService implements IGeocodingService {

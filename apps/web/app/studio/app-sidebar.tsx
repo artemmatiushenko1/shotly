@@ -16,7 +16,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 import { StorageUsage } from '@/domain/user';
-import { authClient } from '@/lib/auth/auth-client';
+import { authClient } from '@/infrastructure/auth/auth-client';
 
 import {
   Avatar,
