@@ -1,9 +1,9 @@
 'use client';
 
-import { CircleXIcon, ExternalLink, InstagramIcon } from 'lucide-react';
+import { ExternalLink, InstagramIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { useActionState, useId, useState } from 'react';
+import { useActionState, useEffect, useId, useState } from 'react';
 
 import { Language } from '@/entities/models/language';
 import { LocationDetails } from '@/entities/models/locations';
@@ -11,6 +11,7 @@ import { UserProfile } from '@/entities/models/user';
 
 import { Button, buttonVariants } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';
+import { toast } from '@shotly/ui/components/sonner';
 import { Textarea } from '@shotly/ui/components/textarea';
 import { cn } from '@shotly/ui/lib/utils';
 
@@ -45,6 +46,16 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
     INITIAL_STATE,
   );
 
+  useEffect(() => {
+    if (state.status === 'success') {
+      toast.success(t('success.profileUpdated'));
+    }
+
+    if (state.status === 'error') {
+      toast.error(t('errors.saveFailed'));
+    }
+  }, [state.status, t]);
+
   const [languages, setLanguages] = useState<Language[]>(profile.languages);
   const [locations, setLocations] = useState<LocationDetails[]>(
     profile.locations,
@@ -78,7 +89,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           <div className="relative">
             <Input
               readOnly
-              className="pr-10 w-xs"
+              className="pr-10"
               value={`shotly.com/photographers/${profile.username}`}
             />
             <Link
@@ -244,14 +255,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
             />
           }
         />
-
         <div className="flex gap-3 justify-between items-center">
-          {state.status === 'error' && (
-            <p className="text-sm inline-flex gap-2 items-center text-destructive">
-              <CircleXIcon className="size-4" />
-              {t('errors.saveFailed')}
-            </p>
-          )}
           <div className="space-x-3 ml-auto">
             <Button type="submit" loading={isPending}>
               {t('actions.saveChanges')}

@@ -61,6 +61,7 @@ const updateProfileUseCase = async (
   }
 
   await usersRepository.updateUser(userId, {
+    username: input.username,
     name: input.name,
     profileImageUrl,
     coverImageUrl,

@@ -220,7 +220,10 @@
         }
       },
       "errors": {
-        "saveFailed": "Failed to save changes. Please check the errors above."
+        "saveFailed": "Failed to save changes. Please check the errors."
+      },
+      "success": {
+        "profileUpdated": "Profile updated successfully!"
       },
       "actions": {
         "cancel": "Cancel",
