@@ -2,7 +2,7 @@ import { VisibilityStatus } from '@/entities/models/common';
 import servicesRepository from '@/infrastructure/repositories/services.repository';
 import { imageStorage } from '@/infrastructure/services/image-storage-service';
 
-import { PERMANENT_COVER_IMAGE_STORAGE_PATH } from './constants';
+import { PERMANENT_COVER_IMAGE_STORAGE_PATH } from '../images/constants';
 
 export const createServiceUseCase = async (
   userId: string,

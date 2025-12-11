@@ -208,6 +208,34 @@ class UsersRepository {
 
     return userSchema.parse(query);
   }
+
+  async getUserById(userId: string): Promise<User | null> {
+    const [query] = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.id, userId))
+      .limit(1);
+
+    if (!query) {
+      return null;
+    }
+
+    return userSchema.parse(query);
+  }
+
+  async getUserByUsername(username: string): Promise<User | null> {
+    const [query] = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.username, username))
+      .limit(1);
+
+    if (!query) {
+      return null;
+    }
+
+    return userSchema.parse(query);
+  }
 }
 
 const usersRepository = new UsersRepository();

@@ -15,6 +15,7 @@ import { clientEnv } from '@/env/client';
 import { getUser } from '@/infrastructure/services/auth/dal';
 import { UploadResult } from '@/infrastructure/services/image-storage-service';
 import { mbToBytes } from '@/utils/files/utils';
+import { TEMP_PROFILE_IMAGE_STORAGE_PATH } from '@/application/use-cases/images/constants';
 
 const inputSchema = z.object({
   name: z.string().min(1, { error: 'Name must not be empty.' }),
@@ -87,14 +88,12 @@ export const updateProfileAction = async (
   return { hasErrors: false };
 };
 
-const TMP_PROFILE_IMAGE_STORAGE_PATH = '/tmp/profiles';
-
 export const uploadTmpProfileImage = async (
   file: File,
 ): Promise<UploadResult> => {
   const uploadResult = await uploadImageUseCase(
     file,
-    TMP_PROFILE_IMAGE_STORAGE_PATH,
+    TEMP_PROFILE_IMAGE_STORAGE_PATH,
     mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_IMAGE_SIZE_MB),
   );
 

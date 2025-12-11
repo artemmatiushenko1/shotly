@@ -4,7 +4,7 @@ import servicesRepository from '@/infrastructure/repositories/services.repositor
 import { getUser } from '@/infrastructure/services/auth/dal';
 import { imageStorage } from '@/infrastructure/services/image-storage-service';
 
-import { PERMANENT_COVER_IMAGE_STORAGE_PATH } from './constants';
+import { PERMANENT_COVER_IMAGE_STORAGE_PATH } from '../images/constants';
 
 export const updateServiceUseCase = async (
   userId: string,
