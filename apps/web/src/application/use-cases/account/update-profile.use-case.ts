@@ -35,7 +35,7 @@ const updateProfileUseCase = async (
       input.username,
     );
 
-    if (userByUsername) {
+    if (userByUsername && userByUsername.id !== userId) {
       throw new ConflictError(`Username ${input.username} is already taken`);
     }
   }
