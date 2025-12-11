@@ -5,3 +5,6 @@ export const DEFAULT_USERNAME_LENGTH = 8;
 export const ALLOWED_USERNAME_CHARS = '_.abcdefghijklmnopqrstuvwxyz0123456789';
 
 export const MIN_PHOTOS_ONBOARDING_THRESHOLD = 10;
+
+export const MAX_BIO_LENGTH = 100;
+export const MAX_ABOUT_ME_LENGTH = 500;

@@ -196,7 +196,13 @@
         },
         "about": {
           "title": "About you",
-          "description": "Write a description for your profile"
+          "description": "Your full bio, experience, and artistic philosophy.",
+          "placeholder": "Hi, I'm [Name]. I've been shooting for 4 years. I specialize in natural light photography and love to capture..."
+        },
+        "shortBio": {
+          "title": "Short Bio",
+          "description": "A short tagline that appears in search results to attract clients.",
+          "placeholder": "e.g., Portrait photographer in Kyiv specializing in candid moments."
         },
         "experience": {
           "title": "Experience",

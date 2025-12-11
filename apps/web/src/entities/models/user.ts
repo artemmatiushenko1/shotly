@@ -22,9 +22,10 @@ export const userSchema = z.object({
   username: z.string(),
   email: z.email(),
   coverImageUrl: z.url().nullable(),
-  profileImageUrl: z.url().nullable(), // profile picture
+  profileImageUrl: z.url().nullable(),
   yearsOfExperience: z.number().nullable(),
   bio: z.string().nullable(),
+  aboutMe: z.string().nullable(),
   websiteUrl: z.url().nullable(),
   instagramTag: z.string().nullable(),
   createdAt: z.date(),
@@ -41,6 +42,7 @@ export const updateUserSchema = userSchema.pick({
   yearsOfExperience: true,
   bio: true,
   websiteUrl: true,
+  aboutMe: true,
   instagramTag: true,
 });
 
@@ -54,6 +56,7 @@ export const userProfileSchema = userSchema
     profileImageUrl: true,
     yearsOfExperience: true,
     bio: true,
+    aboutMe: true,
     websiteUrl: true,
     instagramTag: true,
     createdAt: true,

@@ -21,6 +21,7 @@ const updateProfileUseCase = async (
     websiteUrl: string;
     instagramTag: string;
     yearsOfExperience: number;
+    aboutMe: string;
   }>,
 ) => {
   // TODO: should be a single transaction
@@ -69,6 +70,7 @@ const updateProfileUseCase = async (
     websiteUrl: input.websiteUrl,
     instagramTag: input.instagramTag,
     yearsOfExperience: input.yearsOfExperience,
+    aboutMe: input.aboutMe,
   });
 
   if (input.languages) {

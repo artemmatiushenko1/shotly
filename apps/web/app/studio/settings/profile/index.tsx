@@ -69,6 +69,7 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
   const experienceYearsId = useId();
   const personalWebsiteUrlId = useId();
   const profileImageId = useId();
+  const aboutMeId = useId();
 
   const errors = state.errors ?? {};
   const values = { ...profile, ...state.inputs };
@@ -154,15 +155,29 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           }
         />
         <LabeledControl
-          title={t('fields.about.title')}
-          description={t('fields.about.description')}
+          title={t('fields.shortBio.title')}
+          description={t('fields.shortBio.description')}
           controlId={bioId}
           controlNode={
-            <Textarea
+            <Input
               id={bioId}
               name="bio"
-              placeholder="Write about yourself..."
+              placeholder={t('fields.shortBio.placeholder')}
               defaultValue={values.bio ?? undefined}
+              error={errors.bio?.join(', ')}
+            />
+          }
+        />
+        <LabeledControl
+          title={t('fields.about.title')}
+          description={t('fields.about.description')}
+          controlId={aboutMeId}
+          controlNode={
+            <Textarea
+              id={aboutMeId}
+              name="aboutMe"
+              placeholder={t('fields.about.placeholder')}
+              defaultValue={values.aboutMe ?? undefined}
               className="min-h-32 resize-none"
               error={errors.bio?.join(', ')}
             />

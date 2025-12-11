@@ -67,8 +67,9 @@ export const usersTable = pgTable('user', {
     .default(0),
   storageLimitInBytes: bigint('storage_limit_in_bytes', { mode: 'number' })
     .notNull()
-    .default(5_368_709_120), // 5GB
+    .default(5_368_709_120), // 5GB TODO: move to constants
   bio: text('bio'),
+  aboutMe: text('about_me'),
   /**
    * Caches the photographer's overall average rating across all services.
    */
