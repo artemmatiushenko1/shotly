@@ -8,12 +8,9 @@ export const serviceFormSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   coverImageUrl: z.string().min(1, { message: 'Cover image is required' }),
   currency: z.string().default('UAH'),
-  description: z
-    .string()
-    .max(DESCRIPTION_MAX_LENGTH, {
-      message: 'Description must be less than 500 characters',
-    })
-    .optional(),
+  description: z.string().max(DESCRIPTION_MAX_LENGTH, {
+    message: 'Description must be less than 500 characters',
+  }),
   categoryId: z.string().min(1, { message: 'Category is required' }),
   price: z.coerce
     .number()

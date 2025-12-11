@@ -1,21 +1,17 @@
 'use server';
 
+import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
 import { clientEnv } from '@/env/client';
-import { MimeType } from '@/lib/files/enums';
 import { mbToBytes } from '@/lib/files/utils';
-import { tmpImageStorage } from '@/lib/images/image-storage.service';
+
+const TMP_COVER_IMAGE_PATH = '/tmp/covers';
 
 export const uploadTmpCoverImage = async (file: File) => {
-  const uploadResult = await tmpImageStorage.upload(file, {
-    folder: 'covers',
-    maxSize: mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_COVER_IMAGE_SIZE_MB),
-    allowedMimeTypes: [
-      MimeType.JPEG,
-      MimeType.JPG,
-      MimeType.PNG,
-      MimeType.WEBP,
-    ],
-  });
+  const tmpCoverImageUrl = await uploadImageUseCase(
+    file,
+    TMP_COVER_IMAGE_PATH,
+    mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_COVER_IMAGE_SIZE_MB),
+  );
 
-  return uploadResult;
+  return tmpCoverImageUrl;
 };

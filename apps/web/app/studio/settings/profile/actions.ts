@@ -3,13 +3,12 @@
 import { revalidatePath } from 'next/cache';
 import z from 'zod';
 
+import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
 import { locationDetailsSchema } from '@/domain/locations';
+import { clientEnv } from '@/env/client';
 import { getUser } from '@/lib/auth/dal';
-import {
-  persistentImageStorage,
-  tmpImageStorage,
-  UploadResult,
-} from '@/lib/images/image-storage.service';
+import { mbToBytes } from '@/lib/files/utils';
+import { UploadResult } from '@/lib/images/image-storage.service';
 import usersRepository from '@/repositories/users.repository';
 
 const inputSchema = z.object({
@@ -97,39 +96,31 @@ export const updateProfileAction = async (
   // Upload profile image if provided
   let profileImageUrl: string | undefined;
   if (validatedInput.profileImg) {
-    const uploadResult = await persistentImageStorage.upload(
+    // TODO: we already have tmp image upload, move tmp image file in use case
+    const PERMANENT_PROFILE_IMAGE_STORAGE_PATH = 'profiles';
+
+    const { url } = await uploadImageUseCase(
       validatedInput.profileImg,
-      {
-        folder: 'profiles',
-        maxSize: 5 * 1024 * 1024, // 5MB
-        allowedMimeTypes: [
-          'image/jpeg',
-          'image/jpg',
-          'image/png',
-          'image/webp',
-        ],
-      },
+      PERMANENT_PROFILE_IMAGE_STORAGE_PATH,
+      mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_IMAGE_SIZE_MB),
     );
-    profileImageUrl = uploadResult.url;
+
+    profileImageUrl = url;
   }
 
   // Upload cover image if provided
   let coverImageUrl: string | undefined;
   if (validatedInput.coverImg) {
-    const uploadResult = await persistentImageStorage.upload(
+    // TODO: we already have tmp image upload, move tmp image file in use case
+    const PERMANENT_COVER_IMAGE_STORAGE_PATH = 'covers';
+
+    const { url } = await uploadImageUseCase(
       validatedInput.coverImg,
-      {
-        folder: 'covers',
-        maxSize: 5 * 1024 * 1024, // 5MB
-        allowedMimeTypes: [
-          'image/jpeg',
-          'image/jpg',
-          'image/png',
-          'image/webp',
-        ],
-      },
+      PERMANENT_COVER_IMAGE_STORAGE_PATH,
+      mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_COVER_IMAGE_SIZE_MB),
     );
-    coverImageUrl = uploadResult.url;
+
+    coverImageUrl = url;
   }
 
   // Prepare update data (exclude files as they're not part of UserUpdate)
@@ -153,14 +144,16 @@ export const updateProfileAction = async (
   return { hasErrors: false };
 };
 
-export const uploadProfileTmpProfileImage = async (
+const TMP_PROFILE_IMAGE_STORAGE_PATH = '/tmp/profiles';
+
+export const uploadTmpProfileImage = async (
   file: File,
 ): Promise<UploadResult> => {
-  const uploadResult = await tmpImageStorage.upload(file, {
-    folder: 'profiles',
-    maxSize: 2 * 1024 * 1024, // 2MB
-    allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
-  });
+  const uploadResult = await uploadImageUseCase(
+    file,
+    TMP_PROFILE_IMAGE_STORAGE_PATH,
+    mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_IMAGE_SIZE_MB),
+  );
 
   return uploadResult;
 };

@@ -3,13 +3,15 @@ import { Trash2, Upload } from 'lucide-react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
+import { clientEnv } from '@/env/client';
 import { MimeType } from '@/lib/files/enums';
+import { mbToBytes } from '@/lib/files/utils';
 
 import { Button, buttonVariants } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
 
 import { useImagePreview } from '../../../_components/cover-upload/use-image-preview';
-import { uploadProfileTmpProfileImage } from './actions';
+import { uploadTmpProfileImage } from './actions';
 import { ProfileImagePlaceholder } from './profile-image-placeholder';
 
 type ProfileImageUploadProps = {
@@ -38,8 +40,8 @@ export function ProfileImageUpload({
     sizeError,
   } = useImagePreview({
     existingImageUrl,
-    maxSize: 2 * 1024 * 1024, // 1MB
-    uploadAction: uploadProfileTmpProfileImage,
+    maxSize: mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_IMAGE_SIZE_MB),
+    uploadAction: uploadTmpProfileImage,
   });
 
   const handleRemove = () => {

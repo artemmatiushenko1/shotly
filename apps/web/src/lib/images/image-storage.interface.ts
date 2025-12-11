@@ -5,7 +5,7 @@ export interface UploadResult {
   /** The URL or path to access the uploaded image */
   url: string;
   /** Optional unique identifier for the uploaded file */
-  key?: string;
+  key: string;
 }
 
 /**
@@ -20,6 +20,16 @@ export interface UploadOptions {
   maxSize?: number;
   /** Optional allowed MIME types */
   allowedMimeTypes?: string[];
+}
+
+/**
+ * Options for moving/renaming an image
+ */
+export interface MoveOptions {
+  /** Optional target folder/path prefix */
+  folder?: string;
+  /** Optional new filename. If not provided, the original filename is preserved */
+  filename?: string;
 }
 
 /**
@@ -41,6 +51,14 @@ export interface IImageStorage {
    * @returns Promise resolving when deletion is complete
    */
   delete(keyOrUrl: string): Promise<void>;
+
+  /**
+   * Move or rename an image in storage
+   * @param keyOrUrl - The current storage key or URL of the image
+   * @param options - Move options (target folder/filename)
+   * @returns Promise resolving to the new upload result with the updated URL/key
+   */
+  move(keyOrUrl: string, options?: MoveOptions): Promise<UploadResult>;
 
   /**
    * Get the public URL for an image

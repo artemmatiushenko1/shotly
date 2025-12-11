@@ -1,12 +1,25 @@
+import { VisibilityStatus } from '@/domain/common';
 import { ForbiddenError, NotFoundError } from '@/domain/errors/common';
-import { CreateServiceInput } from '@/domain/service';
 import { getUser } from '@/lib/auth/dal';
+import { imageStorage } from '@/lib/images/image-storage.service';
 import servicesRepository from '@/repositories/services.repository';
+
+import { PERMANENT_COVER_IMAGE_STORAGE_PATH } from './constants';
 
 export const updateServiceUseCase = async (
   userId: string,
   serviceId: string,
-  input: Partial<CreateServiceInput>,
+  input: Partial<{
+    coverImageUrl: string;
+    name: string;
+    description: string;
+    price: number;
+    currency: string;
+    deliveryTimeInDays: number;
+    visibilityStatus: VisibilityStatus;
+    features: string[];
+    categoryId: string;
+  }>,
 ) => {
   await getUser();
 
@@ -22,5 +35,18 @@ export const updateServiceUseCase = async (
     );
   }
 
-  await servicesRepository.updateService(serviceId, input);
+  let coverImageUrl = service.coverImageUrl;
+
+  if (input.coverImageUrl && service.coverImageUrl !== input.coverImageUrl) {
+    const { url } = await imageStorage.move(input.coverImageUrl, {
+      folder: PERMANENT_COVER_IMAGE_STORAGE_PATH,
+    });
+
+    coverImageUrl = url;
+  }
+
+  await servicesRepository.updateService(serviceId, {
+    ...input,
+    coverImageUrl,
+  });
 };

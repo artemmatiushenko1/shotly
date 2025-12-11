@@ -28,7 +28,11 @@ export class LocalImageStorageService implements IImageStorage {
     file: Buffer | File,
     options: UploadOptions = {},
   ): Promise<UploadResult> {
-    const { folder, filename, maxSize } = options;
+    const { filename, maxSize } = options;
+
+    // Sanitize folder: remove leading slashes to ensure path.join works relatively
+    // and URLs don't end up with double slashes (e.g. base//folder)
+    const folder = options.folder ? options.folder.replace(/^\/+/, '') : '';
 
     // Convert File to Buffer if needed
     const buffer =
@@ -66,6 +70,59 @@ export class LocalImageStorageService implements IImageStorage {
     return {
       url,
       key: relativePath,
+    };
+  }
+
+  /**
+   * Moves a file from one location to another
+   * @param keyOrUrl The current key or URL of the file
+   * @param options Target folder and optional new filename
+   */
+  async move(
+    keyOrUrl: string,
+    options: { folder?: string; filename?: string } = {},
+  ): Promise<UploadResult> {
+    // Sanitize target folder
+    const targetFolder = options.folder
+      ? options.folder.replace(/^\/+/, '')
+      : '';
+
+    // 1. Resolve source path
+    const oldRelativePath = keyOrUrl.startsWith(this.baseUrl)
+      ? keyOrUrl.replace(this.baseUrl + '/', '')
+      : keyOrUrl;
+
+    const oldFilePath = path.join(this.baseDir, oldRelativePath);
+
+    // 2. Verify source exists
+    try {
+      await fs.access(oldFilePath);
+    } catch {
+      throw new Error(`File not found: ${keyOrUrl}`);
+    }
+
+    // 3. Determine destination
+    const currentFilename = path.basename(oldRelativePath);
+    const finalFilename = options.filename || currentFilename;
+
+    const folderPath = targetFolder
+      ? path.join(this.baseDir, targetFolder)
+      : this.baseDir;
+
+    const newFilePath = path.join(folderPath, finalFilename);
+
+    // 4. Ensure destination directory exists and move file
+    await fs.mkdir(folderPath, { recursive: true });
+    await fs.rename(oldFilePath, newFilePath);
+
+    // 5. Return new details
+    const newRelativePath = targetFolder
+      ? path.join(targetFolder, finalFilename).replace(/\\/g, '/')
+      : finalFilename;
+
+    return {
+      url: `${this.baseUrl}/${newRelativePath}`,
+      key: newRelativePath,
     };
   }
 

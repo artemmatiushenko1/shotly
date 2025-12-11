@@ -42,7 +42,17 @@ export async function createServiceAction(
   }
 
   try {
-    await createServiceUseCase(user.id, validation.data);
+    await createServiceUseCase(user.id, {
+      tmpCoverImageUrl: validation.data.coverImageUrl,
+      name: validation.data.name,
+      description: validation.data.description,
+      price: validation.data.price,
+      currency: validation.data.currency,
+      deliveryTimeInDays: validation.data.deliveryTimeInDays,
+      visibilityStatus: validation.data.visibilityStatus,
+      features: validation.data.features,
+      categoryId: validation.data.categoryId,
+    });
     revalidatePath('/services');
     return {
       status: 'success',

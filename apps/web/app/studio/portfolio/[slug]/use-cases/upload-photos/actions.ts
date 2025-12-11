@@ -2,8 +2,9 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { MimeType } from '@/lib/files/enums';
-import { persistentImageStorage } from '@/lib/images/image-storage.service';
+import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
+import { clientEnv } from '@/env/client';
+import { mbToBytes } from '@/lib/files/utils';
 import collectionsRepository from '@/repositories/collections.repository';
 import usersRepository from '@/repositories/users.repository';
 
@@ -16,23 +17,18 @@ const uploadPhotosAction = async (
     files.map(async (file) => {
       // TODO: should check if the user has enough storage
       // abort if not
-      const uploadedFile = await persistentImageStorage.upload(file, {
-        folder: `portfolio/${collectionId}`,
-        maxSize: 20 * 1024 * 1024, // 20MB // TODO: move to client env
-        allowedMimeTypes: [
-          MimeType.JPEG, // TODO: move into shared constants
-          MimeType.JPG,
-          MimeType.PNG,
-          MimeType.WEBP,
-        ],
-      });
+      const uploadResult = await uploadImageUseCase(
+        file,
+        `portfolio/${collectionId}`,
+        mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PORTFOLIO_PHOTO_SIZE_MB),
+      );
 
       // TODO: should be a single transaction
       await collectionsRepository.createPhoto(
         photographerId,
         collectionId,
-        uploadedFile.url,
-        uploadedFile.key!,
+        uploadResult.url,
+        uploadResult.key,
         file.size,
         file.name,
         500, // TODO: read metadata using some lib
@@ -40,9 +36,8 @@ const uploadPhotosAction = async (
         file.type, // TODO: should I store only extension?
         {},
       );
-      await usersRepository.updateStorageUsage(photographerId, file.size);
 
-      return uploadedFile;
+      await usersRepository.updateStorageUsage(photographerId, file.size);
     }),
   );
 
