@@ -1,4 +1,4 @@
-import { count, eq } from 'drizzle-orm';
+import { count, eq, sql } from 'drizzle-orm';
 
 import {
   Collection,
@@ -63,12 +63,20 @@ class CollectionsRepository {
   }
 
   async getAllCollections(userId: string): Promise<Collection[]> {
+    const photosCountSq = db
+      .select({
+        collectionId: photosTable.collectionId,
+        count: count(photosTable.id).as('count'),
+      })
+      .from(photosTable)
+      .groupBy(photosTable.collectionId)
+      .as('photosCountSq');
+
     const collections = await db
       .select({
         id: collectionsTable.id,
         name: collectionsTable.name,
         description: collectionsTable.description,
-        coverPhotoUrl: photosTable.url,
         visibilityStatus: collectionsTable.visibilityStatus,
         shootDate: collectionsTable.shootDate,
         coverPhotoId: collectionsTable.coverPhotoId,
@@ -77,12 +85,20 @@ class CollectionsRepository {
         photographerId: collectionsTable.photographerId,
         categoryId: collectionsTable.categoryId,
         archivedAt: collectionsTable.archivedAt,
-        photosCount: count(photosTable.id).as('photos_count'),
+
+        coverPhotoUrl: photosTable.url,
+
+        photosCount: sql<number>`coalesce(${photosCountSq.count}, 0)`.mapWith(
+          Number,
+        ),
       })
       .from(collectionsTable)
-      .leftJoin(photosTable, eq(collectionsTable.id, photosTable.collectionId))
-      .where(eq(collectionsTable.photographerId, userId))
-      .groupBy(collectionsTable.id, photosTable.url);
+      .leftJoin(photosTable, eq(collectionsTable.coverPhotoId, photosTable.id))
+      .leftJoin(
+        photosCountSq,
+        eq(collectionsTable.id, photosCountSq.collectionId),
+      )
+      .where(eq(collectionsTable.photographerId, userId));
 
     return collections.map((collection) => this.parseCollection(collection));
   }
