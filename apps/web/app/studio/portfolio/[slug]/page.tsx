@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
-import categoriesRepository from '@/infrastructure/repositories/categories.repository';
+import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
 import collectionsRepository from '@/infrastructure/repositories/collections.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
 
@@ -36,7 +36,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
     collectionsRepository.getCollectionById(collectionId),
     collectionsRepository.getPhotosByCollectionId(collectionId),
     collectionsRepository.getPhotoCountByCollectionId(collectionId),
-    categoriesRepository.getCategories(),
+    getAllCategoriesUseCase(),
   ]);
 
   if (!collection) {

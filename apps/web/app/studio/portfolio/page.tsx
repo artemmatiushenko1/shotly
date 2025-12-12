@@ -1,7 +1,7 @@
 import { PlusIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
-import categoriesRepository from '@/infrastructure/repositories/categories.repository';
+import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
 import collectionsRepository from '@/infrastructure/repositories/collections.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
 
@@ -22,10 +22,8 @@ const Portfolio = async () => {
     await Promise.all([
       collectionsRepository.getAllCollections(user.id),
       collectionsRepository.getCollectionIdToCoverPhotoUrlMap(user.id),
-      categoriesRepository.getCategories(),
+      getAllCategoriesUseCase(),
     ]);
-
-  const allCollections = [...collections];
 
   return (
     <div className="h-full flex flex-col">
@@ -33,7 +31,7 @@ const Portfolio = async () => {
         title={t('title')}
         caption={t('caption')}
         extra={
-          allCollections.length > 0 && (
+          collections.length > 0 && (
             <div className="ml-auto">
               <CreateCollectionDialog categories={categories}>
                 <Button>
@@ -44,14 +42,14 @@ const Portfolio = async () => {
           )
         }
       />
-      {allCollections.length === 0 ? (
+      {collections.length === 0 ? (
         <FadeIn className="p-4 pt-0 absolute inset-0 flex items-center justify-center">
           <Empty categories={categories} />
         </FadeIn>
       ) : (
         <FadeIn>
           <CollectionsList
-            collections={allCollections}
+            collections={collections}
             categories={categories}
             collectionIdToCoverPhotoUrlMap={collectionIdToCoverPhotoUrlMap}
           />
