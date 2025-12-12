@@ -1,7 +1,5 @@
-import { PlusIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
-import { Button } from '@shotly/ui/components/button';
 import { Card, CardContent } from '@shotly/ui/components/card';
 import { Skeleton } from '@shotly/ui/components/skeleton';
 
@@ -17,15 +15,7 @@ export async function Loading() {
         <GradientLoadingProgress />
       </div>
       <div className="h-full flex flex-col">
-        <MainHeader
-          title={t('title')}
-          caption={t('caption')}
-          extra={
-            <Button disabled className="ml-auto">
-              <PlusIcon /> {t('createCollection')}
-            </Button>
-          }
-        />
+        <MainHeader title={t('title')} caption={t('caption')} />
         <div className="animate-in fade-in duration-300">
           {/* Toolbar Skeleton */}
           <div className="flex gap-4 p-4 py-0 items-center flex-wrap">
