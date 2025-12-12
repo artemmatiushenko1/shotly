@@ -24,7 +24,13 @@ const PhotosGrid = (props: PhotosGridProps) => {
 
   if (photos.length === 0) {
     return (
-      <Empty collectionId={collectionId} photographerId={photographerId} />
+      <div className="h-full relative">
+        <Empty
+          className="absolute inset-0 flex items-center justify-center"
+          collectionId={collectionId}
+          photographerId={photographerId}
+        />
+      </div>
     );
   }
 
