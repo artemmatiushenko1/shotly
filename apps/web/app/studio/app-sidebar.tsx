@@ -161,14 +161,16 @@ export function AppSidebar(props: AppSidebarProps) {
             <Separator className="my-2" />
             <div className="flex gap-2 p-2 py-3">
               <Avatar className="h-8 w-8 rounded-md">
-                <AvatarImage src={user?.image ?? ''} alt={user?.name} />
-                <AvatarFallback className="rounded-md">CN</AvatarFallback>
+                <AvatarImage src={user.image ?? ''} alt={user.name} />
+                <AvatarFallback className="rounded-md">
+                  {user.name}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-xs leading-tight">
                 <span className="truncate font-semibold text-foreground mb-1">
-                  {user?.name}
+                  {user.name}
                 </span>
-                <span className="truncate text-xs">{user?.email}</span>
+                <span className="truncate text-xs">{user.email}</span>
               </div>
             </div>
           </SidebarMenuItem>

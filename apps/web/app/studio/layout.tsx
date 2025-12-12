@@ -1,4 +1,4 @@
-import usersRepository from '@/infrastructure/repositories/users.repository';
+import { getStorageUsageUseCase } from '@/application/use-cases/account';
 import { getUser } from '@/infrastructure/services/auth/dal';
 
 import { SidebarProvider } from '@shotly/ui/components/sidebar';
@@ -8,8 +8,7 @@ import { AppSidebar } from './app-sidebar';
 
 async function Layout({ children }: { children: React.ReactNode }) {
   const user = await getUser();
-
-  const storageUsage = await usersRepository.getStorageUsage(user.id);
+  const storageUsage = await getStorageUsageUseCase(user.id);
 
   return (
     <ThemeProvider>
