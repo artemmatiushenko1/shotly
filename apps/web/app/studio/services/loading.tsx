@@ -1,10 +1,6 @@
-import { PlusIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
-import { Badge } from '@shotly/ui/components/badge';
-import { Button } from '@shotly/ui/components/button';
 import { Skeleton } from '@shotly/ui/components/skeleton';
-import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 
 import GradientLoadingProgress from '../../_components/gradient-progress';
 import MainHeader from '../../_components/main-header';
@@ -12,45 +8,21 @@ import MainHeader from '../../_components/main-header';
 export async function Loading() {
   const t = await getTranslations('services');
 
-  const tabs = [
-    t('filters.All'),
-    t('filters.Public'),
-    t('filters.Private'),
-    t('filters.Archived'),
-  ];
-
   return (
     <>
       <div className="absolute top-0 left-0 right-0 z-50">
         <GradientLoadingProgress />
       </div>
-      <MainHeader
-        title={t('title')}
-        caption={t('caption')}
-        extra={
-          <Button className="ml-auto" disabled>
-            <PlusIcon />
-            {t('createService')}
-          </Button>
-        }
-      />
+      <MainHeader title={t('title')} caption={t('caption')} />
       <div className="p-4 pt-0">
         <div className="flex flex-col">
-          <Tabs defaultValue="All">
-            <TabsList className="my-4">
-              {tabs.map((tab) => (
-                <TabsTrigger key={tab} value={tab} disabled>
-                  {tab}{' '}
-                  <Badge
-                    variant="secondary"
-                    className="h-5 min-w-5 rounded-full px-1"
-                  >
-                    <Skeleton className="h-3 w-3" />
-                  </Badge>
-                </TabsTrigger>
+          <div className="flex gap-4 px-2 py-0 items-center flex-wrap">
+            <div className="flex gap-2 my-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="h-9 w-20 rounded-md" />
               ))}
-            </TabsList>
-          </Tabs>
+            </div>
+          </div>
           <div className="flex flex-col gap-4">
             {Array.from({ length: 3 }).map((_, i) => (
               <div
