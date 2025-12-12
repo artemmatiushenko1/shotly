@@ -20,12 +20,12 @@ const CollectionsGrid = ({ collections }: CollectionsGridProps) => {
         <ViewTransition key={collection.id} name={collection.id}>
           <Link key={collection.id} href={`/studio/portfolio/${collection.id}`}>
             <CollectionCard
-              isPublic={collection.visibilityStatus === VisibilityStatus.PUBLIC}
               title={collection.name}
-              description={collection.description ?? ''}
               imagesCount={collection.photosCount}
-              createdAt={formatDateWithOrdinal(collection.shootDate)}
               coverImageUrl={collection.coverPhotoUrl}
+              description={collection.description ?? ''}
+              isPublic={collection.visibilityStatus === VisibilityStatus.PUBLIC}
+              createdAt={formatDateWithOrdinal(collection.shootDate)}
             />
           </Link>
         </ViewTransition>

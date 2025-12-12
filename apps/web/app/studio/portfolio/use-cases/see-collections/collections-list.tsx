@@ -8,7 +8,7 @@ import { Collection } from '@/entities/models/collection';
 import { CollectionsGrid } from './collections-grid';
 import { CollectionsToolbar } from './collections-toolbar';
 import NoResults from './no-results';
-import { useCollectionFilter } from './use-collection-filter';
+import { useCollectionFilter } from './use-collection-filter.hook';
 
 type CollectionsListProps = {
   collections: Collection[];

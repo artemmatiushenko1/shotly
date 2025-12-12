@@ -22,7 +22,7 @@ import {
   COLLECTION_FILTER_TABS,
   CollectionFilterTab,
   SortOption,
-} from './use-collection-filter';
+} from './use-collection-filter.hook';
 
 type CollectionsToolbarProps = {
   selectedTab: CollectionFilterTab;
