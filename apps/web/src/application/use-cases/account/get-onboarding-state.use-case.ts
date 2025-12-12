@@ -33,7 +33,8 @@ const isPortfolioComplete = (collections: Collection[]) => {
     (collection) =>
       collection.visibilityStatus === VisibilityStatus.PUBLIC &&
       collection.photosCount > MIN_PHOTOS_ONBOARDING_THRESHOLD &&
-      collection.archivedAt === null,
+      collection.archivedAt === null &&
+      collection.coverPhotoId !== null,
   );
 };
 
