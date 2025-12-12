@@ -6,15 +6,15 @@ export const collectionSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string().nullish(),
-  coverImageUrl: z.string().nullish(), // TODO: remove this field
+  coverPhotoUrl: z.string().nullish(),
   coverPhotoId: z.string().nullish(),
   visibilityStatus: visibilityStatusSchema,
   shootDate: z.date(),
   categoryId: z.string(),
   photosCount: z.number().default(0),
   archivedAt: z.date().nullish(),
-  createdAt: z.date().optional(), // TODO: why it's optional?
-  updatedAt: z.date().optional(), // TODO: why it's optional?
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export type Collection = z.infer<typeof collectionSchema>;

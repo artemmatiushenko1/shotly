@@ -245,7 +245,7 @@
   "portfolio": {
     "title": "Portfolio",
     "caption": "Organize your photography work into collections",
-    "createCollection": "CreateCollection",
+    "createCollection": "Create Collection",
     "toolbar": {
       "filters": {
         "All": "All",

@@ -16,7 +16,7 @@ type CollectionCardProps = {
   description: string;
   imagesCount: number;
   createdAt: string;
-  coverImageUrl: string;
+  coverImageUrl?: string | null;
 };
 
 function CollectionCard(props: CollectionCardProps) {

@@ -14,6 +14,7 @@ import { collectionsTable, photosTable } from '../../../drizzle/schema';
 
 type CollectionRow = typeof collectionsTable.$inferSelect & {
   photosCount?: number;
+  coverPhotoUrl?: string | null;
 };
 
 class CollectionsRepository {
@@ -67,7 +68,7 @@ class CollectionsRepository {
         id: collectionsTable.id,
         name: collectionsTable.name,
         description: collectionsTable.description,
-        coverImageUrl: collectionsTable.coverImageUrl,
+        coverPhotoUrl: photosTable.url,
         visibilityStatus: collectionsTable.visibilityStatus,
         shootDate: collectionsTable.shootDate,
         coverPhotoId: collectionsTable.coverPhotoId,
@@ -81,7 +82,7 @@ class CollectionsRepository {
       .from(collectionsTable)
       .leftJoin(photosTable, eq(collectionsTable.id, photosTable.collectionId))
       .where(eq(collectionsTable.photographerId, userId))
-      .groupBy(collectionsTable.id);
+      .groupBy(collectionsTable.id, photosTable.url);
 
     return collections.map((collection) => this.parseCollection(collection));
   }

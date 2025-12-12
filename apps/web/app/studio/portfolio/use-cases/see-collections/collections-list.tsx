@@ -13,14 +13,9 @@ import { useCollectionFilter } from './use-collection-filter';
 type CollectionsListProps = {
   collections: Collection[];
   categories: Category[];
-  collectionIdToCoverPhotoUrlMap: Record<string, string>;
 };
 
-const CollectionsList = ({
-  collections,
-  categories,
-  collectionIdToCoverPhotoUrlMap,
-}: CollectionsListProps) => {
+const CollectionsList = ({ collections, categories }: CollectionsListProps) => {
   const t = useTranslations('portfolio.empty');
   const {
     selectedTab,
@@ -58,10 +53,7 @@ const CollectionsList = ({
           <p className="text-muted-foreground">{t('noResults')}</p>
         </div>
       ) : (
-        <CollectionsGrid
-          collections={filteredCollections}
-          collectionIdToCoverPhotoUrlMap={collectionIdToCoverPhotoUrlMap}
-        />
+        <CollectionsGrid collections={filteredCollections} />
       )}
     </>
   );

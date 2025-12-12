@@ -2,7 +2,7 @@ import { PlusIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
-import collectionsRepository from '@/infrastructure/repositories/collections.repository';
+import { getPhotographerCollectionsUseCase } from '@/application/use-cases/portfolio';
 import { getUser } from '@/infrastructure/services/auth/dal';
 
 import { Button } from '@shotly/ui/components/button';
@@ -18,12 +18,10 @@ const Portfolio = async () => {
 
   const user = await getUser();
 
-  const [collections, collectionIdToCoverPhotoUrlMap, categories] =
-    await Promise.all([
-      collectionsRepository.getAllCollections(user.id),
-      collectionsRepository.getCollectionIdToCoverPhotoUrlMap(user.id),
-      getAllCategoriesUseCase(),
-    ]);
+  const [collections, categories] = await Promise.all([
+    getPhotographerCollectionsUseCase(user.id),
+    getAllCategoriesUseCase(),
+  ]);
 
   return (
     <div className="h-full flex flex-col">
@@ -48,11 +46,7 @@ const Portfolio = async () => {
         </FadeIn>
       ) : (
         <FadeIn>
-          <CollectionsList
-            collections={collections}
-            categories={categories}
-            collectionIdToCoverPhotoUrlMap={collectionIdToCoverPhotoUrlMap}
-          />
+          <CollectionsList collections={collections} categories={categories} />
         </FadeIn>
       )}
     </div>

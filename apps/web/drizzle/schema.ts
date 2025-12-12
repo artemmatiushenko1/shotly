@@ -140,7 +140,6 @@ export const collectionsTable = pgTable(
     id: uuid('id').defaultRandom().primaryKey(),
     name: text('name').notNull(),
     description: text('description'),
-    coverImageUrl: text('cover_image_url'),
     visibilityStatus: collectionVisibilityStatusEnum('visibility_status')
       .notNull()
       .default(VisibilityStatus.PRIVATE),

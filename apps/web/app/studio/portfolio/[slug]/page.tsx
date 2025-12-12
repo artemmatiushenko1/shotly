@@ -62,7 +62,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href="/portfolio"
+                  href="/studio/portfolio"
                   className={cn(
                     buttonVariants({ size: 'icon', variant: 'outline' }),
                     'size-8 absolute left-5 top-5 rounded-full',
