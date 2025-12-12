@@ -245,7 +245,7 @@
   "portfolio": {
     "title": "Portfolio",
     "caption": "Organize your photography work into collections",
-    "createCollection": "Collection",
+    "createCollection": "CreateCollection",
     "toolbar": {
       "filters": {
         "All": "All",
@@ -308,7 +308,7 @@
         "line1": "Create your first collection to professionally organize your",
         "line2": "photos and present your work to potential clients with ease"
       },
-      "createCollection": "Collection",
+      "createCollection": "Create Collection",
       "noResults": "No collections found matching your filters."
     },
     "collectionDetails": {

@@ -8,7 +8,6 @@ import { Collection } from '@/entities/models/collection';
 
 import { CollectionsGrid } from './collections-grid';
 import { CollectionsToolbar } from './collections-toolbar';
-import Empty from './empty';
 import { useCollectionFilter } from './use-collection-filter';
 
 type CollectionsListProps = {
@@ -36,10 +35,6 @@ const CollectionsList = ({
     filteredCollections,
   } = useCollectionFilter(collections, categories);
 
-  if (collections.length === 0) {
-    return <Empty categories={categories} />;
-  }
-
   return (
     <>
       <CollectionsToolbar
@@ -64,7 +59,6 @@ const CollectionsList = ({
         </div>
       ) : (
         <CollectionsGrid
-          categories={categories}
           collections={filteredCollections}
           collectionIdToCoverPhotoUrlMap={collectionIdToCoverPhotoUrlMap}
         />

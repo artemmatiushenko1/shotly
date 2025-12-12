@@ -9,6 +9,7 @@ import { Button } from '@shotly/ui/components/button';
 import FadeIn from '@shotly/ui/components/fade-in';
 
 import MainHeader from '../../_components/main-header';
+import Empty from './empty';
 import { CreateCollectionDialog } from './use-cases/create-collection/create-collection-dialog';
 import { CollectionsList } from './use-cases/see-collections/collections-list';
 
@@ -43,13 +44,19 @@ const Portfolio = async () => {
           )
         }
       />
-      <FadeIn>
-        <CollectionsList
-          collections={allCollections}
-          categories={categories}
-          collectionIdToCoverPhotoUrlMap={collectionIdToCoverPhotoUrlMap}
-        />
-      </FadeIn>
+      {allCollections.length === 0 ? (
+        <FadeIn className="p-4 pt-0 absolute inset-0 flex items-center justify-center">
+          <Empty categories={categories} />
+        </FadeIn>
+      ) : (
+        <FadeIn>
+          <CollectionsList
+            collections={allCollections}
+            categories={categories}
+            collectionIdToCoverPhotoUrlMap={collectionIdToCoverPhotoUrlMap}
+          />
+        </FadeIn>
+      )}
     </div>
   );
 };
