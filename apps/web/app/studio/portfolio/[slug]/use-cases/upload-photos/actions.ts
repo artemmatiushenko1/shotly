@@ -2,10 +2,10 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { advanceStorageUsageUseCase } from '@/application/use-cases/account';
 import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
 import { clientEnv } from '@/env/client';
 import collectionsRepository from '@/infrastructure/repositories/collections.repository';
-import usersRepository from '@/infrastructure/repositories/users.repository';
 import { mbToBytes } from '@/utils/files/utils';
 
 const uploadPhotosAction = async (
@@ -19,7 +19,7 @@ const uploadPhotosAction = async (
       // abort if not
       const uploadResult = await uploadImageUseCase(
         file,
-        `portfolio/${collectionId}`,
+        `uploads/portfolio/${collectionId}`,
         mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PORTFOLIO_PHOTO_SIZE_MB),
       );
 
@@ -37,11 +37,11 @@ const uploadPhotosAction = async (
         {},
       );
 
-      await usersRepository.updateStorageUsage(photographerId, file.size);
+      await advanceStorageUsageUseCase(photographerId, file.size);
     }),
   );
 
-  revalidatePath(`/portfolio/${collectionId}`);
+  revalidatePath(`/studio/portfolio/${collectionId}`);
 
   return uploadedFiles;
 };
