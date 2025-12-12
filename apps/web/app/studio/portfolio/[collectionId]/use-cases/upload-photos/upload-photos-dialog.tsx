@@ -4,6 +4,8 @@ import { ImageIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React, { useCallback, useState } from 'react';
 
+import { clientEnv } from '@/env/client';
+
 import { Button } from '@shotly/ui/components/button';
 import {
   Dialog,
@@ -177,11 +179,12 @@ const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
               </label>
             </div>
             <p className="text-xs text-muted-foreground">
-              {t('uploadZone.fileTypes')}
+              {t('uploadZone.fileTypes', {
+                maxSizeMb: clientEnv.NEXT_PUBLIC_MAX_PORTFOLIO_PHOTO_SIZE_MB,
+              })}
             </p>
           </div>
         </div>
-
         {uploadFiles.length > 0 && (
           <SelectedFilesList
             files={uploadFiles}

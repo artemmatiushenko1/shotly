@@ -2,20 +2,37 @@
 
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import { useActionState } from 'react';
+import { useActionState, useId } from 'react';
+
+import { FormActionState } from '@/utils/server-actions';
 
 import { Button } from '@shotly/ui/components/button';
 import { GoogleIcon } from '@shotly/ui/components/google-icon';
 import { Input } from '@shotly/ui/components/input';
 import { Label } from '@shotly/ui/components/label';
 
-import { signInWithGoogle, signInWithPassword } from '../actions';
+import {
+  signInWithGoogleAction,
+  signInWithPasswordAction,
+} from './sign-in-form.actions';
+import { SignInWithPasswordFormValues } from './sign-in-form.schema';
+
+const INITIAL_STATE: FormActionState<SignInWithPasswordFormValues> = {
+  status: 'idle',
+};
 
 const SignInForm = () => {
   const t = useTranslations('auth.signIn');
-  const [state, formAction, pending] = useActionState(signInWithPassword, {});
-  const { formError, validationErrors } = state;
-  const { fieldErrors } = validationErrors ?? {};
+
+  const [state, formAction, pending] = useActionState(
+    signInWithPasswordAction,
+    INITIAL_STATE,
+  );
+
+  const emailId = useId();
+  const passwordId = useId();
+
+  const { errors, inputs } = state;
 
   return (
     <div>
@@ -23,33 +40,37 @@ const SignInForm = () => {
         <h1 className="text-3xl font-bold">{t('title')}</h1>
         <p className="text-sm text-muted-foreground">{t('description')}</p>
       </div>
-      {formError && (
+      {state.message && state.status === 'error' && (
         <div className="mb-5 flex items-center space-x-2 text-red-500 text-sm mt-1 bg-red-50 border-red-200 rounded-md p-3">
           <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
             <span className="text-white text-xs font-bold">!</span>
           </div>
-          <span>{formError}</span>
+          <span>{state.message}</span>
         </div>
       )}
       <form action={formAction}>
         <div className="flex flex-col gap-3 mb-6">
-          <Label htmlFor="email">{t('fields.email.label')}</Label>
+          <Label htmlFor={emailId}>{t('fields.email.label')}</Label>
           <Input
+            required
             type="email"
-            id="email"
+            id={emailId}
             name="email"
             placeholder={t('fields.email.placeholder')}
-            error={fieldErrors?.email?.toString()}
+            error={errors?.email?.join(', ')}
+            defaultValue={inputs?.email}
           />
         </div>
         <div className="flex flex-col gap-3 mb-6">
-          <Label htmlFor="password">{t('fields.password.label')}</Label>
+          <Label htmlFor={passwordId}>{t('fields.password.label')}</Label>
           <Input
+            required
             type="password"
-            id="password"
+            id={passwordId}
             name="password"
             placeholder={t('fields.password.placeholder')}
-            error={fieldErrors?.password?.toString()}
+            error={errors?.password?.join(', ')}
+            defaultValue={inputs?.password}
           />
         </div>
         <Button loading={pending} size="lg" className="w-full mb-8 font-bold">
@@ -65,7 +86,7 @@ const SignInForm = () => {
         variant="outline"
         className="w-full mb-8"
         size="lg"
-        onClick={signInWithGoogle}
+        onClick={signInWithGoogleAction}
       >
         <GoogleIcon /> {t('googleButton')}
       </Button>

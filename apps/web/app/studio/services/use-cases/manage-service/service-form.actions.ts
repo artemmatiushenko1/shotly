@@ -1,13 +1,13 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import z from 'zod';
 
 import {
   createServiceUseCase,
   updateServiceUseCase,
 } from '@/application/use-cases/services';
 import { getUser } from '@/infrastructure/services/auth/dal';
+import { FormActionState, validatedAction } from '@/utils/server-actions';
 
 import {
   serviceFormSchema,
@@ -24,84 +24,56 @@ const parseFormData = (formData: FormData): Partial<ServiceFormValues> => {
   } as unknown as Partial<ServiceFormValues>;
 };
 
-export async function createServiceAction(
-  prevState: ServiceFormState,
+export const createServiceAction = async (
+  prevState: FormActionState<ServiceFormValues>,
   formData: FormData,
-): Promise<ServiceFormState> {
-  const user = await getUser();
-  const rawInputs = parseFormData(formData);
-  const validation = serviceFormSchema.safeParse(rawInputs);
+) =>
+  validatedAction(
+    serviceFormSchema,
+    formData,
+    async (data) => {
+      const user = await getUser();
 
-  if (validation.error) {
-    return {
-      status: 'error',
-      message: 'Validation failed',
-      errors: z.flattenError(validation.error).fieldErrors,
-      inputs: rawInputs,
-    };
-  }
+      await createServiceUseCase(user.id, {
+        tmpCoverImageUrl: data.coverImageUrl,
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        currency: data.currency,
+        deliveryTimeInDays: data.deliveryTimeInDays,
+        visibilityStatus: data.visibilityStatus,
+        features: data.features,
+        categoryId: data.categoryId,
+      });
 
-  try {
-    await createServiceUseCase(user.id, {
-      tmpCoverImageUrl: validation.data.coverImageUrl,
-      name: validation.data.name,
-      description: validation.data.description,
-      price: validation.data.price,
-      currency: validation.data.currency,
-      deliveryTimeInDays: validation.data.deliveryTimeInDays,
-      visibilityStatus: validation.data.visibilityStatus,
-      features: validation.data.features,
-      categoryId: validation.data.categoryId,
-    });
-    revalidatePath('/services');
-    return {
-      status: 'success',
-      message: `Service "${validation.data.name}" created successfully!`,
-    };
-  } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'An unexpected error occurred';
+      revalidatePath('/services');
 
-    return {
-      status: 'error',
-      message: errorMessage,
-      inputs: rawInputs,
-    };
-  }
-}
+      return {
+        status: 'success',
+        message: `Service "${data.name}" created successfully!`,
+      };
+    },
+    { normalizer: parseFormData }, // Pass the custom parser
+  );
 
-export async function updateServiceAction(
+export const updateServiceAction = async (
   serviceId: string,
   prevState: ServiceFormState,
   formData: FormData,
-): Promise<ServiceFormState> {
-  const user = await getUser();
-  const rawInputs = parseFormData(formData);
-  const validation = serviceFormSchema.safeParse(rawInputs);
+) =>
+  validatedAction(
+    serviceFormSchema,
+    formData,
+    async (data) => {
+      const user = await getUser();
 
-  if (!validation.success) {
-    return {
-      status: 'error',
-      message: 'Validation failed',
-      errors: z.flattenError(validation.error).fieldErrors,
-      inputs: rawInputs,
-    };
-  }
+      await updateServiceUseCase(user.id, serviceId, data);
+      revalidatePath('/services');
 
-  try {
-    await updateServiceUseCase(user.id, serviceId, validation.data);
-    revalidatePath('/services');
-    return {
-      status: 'success',
-      message: `Service "${validation.data.name}" updated successfully!`,
-    };
-  } catch (error) {
-    const errorMessage =
-      error instanceof Error ? error.message : 'An unexpected error occurred';
-    return {
-      status: 'error',
-      message: errorMessage,
-      inputs: rawInputs,
-    };
-  }
-}
+      return {
+        status: 'success',
+        message: `Service "${data.name}" updated successfully!`,
+      };
+    },
+    { normalizer: parseFormData },
+  );

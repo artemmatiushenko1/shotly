@@ -2,7 +2,7 @@
   "extends": "@shotly/typescript-config/nextjs.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*", "./app/*"],
       "@shotly/ui/*": ["../../packages/ui/src/*"]
     },
     "declaration": false,

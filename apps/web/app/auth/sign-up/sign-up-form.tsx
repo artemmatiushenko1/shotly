@@ -4,19 +4,28 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import React, { useActionState } from 'react';
 
+import { FormActionState } from '@/utils/server-actions';
+
 import { Button } from '@shotly/ui/components/button';
 import { GoogleIcon } from '@shotly/ui/components/google-icon';
 import { Input } from '@shotly/ui/components/input';
 import { Label } from '@shotly/ui/components/label';
 
-import { signInWithGoogle, signUp } from '../actions';
+import { signUpAction, signUpWithGoogleAction } from './sign-up-form.actions';
+import { SignUpFormValues } from './sign-up-form.schema';
+
+const INITIAL_STATE: FormActionState<SignUpFormValues> = {
+  status: 'idle',
+};
 
 const SignUpForm = () => {
   const t = useTranslations('auth.signUp');
 
-  const [state, formAction, pending] = useActionState(signUp, {});
-  const { validationErrors, formError } = state ?? {};
-  const { fieldErrors } = validationErrors ?? {};
+  const [state, formAction, pending] = useActionState(
+    signUpAction,
+    INITIAL_STATE,
+  );
+  const { errors, inputs } = state;
 
   return (
     <div>
@@ -24,12 +33,12 @@ const SignUpForm = () => {
         <h1 className="text-3xl font-bold">{t('title')}</h1>
         <p className="text-sm text-muted-foreground">{t('description')}</p>
       </div>
-      {formError && (
+      {state.message && state.status === 'error' && (
         <div className="mb-5 flex items-center space-x-2 text-red-500 text-sm mt-1 bg-red-50 border-red-200 rounded-md p-3">
           <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center flex-shrink-0">
             <span className="text-white text-xs font-bold">!</span>
           </div>
-          <span>{formError}</span>
+          <span>{state.message}</span>
         </div>
       )}
       <form action={formAction}>
@@ -40,7 +49,8 @@ const SignUpForm = () => {
               id="firstName"
               name="firstName"
               placeholder={t('fields.firstName.placeholder')}
-              error={fieldErrors?.firstName?.toString() ?? ''}
+              error={errors?.firstName?.join(', ')}
+              defaultValue={inputs?.firstName}
             />
           </div>
           <div className="flex flex-col gap-3 mb-6 flex-1/2">
@@ -49,7 +59,8 @@ const SignUpForm = () => {
               id="lastName"
               name="lastName"
               placeholder={t('fields.lastName.placeholder')}
-              error={fieldErrors?.lastName?.toString() ?? ''}
+              error={errors?.lastName?.join(', ')}
+              defaultValue={inputs?.lastName}
             />
           </div>
         </div>
@@ -60,7 +71,8 @@ const SignUpForm = () => {
             id="email"
             name="email"
             placeholder={t('fields.email.placeholder')}
-            error={fieldErrors?.email?.toString() ?? ''}
+            error={errors?.email?.join(', ')}
+            defaultValue={inputs?.email}
           />
         </div>
         <div className="flex flex-col gap-3 mb-6">
@@ -70,7 +82,8 @@ const SignUpForm = () => {
             id="password"
             name="password"
             placeholder={t('fields.password.placeholder')}
-            error={fieldErrors?.password?.toString() ?? ''}
+            error={errors?.password?.join(', ')}
+            defaultValue={inputs?.password}
           />
         </div>
         <Button loading={pending} className="w-full mb-8 font-bold" size="lg">
@@ -83,10 +96,10 @@ const SignUpForm = () => {
         </div>
       </div>
       <Button
+        size="lg"
         variant="outline"
         className="w-full mb-8"
-        size="lg"
-        onClick={signInWithGoogle}
+        onClick={signUpWithGoogleAction}
       >
         <GoogleIcon /> {t('googleButton')}
       </Button>

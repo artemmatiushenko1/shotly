@@ -339,9 +339,9 @@
         "uploadZone": {
           "dragText": "Drag and drop an image or",
           "browse": "Browse",
-          "fileTypes": "JPEG, PNG or WEBP up to 45 MB"
+          "fileTypes": "JPEG, PNG or WEBP up to {maxSizeMb} MB"
         },
-        "continue": "Upload {count} Photos"
+        "continue": "Upload {count} Photo{count, plural, one {} other {s}}"
       },
       "photoContextMenu": {
         "setAsCoverImage": "Set as cover image",

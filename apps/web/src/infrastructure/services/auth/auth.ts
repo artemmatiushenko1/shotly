@@ -26,6 +26,7 @@ export const auth = betterAuth({
       role: {
         type: 'string',
         input: false,
+        returned: true,
       },
       approvalStatus: {
         type: 'string',
