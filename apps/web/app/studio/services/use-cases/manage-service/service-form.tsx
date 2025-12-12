@@ -153,7 +153,12 @@ function CreateServiceForm(props: CreateServiceFormProps) {
           <input type="hidden" name="categoryId" value={categoryId} />
         </div>
         <div className="grid gap-3 w-full">
-          <Label htmlFor={priceId}>{t('fields.price.label')}</Label>
+          <Label htmlFor={priceId}>
+            {t('fields.price.label')}{' '}
+            <span className="text-xs text-muted-foreground leading-0">
+              /{t('fields.price.timeUnit')}
+            </span>
+          </Label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
               UAH

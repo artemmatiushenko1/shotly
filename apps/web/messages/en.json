@@ -419,6 +419,7 @@
           },
           "price": {
             "label": "Price",
+            "timeUnit": "hour",
             "placeholder": "Enter price"
           },
           "features": {

@@ -410,6 +410,7 @@
           },
           "price": {
             "label": "Ціна",
+            "timeUnit": "година",
             "placeholder": "Введіть ціну"
           },
           "features": {
