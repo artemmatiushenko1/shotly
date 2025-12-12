@@ -22,11 +22,11 @@ import { PhotosGrid } from './use-cases/see-photos/photos-grid';
 import CollectionSettingsDialog from './use-cases/update-collection-settings/collection-settings-dialog';
 
 type CollectionDetailsProps = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ collectionId: string }>;
 };
 
 async function CollectionDetails({ params }: CollectionDetailsProps) {
-  const { slug: collectionId } = await params;
+  const { collectionId } = await params;
 
   const user = await getUser();
 
