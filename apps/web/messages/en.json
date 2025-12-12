@@ -473,6 +473,20 @@
         "archive": "Service \"{name}\" archived successfully!",
         "restore": "Service \"{name}\" restored successfully!"
       }
+    },
+    "emptyTabContent": {
+      "titles": {
+        "All": "No active services",
+        "Public": "No public services found",
+        "Private": "No private services found",
+        "Archived": "No archived services found"
+      },
+      "descriptions": {
+        "All": "All your services are currently archived or hidden from your main list.",
+        "Public": "You don't have any services visible to clients right now.",
+        "Private": "You don't have any internal or hidden services right now.",
+        "Archived": "Services you archive will appear here for safekeeping."
+      }
     }
   },
   "orders": {

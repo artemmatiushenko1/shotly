@@ -9,6 +9,7 @@ import { Service } from '@/entities/models/service';
 import { Badge } from '@shotly/ui/components/badge';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 
+import EmptyTabContent from './empty-tab-content';
 import ServiceCard from './service-card';
 import ServiceCardButtons from './service-card-buttons';
 import { ServiceFilterTab, useServiceFilter } from './use-service-filter.hook';
@@ -57,21 +58,28 @@ function ServicesList(props: ServicesListProps) {
           ))}
         </TabsList>
       </Tabs>
-      <div className="flex flex-col gap-4">
-        {filteredServices.map((service) => (
-          // TODO: add view transition back, currently when edit service, it displays a card over the modal for a sec
-          // <ViewTransition key={service.id}>
-          <ServiceCard
-            key={service.id}
-            service={service}
-            isPublicView={false}
-            categoryName={categoryMap[service.categoryId] ?? '-'}
-            extraActions={
-              <ServiceCardButtons service={service} categories={categories} />
-            }
+      <div className="flex flex-col gap-4 relative min-h-[calc(100vh-200px)]">
+        {filteredServices.length === 0 ? (
+          <EmptyTabContent
+            tab={selectedTab}
+            className="p-4 pt-0 absolute inset-0 flex items-center justify-center"
           />
-          // </ViewTransition>
-        ))}
+        ) : (
+          filteredServices.map((service) => (
+            // TODO: add view transition back, currently when edit service, it displays a card over the modal for a sec
+            // <ViewTransition key={service.id}>
+            <ServiceCard
+              key={service.id}
+              service={service}
+              isPublicView={false}
+              categoryName={categoryMap[service.categoryId] ?? '-'}
+              extraActions={
+                <ServiceCardButtons service={service} categories={categories} />
+              }
+            />
+            // </ViewTransition>
+          ))
+        )}
       </div>
     </div>
   );
