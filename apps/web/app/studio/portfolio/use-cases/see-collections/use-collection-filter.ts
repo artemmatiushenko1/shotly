@@ -79,13 +79,17 @@ const sortCollections = (collections: Collection[], sortOption: SortOption) => {
   }
 };
 
+const DEFAULT_SORT_OPTION: SortOption = 'shootDateNewest';
+const DEFAULT_SELECTED_TAB: CollectionFilterTab = 'All';
+
 export function useCollectionFilter(
   collections: Collection[],
   categories: { id: string; name: string }[],
 ) {
-  const [selectedTab, setSelectedTab] = useState<CollectionFilterTab>('All');
+  const [selectedTab, setSelectedTab] =
+    useState<CollectionFilterTab>(DEFAULT_SELECTED_TAB);
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortOption, setSortOption] = useState<SortOption>('shootDateNewest');
+  const [sortOption, setSortOption] = useState<SortOption>(DEFAULT_SORT_OPTION);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null,
   );
@@ -126,6 +130,13 @@ export function useCollectionFilter(
     return result;
   }, [collections, selectedTab, selectedCategoryId, searchQuery, sortOption]);
 
+  const clearFilters = () => {
+    setSelectedTab(DEFAULT_SELECTED_TAB);
+    setSearchQuery('');
+    setSortOption(DEFAULT_SORT_OPTION);
+    setSelectedCategoryId(null);
+  };
+
   return {
     selectedTab,
     setSelectedTab,
@@ -139,5 +150,6 @@ export function useCollectionFilter(
     filteredCollections,
     tabs: COLLECTION_FILTER_TABS,
     categories,
+    clearFilters,
   };
 }

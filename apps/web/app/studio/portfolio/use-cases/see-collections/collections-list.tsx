@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
 import { startTransition } from 'react';
 
 import { Category } from '@/entities/models/category';
@@ -8,6 +7,7 @@ import { Collection } from '@/entities/models/collection';
 
 import { CollectionsGrid } from './collections-grid';
 import { CollectionsToolbar } from './collections-toolbar';
+import NoResults from './no-results';
 import { useCollectionFilter } from './use-collection-filter';
 
 type CollectionsListProps = {
@@ -16,7 +16,6 @@ type CollectionsListProps = {
 };
 
 const CollectionsList = ({ collections, categories }: CollectionsListProps) => {
-  const t = useTranslations('portfolio.empty');
   const {
     selectedTab,
     setSelectedTab,
@@ -28,6 +27,7 @@ const CollectionsList = ({ collections, categories }: CollectionsListProps) => {
     setSelectedCategoryId,
     counts,
     filteredCollections,
+    clearFilters,
   } = useCollectionFilter(collections, categories);
 
   return (
@@ -49,8 +49,11 @@ const CollectionsList = ({ collections, categories }: CollectionsListProps) => {
         categories={categories}
       />
       {filteredCollections.length === 0 ? (
-        <div className="flex items-center justify-center p-8">
-          <p className="text-muted-foreground">{t('noResults')}</p>
+        <div className="relative min-h-[calc(100vh-200px)]">
+          <NoResults
+            onClearFilters={clearFilters}
+            className="p-4 pt-0 absolute inset-0 flex items-center justify-center"
+          />
         </div>
       ) : (
         <CollectionsGrid collections={filteredCollections} />
