@@ -2,9 +2,11 @@
 
 import { revalidatePath } from 'next/cache';
 
-import { updateCollectionUseCase } from '@/application/use-cases/portfolio';
+import {
+  changeCollectionVisibilityUseCase,
+  updateCollectionUseCase,
+} from '@/application/use-cases/portfolio';
 import { VisibilityStatus } from '@/entities/models/common';
-import collectionsRepository from '@/infrastructure/repositories/collections.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
 import {
   collectionFormSchema,
@@ -16,12 +18,10 @@ export const changeCollectionVisibilityStatusAction = async (
   collectionId: string,
   status: VisibilityStatus,
 ) => {
-  await collectionsRepository.updateCollectionVisibilityStatus(
-    collectionId,
-    status,
-  );
-
+  const user = await getUser();
+  await changeCollectionVisibilityUseCase(user.id, collectionId, status);
   revalidatePath(`/studio/portfolio/${collectionId}`);
+  return { status: 'success' };
 };
 
 export const updateCollectionAction = async (
