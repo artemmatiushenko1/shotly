@@ -4,7 +4,7 @@ import { getUser } from '@/infrastructure/services/auth/dal';
 import { SidebarProvider } from '@shotly/ui/components/sidebar';
 import { ThemeProvider } from '@shotly/ui/components/theme-provider';
 
-import { AppSidebar } from './app-sidebar';
+import { AppSidebar } from './_ui/app-sidebar';
 
 async function Layout({ children }: { children: React.ReactNode }) {
   const user = await getUser();
