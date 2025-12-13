@@ -15,7 +15,7 @@ import {
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
 
-import ManageCollectionForm from '../../_ui/manage-collection-form/manage-collection-form';
+import CollectionForm from '../../_ui/collection-form/collection-form';
 import { createCollectionAction } from './create-collection-form.actions';
 
 type CreateCollectionDialogProps = {
@@ -43,7 +43,7 @@ const CreateCollectionDialog = (props: CreateCollectionDialogProps) => {
             <DialogDescription>{t('dialog.description')}</DialogDescription>
           </div>
         </DialogHeader>
-        <ManageCollectionForm
+        <CollectionForm
           categories={categories}
           submitLabel={t('form.actions.continue')}
           action={createCollectionAction}

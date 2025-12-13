@@ -24,9 +24,9 @@ import {
 import { Textarea } from '@shotly/ui/components/textarea';
 import { cn } from '@shotly/ui/lib/utils';
 
-import { ManageCollectionFormValues } from './manage-collection-form.schema';
+import { CollectionFormValues } from './collection-form.schema';
 
-type ManageCollectionFormProps = {
+type CollectionFormProps = {
   defaultValues?: Collection;
   className?: string;
   categories: Category[];
@@ -34,13 +34,13 @@ type ManageCollectionFormProps = {
   onCancel?: () => void;
   submitLabel: string;
   action: (
-    prevState: FormActionState<ManageCollectionFormValues>,
+    prevState: FormActionState<CollectionFormValues>,
     formData: FormData,
-  ) => Promise<FormActionState<ManageCollectionFormValues>>;
+  ) => Promise<FormActionState<CollectionFormValues>>;
   onSuccess?: () => void;
 };
 
-function ManageCollectionForm(props: ManageCollectionFormProps) {
+function CollectionForm(props: CollectionFormProps) {
   const {
     defaultValues,
     categories,
@@ -178,4 +178,4 @@ function ManageCollectionForm(props: ManageCollectionFormProps) {
   );
 }
 
-export default ManageCollectionForm;
+export default CollectionForm;

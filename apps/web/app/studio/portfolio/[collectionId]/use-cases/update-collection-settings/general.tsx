@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 import { Category } from '@/entities/models/category';
 import { Collection } from '@/entities/models/collection';
 
-import ManageCollectionForm from '../../../_ui/manage-collection-form/manage-collection-form';
+import CollectionForm from '../../../_ui/collection-form/collection-form';
 import { updateCollectionAction } from './actions';
 import SettingsTabLayout from './settings-tab-layout';
 
@@ -24,7 +24,7 @@ function GeneralCollectionSettings(props: GeneralCollectionSettingsProps) {
       title={t('tabs.general.title')}
       caption={t('tabs.general.caption')}
     >
-      <ManageCollectionForm
+      <CollectionForm
         defaultValues={collection}
         className="flex-1"
         categories={categories}

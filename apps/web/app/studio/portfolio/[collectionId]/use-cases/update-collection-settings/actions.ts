@@ -5,9 +5,9 @@ import { revalidatePath } from 'next/cache';
 import { VisibilityStatus } from '@/entities/models/common';
 import collectionsRepository from '@/infrastructure/repositories/collections.repository';
 import {
-  manageCollectionFormSchema,
-  ManageCollectionFormValues,
-} from '@/studio/portfolio/_ui/manage-collection-form/manage-collection-form.schema';
+  collectionFormSchema,
+  CollectionFormValues,
+} from '@/studio/portfolio/_ui/collection-form/collection-form.schema';
 import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
 export const changeCollectionVisibilityStatusAction = async (
@@ -26,10 +26,10 @@ export const changeCollectionVisibilityStatusAction = async (
 
 export const updateCollectionAction = async (
   collectionId: string,
-  prevState: FormActionState<ManageCollectionFormValues>,
+  prevState: FormActionState<CollectionFormValues>,
   formData: FormData,
 ) =>
-  validatedFormAction(manageCollectionFormSchema, formData, async (data) => {
+  validatedFormAction(collectionFormSchema, formData, async (data) => {
     // TODO: implement update collection use case
     console.log(data, collectionId);
     return { status: 'success' };
