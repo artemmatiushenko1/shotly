@@ -1,8 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useActionState, useId, useState } from 'react';
+import { useActionState, useEffect, useId, useState } from 'react';
 
+import { COLLECTION_DESCRIPTION_MAX_LENGTH } from '@/application/use-cases/portfolio/constants';
 import { Category } from '@/entities/models/category';
 import { Collection } from '@/entities/models/collection';
 import { FormActionState } from '@/utils/server-actions';
@@ -23,38 +24,45 @@ import {
 import { Textarea } from '@shotly/ui/components/textarea';
 import { cn } from '@shotly/ui/lib/utils';
 
-import { createCollection } from './create-collection-form.actions';
-import { CreateCollectionFormValues } from './create-collection-form.schema';
+import { ManageCollectionFormValues } from './manage-collection-form.schema';
 
-type CreateCollectionFormProps = {
+type ManageCollectionFormProps = {
   defaultValues?: Collection;
   className?: string;
   categories: Category[];
-  submitButtonText?: string;
   showCancelButton?: boolean;
   onCancel?: () => void;
+  submitLabel: string;
+  action: (
+    prevState: FormActionState<ManageCollectionFormValues>,
+    formData: FormData,
+  ) => Promise<FormActionState<ManageCollectionFormValues>>;
+  onSuccess?: () => void;
 };
 
-const INITIAL_STATE: FormActionState<CreateCollectionFormValues> = {
-  status: 'idle',
-};
-
-function CreateCollectionForm(props: CreateCollectionFormProps) {
+function ManageCollectionForm(props: ManageCollectionFormProps) {
   const {
     defaultValues,
     categories,
-    submitButtonText,
     showCancelButton = true,
     onCancel,
     className,
+    submitLabel,
+    action,
+    onSuccess,
   } = props;
 
   const t = useTranslations('portfolio.createCollectionDialog.form');
 
-  const [state, formAction, pending] = useActionState(
-    createCollection,
-    INITIAL_STATE,
-  );
+  const [state, formAction, pending] = useActionState(action, {
+    status: 'idle',
+  });
+
+  useEffect(() => {
+    if (state.status === 'success' && onSuccess) {
+      onSuccess();
+    }
+  }, [state.status, onSuccess]);
 
   const { errors, inputs } = state;
 
@@ -102,7 +110,7 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
           id={descriptionId}
           name="description"
           showCharsCount
-          maxChars={500}
+          maxChars={COLLECTION_DESCRIPTION_MAX_LENGTH}
           placeholder={t('fields.description.placeholder')}
           defaultValue={values.description ?? undefined}
           error={errors?.description?.join(', ')}
@@ -163,11 +171,11 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
           </Button>
         )}
         <Button type="submit" loading={pending}>
-          {submitButtonText ?? t('actions.continue')}
+          {submitLabel}
         </Button>
       </div>
     </form>
   );
 }
 
-export default CreateCollectionForm;
+export default ManageCollectionForm;

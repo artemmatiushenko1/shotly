@@ -7,6 +7,7 @@ import { Role } from '@/entities/models/user';
 
 import { auth } from './auth';
 
+// TODO: rename to getAuthenticatedUser
 export const getUser = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
 

@@ -28,6 +28,8 @@ export const sendProfileToReviewUseCase = async (userId: string) => {
     );
   }
 
+  // TODO: after that any action on page is disabled until the profile is reviewed
+
   await usersRepository.changeApprovalStatus(
     userId,
     ApprovalStatus.PENDING_REVIEW,

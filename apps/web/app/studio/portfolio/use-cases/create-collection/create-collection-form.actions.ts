@@ -7,15 +7,15 @@ import { getUser } from '@/infrastructure/services/auth/dal';
 import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
 import {
-  createCollectionFormSchema,
-  CreateCollectionFormValues,
-} from './create-collection-form.schema';
+  manageCollectionFormSchema,
+  ManageCollectionFormValues,
+} from '../../_ui/manage-collection-form/manage-collection-form.schema';
 
-export const createCollection = async (
-  prevState: FormActionState<CreateCollectionFormValues>,
+export const createCollectionAction = async (
+  prevState: FormActionState<ManageCollectionFormValues>,
   formData: FormData,
 ) =>
-  validatedFormAction(createCollectionFormSchema, formData, async (data) => {
+  validatedFormAction(manageCollectionFormSchema, formData, async (data) => {
     const user = await getUser();
     const collectionId = await createCollectionUseCase(user.id, data);
     redirect(`/studio/portfolio/${collectionId}`);

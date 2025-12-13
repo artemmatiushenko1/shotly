@@ -9,11 +9,7 @@ import {
 import { getUser } from '@/infrastructure/services/auth/dal';
 import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
-import {
-  serviceFormSchema,
-  ServiceFormState,
-  ServiceFormValues,
-} from './service-form.schema';
+import { serviceFormSchema, ServiceFormValues } from './service-form.schema';
 
 const parseFormData = (formData: FormData): Partial<ServiceFormValues> => {
   const data = Object.fromEntries(formData.entries());
@@ -58,7 +54,7 @@ export const createServiceAction = async (
 
 export const updateServiceAction = async (
   serviceId: string,
-  prevState: ServiceFormState,
+  prevState: FormActionState<ServiceFormValues>,
   formData: FormData,
 ) =>
   validatedFormAction(

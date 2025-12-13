@@ -3,7 +3,8 @@ import { useTranslations } from 'next-intl';
 import { Category } from '@/entities/models/category';
 import { Collection } from '@/entities/models/collection';
 
-import CreateCollectionForm from '../../../use-cases/create-collection/create-collection-form';
+import ManageCollectionForm from '../../../_ui/manage-collection-form/manage-collection-form';
+import { updateCollectionAction } from './actions';
 import SettingsTabLayout from './settings-tab-layout';
 
 type GeneralCollectionSettingsProps = {
@@ -16,17 +17,20 @@ function GeneralCollectionSettings(props: GeneralCollectionSettingsProps) {
 
   const t = useTranslations('portfolio.collectionDetails.settings');
 
+  const action = updateCollectionAction.bind(null, collection.id);
+
   return (
     <SettingsTabLayout
       title={t('tabs.general.title')}
       caption={t('tabs.general.caption')}
     >
-      <CreateCollectionForm
+      <ManageCollectionForm
         defaultValues={collection}
         className="flex-1"
         categories={categories}
-        submitButtonText={t('tabs.general.saveButton')}
+        submitLabel={t('tabs.general.saveButton')}
         showCancelButton={false}
+        action={action}
       />
     </SettingsTabLayout>
   );

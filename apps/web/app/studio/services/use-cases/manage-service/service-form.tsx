@@ -6,6 +6,7 @@ import React, { useActionState, useEffect, useId, useState } from 'react';
 
 import { Category } from '@/entities/models/category';
 import { VisibilityStatus } from '@/entities/models/common';
+import { FormActionState } from '@/utils/server-actions';
 
 import { Button } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';
@@ -27,7 +28,6 @@ import CoverUpload from '../../../../_components/cover-upload/cover-upload';
 import { FeaturesInput } from './features-input';
 import {
   DESCRIPTION_MAX_LENGTH,
-  ServiceFormState,
   ServiceFormValues,
 } from './service-form.schema';
 
@@ -36,14 +36,14 @@ type CreateServiceFormProps = {
   defaultValues?: Partial<ServiceFormValues>;
   submitLabel: string;
   action: (
-    state: ServiceFormState,
+    state: FormActionState<ServiceFormValues>,
     payload: FormData,
-  ) => Promise<ServiceFormState>;
+  ) => Promise<FormActionState<ServiceFormValues>>;
   onSuccess: () => void;
   onCancel: () => void;
 };
 
-const INITIAL_STATE: ServiceFormState = {
+const INITIAL_STATE: FormActionState<ServiceFormValues> = {
   status: 'idle',
   message: '',
 };

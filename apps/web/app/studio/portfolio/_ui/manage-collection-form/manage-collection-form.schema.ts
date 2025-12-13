@@ -5,7 +5,7 @@ import {
   COLLECTION_NAME_MAX_LENGTH,
 } from '@/application/use-cases/portfolio/constants';
 
-export const createCollectionFormSchema = z.object({
+export const manageCollectionFormSchema = z.object({
   name: z
     .string()
     .min(1, { message: 'Name is required' })
@@ -25,6 +25,6 @@ export const createCollectionFormSchema = z.object({
     .pipe(z.date()),
 });
 
-export type CreateCollectionFormValues = z.infer<
-  typeof createCollectionFormSchema
+export type ManageCollectionFormValues = z.infer<
+  typeof manageCollectionFormSchema
 >;

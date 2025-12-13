@@ -15,7 +15,8 @@ import {
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
 
-import CreateCollectionForm from './create-collection-form';
+import ManageCollectionForm from '../../_ui/manage-collection-form/manage-collection-form';
+import { createCollectionAction } from './create-collection-form.actions';
 
 type CreateCollectionDialogProps = {
   categories: Category[];
@@ -25,7 +26,7 @@ type CreateCollectionDialogProps = {
 const CreateCollectionDialog = (props: CreateCollectionDialogProps) => {
   const { children: trigger, categories } = props;
 
-  const t = useTranslations('portfolio.createCollectionDialog.dialog');
+  const t = useTranslations('portfolio.createCollectionDialog');
 
   const [open, setOpen] = useState(false);
 
@@ -38,12 +39,14 @@ const CreateCollectionDialog = (props: CreateCollectionDialogProps) => {
             <Folder className="text-primary size-4" />
           </div>
           <div>
-            <DialogTitle className="mb-1">{t('title')}</DialogTitle>
-            <DialogDescription>{t('description')}</DialogDescription>
+            <DialogTitle className="mb-1">{t('dialog.title')}</DialogTitle>
+            <DialogDescription>{t('dialog.description')}</DialogDescription>
           </div>
         </DialogHeader>
-        <CreateCollectionForm
+        <ManageCollectionForm
           categories={categories}
+          submitLabel={t('form.actions.continue')}
+          action={createCollectionAction}
           onCancel={() => setOpen(false)}
         />
       </DialogContent>

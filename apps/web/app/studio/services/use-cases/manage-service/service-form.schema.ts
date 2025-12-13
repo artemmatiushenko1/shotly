@@ -35,10 +35,3 @@ export const serviceFormSchema = z.object({
 });
 
 export type ServiceFormValues = z.infer<typeof serviceFormSchema>;
-
-export type ServiceFormState = {
-  status: 'idle' | 'success' | 'error';
-  message: string;
-  errors?: z.core.$ZodFlattenedError<ServiceFormValues>['fieldErrors'];
-  inputs?: Partial<ServiceFormValues>;
-};
