@@ -34,20 +34,6 @@ export const userSchema = z.object({
 
 export type User = z.infer<typeof userSchema>;
 
-export const updateUserSchema = userSchema.pick({
-  name: true,
-  username: true,
-  coverImageUrl: true,
-  profileImageUrl: true,
-  yearsOfExperience: true,
-  bio: true,
-  websiteUrl: true,
-  aboutMe: true,
-  instagramTag: true,
-});
-
-export type UserUpdate = z.infer<typeof updateUserSchema>;
-
 export const userProfileSchema = userSchema
   .pick({
     name: true,

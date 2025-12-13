@@ -32,3 +32,7 @@ export const createServiceInputSchema = serviceSchema.pick({
 });
 
 export type CreateServiceInput = z.infer<typeof createServiceInputSchema>;
+
+export const updateServiceInputSchema = createServiceInputSchema.partial();
+
+export type UpdateServiceInput = z.infer<typeof updateServiceInputSchema>;
