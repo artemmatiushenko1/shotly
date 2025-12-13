@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@shotly/ui/components/select';
+import { toast } from '@shotly/ui/components/sonner';
 import { Textarea } from '@shotly/ui/components/textarea';
 import { cn } from '@shotly/ui/lib/utils';
 
@@ -37,7 +38,6 @@ type CollectionFormProps = {
     prevState: FormActionState<CollectionFormValues>,
     formData: FormData,
   ) => Promise<FormActionState<CollectionFormValues>>;
-  onSuccess?: () => void;
 };
 
 function CollectionForm(props: CollectionFormProps) {
@@ -49,7 +49,6 @@ function CollectionForm(props: CollectionFormProps) {
     className,
     submitLabel,
     action,
-    onSuccess,
   } = props;
 
   const t = useTranslations('portfolio.createCollectionDialog.form');
@@ -59,10 +58,10 @@ function CollectionForm(props: CollectionFormProps) {
   });
 
   useEffect(() => {
-    if (state.status === 'success' && onSuccess) {
-      onSuccess();
+    if (state.status === 'success') {
+      toast.success(state.message);
     }
-  }, [state.status, onSuccess]);
+  }, [state.status, state.message]);
 
   const { errors, inputs } = state;
 

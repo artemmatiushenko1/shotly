@@ -4,6 +4,7 @@ import {
   Collection,
   collectionSchema,
   CreateCollectionInput,
+  UpdateCollectionInput,
 } from '@/entities/models/collection';
 import { VisibilityStatus } from '@/entities/models/common';
 import { Photo, PhotoMetadata, photoSchema } from '@/entities/models/photos';
@@ -181,6 +182,17 @@ class CollectionsRepository {
     await db
       .update(collectionsTable)
       .set({ coverPhotoId: photoId })
+      .where(eq(collectionsTable.id, collectionId))
+      .returning();
+  }
+
+  async updateCollection(
+    collectionId: string,
+    input: UpdateCollectionInput,
+  ): Promise<void> {
+    await db
+      .update(collectionsTable)
+      .set(input)
       .where(eq(collectionsTable.id, collectionId))
       .returning();
   }

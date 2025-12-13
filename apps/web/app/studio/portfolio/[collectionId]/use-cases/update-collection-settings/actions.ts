@@ -2,8 +2,10 @@
 
 import { revalidatePath } from 'next/cache';
 
+import { updateCollectionUseCase } from '@/application/use-cases/portfolio';
 import { VisibilityStatus } from '@/entities/models/common';
 import collectionsRepository from '@/infrastructure/repositories/collections.repository';
+import { getUser } from '@/infrastructure/services/auth/dal';
 import {
   collectionFormSchema,
   CollectionFormValues,
@@ -14,8 +16,6 @@ export const changeCollectionVisibilityStatusAction = async (
   collectionId: string,
   status: VisibilityStatus,
 ) => {
-  // TODO: collection must have a least one photo to be public
-
   await collectionsRepository.updateCollectionVisibilityStatus(
     collectionId,
     status,
@@ -30,7 +30,8 @@ export const updateCollectionAction = async (
   formData: FormData,
 ) =>
   validatedFormAction(collectionFormSchema, formData, async (data) => {
-    // TODO: implement update collection use case
-    console.log(data, collectionId);
-    return { status: 'success' };
+    const user = await getUser();
+    await updateCollectionUseCase(user.id, collectionId, data);
+    revalidatePath(`/studio/portfolio/${collectionId}`);
+    return { status: 'success', message: 'Collection updated successfully' };
   });

@@ -28,3 +28,7 @@ export const createCollectionInputSchema = collectionSchema.pick({
 });
 
 export type CreateCollectionInput = z.infer<typeof createCollectionInputSchema>;
+
+export const updateCollectionInputSchema = collectionSchema.partial();
+
+export type UpdateCollectionInput = z.infer<typeof updateCollectionInputSchema>;
