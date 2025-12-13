@@ -97,6 +97,10 @@ export function AppSidebar(props: AppSidebarProps) {
     });
   };
 
+  const [firstName = '', lastName = ''] = user.name.split(' ');
+  const avatarFallback =
+    (firstName?.[0] ?? '') + (lastName?.[0] ?? '').toUpperCase();
+
   return (
     <Sidebar variant="inset">
       <SidebarHeader className="pt-1">
@@ -163,7 +167,7 @@ export function AppSidebar(props: AppSidebarProps) {
               <Avatar className="h-8 w-8 rounded-md">
                 <AvatarImage src={user.image ?? ''} alt={user.name} />
                 <AvatarFallback className="rounded-md">
-                  {user.name}
+                  {avatarFallback}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-xs leading-tight">
