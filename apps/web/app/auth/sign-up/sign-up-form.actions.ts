@@ -4,7 +4,7 @@ import { APIError } from 'better-auth/api';
 import { redirect } from 'next/navigation';
 
 import { auth } from '@/infrastructure/services/auth/auth';
-import { FormActionState, validatedAction } from '@/utils/server-actions';
+import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
 import { SignUpFormValues, signUpSchema } from './sign-up-form.schema';
 
@@ -25,7 +25,7 @@ export const signUpAction = async (
   prevState: FormActionState<SignUpFormValues>,
   formData: FormData,
 ) =>
-  validatedAction(signUpSchema, formData, async (data) => {
+  validatedFormAction(signUpSchema, formData, async (data) => {
     try {
       const response = await auth.api.signUpEmail({
         body: {

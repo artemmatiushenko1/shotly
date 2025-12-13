@@ -7,7 +7,7 @@ import {
   updateServiceUseCase,
 } from '@/application/use-cases/services';
 import { getUser } from '@/infrastructure/services/auth/dal';
-import { FormActionState, validatedAction } from '@/utils/server-actions';
+import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
 import {
   serviceFormSchema,
@@ -28,7 +28,7 @@ export const createServiceAction = async (
   prevState: FormActionState<ServiceFormValues>,
   formData: FormData,
 ) =>
-  validatedAction(
+  validatedFormAction(
     serviceFormSchema,
     formData,
     async (data) => {
@@ -61,7 +61,7 @@ export const updateServiceAction = async (
   prevState: ServiceFormState,
   formData: FormData,
 ) =>
-  validatedAction(
+  validatedFormAction(
     serviceFormSchema,
     formData,
     async (data) => {

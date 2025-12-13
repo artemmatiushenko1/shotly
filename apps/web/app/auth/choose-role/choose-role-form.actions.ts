@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import setRoleUseCase from '@/application/use-cases/account/set-role.use-case';
 import { Role } from '@/entities/models/user';
 import { getUser } from '@/infrastructure/services/auth/dal';
-import { FormActionState, validatedAction } from '@/utils/server-actions';
+import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
 import {
   UpdateUserRoleFormValues,
@@ -16,7 +16,7 @@ export const updateUserRoleAction = async (
   prevState: FormActionState<UpdateUserRoleFormValues>,
   formData: FormData,
 ) =>
-  validatedAction(updateUserRoleSchema, formData, async ({ role }) => {
+  validatedFormAction(updateUserRoleSchema, formData, async ({ role }) => {
     const user = await getUser();
     await setRoleUseCase(user.id, role);
 

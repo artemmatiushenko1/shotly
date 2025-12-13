@@ -9,7 +9,7 @@ import { clientEnv } from '@/env/client';
 import { getUser } from '@/infrastructure/services/auth/dal';
 import { UploadResult } from '@/infrastructure/services/image-storage-service';
 import { mbToBytes } from '@/utils/files/utils';
-import { validatedAction } from '@/utils/server-actions';
+import { validatedFormAction } from '@/utils/server-actions';
 
 import {
   profileFormSchema,
@@ -26,7 +26,7 @@ export const updateProfileAction = async (
   prevState: ProfileFormState,
   form: FormData,
 ) =>
-  validatedAction(
+  validatedFormAction(
     profileFormSchema,
     form,
     async (data) => {

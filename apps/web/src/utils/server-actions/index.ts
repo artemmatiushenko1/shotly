@@ -1,2 +1,2 @@
 export type { FormActionState } from './form-action-state';
-export { validatedAction } from './validated-form-action';
+export { validatedFormAction } from './validated-form-action';
