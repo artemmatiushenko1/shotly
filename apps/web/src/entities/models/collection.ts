@@ -15,6 +15,7 @@ export const collectionSchema = z.object({
   archivedAt: z.date().nullish(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  photographerId: z.string(),
 });
 
 export type Collection = z.infer<typeof collectionSchema>;

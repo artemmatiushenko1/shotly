@@ -1,9 +1,9 @@
 import { ChevronLeftIcon, SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
+import { getCollectionByIdUseCase } from '@/application/use-cases/portfolio';
 import collectionsRepository from '@/infrastructure/repositories/collections.repository';
 import { getUser } from '@/infrastructure/services/auth/dal';
 
@@ -33,14 +33,10 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
   const t = await getTranslations('portfolio.collectionDetails');
 
   const [collection, photos, categories] = await Promise.all([
-    collectionsRepository.getCollectionById(collectionId),
+    getCollectionByIdUseCase(user.id, collectionId),
     collectionsRepository.getPhotosByCollectionId(collectionId),
     getAllCategoriesUseCase(),
   ]);
-
-  if (!collection) {
-    notFound();
-  }
 
   const category = categories.find(
     (category) => category.id === collection.categoryId,
