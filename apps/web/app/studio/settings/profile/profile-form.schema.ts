@@ -50,10 +50,3 @@ export const profileFormSchema = z.object({
 });
 
 export type ProfileFormValues = z.infer<typeof profileFormSchema>;
-
-export type ProfileFormState = {
-  status: 'idle' | 'success' | 'error';
-  message: string;
-  errors?: z.core.$ZodFlattenedError<ProfileFormValues>['fieldErrors'];
-  inputs?: Partial<ProfileFormValues>;
-};

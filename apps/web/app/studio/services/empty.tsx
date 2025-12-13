@@ -6,7 +6,7 @@ import { Category } from '@/entities/models/category';
 import { Button } from '@shotly/ui/components/button';
 
 import EmptyState from '../../_components/empty-state';
-import CreateServiceDialog from './use-cases/manage-service/service-dialog';
+import CreateServiceDialog from './use-cases/create-service/creare-service-dialog';
 
 type EmptyProps = {
   categories: Category[];

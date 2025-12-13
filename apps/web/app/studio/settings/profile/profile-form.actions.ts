@@ -9,34 +9,20 @@ import { clientEnv } from '@/env/client';
 import { getUser } from '@/infrastructure/services/auth/dal';
 import { UploadResult } from '@/infrastructure/services/image-storage-service';
 import { mbToBytes } from '@/utils/files/utils';
-import { validatedFormAction } from '@/utils/server-actions';
+import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
-import {
-  profileFormSchema,
-  ProfileFormState,
-  ProfileFormValues,
-} from './profile-form.schema';
-
-const parseFormData = (formData: FormData): Partial<ProfileFormValues> => {
-  const data = Object.fromEntries(formData.entries());
-  return data as unknown as Partial<ProfileFormValues>;
-};
+import { profileFormSchema, ProfileFormValues } from './profile-form.schema';
 
 export const updateProfileAction = async (
-  prevState: ProfileFormState,
-  form: FormData,
+  prevState: FormActionState<ProfileFormValues>,
+  formData: FormData,
 ) =>
-  validatedFormAction(
-    profileFormSchema,
-    form,
-    async (data) => {
-      const user = await getUser();
-      await updateProfileUseCase(user.id, data);
-      revalidatePath('/studio/settings');
-      return { status: 'success', message: 'Profile updated successfully!' };
-    },
-    { normalizer: parseFormData },
-  );
+  validatedFormAction(profileFormSchema, formData, async (data) => {
+    const user = await getUser();
+    await updateProfileUseCase(user.id, data);
+    revalidatePath('/studio/settings');
+    return { status: 'success', message: 'Profile updated successfully!' };
+  });
 
 export const uploadTmpProfileImage = async (
   file: File,

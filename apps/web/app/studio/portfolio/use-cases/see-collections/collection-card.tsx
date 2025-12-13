@@ -8,7 +8,7 @@ import { Card, CardContent } from '@shotly/ui/components/card';
 
 import { IconWithText } from '../../../../_components/icon-with-text';
 import ImagePlaceholder from '../../../../_components/image-placeholder';
-import { VisibilityBadge } from '../../../ui/visibility-badge';
+import { VisibilityBadge } from '../../../../_components/visibility-badge';
 
 type CollectionCardProps = {
   isPublic?: boolean;

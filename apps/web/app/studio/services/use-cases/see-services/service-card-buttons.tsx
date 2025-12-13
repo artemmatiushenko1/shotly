@@ -9,7 +9,7 @@ import { Button } from '@shotly/ui/components/button';
 import { ConfirmationDialog } from '@shotly/ui/components/confirmation-dialog';
 import { toast } from '@shotly/ui/components/sonner';
 
-import CreateServiceDialog from '../manage-service/service-dialog';
+import UpdateServiceDialog from '../update-service/update-service-dialog';
 import { archiveServiceAction, restoreServiceAction } from './actions';
 
 type ServiceCardActionsProps = {
@@ -49,11 +49,11 @@ function ServiceCardActions(props: ServiceCardActionsProps) {
   return (
     <div className="inline-flex flex-col items-end gap-2 p-3">
       {service.archivedAt === null && (
-        <CreateServiceDialog categories={categories} service={service}>
+        <UpdateServiceDialog categories={categories} service={service}>
           <Button variant="outline">
             <EditIcon /> {t('actions.edit')}
           </Button>
-        </CreateServiceDialog>
+        </UpdateServiceDialog>
       )}
       <ConfirmationDialog
         actionSeverity="neutral"

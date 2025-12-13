@@ -393,54 +393,58 @@
       "Private": "Private",
       "Archived": "Archived"
     },
-    "createServiceDialog": {
-      "dialog": {
-        "title": "Create a service",
-        "description": "Create service packages that your clients can book. Fill in the details below to add a new service to your offerings."
-      },
-      "form": {
-        "fields": {
-          "name": {
-            "label": "Service Name",
-            "placeholder": "Enter service name"
-          },
-          "coverImage": {
-            "label": "Upload cover image"
-          },
-          "description": {
-            "label": "Description",
-            "placeholder": "Add description for your service",
-            "optional": "optional"
-          },
-          "category": {
-            "label": "Category",
-            "placeholder": "Select a category",
-            "groupLabel": "Categories"
-          },
-          "price": {
-            "label": "Price",
-            "timeUnit": "hour",
-            "placeholder": "Enter price"
-          },
-          "features": {
-            "label": "Features list",
-            "placeholder": "Specify features"
-          },
-          "deliveryTime": {
-            "label": "Delivery Time (full days)",
-            "placeholder": "Enter delivery time"
-          },
-          "visibility": {
-            "label": "Visibility",
-            "description": "When enabled this service will be visible to any visitor of the platform"
-          }
+    "serviceForm": {
+      "fields": {
+        "name": {
+          "label": "Service Name",
+          "placeholder": "Enter service name"
         },
-        "actions": {
-          "cancel": "Cancel",
-          "saveChanges": "Save Changes",
-          "create": "Create service"
+        "coverImage": {
+          "label": "Upload cover image"
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": "Add description for your service",
+          "optional": "optional"
+        },
+        "category": {
+          "label": "Category",
+          "placeholder": "Select a category",
+          "groupLabel": "Categories"
+        },
+        "price": {
+          "label": "Price",
+          "timeUnit": "hour",
+          "placeholder": "Enter price"
+        },
+        "features": {
+          "label": "Features list",
+          "placeholder": "Specify features"
+        },
+        "deliveryTime": {
+          "label": "Delivery Time (full days)",
+          "placeholder": "Enter delivery time"
+        },
+        "visibility": {
+          "label": "Visibility",
+          "description": "When enabled this service will be visible to any visitor of the platform"
         }
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "saveChanges": "Save Changes",
+        "create": "Create service"
       }
+    },
+    "updateServiceDialog": {
+      "title": "Update service",
+      "description": "Update the details of your service. Fill in the details below to update your service.",
+      "submitLabel": "Save Changes"
+    },
+    "createServiceDialog": {
+      "title": "Create a service",
+      "description": "Create service packages that your clients can book. Fill in the details below to add a new service to your offerings.",
+      "submitLabel": "Create service"
     },
     "serviceCard": {
       "fields": {

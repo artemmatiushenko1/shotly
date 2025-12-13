@@ -10,7 +10,7 @@ import FadeIn from '@shotly/ui/components/fade-in';
 
 import MainHeader from '../../_components/main-header';
 import Empty from './empty';
-import CreateServiceDialog from './use-cases/manage-service/service-dialog';
+import CreateServiceDialog from './use-cases/create-service/creare-service-dialog';
 import ServicesList from './use-cases/see-services/service-list';
 
 async function Services() {

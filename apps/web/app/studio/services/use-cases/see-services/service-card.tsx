@@ -9,7 +9,7 @@ import { Service } from '@/entities/models/service';
 
 import { Card, CardDescription } from '@shotly/ui/components/card';
 
-import { VisibilityBadge } from '../../../ui/visibility-badge';
+import { VisibilityBadge } from '../../../../_components/visibility-badge';
 
 type ServiceCardProps = {
   service: Service;

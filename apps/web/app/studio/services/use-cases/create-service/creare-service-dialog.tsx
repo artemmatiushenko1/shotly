@@ -16,11 +16,8 @@ import {
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
 
-import CreateServiceForm from './service-form';
-import {
-  createServiceAction,
-  updateServiceAction,
-} from './service-form.actions';
+import ServiceForm from '../../_ui/service-form/service-form';
+import { createServiceAction } from './create-service-form.actions';
 
 type CreateServiceDialogProps = {
   categories: Category[];
@@ -43,17 +40,6 @@ function CreateServiceDialog(props: CreateServiceDialogProps) {
     setOpen(false);
   }, [setOpen]);
 
-  const isEditMode = !!service;
-
-  const formAction =
-    isEditMode && service
-      ? updateServiceAction.bind(null, service.id)
-      : createServiceAction;
-
-  const submitLabel = isEditMode
-    ? t('form.actions.saveChanges')
-    : t('form.actions.create');
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -63,14 +49,14 @@ function CreateServiceDialog(props: CreateServiceDialogProps) {
             <HandshakeIcon className="text-primary size-4" />
           </div>
           <div>
-            <DialogTitle className="mb-1">{t('dialog.title')}</DialogTitle>
-            <DialogDescription>{t('dialog.description')}</DialogDescription>
+            <DialogTitle className="mb-1">{t('title')}</DialogTitle>
+            <DialogDescription>{t('description')}</DialogDescription>
           </div>
         </DialogHeader>
         <div className="flex-1">
-          <CreateServiceForm
-            action={formAction}
-            submitLabel={submitLabel}
+          <ServiceForm
+            action={createServiceAction}
+            submitLabel={t('submitLabel')}
             defaultValues={service}
             categories={categories}
             onSuccess={handleSuccess}

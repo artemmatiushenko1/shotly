@@ -31,7 +31,7 @@ import {
   ServiceFormValues,
 } from './service-form.schema';
 
-type CreateServiceFormProps = {
+type ServiceFormProps = {
   categories: Category[];
   defaultValues?: Partial<ServiceFormValues>;
   submitLabel: string;
@@ -43,12 +43,7 @@ type CreateServiceFormProps = {
   onCancel: () => void;
 };
 
-const INITIAL_STATE: FormActionState<ServiceFormValues> = {
-  status: 'idle',
-  message: '',
-};
-
-function CreateServiceForm(props: CreateServiceFormProps) {
+function ServiceForm(props: ServiceFormProps) {
   const {
     categories,
     defaultValues,
@@ -64,9 +59,11 @@ function CreateServiceForm(props: CreateServiceFormProps) {
   const featuresId = useId();
   const deliveryTimeId = useId();
 
-  const t = useTranslations('services.createServiceDialog.form');
+  const t = useTranslations('services.serviceForm');
 
-  const [state, formAction, isPending] = useActionState(action, INITIAL_STATE);
+  const [state, formAction, isPending] = useActionState(action, {
+    status: 'idle',
+  });
 
   const values = { ...defaultValues, ...state.inputs };
 
@@ -240,4 +237,4 @@ function CreateServiceForm(props: CreateServiceFormProps) {
   );
 }
 
-export default CreateServiceForm;
+export default ServiceForm;

@@ -7,7 +7,7 @@ import { VisibilityStatus } from '@/entities/models/common';
 import { formatDateWithOrdinal } from '@/utils/date-formatting';
 
 import { IconWithText } from '../../../_components/icon-with-text';
-import { VisibilityBadge } from '../../ui/visibility-badge';
+import { VisibilityBadge } from '../../../_components/visibility-badge';
 
 type CollectionMetadataProps = {
   name: string;

@@ -21,7 +21,6 @@ import { ExperienceSlider } from './experience-slider';
 import { LanguageSelector } from './language-selector';
 import { LocationSelector } from './location-selector';
 import { updateProfileAction } from './profile-form.actions';
-import { ProfileFormState } from './profile-form.schema';
 import { ProfileImageUpload } from './profile-image-upload';
 import { SocialLinkInput } from './social-link-input';
 
@@ -31,20 +30,14 @@ type ProfileSettingsProps = {
   languageOptions: Language[];
 };
 
-const INITIAL_STATE: ProfileFormState = {
-  status: 'idle',
-  message: '',
-};
-
 const ProfileSettings = (props: ProfileSettingsProps) => {
   const { profile, languageOptions } = props;
 
   const t = useTranslations('settings.profile');
 
-  const [state, formAction, isPending] = useActionState(
-    updateProfileAction,
-    INITIAL_STATE,
-  );
+  const [state, formAction, isPending] = useActionState(updateProfileAction, {
+    status: 'idle',
+  });
 
   useEffect(() => {
     if (state.status === 'success') {

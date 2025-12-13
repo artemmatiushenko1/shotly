@@ -35,3 +35,14 @@ export const serviceFormSchema = z.object({
 });
 
 export type ServiceFormValues = z.infer<typeof serviceFormSchema>;
+
+export const parseServiceFormData = (
+  formData: FormData,
+): Partial<ServiceFormValues> => {
+  const data = Object.fromEntries(formData.entries());
+
+  return {
+    ...data,
+    currency: (data.currency as string) || 'UAH',
+  } as unknown as Partial<ServiceFormValues>;
+};
