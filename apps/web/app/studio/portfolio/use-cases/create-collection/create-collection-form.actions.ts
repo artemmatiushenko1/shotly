@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 
-import { createCollectionUseCase } from '@/application/use-cases/portfolio/create-collection.use-case';
+import { createCollectionUseCase } from '@/application/use-cases/portfolio';
 import { getUser } from '@/infrastructure/services/auth/dal';
 import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 

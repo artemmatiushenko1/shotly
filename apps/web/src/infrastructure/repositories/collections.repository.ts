@@ -54,7 +54,7 @@ class CollectionsRepository {
     return this.parseCollection({ ...collection, photosCount: 0 });
   }
 
-  async getAllCollections(userId: string): Promise<Collection[]> {
+  private getCollectionsBaseQuery() {
     const photosCountSq = db
       .select({
         collectionId: photosTable.collectionId,
@@ -64,7 +64,7 @@ class CollectionsRepository {
       .groupBy(photosTable.collectionId)
       .as('photosCountSq');
 
-    const collections = await db
+    return db
       .select({
         id: collectionsTable.id,
         name: collectionsTable.name,
@@ -77,9 +77,7 @@ class CollectionsRepository {
         photographerId: collectionsTable.photographerId,
         categoryId: collectionsTable.categoryId,
         archivedAt: collectionsTable.archivedAt,
-
         coverPhotoUrl: photosTable.url,
-
         photosCount: sql<number>`coalesce(${photosCountSq.count}, 0)`.mapWith(
           Number,
         ),
@@ -89,17 +87,21 @@ class CollectionsRepository {
       .leftJoin(
         photosCountSq,
         eq(collectionsTable.id, photosCountSq.collectionId),
-      )
-      .where(eq(collectionsTable.photographerId, userId));
+      );
+  }
+
+  async getAllCollections(userId: string): Promise<Collection[]> {
+    const collections = await this.getCollectionsBaseQuery().where(
+      eq(collectionsTable.photographerId, userId),
+    );
 
     return collections.map((collection) => this.parseCollection(collection));
   }
 
   async getCollectionById(id: string): Promise<Collection | null> {
-    const [collection] = await db
-      .select()
-      .from(collectionsTable)
-      .where(eq(collectionsTable.id, id));
+    const [collection] = await this.getCollectionsBaseQuery().where(
+      eq(collectionsTable.id, id),
+    );
 
     if (!collection) {
       return null;
@@ -156,15 +158,6 @@ class CollectionsRepository {
       .where(eq(photosTable.collectionId, collectionId));
 
     return photos.map((photo) => photoSchema.parse(photo));
-  }
-
-  async getPhotoCountByCollectionId(collectionId: string): Promise<number> {
-    const [photoCount] = await db
-      .select({ count: count() })
-      .from(photosTable)
-      .where(eq(photosTable.collectionId, collectionId));
-
-    return photoCount?.count ?? 0;
   }
 
   async getCollectionIdToCoverPhotoUrlMap(

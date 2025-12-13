@@ -32,10 +32,9 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
 
   const t = await getTranslations('portfolio.collectionDetails');
 
-  const [collection, photos, photoCount, categories] = await Promise.all([
+  const [collection, photos, categories] = await Promise.all([
     collectionsRepository.getCollectionById(collectionId),
     collectionsRepository.getPhotosByCollectionId(collectionId),
-    collectionsRepository.getPhotoCountByCollectionId(collectionId),
     getAllCategoriesUseCase(),
   ]);
 
@@ -99,7 +98,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
         <CollectionMetadata
           name={collection.name}
           description={collection.description ?? ''}
-          photosCount={photoCount}
+          photosCount={collection.photosCount}
           shootDate={collection.shootDate}
           categoryName={category.name}
           status={collection.visibilityStatus}
