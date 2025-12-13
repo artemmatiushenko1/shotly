@@ -18,10 +18,11 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@shotly/ui/components/dropdown-menu';
+import { toast } from '@shotly/ui/components/sonner';
 import { Spinner } from '@shotly/ui/components/spinner';
 import { cn } from '@shotly/ui/lib/utils';
 
-import { setCollectionCoverImage } from './actions';
+import { deletePhotoAction, setCollectionCoverImage } from './actions';
 
 type PhotoContextMenuProps = {
   isCoverPhoto: boolean;
@@ -35,6 +36,7 @@ function PhotoContextMenu(props: PhotoContextMenuProps) {
 
   const [isTriggerVisible, setIsTriggerVisible] = useState(false);
   const [isSettingAsCoverImage, setIsSettingAsCoverImage] = useState(false);
+  const [isDeletingPhoto, setIsDeletingPhoto] = useState(false);
 
   const handleSetAsCoverImage = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -43,10 +45,26 @@ function PhotoContextMenu(props: PhotoContextMenuProps) {
     try {
       setIsSettingAsCoverImage(true);
       await setCollectionCoverImage(collectionId, photoId);
-    } catch (error) {
-      console.error(error);
+      toast.success('Photo set as cover image successfully');
+    } catch (_) {
+      toast.error('Failed to set photo as cover image');
     } finally {
       setIsSettingAsCoverImage(false);
+    }
+  };
+
+  const handleDeletePhoto = async (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      setIsDeletingPhoto(true);
+      await deletePhotoAction(photoId, collectionId);
+      toast.success('Photo deleted successfully');
+    } catch (_) {
+      toast.error('Failed to delete photo');
+    } finally {
+      setIsDeletingPhoto(false);
     }
   };
 
@@ -81,8 +99,17 @@ function PhotoContextMenu(props: PhotoContextMenuProps) {
           <DownloadIcon /> {t('download')}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">
+        <DropdownMenuItem
+          variant="destructive"
+          onClick={handleDeletePhoto}
+          disabled={isDeletingPhoto}
+        >
           <TrashIcon /> {t('delete')}
+          {isDeletingPhoto && (
+            <DropdownMenuShortcut>
+              <Spinner size="sm" />
+            </DropdownMenuShortcut>
+          )}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

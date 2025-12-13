@@ -7,7 +7,7 @@ import {
   UpdateCollectionInput,
 } from '@/entities/models/collection';
 import { VisibilityStatus } from '@/entities/models/common';
-import { Photo, PhotoMetadata, photoSchema } from '@/entities/models/photos';
+import { Photo, PhotoMetadata, photoSchema } from '@/entities/models/photo';
 
 // TODO: make it possible to import from @/drizzle
 import { db } from '../../../drizzle';
@@ -195,6 +195,30 @@ class CollectionsRepository {
       .set(input)
       .where(eq(collectionsTable.id, collectionId))
       .returning();
+  }
+
+  async deleteCollection(collectionId: string): Promise<void> {
+    await db
+      .delete(collectionsTable)
+      .where(eq(collectionsTable.id, collectionId))
+      .returning();
+  }
+
+  async getPhotoById(photoId: string): Promise<Photo | null> {
+    const [photo] = await db
+      .select()
+      .from(photosTable)
+      .where(eq(photosTable.id, photoId));
+
+    if (!photo) {
+      return null;
+    }
+
+    return photoSchema.parse(photo);
+  }
+
+  async deletePhoto(photoId: string): Promise<void> {
+    await db.delete(photosTable).where(eq(photosTable.id, photoId)).returning();
   }
 }
 

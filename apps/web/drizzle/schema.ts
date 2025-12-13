@@ -23,7 +23,7 @@ import {
 
 import { generateDefaultUsername } from '@/application/use-cases/account/utils';
 import { VisibilityStatus } from '@/entities/models/common';
-import { PhotoMetadata } from '@/entities/models/photos';
+import { PhotoMetadata } from '@/entities/models/photo';
 import { ApprovalStatus, Role } from '@/entities/models/user';
 
 export const roleEnum = pgEnum('role', [

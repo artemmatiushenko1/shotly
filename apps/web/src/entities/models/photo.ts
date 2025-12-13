@@ -22,6 +22,7 @@ export const photoSchema = z.object({
   height: z.number(),
   format: z.string(),
   createdAt: z.date(),
+  collectionId: z.string(),
 });
 
 export type Photo = z.infer<typeof photoSchema>;
