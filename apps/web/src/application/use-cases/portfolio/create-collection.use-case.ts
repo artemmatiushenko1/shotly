@@ -6,6 +6,7 @@ export const createCollectionUseCase = async (
   userId: string,
   input: CreateCollectionInput,
 ): Promise<string> => {
+  // TODO: validate name is unique
   const collection = await collectionsRepository.createCollection(
     userId,
     input,
