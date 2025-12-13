@@ -2,5 +2,7 @@ export { changeCollectionVisibilityUseCase } from './change-collection-visibilit
 export { createCollectionUseCase } from './create-collection.use-case';
 export { deletePhotoUseCase } from './delete-photo.use-case';
 export { getCollectionByIdUseCase } from './get-collection-by-id.use-case';
+export { getCollectionPhotosUseCase } from './get-collection-photos.use-case';
 export { getPhotographerCollectionsUseCase } from './get-photographer-collections.use-case';
+export { setPhotoAsCollectionCoverUseCase } from './set-photo-as-collection-cover.use-case';
 export { updateCollectionUseCase } from './update-collection.use-case';

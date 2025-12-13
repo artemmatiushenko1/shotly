@@ -22,7 +22,7 @@ import { toast } from '@shotly/ui/components/sonner';
 import { Spinner } from '@shotly/ui/components/spinner';
 import { cn } from '@shotly/ui/lib/utils';
 
-import { deletePhotoAction, setCollectionCoverImage } from './actions';
+import { deletePhotoAction, setPhotoAsCollectionCoverAction } from './actions';
 
 type PhotoContextMenuProps = {
   isCoverPhoto: boolean;
@@ -44,7 +44,7 @@ function PhotoContextMenu(props: PhotoContextMenuProps) {
 
     try {
       setIsSettingAsCoverImage(true);
-      await setCollectionCoverImage(collectionId, photoId);
+      await setPhotoAsCollectionCoverAction(collectionId, photoId);
       toast.success('Photo set as cover image successfully');
     } catch (_) {
       toast.error('Failed to set photo as cover image');

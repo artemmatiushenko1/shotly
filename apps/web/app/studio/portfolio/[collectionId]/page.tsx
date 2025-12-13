@@ -3,8 +3,10 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
-import { getCollectionByIdUseCase } from '@/application/use-cases/portfolio';
-import collectionsRepository from '@/infrastructure/repositories/collections.repository';
+import {
+  getCollectionByIdUseCase,
+  getCollectionPhotosUseCase,
+} from '@/application/use-cases/portfolio';
 import { getUser } from '@/infrastructure/services/auth/dal';
 
 import { Button, buttonVariants } from '@shotly/ui/components/button';
@@ -34,7 +36,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
 
   const [collection, photos, categories] = await Promise.all([
     getCollectionByIdUseCase(user.id, collectionId),
-    collectionsRepository.getPhotosByCollectionId(collectionId),
+    getCollectionPhotosUseCase(user.id, collectionId),
     getAllCategoriesUseCase(),
   ]);
 
