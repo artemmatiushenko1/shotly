@@ -24,6 +24,7 @@ type CreateCollectionDialogProps = {
 
 const CreateCollectionDialog = (props: CreateCollectionDialogProps) => {
   const { children: trigger, categories } = props;
+
   const t = useTranslations('portfolio.createCollectionDialog.dialog');
 
   const [open, setOpen] = useState(false);

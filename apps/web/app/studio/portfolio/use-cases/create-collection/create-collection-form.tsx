@@ -5,6 +5,7 @@ import { useActionState, useId, useState } from 'react';
 
 import { Category } from '@/entities/models/category';
 import { Collection } from '@/entities/models/collection';
+import { FormActionState } from '@/utils/server-actions';
 
 import { Button } from '@shotly/ui/components/button';
 import { DatePicker } from '@shotly/ui/components/date-picker';
@@ -22,14 +23,8 @@ import {
 import { Textarea } from '@shotly/ui/components/textarea';
 import { cn } from '@shotly/ui/lib/utils';
 
-import { createCollection } from './actions';
-
-enum FormField {
-  NAME = 'name',
-  DESCRIPTION = 'description',
-  CATEGORY_ID = 'categoryId',
-  SHOOT_DATE = 'shootDate',
-}
+import { createCollection } from './create-collection-form.actions';
+import { CreateCollectionFormValues } from './create-collection-form.schema';
 
 type CreateCollectionFormProps = {
   defaultValues?: Collection;
@@ -38,6 +33,10 @@ type CreateCollectionFormProps = {
   submitButtonText?: string;
   showCancelButton?: boolean;
   onCancel?: () => void;
+};
+
+const INITIAL_STATE: FormActionState<CreateCollectionFormValues> = {
+  status: 'idle',
 };
 
 function CreateCollectionForm(props: CreateCollectionFormProps) {
@@ -49,7 +48,15 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
     onCancel,
     className,
   } = props;
+
   const t = useTranslations('portfolio.createCollectionDialog.form');
+
+  const [state, formAction, pending] = useActionState(
+    createCollection,
+    INITIAL_STATE,
+  );
+
+  const { errors, inputs } = state;
 
   const [shootDate, setShootDate] = useState<Date | undefined>(
     defaultValues?.shootDate,
@@ -58,43 +65,47 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
     defaultValues?.categoryId ?? '',
   );
 
-  const [state, formAction, pending] = useActionState(createCollection, {
-    hasErrors: false,
-    validationErrors: undefined,
-  });
-
-  const { validationErrors } = state;
-
   const nameId = useId();
   const descriptionId = useId();
   const categoryIdInputId = useId();
   const shootDateId = useId();
 
+  const values = { ...defaultValues, ...inputs };
+
+  const formatDateValue = (date: Date | undefined) => {
+    // Format date as YYYY-MM-DD string
+    if (!date) return '';
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <form
-      className={cn('space-y-5 flex flex-col', className)}
       action={formAction}
+      className={cn('space-y-5 flex flex-col', className)}
     >
       <div className="grid gap-3">
         <Label htmlFor={nameId}>{t('fields.name.label')}</Label>
         <Input
           id={nameId}
-          name={FormField.NAME}
+          name="name"
           placeholder={t('fields.name.placeholder')}
-          defaultValue={defaultValues?.name}
-          error={validationErrors?.fieldErrors.name?.toString()}
+          defaultValue={values.name}
+          error={errors?.name?.join(', ')}
         />
       </div>
       <div className="grid gap-3">
         <Label htmlFor={descriptionId}>{t('fields.description.label')}</Label>
         <Textarea
           id={descriptionId}
-          name={FormField.DESCRIPTION}
+          name="description"
           showCharsCount
           maxChars={500}
           placeholder={t('fields.description.placeholder')}
-          defaultValue={defaultValues?.description ?? undefined}
-          error={validationErrors?.fieldErrors.description?.toString() ?? ''}
+          defaultValue={values.description ?? undefined}
+          error={errors?.description?.join(', ')}
         />
       </div>
       <div className="flex space-x-3 items-start">
@@ -102,7 +113,7 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
           <Label htmlFor={categoryIdInputId}>
             {t('fields.category.label')}
           </Label>
-          <Select value={categoryId ?? ''} onValueChange={setCategoryId}>
+          <Select value={categoryId} onValueChange={setCategoryId}>
             <SelectTrigger className="w-full" id={categoryIdInputId}>
               <SelectValue placeholder={t('fields.category.placeholder')} />
             </SelectTrigger>
@@ -117,29 +128,30 @@ function CreateCollectionForm(props: CreateCollectionFormProps) {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {validationErrors?.fieldErrors.categoryId?.toString() && (
+          {errors?.categoryId?.join(', ') && (
             <div className="text-sm text-destructive mt-2">
-              {validationErrors?.fieldErrors.categoryId?.toString()}
+              {errors?.categoryId?.join(', ')}
             </div>
           )}
-          <input
-            type="hidden"
-            name={FormField.CATEGORY_ID}
-            value={categoryId}
-          />
+          <input type="hidden" name="categoryId" value={categoryId} />
         </div>
         <div className="grid gap-3 w-full">
           <Label htmlFor={shootDateId}>{t('fields.shootDate.label')}</Label>
+          {/* TODO: disable future dates */}
           <DatePicker
             id={shootDateId}
-            name={FormField.SHOOT_DATE}
             value={shootDate}
             onChange={setShootDate}
             placeholder={t('fields.shootDate.placeholder')}
-            error={validationErrors?.fieldErrors.shootDate?.toString()}
+            error={errors?.shootDate?.join(', ')}
             captionLayout="dropdown"
             startMonth={new Date(2000, 0)}
             endMonth={new Date(new Date().getFullYear(), 11)}
+          />
+          <input
+            type="hidden"
+            name="shootDate"
+            value={formatDateValue(shootDate)}
           />
           {/* TODO: add tags input */}
         </div>

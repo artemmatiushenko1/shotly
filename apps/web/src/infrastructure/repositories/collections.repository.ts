@@ -36,20 +36,12 @@ class CollectionsRepository {
     userId: string,
     input: CreateCollectionInput,
   ): Promise<Collection | null> {
-    // TODO: Format date as YYYY-MM-DD string for PostgreSQL date type
-    const shootDateString = input.shootDate.toISOString().split('T')[0];
-
-    // TODO: this should be on business logic layer
-    if (!shootDateString) {
-      throw new Error('Wrong shoot date format.');
-    }
-
     const [collection] = await db
       .insert(collectionsTable)
       .values({
         name: input.name,
         description: input.description,
-        shootDate: shootDateString,
+        shootDate: input.shootDate,
         photographerId: userId,
         categoryId: input.categoryId,
       })

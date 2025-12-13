@@ -17,7 +17,6 @@ export const setCollectionCoverImage = async (
     throw new NotFoundError('Collection not found');
   }
 
-  // TODO: should use image id instead of photo url
   await collectionsRepository.updateCollectionCoverImage(collectionId, photoId);
 
   revalidatePath(`/portfolio/${collectionId}`);

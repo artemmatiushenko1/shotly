@@ -143,7 +143,9 @@ export const collectionsTable = pgTable(
     visibilityStatus: collectionVisibilityStatusEnum('visibility_status')
       .notNull()
       .default(VisibilityStatus.PRIVATE),
-    shootDate: date('shoot_date').notNull(),
+    shootDate: date('shoot_date', {
+      mode: 'date',
+    }).notNull(),
     coverPhotoId: uuid('cover_photo_id').references(
       (): AnyPgColumn => photosTable.id,
       {

@@ -1,17 +1,17 @@
 'use client';
 
-import * as React from 'react';
+import dayjs from 'dayjs';
+import { CalendarIcon } from 'lucide-react';
+import type { DayPickerProps } from 'react-day-picker';
+
+import { Button } from '@shotly/ui/components/button';
+import { Calendar } from '@shotly/ui/components/calendar';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@shotly/ui/components/popover';
-import { Button } from '@shotly/ui/components/button';
-import { CalendarIcon } from 'lucide-react';
-import { Calendar } from '@shotly/ui/components/calendar';
-import dayjs from 'dayjs';
 import { cn } from '@shotly/ui/lib/utils';
-import type { DayPickerProps } from 'react-day-picker';
 
 type DatePickerProps = {
   value?: Date;
