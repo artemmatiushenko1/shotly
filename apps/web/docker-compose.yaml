@@ -16,8 +16,27 @@ services:
     networks:
       - network
 
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: local-minio
+    ports:
+      - '9000:9000' # API Port (Code talks to this)
+      - '9001:9001' # Console Port (You use this in browser)
+    environment:
+      MINIO_ROOT_USER: 'admin'
+      MINIO_ROOT_PASSWORD: 'password123'
+    volumes:
+      - minio-data:/data # Persists data to your project folder
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
 volumes:
   postgres_data:
+  minio-data:
 
 networks:
   network:

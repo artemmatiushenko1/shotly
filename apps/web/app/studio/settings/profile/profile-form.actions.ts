@@ -3,12 +3,10 @@
 import { revalidatePath } from 'next/cache';
 
 import { updateProfileUseCase } from '@/application/use-cases/account';
-import { TEMP_PROFILE_IMAGE_STORAGE_PATH } from '@/application/use-cases/images/constants';
-import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
-import { clientEnv } from '@/env/client';
+import { PROFILE_IMAGES_BUCKET_NAME } from '@/application/use-cases/images/constants';
 import { getUser } from '@/infrastructure/services/auth/dal';
 import { UploadResult } from '@/infrastructure/services/image-storage-service';
-import { mbToBytes } from '@/utils/files/utils';
+import { s3ImageStorage } from '@/infrastructure/services/s3-image-storage-service';
 import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
 import { profileFormSchema, ProfileFormValues } from './profile-form.schema';
@@ -27,11 +25,16 @@ export const updateProfileAction = async (
 export const uploadTmpProfileImage = async (
   file: File,
 ): Promise<UploadResult> => {
-  const uploadResult = await uploadImageUseCase(
-    file,
-    TEMP_PROFILE_IMAGE_STORAGE_PATH,
-    mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_IMAGE_SIZE_MB),
+  const { uploadUrl, publicUrl } = await s3ImageStorage.prepareUpload(
+    file.name,
+    file.type,
+    PROFILE_IMAGES_BUCKET_NAME,
   );
 
-  return uploadResult;
+  await fetch(uploadUrl, {
+    method: 'PUT',
+    body: file,
+  });
+
+  return publicUrl;
 };

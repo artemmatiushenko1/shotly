@@ -1,12 +1,6 @@
 import { ConflictError, NotFoundError } from '@/entities/errors/common';
 import { LocationDetails } from '@/entities/models/locations';
 import usersRepository from '@/infrastructure/repositories/users.repository';
-import { imageStorage } from '@/infrastructure/services/image-storage-service';
-
-import {
-  PERMANENT_COVER_IMAGE_STORAGE_PATH,
-  PERMANENT_PROFILE_IMAGE_STORAGE_PATH,
-} from '../images/constants';
 
 const updateProfileUseCase = async (
   userId: string,
@@ -41,31 +35,11 @@ const updateProfileUseCase = async (
     }
   }
 
-  let coverImageUrl = user.coverImageUrl;
-
-  if (input.coverImageUrl && coverImageUrl !== input.coverImageUrl) {
-    const { url } = await imageStorage.move(input.coverImageUrl, {
-      folder: PERMANENT_COVER_IMAGE_STORAGE_PATH,
-    });
-
-    coverImageUrl = url;
-  }
-
-  let profileImageUrl = user.profileImageUrl;
-
-  if (input.profileImageUrl && profileImageUrl !== input.profileImageUrl) {
-    const { url } = await imageStorage.move(input.profileImageUrl, {
-      folder: PERMANENT_PROFILE_IMAGE_STORAGE_PATH,
-    });
-
-    profileImageUrl = url;
-  }
-
   await usersRepository.updateUser(userId, {
     username: input.username,
     name: input.name,
-    profileImageUrl,
-    coverImageUrl,
+    profileImageUrl: input.profileImageUrl,
+    coverImageUrl: input.coverImageUrl,
     bio: input.bio,
     websiteUrl: input.websiteUrl,
     instagramTag: input.instagramTag,

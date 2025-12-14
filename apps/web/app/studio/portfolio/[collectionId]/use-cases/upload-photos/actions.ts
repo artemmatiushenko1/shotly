@@ -3,10 +3,9 @@
 import { revalidatePath } from 'next/cache';
 
 import { advanceStorageUsageUseCase } from '@/application/use-cases/account';
-import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
-import { clientEnv } from '@/env/client';
+import { PHOTOS_BUCKET_NAME } from '@/application/use-cases/images/constants';
 import collectionsRepository from '@/infrastructure/repositories/collections.repository';
-import { mbToBytes } from '@/utils/files/utils';
+import { s3ImageStorage } from '@/infrastructure/services/s3-image-storage-service';
 
 const uploadPhotosAction = async (
   photographerId: string,
@@ -17,18 +16,23 @@ const uploadPhotosAction = async (
     files.map(async (file) => {
       // TODO: should check if the user has enough storage
       // abort if not
-      const uploadResult = await uploadImageUseCase(
-        file,
-        `uploads/portfolio/${collectionId}`,
-        mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PORTFOLIO_PHOTO_SIZE_MB),
+      const { uploadUrl, publicUrl, key } = await s3ImageStorage.prepareUpload(
+        file.name,
+        file.type,
+        PHOTOS_BUCKET_NAME,
       );
+
+      await fetch(uploadUrl, {
+        method: 'PUT',
+        body: file,
+      });
 
       // TODO: should be a single transaction
       await collectionsRepository.createPhoto(
         photographerId,
         collectionId,
-        uploadResult.url,
-        uploadResult.key,
+        publicUrl,
+        key,
         file.size,
         file.name,
         500, // TODO: read metadata using some lib

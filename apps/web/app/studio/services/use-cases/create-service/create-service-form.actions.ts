@@ -22,17 +22,7 @@ export const createServiceAction = async (
     async (data) => {
       const user = await getUser();
 
-      await createServiceUseCase(user.id, {
-        tmpCoverImageUrl: data.coverImageUrl,
-        name: data.name,
-        description: data.description,
-        price: data.price,
-        currency: data.currency,
-        deliveryTimeInDays: data.deliveryTimeInDays,
-        visibilityStatus: data.visibilityStatus,
-        features: data.features,
-        categoryId: data.categoryId,
-      });
+      await createServiceUseCase(user.id, data);
 
       revalidatePath('/services');
 

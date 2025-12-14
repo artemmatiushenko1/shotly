@@ -1,35 +1,12 @@
-/**
- * Result of an image upload operation
- */
-export interface UploadResult {
-  /** The URL or path to access the uploaded image */
-  url: string;
-  /** Optional unique identifier for the uploaded file */
+export interface UploadRequest {
+  /** The URL the client should PUT the file to */
+  uploadUrl: string;
+  /** The public URL where the image will be visible after upload */
+  publicUrl: string;
+  /** The unique key/path for the file */
   key: string;
-}
-
-/**
- * Options for uploading an image
- */
-export interface UploadOptions {
-  /** Optional folder/path prefix for organizing uploads */
-  folder?: string;
-  /** Optional filename. If not provided, a unique name will be generated */
-  filename?: string;
-  /** Optional max file size in bytes */
-  maxSize?: number;
-  /** Optional allowed MIME types */
-  allowedMimeTypes?: string[];
-}
-
-/**
- * Options for moving/renaming an image
- */
-export interface MoveOptions {
-  /** Optional target folder/path prefix */
-  folder?: string;
-  /** Optional new filename. If not provided, the original filename is preserved */
-  filename?: string;
+  /** Any headers the client must include (e.g., Content-Type) */
+  headers?: Record<string, string>;
 }
 
 /**
@@ -38,32 +15,32 @@ export interface MoveOptions {
  */
 export interface IImageStorage {
   /**
-   * Upload an image file to storage
-   * @param file - The file buffer or File object to upload
-   * @param options - Upload options
-   * @returns Promise resolving to the upload result with the image URL
+   * Generates a URL for the client to upload directly
    */
-  upload(file: Buffer | File, options?: UploadOptions): Promise<UploadResult>;
+  prepareUpload(
+    filename: string,
+    contentType: string,
+    bucket: string,
+    folder?: string,
+  ): Promise<UploadRequest>;
 
   /**
-   * Delete an image from storage
-   * @param keyOrUrl - The storage key or URL of the image to delete
-   * @returns Promise resolving when deletion is complete
+   * Deletes a file (Works the same for all providers)
    */
-  delete(keyOrUrl: string): Promise<void>;
+  delete(key: string, bucket: string): Promise<void>;
 
   /**
-   * Move or rename an image in storage
-   * @param keyOrUrl - The current storage key or URL of the image
-   * @param options - Move options (target folder/filename)
-   * @returns Promise resolving to the new upload result with the updated URL/key
+   * Verifies the file exists (Optional, useful for the "Confirm" step)
    */
-  move(keyOrUrl: string, options?: MoveOptions): Promise<UploadResult>;
+  verifyObject(key: string, bucket: string): Promise<boolean>;
 
   /**
-   * Get the public URL for an image
-   * @param keyOrUrl - The storage key or URL
-   * @returns The public URL to access the image
+   * Moves a file. For S3, this is a Copy + Delete.
+   * For local disk, this is a simple Rename.
    */
-  getUrl(keyOrUrl: string): string;
+  move(
+    sourceKey: string,
+    destinationKey: string,
+    bucket: string,
+  ): Promise<void>;
 }

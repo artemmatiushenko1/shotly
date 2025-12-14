@@ -23,6 +23,7 @@ export const photoSchema = z.object({
   format: z.string(),
   createdAt: z.date(),
   collectionId: z.string(),
+  storageKey: z.string(),
 });
 
 export type Photo = z.infer<typeof photoSchema>;

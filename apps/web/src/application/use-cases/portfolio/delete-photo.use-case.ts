@@ -1,8 +1,9 @@
 import { NotFoundError } from '@/entities/errors/common';
 import collectionsRepository from '@/infrastructure/repositories/collections.repository';
 import usersRepository from '@/infrastructure/repositories/users.repository';
-import { imageStorage } from '@/infrastructure/services/image-storage-service';
+import { s3ImageStorage } from '@/infrastructure/services/s3-image-storage-service';
 
+import { PHOTOS_BUCKET_NAME } from '../images/constants';
 import { getCollectionByIdUseCase } from './get-collection-by-id.use-case';
 
 export const deletePhotoUseCase = async (userId: string, photoId: string) => {
@@ -17,5 +18,5 @@ export const deletePhotoUseCase = async (userId: string, photoId: string) => {
   // TODO: should be done in a transaction
   await collectionsRepository.deletePhoto(photoId);
   await usersRepository.updateStorageUsage(userId, -photo.sizeInBytes);
-  await imageStorage.delete(photo.url);
+  await s3ImageStorage.delete(photo.storageKey, PHOTOS_BUCKET_NAME);
 };

@@ -1,16 +1,19 @@
 'use server';
 
-import { TEMP_COVER_IMAGE_STORAGE_PATH } from '@/application/use-cases/images/constants';
-import { uploadImageUseCase } from '@/application/use-cases/images/upload-image.use-case';
-import { clientEnv } from '@/env/client';
-import { mbToBytes } from '@/utils/files/utils';
+import { COVER_IMAGES_BUCKET_NAME } from '@/application/use-cases/images/constants';
+import { s3ImageStorage } from '@/infrastructure/services/s3-image-storage-service';
 
 export const uploadTmpCoverImageAction = async (file: File) => {
-  const tmpCoverImageUrl = await uploadImageUseCase(
-    file,
-    TEMP_COVER_IMAGE_STORAGE_PATH,
-    mbToBytes(clientEnv.NEXT_PUBLIC_MAX_PROFILE_COVER_IMAGE_SIZE_MB),
+  const { uploadUrl, publicUrl } = await s3ImageStorage.prepareUpload(
+    file.name,
+    file.type,
+    COVER_IMAGES_BUCKET_NAME,
   );
 
-  return tmpCoverImageUrl;
+  await fetch(uploadUrl, {
+    method: 'PUT',
+    body: file,
+  });
+
+  return publicUrl;
 };

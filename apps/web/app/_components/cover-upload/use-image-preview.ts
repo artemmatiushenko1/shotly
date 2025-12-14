@@ -1,13 +1,12 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 
-import { UploadResult } from '@/application/services/image-storage.interface';
 import { MimeType } from '@/utils/files/enums';
 
 export type UseImagePreviewOptions = {
   existingImageUrl?: string | null;
   maxSize?: number;
   allowedMimeTypes?: MimeType[];
-  uploadAction: (file: File) => Promise<UploadResult>;
+  uploadAction: (file: File) => Promise<string>;
 };
 
 export type UseImagePreviewResult = {
@@ -83,8 +82,8 @@ export function useImagePreview(
 
       setSizeError(null);
 
-      const uploadResult = await uploadFile(file);
-      setSelectedPreviewUrl(uploadResult.url);
+      const uploadedUrl = await uploadFile(file);
+      setSelectedPreviewUrl(uploadedUrl);
     },
     [selectedPreviewUrl, maxSize, uploadFile, allowedMimeTypes],
   );
