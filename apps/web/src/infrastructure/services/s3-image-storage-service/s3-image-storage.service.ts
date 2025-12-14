@@ -1,6 +1,7 @@
-import { UploadRequest } from '@/application/services/image-storage.interface';
-
-import { IImageStorage } from '../image-storage-service';
+import {
+  IImageStorage,
+  UploadRequest,
+} from '@/application/services/image-storage.interface';
 
 import {
   CopyObjectCommand,
@@ -36,13 +37,9 @@ export class S3ImageStorageService implements IImageStorage {
     });
 
     this.publicBaseUrl = publicUrl;
-
-    ['tmp', 'photos', 'covers', 'profiles'].forEach(async (bucketName) => {
-      await this.ensureBucketExists(bucketName);
-    });
   }
 
-  private async ensureBucketExists(bucketName: string) {
+  async createBucket(bucketName: string) {
     try {
       // 1. Check if bucket exists
       await this.client.send(new HeadBucketCommand({ Bucket: bucketName }));
@@ -117,7 +114,8 @@ export class S3ImageStorageService implements IImageStorage {
     // 2. Construct the Key safely
     // If folder is provided: "folder/filename"
     // If no folder: "filename"
-    const key = cleanFolder ? `${cleanFolder}/${filename}` : filename;
+    let key = cleanFolder ? `${cleanFolder}/${filename}` : filename;
+    key += `-${crypto.randomUUID()}`;
 
     const command = new PutObjectCommand({
       Bucket: bucket,

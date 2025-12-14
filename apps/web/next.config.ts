@@ -1,5 +1,5 @@
-import createNextIntlPlugin from 'next-intl/plugin';
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin('./app/_i18n/request.ts');
 
@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     serverActions: {
-      bodySizeLimit: '20mb',
+      bodySizeLimit: '2mb',
     },
     viewTransition: true,
   },
