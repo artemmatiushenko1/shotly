@@ -1,9 +1,11 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 import {
   changeCollectionVisibilityUseCase,
+  deleteCollectionUseCase,
   updateCollectionUseCase,
 } from '@/application/use-cases/portfolio';
 import { VisibilityStatus } from '@/entities/models/common';
@@ -35,3 +37,10 @@ export const updateCollectionAction = async (
     revalidatePath(`/studio/portfolio/${collectionId}`);
     return { status: 'success', message: 'Collection updated successfully' };
   });
+
+export const deleteCollectionAction = async (collectionId: string) => {
+  const user = await getUser();
+  await deleteCollectionUseCase(user.id, collectionId);
+  redirect(`/studio/portfolio`);
+  return { status: 'success' };
+};

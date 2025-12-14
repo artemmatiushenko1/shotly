@@ -1,5 +1,6 @@
 export { changeCollectionVisibilityUseCase } from './change-collection-visibility.use-case';
 export { createCollectionUseCase } from './create-collection.use-case';
+export { deleteCollectionUseCase } from './delete-collection.use-case';
 export { deletePhotoUseCase } from './delete-photo.use-case';
 export { getCollectionByIdUseCase } from './get-collection-by-id.use-case';
 export { getCollectionPhotosUseCase } from './get-collection-photos.use-case';
