@@ -1,0 +1,1 @@
+ALTER TABLE "photos" ALTER COLUMN "storage_key" DROP NOT NULL;

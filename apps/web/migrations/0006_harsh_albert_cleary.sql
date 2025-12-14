@@ -1,0 +1,2 @@
+CREATE TYPE "public"."photo_upload_status" AS ENUM('idle', 'uploading', 'completed', 'failed');--> statement-breakpoint
+ALTER TABLE "photos" ADD COLUMN "status" "photo_upload_status" DEFAULT 'idle' NOT NULL;

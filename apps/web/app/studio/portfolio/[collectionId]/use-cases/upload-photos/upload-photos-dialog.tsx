@@ -17,7 +17,7 @@ import {
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
 
-import uploadPhotosAction from './actions';
+import { usePhotosUpload } from '../../photos-upload.context';
 import SelectedFilesList from './selected-files-list';
 
 type UploadFile = {
@@ -35,7 +35,7 @@ type UploadPhotosDialogProps = {
 };
 
 const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
-  const { collectionId, photographerId, children } = props;
+  const { children } = props;
 
   const t = useTranslations('portfolio.collectionDetails.uploadDialog');
 
@@ -44,6 +44,8 @@ const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
   const [dragActive, setDragActive] = useState(false);
   const [uploadFiles, setUploadFiles] = useState<UploadFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+
+  const { uploadPhotos } = usePhotosUpload();
 
   const handleFiles = useCallback((files: FileList) => {
     const newFiles: UploadFile[] = [];
@@ -112,11 +114,8 @@ const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
     setIsUploading(true);
 
     try {
-      await uploadPhotosAction(
-        photographerId,
-        collectionId,
-        uploadFiles.map((f) => f.file),
-      );
+      await uploadPhotos(uploadFiles.map((uploadFile) => uploadFile.file));
+
       uploadFiles.forEach((file) => {
         URL.revokeObjectURL(file.preview);
       });
@@ -149,7 +148,6 @@ const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
           <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>{t('description')}</DialogDescription>
         </DialogHeader>
-
         <div className="pb-4">
           <div
             className={`border-2 border-dashed border-muted-foreground/10 hover:border-primary rounded-md p-8 text-center transition-all ${

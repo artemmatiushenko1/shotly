@@ -7,7 +7,7 @@ import {
   UpdateCollectionInput,
 } from '@/entities/models/collection';
 import { VisibilityStatus } from '@/entities/models/common';
-import { Photo, PhotoMetadata, photoSchema } from '@/entities/models/photo';
+import { CreatePhotoInput, Photo, photoSchema } from '@/entities/models/photo';
 
 // TODO: make it possible to import from @/drizzle
 import { db } from '../../../drizzle';
@@ -122,34 +122,32 @@ class CollectionsRepository {
       .returning();
   }
 
-  // TODO: create schema for input parameters
   async createPhoto(
     photographerId: string,
     collectionId: string,
-    photoUrl: string,
-    photoKey: string,
-    photoSizeInBytes: number,
-    photoOriginalFilename: string,
-    photoWidth: number,
-    photoHeight: number,
-    photoFormat: string,
-    photoMetadata: PhotoMetadata,
-  ): Promise<void> {
-    await db
+    input: CreatePhotoInput,
+  ): Promise<Photo | null> {
+    const [photo] = await db
       .insert(photosTable)
       .values({
         collectionId,
         photographerId,
-        url: photoUrl,
-        storageKey: photoKey,
-        sizeInBytes: photoSizeInBytes,
-        originalFilename: photoOriginalFilename,
-        width: photoWidth,
-        height: photoHeight,
-        format: photoFormat,
-        metadata: photoMetadata,
+        sizeInBytes: input.sizeInBytes,
+        originalFilename: input.originalFilename,
+        width: 500, // TODO: get width and height from the file
+        height: 500, // TODO: get width and height from the file
+        format: input.format,
+        metadata: {}, // TODO: get metadata from the file
+        url: input.url,
+        storageKey: input.storageKey,
       })
       .returning();
+
+    if (!photo) {
+      return null;
+    }
+
+    return photoSchema.parse(photo);
   }
 
   async getPhotosByCollectionId(collectionId: string): Promise<Photo[]> {

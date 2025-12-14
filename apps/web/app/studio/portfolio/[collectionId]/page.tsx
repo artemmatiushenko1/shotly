@@ -20,8 +20,10 @@ import { cn } from '@shotly/ui/lib/utils';
 
 import { CollectionCover } from './collection-cover';
 import { CollectionMetadata } from './collection-metadata';
+import { PhotosUploadProvider } from './photos-upload.context';
 import { PhotosGrid } from './use-cases/see-photos/photos-grid';
 import CollectionSettingsDialog from './use-cases/update-collection-settings/collection-settings-dialog';
+import UploadStatusWidget from './use-cases/upload-photos/upload-status-widget';
 
 type CollectionDetailsProps = {
   params: Promise<{ collectionId: string }>;
@@ -102,12 +104,21 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
           status={collection.visibilityStatus}
         />
       </div>
-      <PhotosGrid
-        coverPhotoId={coverPhoto?.id ?? null}
+      <PhotosUploadProvider
+        userId={user.id}
         collectionId={collection.id}
-        photographerId={user.id}
-        photos={photos}
-      />
+        existingPhotos={photos}
+      >
+        <PhotosGrid
+          coverPhotoId={coverPhoto?.id ?? null}
+          collectionId={collection.id}
+          photographerId={user.id}
+          photos={photos}
+        />
+        <div className="fixed bottom-4 right-4 z-10">
+          <UploadStatusWidget />
+        </div>
+      </PhotosUploadProvider>
     </FadeIn>
   );
 }

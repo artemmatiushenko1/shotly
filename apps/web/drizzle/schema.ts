@@ -23,7 +23,7 @@ import {
 
 import { generateDefaultUsername } from '@/application/use-cases/account/utils';
 import { VisibilityStatus } from '@/entities/models/common';
-import { PhotoMetadata } from '@/entities/models/photo';
+import { PhotoMetadata, PhotoUploadStatus } from '@/entities/models/photo';
 import { ApprovalStatus, Role } from '@/entities/models/user';
 
 export const roleEnum = pgEnum('role', [
@@ -297,6 +297,11 @@ export const servicesToFeaturesTable = pgTable(
   (table) => [primaryKey({ columns: [table.serviceId, table.featureId] })],
 );
 
+export const photoUploadStatusEnum = pgEnum('photo_upload_status', [
+  PhotoUploadStatus.PENDING,
+  PhotoUploadStatus.COMPLETED,
+]);
+
 export const photosTable = pgTable('photos', {
   id: uuid('id').defaultRandom().primaryKey(),
   storageKey: text('storage_key').notNull().unique(),
@@ -307,6 +312,9 @@ export const photosTable = pgTable('photos', {
   height: integer('height').notNull(),
   format: text('format').notNull(),
   metadata: jsonb('metadata').$type<PhotoMetadata>().notNull(),
+  status: photoUploadStatusEnum('status')
+    .notNull()
+    .default(PhotoUploadStatus.PENDING),
   collectionId: uuid('collection_id')
     .notNull()
     .references(() => collectionsTable.id, { onDelete: 'cascade' }),
