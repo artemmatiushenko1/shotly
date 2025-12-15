@@ -21,6 +21,7 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
+import { DEFAULT_STORAGE_CAPACITY_BYTES } from '@/application/use-cases/account/constants';
 import { generateDefaultUsername } from '@/application/use-cases/account/utils';
 import { VisibilityStatus } from '@/entities/models/common';
 import { PhotoMetadata, PhotoUploadStatus } from '@/entities/models/photo';
@@ -67,7 +68,7 @@ export const usersTable = pgTable('user', {
     .default(0),
   storageLimitInBytes: bigint('storage_limit_in_bytes', { mode: 'number' })
     .notNull()
-    .default(5_368_709_120), // 5GB TODO: move to constants
+    .default(DEFAULT_STORAGE_CAPACITY_BYTES),
   bio: text('bio'),
   aboutMe: text('about_me'),
   /**

@@ -1,0 +1,1 @@
+ALTER TABLE "user" ALTER COLUMN "storage_limit_in_bytes" SET DEFAULT 1048576000;

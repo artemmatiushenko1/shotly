@@ -78,6 +78,13 @@
       "when": 1765804161429,
       "tag": "0010_lethal_iron_patriot",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1765817891460,
+      "tag": "0011_workable_cobalt_man",
+      "breakpoints": true
     }
   ]
 }
