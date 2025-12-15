@@ -13,7 +13,8 @@ import {
 
 import { UploadResult } from '@/application/use-cases/portfolio';
 import { NotEnoughStorageError } from '@/entities/errors/storage';
-import { uploadFileViaXhr } from '@/utils/files/upload-file';
+import { getPhotoMetadata } from '@/utils/files/read-file-exif-metadata';
+import { uploadFileViaXhr } from '@/utils/files/upload-file-via-xhr';
 
 import {
   confirmPhotoUploadAction,
@@ -110,6 +111,10 @@ export const PhotosUploadQueueProvider = (
       try {
         updateUpload(item.uploadId, { status: 'uploading' });
 
+        const { width, height, ...metadata } = await getPhotoMetadata(
+          item.file,
+        );
+
         const serverData = await preparePhotoUploadAction(
           userId,
           collectionId,
@@ -117,6 +122,9 @@ export const PhotosUploadQueueProvider = (
             originalFilename: item.file.name,
             format: item.file.type,
             sizeInBytes: item.file.size,
+            width,
+            height,
+            metadata,
           },
         );
 
@@ -171,8 +179,6 @@ export const PhotosUploadQueueProvider = (
           status: 'completed',
           progress: 100,
         });
-
-        // TODO: confirm upload, show photo in ui (if needed beyond status)
       } catch (error) {
         if (
           error instanceof Error &&
@@ -186,9 +192,6 @@ export const PhotosUploadQueueProvider = (
         } else {
           updateUpload(item.uploadId, { status: 'failed' });
         }
-
-        // Optional: If you want to stop remaining uploads on error, add `break;` here.
-        // Currently, it continues to try the next file.
       }
     },
     [userId, collectionId],

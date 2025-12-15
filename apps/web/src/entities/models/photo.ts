@@ -1,13 +1,13 @@
 import z from 'zod';
 
 export const photoMetadataSchema = z.object({
-  cameraMake: z.string().optional(),
-  cameraModel: z.string().optional(),
-  lens: z.string().optional(),
-  focalLength: z.string().optional(),
-  aperture: z.string().optional(),
-  shutterSpeed: z.string().optional(),
-  iso: z.number().optional(),
+  cameraMake: z.string().nullable(),
+  cameraModel: z.string().nullable(),
+  lens: z.string().nullable(),
+  focalLength: z.number().nullable(),
+  aperture: z.number().nullable(),
+  shutterSpeed: z.number().nullable(),
+  iso: z.number().nullable(),
 });
 
 export type PhotoMetadata = z.infer<typeof photoMetadataSchema>;
@@ -44,6 +44,9 @@ export const createPhotoInputSchema = photoSchema.pick({
   storageKey: true,
   thumbnailUrl: true,
   thumbnailKey: true,
+  width: true,
+  height: true,
+  metadata: true,
 });
 
 export type CreatePhotoInput = z.infer<typeof createPhotoInputSchema>;

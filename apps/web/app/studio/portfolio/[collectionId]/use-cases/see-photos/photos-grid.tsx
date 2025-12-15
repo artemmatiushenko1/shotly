@@ -52,6 +52,8 @@ const PhotosGrid = (props: PhotosGridProps) => {
             url={photo.thumbnailUrl}
             collectionId={collectionId}
             filename={photo.originalFilename}
+            width={photo.width}
+            height={photo.height}
           />
         ))}
       </div>

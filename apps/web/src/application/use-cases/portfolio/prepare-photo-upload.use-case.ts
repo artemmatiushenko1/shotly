@@ -13,7 +13,12 @@ import { getCollectionByIdUseCase } from './get-collection-by-id.use-case';
 
 export type InitiatePhotoUploadInput = Pick<
   CreatePhotoInput,
-  'originalFilename' | 'format' | 'sizeInBytes'
+  | 'originalFilename'
+  | 'format'
+  | 'sizeInBytes'
+  | 'width'
+  | 'height'
+  | 'metadata'
 >;
 
 export type UploadResult = {
@@ -57,6 +62,9 @@ export const preparePhotoUploadUseCase = async (
     storageKey: originalPhotoUpload.key,
     thumbnailUrl: thumbnailUpload.publicUrl,
     thumbnailKey: thumbnailUpload.key,
+    width: input.width,
+    height: input.height,
+    metadata: input.metadata,
   });
 
   if (!photo) {

@@ -139,10 +139,10 @@ class CollectionsRepository {
         photographerId,
         sizeInBytes: input.sizeInBytes,
         originalFilename: input.originalFilename,
-        width: 500, // TODO: get width and height from the file
-        height: 500, // TODO: get width and height from the file
+        width: input.width,
+        height: input.height,
         format: input.format,
-        metadata: {}, // TODO: get metadata from the file
+        metadata: input.metadata,
         url: input.url,
         storageKey: input.storageKey,
         thumbnailUrl: input.thumbnailUrl,

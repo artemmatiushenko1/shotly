@@ -2,6 +2,7 @@ import { StarIcon } from 'lucide-react';
 import Image from 'next/image';
 
 import { Card } from '@shotly/ui/components/card';
+import { cn } from '@shotly/ui/lib/utils';
 
 import PhotoContextMenu from './photo-context-menu';
 
@@ -12,10 +13,13 @@ type PhotoCardProps = {
   collectionId: string;
   url: string;
   filename: string;
+  width: number;
+  height: number;
 };
 
 const PhotoCard = (props: PhotoCardProps) => {
-  const { id, url, filename, size, collectionId, isCoverPhoto } = props;
+  const { id, url, filename, size, collectionId, isCoverPhoto, width, height } =
+    props;
 
   return (
     <Card className="overflow-hidden shadow-none group cursor-pointer hover:shadow-lg transition-shadow p-0">
@@ -23,9 +27,10 @@ const PhotoCard = (props: PhotoCardProps) => {
         <Image
           src={url}
           alt={filename}
-          width={300}
-          height={300}
-          className="w-full h-48 object-cover"
+          width={width}
+          height={height}
+          sizes="250px"
+          className={cn('w-full h-48 object-cover')}
         />
         {isCoverPhoto && (
           <div className="absolute top-4 left-4">
