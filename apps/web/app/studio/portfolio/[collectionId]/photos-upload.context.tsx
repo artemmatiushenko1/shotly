@@ -89,7 +89,11 @@ export const PhotosUploadProvider = (props: PhotosUploadProviderProps) => {
           result: serverData,
         });
 
-        if (serverData.uploadUrl) {
+        try {
+          if (!serverData.uploadUrl) {
+            throw new Error('Upload URL not found');
+          }
+
           await uploadFileViaXhr(
             serverData.uploadUrl,
             upload.file,
@@ -100,7 +104,12 @@ export const PhotosUploadProvider = (props: PhotosUploadProviderProps) => {
               });
             },
           );
+
+          updateUpload(upload.uploadId, { status: 'completed', progress: 100 });
           // TODO: confirm upload, show photo in ui
+        } catch (error) {
+          console.error(`Upload failed for ${upload.file.name}:`, error);
+          updateUpload(upload.uploadId, { status: 'failed' });
         }
       }
     });

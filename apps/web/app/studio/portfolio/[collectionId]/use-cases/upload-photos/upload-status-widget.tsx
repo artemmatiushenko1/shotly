@@ -50,6 +50,10 @@ function UploadStatusWidget() {
       : completedUploads + 1;
 
   const getHeaderTitle = () => {
+    if (isBatchLoading) {
+      return `Uploading ${currentUploadFileNumber} of ${uploads.length} photos`;
+    }
+
     if (failedUploads === uploads.length) {
       return 'Upload Failed';
     }
@@ -61,8 +65,6 @@ function UploadStatusWidget() {
     if (completedUploads === uploads.length) {
       return 'Upload Complete';
     }
-
-    return `Uploading ${currentUploadFileNumber} of ${uploads.length} photos`;
   };
 
   const getHeaderSubtitle = () => {
@@ -97,7 +99,7 @@ function UploadStatusWidget() {
 
   return (
     <Collapsible
-      className="shadow-lg rounded-lg border-0"
+      className="shadow-lg rounded-lg"
       open={isOpen}
       onOpenChange={setIsOpen}
     >
