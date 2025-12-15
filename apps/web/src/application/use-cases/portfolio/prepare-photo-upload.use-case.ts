@@ -5,7 +5,10 @@ import collectionsRepository from '@/infrastructure/repositories/collections.rep
 import { s3ImageStorage } from '@/infrastructure/services/s3-image-storage-service';
 
 import { getStorageUsageUseCase } from '../account';
-import { PHOTOS_BUCKET_NAME } from '../images/constants';
+import {
+  PHOTOS_BUCKET_NAME,
+  THUMBNAILS_BUCKET_NAME,
+} from '../images/constants';
 import { getCollectionByIdUseCase } from './get-collection-by-id.use-case';
 
 export type InitiatePhotoUploadInput = Pick<
@@ -14,7 +17,8 @@ export type InitiatePhotoUploadInput = Pick<
 >;
 
 export type UploadResult = {
-  uploadUrl: string;
+  originalPhotoUploadUrl: string;
+  thumbnailUploadUrl: string;
   photo: Photo;
 };
 
@@ -33,18 +37,26 @@ export const preparePhotoUploadUseCase = async (
     throw new NotEnoughStorageError('Not enough storage');
   }
 
-  const { uploadUrl, key, publicUrl } = await s3ImageStorage.prepareUpload(
+  const originalPhotoUpload = await s3ImageStorage.prepareUpload(
     input.originalFilename,
     input.format,
     PHOTOS_BUCKET_NAME,
   );
 
+  const thumbnailUpload = await s3ImageStorage.prepareUpload(
+    input.originalFilename,
+    input.format,
+    THUMBNAILS_BUCKET_NAME,
+  );
+
   const photo = await collectionsRepository.createPhoto(userId, collection.id, {
     format: input.format,
-    url: publicUrl,
+    url: originalPhotoUpload.publicUrl,
     sizeInBytes: input.sizeInBytes,
     originalFilename: input.originalFilename,
-    storageKey: key,
+    storageKey: originalPhotoUpload.key,
+    thumbnailUrl: thumbnailUpload.publicUrl,
+    thumbnailKey: thumbnailUpload.key,
   });
 
   if (!photo) {
@@ -53,6 +65,7 @@ export const preparePhotoUploadUseCase = async (
 
   return {
     photo,
-    uploadUrl,
+    originalPhotoUploadUrl: originalPhotoUpload.uploadUrl,
+    thumbnailUploadUrl: thumbnailUpload.uploadUrl,
   };
 };

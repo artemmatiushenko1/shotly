@@ -1,5 +1,6 @@
 'use client';
 
+import imageCompression from 'browser-image-compression';
 import {
   createContext,
   useCallback,
@@ -22,7 +23,7 @@ import {
 export type ActiveUpload = {
   uploadId: string;
   file: File;
-  status: 'idle' | 'uploading' | 'completed' | 'failed';
+  status: 'idle' | 'processing' | 'uploading' | 'completed' | 'failed';
   progress: number;
   result?: UploadResult;
   errorMessage?: string;
@@ -62,7 +63,13 @@ export const PhotosUploadQueueProvider = (
   const batchStartTimeRef = useRef<number>(0);
 
   const isLoading = useMemo(
-    () => uploads.some((u) => u.status === 'uploading' || u.status === 'idle'),
+    () =>
+      uploads.some(
+        (u) =>
+          u.status === 'uploading' ||
+          u.status === 'idle' ||
+          u.status === 'processing',
+      ),
     [uploads],
   );
 
@@ -118,8 +125,20 @@ export const PhotosUploadQueueProvider = (
           result: serverData,
         });
 
-        await uploadFileViaXhr(
-          serverData.uploadUrl,
+        updateUpload(item.uploadId, {
+          status: 'processing',
+        });
+
+        const thumbnailFile = await imageCompression(item.file, {
+          maxSizeMB: 1,
+          useWebWorker: true,
+        });
+        const thumbnailUploadPromise = uploadFileViaXhr(
+          serverData.thumbnailUploadUrl,
+          thumbnailFile,
+        );
+        const originalPhotoUploadPromise = uploadFileViaXhr(
+          serverData.originalPhotoUploadUrl,
           item.file,
           (uploadedBytes, totalFileBytes) => {
             setLoadedBytesMap((prev) => ({
@@ -137,6 +156,8 @@ export const PhotosUploadQueueProvider = (
             });
           },
         );
+
+        await Promise.all([thumbnailUploadPromise, originalPhotoUploadPromise]);
 
         await confirmPhotoUploadAction(
           userId,
@@ -187,7 +208,9 @@ export const PhotosUploadQueueProvider = (
   };
 
   useEffect(() => {
-    const isBusy = uploads.some((u) => u.status === 'uploading');
+    const isBusy = uploads.some(
+      (u) => u.status === 'uploading' || u.status === 'processing',
+    );
 
     if (isBusy) return;
 

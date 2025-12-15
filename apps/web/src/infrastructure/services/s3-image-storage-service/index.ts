@@ -2,6 +2,7 @@ import {
   COVER_IMAGES_BUCKET_NAME,
   PHOTOS_BUCKET_NAME,
   PROFILE_IMAGES_BUCKET_NAME,
+  THUMBNAILS_BUCKET_NAME,
 } from '@/application/use-cases/images/constants';
 import { serverEnv } from '@/env/server';
 
@@ -19,6 +20,7 @@ const s3ImageStorage = new S3ImageStorageService(
   PHOTOS_BUCKET_NAME,
   COVER_IMAGES_BUCKET_NAME,
   PROFILE_IMAGES_BUCKET_NAME,
+  THUMBNAILS_BUCKET_NAME,
 ].forEach(async (bucketName) => {
   await s3ImageStorage.createBucket(bucketName);
 });

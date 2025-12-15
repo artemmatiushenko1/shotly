@@ -172,6 +172,7 @@ function UploadStatusWidget() {
                   <span className="mr-2">
                     {formatBytes(upload.file.size, t)}
                   </span>
+                  {upload.status === 'processing' && <span>Processing...</span>}
                   {upload.status === 'uploading' && (
                     <span>{upload.progress}% completed</span>
                   )}
@@ -183,7 +184,9 @@ function UploadStatusWidget() {
                 </p>
               </div>
               <div className="ml-auto">
-                {upload.status === 'uploading' || upload.status === 'idle' ? (
+                {upload.status === 'uploading' ||
+                upload.status === 'idle' ||
+                upload.status === 'processing' ? (
                   <Spinner size="sm" className="text-primary" />
                 ) : upload.status === 'completed' ? (
                   <div className="bg-green-500 rounded-full p-0.5">

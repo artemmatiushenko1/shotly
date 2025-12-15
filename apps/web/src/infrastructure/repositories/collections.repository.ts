@@ -145,6 +145,8 @@ class CollectionsRepository {
         metadata: {}, // TODO: get metadata from the file
         url: input.url,
         storageKey: input.storageKey,
+        thumbnailUrl: input.thumbnailUrl,
+        thumbnailKey: input.thumbnailKey,
       })
       .returning();
 

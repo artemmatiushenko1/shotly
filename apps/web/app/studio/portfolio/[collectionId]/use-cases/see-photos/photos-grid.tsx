@@ -49,7 +49,7 @@ const PhotosGrid = (props: PhotosGridProps) => {
             id={photo.id}
             size={formatBytes(photo.sizeInBytes, t)}
             isCoverPhoto={photo.id === coverPhotoId}
-            url={photo.url}
+            url={photo.thumbnailUrl}
             collectionId={collectionId}
             filename={photo.originalFilename}
           />

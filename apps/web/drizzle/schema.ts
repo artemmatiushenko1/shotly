@@ -306,6 +306,8 @@ export const photosTable = pgTable('photos', {
   id: uuid('id').defaultRandom().primaryKey(),
   storageKey: text('storage_key').notNull().unique(),
   url: text('url').notNull(),
+  thumbnailUrl: text('thumbnail_url').notNull(),
+  thumbnailKey: text('thumbnail_key').notNull(),
   sizeInBytes: bigint('size_in_bytes', { mode: 'number' }).notNull(),
   originalFilename: text('original_filename'),
   width: integer('width').notNull(),

@@ -71,6 +71,13 @@
       "when": 1765724181164,
       "tag": "0009_minor_shadowcat",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1765804161429,
+      "tag": "0010_lethal_iron_patriot",
+      "breakpoints": true
     }
   ]
 }

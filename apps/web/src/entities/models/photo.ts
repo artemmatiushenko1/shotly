@@ -30,6 +30,8 @@ export const photoSchema = z.object({
   collectionId: z.string(),
   storageKey: z.string(),
   status: z.enum(PhotoUploadStatus),
+  thumbnailUrl: z.string(),
+  thumbnailKey: z.string(),
 });
 
 export type Photo = z.infer<typeof photoSchema>;
@@ -40,6 +42,8 @@ export const createPhotoInputSchema = photoSchema.pick({
   format: true,
   url: true,
   storageKey: true,
+  thumbnailUrl: true,
+  thumbnailKey: true,
 });
 
 export type CreatePhotoInput = z.infer<typeof createPhotoInputSchema>;
