@@ -1,13 +1,13 @@
 import z from 'zod';
 
 export const photoMetadataSchema = z.object({
-  cameraMake: z.string().nullable(),
-  cameraModel: z.string().nullable(),
-  lens: z.string().nullable(),
-  focalLength: z.number().nullable(),
-  aperture: z.number().nullable(),
-  shutterSpeed: z.number().nullable(),
-  iso: z.number().nullable(),
+  cameraMake: z.string().nullish(),
+  cameraModel: z.string().nullish(),
+  lens: z.string().nullish(),
+  focalLength: z.number().nullish(),
+  aperture: z.number().nullish(),
+  shutterSpeed: z.number().nullish(),
+  iso: z.number().nullish(),
 });
 
 export type PhotoMetadata = z.infer<typeof photoMetadataSchema>;

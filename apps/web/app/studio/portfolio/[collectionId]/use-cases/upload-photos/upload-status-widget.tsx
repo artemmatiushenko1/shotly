@@ -44,10 +44,12 @@ function UploadStatusWidget() {
     (upload) => upload.status === 'failed',
   ).length;
 
+  const completedOrFailedUploadsCount = completedUploads + failedUploads;
+
   const currentUploadFileNumber =
-    completedUploads === uploads.length
-      ? completedUploads
-      : completedUploads + 1;
+    completedOrFailedUploadsCount === uploads.length
+      ? completedOrFailedUploadsCount
+      : completedOrFailedUploadsCount + 1;
 
   function formatSecondsLeft(seconds: number): string {
     if (!seconds || !isFinite(seconds)) return '';
