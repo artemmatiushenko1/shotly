@@ -25,7 +25,6 @@ const PhotoCard = (props: PhotoCardProps) => {
           alt={filename}
           width={300}
           height={300}
-          quality={50}
           className="w-full h-48 object-cover"
         />
         {isCoverPhoto && (

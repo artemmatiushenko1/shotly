@@ -19,15 +19,14 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@shotly/ui/components/collapsible';
-import { Skeleton } from '@shotly/ui/components/skeleton';
 import { Spinner } from '@shotly/ui/components/spinner';
 import { cn } from '@shotly/ui/lib/utils';
 
-import { usePhotosUpload } from '../../photos-upload.context';
+import { usePhotosUploadQueue } from '../../photos-upload-queue.context';
 import { formatBytes } from '../../utils';
 
 function UploadStatusWidget() {
-  const { isBatchLoading, uploads, timeLeft } = usePhotosUpload();
+  const { isLoading, uploads, timeLeft } = usePhotosUploadQueue();
 
   const t = useTranslations();
 
@@ -63,7 +62,7 @@ function UploadStatusWidget() {
   }
 
   const getHeaderTitle = () => {
-    if (isBatchLoading) {
+    if (isLoading) {
       return `Uploading ${currentUploadFileNumber} of ${uploads.length} photos`;
     }
 
@@ -81,7 +80,7 @@ function UploadStatusWidget() {
   };
 
   const getHeaderSubtitle = () => {
-    if (isBatchLoading) {
+    if (isLoading) {
       return timeLeft
         ? `${formatSecondsLeft(timeLeft)} left`
         : 'Calculating remaining time...';
@@ -145,7 +144,7 @@ function UploadStatusWidget() {
             <XIcon className="size-4" />
           </Button>
         </div>
-        {isBatchLoading && (
+        {isLoading && (
           <GradientLoadingProgress className="absolute top-0 left-0 w-full" />
         )}
       </div>
@@ -153,6 +152,11 @@ function UploadStatusWidget() {
         className={cn(
           'p-3 px-4 pr-5 space-y-4 bg-background dark:bg-sidebar rounded-b-lg transition-all border',
         )}
+        style={{
+          width: 'var(--radix-collapsible-content-width)',
+          maxHeight: '300px',
+          overflowY: 'auto',
+        }}
       >
         {uploads.map((upload) => {
           return (
@@ -160,8 +164,10 @@ function UploadStatusWidget() {
               <div className="bg-primary/10 rounded-full p-2">
                 <ImageIcon className="size-4" />
               </div>
-              <div>
-                <h3 className="text-sm font-medium mb-1">{upload.file.name}</h3>
+              <div className="overflow-hidden">
+                <h3 className="text-sm font-medium mb-1 truncate">
+                  {upload.file.name}
+                </h3>
                 <p className="text-xs text-muted-foreground">
                   <span className="mr-2">
                     {formatBytes(upload.file.size, t)}

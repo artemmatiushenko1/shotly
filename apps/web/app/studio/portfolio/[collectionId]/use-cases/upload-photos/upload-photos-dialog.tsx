@@ -17,7 +17,7 @@ import {
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
 
-import { usePhotosUpload } from '../../photos-upload.context';
+import { usePhotosUploadQueue } from '../../photos-upload-queue.context';
 import SelectedFilesList from './selected-files-list';
 
 type SelectedFile = {
@@ -43,7 +43,7 @@ const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
   const [uploadFiles, setUploadFiles] = useState<SelectedFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
 
-  const { uploadPhotos } = usePhotosUpload();
+  const { uploadPhotos } = usePhotosUploadQueue();
 
   const handleFiles = useCallback((files: FileList) => {
     const newFiles: SelectedFile[] = [];
