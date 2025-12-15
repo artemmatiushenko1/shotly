@@ -20,12 +20,10 @@ import {
 import { usePhotosUpload } from '../../photos-upload.context';
 import SelectedFilesList from './selected-files-list';
 
-type UploadFile = {
+type SelectedFile = {
   id: string;
   file: File;
   preview: string;
-  status: 'uploading' | 'success' | 'error';
-  progress: number;
 };
 
 type UploadPhotosDialogProps = {
@@ -42,26 +40,19 @@ const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [dragActive, setDragActive] = useState(false);
-  const [uploadFiles, setUploadFiles] = useState<UploadFile[]>([]);
+  const [uploadFiles, setUploadFiles] = useState<SelectedFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
 
   const { uploadPhotos } = usePhotosUpload();
 
   const handleFiles = useCallback((files: FileList) => {
-    const newFiles: UploadFile[] = [];
+    const newFiles: SelectedFile[] = [];
 
     Array.from(files).forEach((file) => {
       if (file.type.startsWith('image/')) {
-        const id = Date.now() + Math.random().toString();
+        const id = crypto.randomUUID();
         const preview = URL.createObjectURL(file);
-
-        newFiles.push({
-          id,
-          file,
-          preview,
-          status: 'success',
-          progress: 100,
-        });
+        newFiles.push({ id, file, preview });
       }
     });
 

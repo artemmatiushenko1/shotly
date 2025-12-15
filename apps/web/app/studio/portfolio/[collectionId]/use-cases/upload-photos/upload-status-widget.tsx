@@ -40,9 +40,64 @@ function UploadStatusWidget() {
     (upload) => upload.status === 'completed',
   ).length;
 
+  const failedUploads = uploads.filter(
+    (upload) => upload.status === 'failed',
+  ).length;
+
+  const currentUploadFileNumber =
+    completedUploads === uploads.length
+      ? completedUploads
+      : completedUploads + 1;
+
+  const getHeaderTitle = () => {
+    if (failedUploads === uploads.length) {
+      return 'Upload Failed';
+    }
+
+    if (failedUploads > 0) {
+      return `Upload Finished: ${failedUploads} Failed`;
+    }
+
+    if (completedUploads === uploads.length) {
+      return 'Upload Complete';
+    }
+
+    return `Uploading ${currentUploadFileNumber} of ${uploads.length} photos`;
+  };
+
+  const getHeaderSubtitle = () => {
+    if (isBatchLoading) {
+      return '12 seconds left';
+    }
+
+    if (completedUploads === uploads.length) {
+      return 'All photos uploaded successfully';
+    }
+
+    if (failedUploads === uploads.length) {
+      return `Could not upload ${failedUploads} photos`;
+    }
+
+    if (failedUploads > 0) {
+      return `${completedUploads} successful, ${failedUploads} failed`;
+    }
+  };
+
+  const getIcon = () => {
+    if (failedUploads > 0) {
+      return <XIcon className="size-6" />;
+    }
+
+    if (completedUploads === uploads.length) {
+      return <CheckIcon className="size-6" />;
+    }
+
+    return <CloudUploadIcon className="size-6" />;
+  };
+
   return (
     <Collapsible
-      className="shadow-lg rounded-lg border"
+      className="shadow-lg rounded-lg border-0"
       open={isOpen}
       onOpenChange={setIsOpen}
     >
@@ -52,14 +107,10 @@ function UploadStatusWidget() {
           !isOpen && 'rounded-lg',
         )}
       >
-        <div className="bg-accent/10 rounded-full p-2">
-          <CloudUploadIcon className="size-6" />
-        </div>
+        <div className="bg-accent/10 rounded-full p-2">{getIcon()}</div>
         <div>
-          <h2 className="text-sm font-medium">
-            Uploading {completedUploads} of {uploads.length} photos
-          </h2>
-          <p className="text-xs text-muted-foreground">12 seconds left</p>
+          <h2 className="text-sm font-medium">{getHeaderTitle()}</h2>
+          <p className="text-xs text-muted-foreground">{getHeaderSubtitle()}</p>
         </div>
         <div className="ml-auto flex items-center gap-2">
           <CollapsibleTrigger asChild>
@@ -81,7 +132,7 @@ function UploadStatusWidget() {
       </div>
       <CollapsibleContent
         className={cn(
-          'p-3 px-4 space-y-4 bg-background dark:bg-sidebar rounded-b-lg transition-all',
+          'p-3 px-4 pr-5 space-y-4 bg-background dark:bg-sidebar rounded-b-lg transition-all border',
         )}
       >
         {uploads.map((upload) => {

@@ -5,40 +5,49 @@ import { s3ImageStorage } from '@/infrastructure/services/s3-image-storage-servi
 
 import { PHOTOS_BUCKET_NAME } from '../images/constants';
 
-export type InitiatePhotosBatchUploadInput = (Pick<
+export type BatchUploadItem = Pick<
   CreatePhotoInput,
   'originalFilename' | 'format' | 'sizeInBytes'
 > & {
   uploadId: string;
-})[];
+};
+
+export type BatchUploadResult = {
+  uploadId: string;
+  photoId: string;
+  uploadUrl: string;
+  storageKey: string;
+  originalFilename: string;
+  format: string;
+  sizeInBytes: number;
+  publicUrl: string;
+};
 
 export const initiatePhotosBatchUploadUseCase = async (
   userId: string,
   collectionId: string,
-  input: InitiatePhotosBatchUploadInput,
-) => {
+  items: BatchUploadItem[],
+): Promise<Map<string, BatchUploadResult>> => {
   const uploadRequests = await Promise.all(
-    input.map(async (photo) => {
-      return [
-        photo.uploadId,
-        await s3ImageStorage.prepareUpload(
-          photo.originalFilename,
-          photo.format,
-          PHOTOS_BUCKET_NAME,
-        ),
-      ] as const;
+    items.map(async (item) => {
+      const { uploadUrl, key, publicUrl } = await s3ImageStorage.prepareUpload(
+        item.originalFilename,
+        item.format,
+        PHOTOS_BUCKET_NAME,
+      );
+      return { uploadId: item.uploadId, uploadUrl, key, publicUrl };
     }),
   );
 
-  const uploadRequestsMap = new Map(uploadRequests);
-  const inputsMap = new Map(input.map((input) => [input.uploadId, input]));
+  const uploadRequestsMap = new Map(uploadRequests.map((r) => [r.uploadId, r]));
+  const itemsMap = new Map(items.map((i) => [i.uploadId, i]));
 
-  const createdPhotos = await Promise.all(
-    input.map(async (input) => {
-      const uploadRequest = uploadRequestsMap.get(input.uploadId);
+  const results = await Promise.all(
+    items.map(async (item) => {
+      const request = uploadRequestsMap.get(item.uploadId);
+      const inputData = itemsMap.get(item.uploadId);
 
-      const inputData = inputsMap.get(input.uploadId);
-      if (!uploadRequest || !inputData) {
+      if (!request || !inputData) {
         throw new Error('Upload request or input data not found');
       }
 
@@ -47,10 +56,10 @@ export const initiatePhotosBatchUploadUseCase = async (
         collectionId,
         {
           format: inputData.format,
-          url: uploadRequest.publicUrl,
+          url: request.publicUrl,
           sizeInBytes: inputData.sizeInBytes,
           originalFilename: inputData.originalFilename,
-          storageKey: uploadRequest.key,
+          storageKey: request.key,
         },
       );
 
@@ -58,32 +67,20 @@ export const initiatePhotosBatchUploadUseCase = async (
         throw new DatabaseOperationError('Failed to create photo');
       }
 
-      return [input.uploadId, photo] as const;
-    }),
-  );
-
-  const response = createdPhotos.map(([uploadId, photo]) => {
-    const uploadRequest = uploadRequestsMap.get(uploadId);
-
-    if (!uploadRequest) {
-      throw new Error('Upload request not found');
-    }
-
-    return [
-      uploadId,
-      {
+      const result: BatchUploadResult = {
+        uploadId: item.uploadId,
         photoId: photo.id,
-        uploadUrl: uploadRequest.uploadUrl,
-        storageKey: uploadRequest.key,
+        uploadUrl: request.uploadUrl,
+        storageKey: request.key,
         originalFilename: photo.originalFilename,
         format: photo.format,
         sizeInBytes: photo.sizeInBytes,
-        url: uploadRequest.publicUrl,
-      },
-    ] as const;
-  });
+        publicUrl: request.publicUrl,
+      };
 
-  console.log(response);
+      return [item.uploadId, result] as const;
+    }),
+  );
 
-  return new Map(response);
+  return new Map(results);
 };

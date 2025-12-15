@@ -2,23 +2,23 @@
 
 import { createContext, useContext, useState, useTransition } from 'react';
 
+import { BatchUploadResult } from '@/application/use-cases/portfolio/initiate-photos-batch-upload.use-case';
 import { Photo } from '@/entities/models/photo';
 import { uploadFileViaXhr } from '@/utils/files/upload-file';
 
 import { initiatePhotosBatchUploadAction } from './use-cases/upload-photos/actions';
 
-export type PhotoUpload = {
-  file: File;
+export type ActiveUpload = {
   uploadId: string;
-  photoId: string | null;
+  file: File;
   status: 'idle' | 'uploading' | 'completed' | 'failed';
   progress: number;
-  uploadUrl: string;
+  result?: BatchUploadResult;
 };
 
 const PhotosUploadContext = createContext<{
-  uploads: PhotoUpload[];
-  setUploads: (uploads: PhotoUpload[]) => void;
+  uploads: ActiveUpload[];
+  setUploads: (uploads: ActiveUpload[]) => void;
   isBatchLoading: boolean;
   uploadPhotos: (files: File[]) => Promise<void>;
 }>({
@@ -38,74 +38,68 @@ type PhotosUploadProviderProps = {
 export const PhotosUploadProvider = (props: PhotosUploadProviderProps) => {
   const { userId, collectionId, children } = props;
 
-  const [uploads, setUploads] = useState<PhotoUpload[]>([]);
+  const [uploads, setUploads] = useState<ActiveUpload[]>([]);
   const [isBatchLoading, startBatchLoadingTransition] = useTransition();
 
+  const updateUpload = (id: string, patch: Partial<ActiveUpload>) => {
+    setUploads((prev) =>
+      prev.map((u) => (u.uploadId === id ? { ...u, ...patch } : u)),
+    );
+  };
+
   const uploadPhotos = async (files: File[]) => {
-    const uploadInputs = files.map((file) => ({
-      originalFilename: file.name,
-      format: file.type,
-      sizeInBytes: file.size,
+    // 1. Initialize local state immediately
+    const newUploads: ActiveUpload[] = files.map((file) => ({
+      file,
       uploadId: crypto.randomUUID(),
+      status: 'idle',
+      progress: 0,
+    }));
+
+    setUploads(newUploads);
+
+    // 2. Prepare payload for server
+    const batchInput = newUploads.map((u) => ({
+      originalFilename: u.file.name,
+      format: u.file.type,
+      sizeInBytes: u.file.size,
+      uploadId: u.uploadId,
     }));
 
     startBatchLoadingTransition(async () => {
       // TODO: don't do batch, because we need to check upload storage quota
-      const uploadRequests = await initiatePhotosBatchUploadAction(
+      const responseMap = await initiatePhotosBatchUploadAction(
         userId,
         collectionId,
-        uploadInputs,
+        batchInput,
       );
 
-      const uploadsQueue: PhotoUpload[] = uploadInputs.map((upload) => {
-        const uploadRequest = uploadRequests.get(upload.uploadId);
+      // 3. Process uploads
+      for (const upload of newUploads) {
+        const serverData = responseMap.get(upload.uploadId);
 
-        if (!uploadRequest) {
-          throw new Error('Upload request not found');
-        }
-        const file = files.find(
-          (file) => file.name === upload.originalFilename,
-        );
-        if (!file) {
-          throw new Error('File not found');
+        if (!serverData) {
+          updateUpload(upload.uploadId, { status: 'failed' });
+          continue;
         }
 
-        return {
-          file,
-          uploadId: upload.uploadId,
-          photoId: uploadRequest.photoId,
-          status: 'idle',
-          progress: 0,
-          uploadUrl: uploadRequest.uploadUrl,
-        };
-      });
+        // Attach server data and start XHR
+        updateUpload(upload.uploadId, {
+          status: 'uploading',
+          result: serverData,
+        });
 
-      setUploads(uploadsQueue);
-
-      for (const upload of uploadsQueue) {
-        setUploads((prevUploads) =>
-          prevUploads.map((prevUpload) =>
-            prevUpload.uploadId === upload.uploadId
-              ? { ...prevUpload, status: 'uploading' }
-              : prevUpload,
-          ),
-        );
-
-        if (upload.uploadUrl) {
-          await uploadFileViaXhr(upload.uploadUrl, upload.file, (progress) => {
-            setUploads((prevUploads) =>
-              prevUploads.map((prevUpload) =>
-                prevUpload.uploadId === upload.uploadId
-                  ? {
-                      ...prevUpload,
-                      progress,
-                      status: progress === 100 ? 'completed' : 'uploading',
-                    }
-                  : prevUpload,
-              ),
-            );
-          });
-
+        if (serverData.uploadUrl) {
+          await uploadFileViaXhr(
+            serverData.uploadUrl,
+            upload.file,
+            (progress) => {
+              updateUpload(upload.uploadId, {
+                progress,
+                status: progress === 100 ? 'completed' : 'uploading',
+              });
+            },
+          );
           // TODO: confirm upload, show photo in ui
         }
       }
