@@ -20,11 +20,12 @@ const CollectionCover = (props: CollectionCoverProps) => {
     <div className="w-full h-60 relative">
       {coverImageUrl ? (
         <Image
+          priority
           className="w-full h-full object-cover rounded-md border"
           src={coverImageUrl}
           width={400}
           height={200}
-          // quality={100}
+          quality={100}
           alt={t('alt')}
         />
       ) : (

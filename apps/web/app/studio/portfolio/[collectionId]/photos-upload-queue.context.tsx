@@ -132,6 +132,8 @@ export const PhotosUploadQueueProvider = (
         const thumbnailFile = await imageCompression(item.file, {
           maxSizeMB: 1,
           useWebWorker: true,
+          initialQuality: 0.8,
+          fileType: 'image/webp',
         });
         const thumbnailUploadPromise = uploadFileViaXhr(
           serverData.thumbnailUploadUrl,
