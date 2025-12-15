@@ -165,14 +165,21 @@ function UploadStatusWidget() {
                 <ImageIcon className="size-4" />
               </div>
               <div className="overflow-hidden">
-                <h3 className="text-sm font-medium mb-1 truncate">
+                <h3 className="text-sm font-medium mb-1 truncate max-w-[280px]">
                   {upload.file.name}
                 </h3>
                 <p className="text-xs text-muted-foreground">
                   <span className="mr-2">
                     {formatBytes(upload.file.size, t)}
                   </span>
-                  <span>{upload.progress}% completed</span>
+                  {upload.status === 'uploading' && (
+                    <span>{upload.progress}% completed</span>
+                  )}
+                  {upload.status === 'failed' && upload.errorMessage && (
+                    <span className="text-destructive">
+                      {upload.errorMessage}
+                    </span>
+                  )}
                 </p>
               </div>
               <div className="ml-auto">

@@ -1,4 +1,4 @@
-import { count, eq, sql } from 'drizzle-orm';
+import { and, count, eq, sql } from 'drizzle-orm';
 
 import {
   Collection,
@@ -7,7 +7,12 @@ import {
   UpdateCollectionInput,
 } from '@/entities/models/collection';
 import { VisibilityStatus } from '@/entities/models/common';
-import { CreatePhotoInput, Photo, photoSchema } from '@/entities/models/photo';
+import {
+  CreatePhotoInput,
+  Photo,
+  photoSchema,
+  PhotoUploadStatus,
+} from '@/entities/models/photo';
 
 // TODO: make it possible to import from @/drizzle
 import { db } from '../../../drizzle';
@@ -150,11 +155,18 @@ class CollectionsRepository {
     return photoSchema.parse(photo);
   }
 
-  async getPhotosByCollectionId(collectionId: string): Promise<Photo[]> {
-    const photos = await db
-      .select()
-      .from(photosTable)
-      .where(eq(photosTable.collectionId, collectionId));
+  async getPhotosByCollectionId(
+    collectionId: string,
+    status?: PhotoUploadStatus,
+  ): Promise<Photo[]> {
+    const whereClause = status
+      ? and(
+          eq(photosTable.collectionId, collectionId),
+          eq(photosTable.status, status),
+        )
+      : eq(photosTable.collectionId, collectionId);
+
+    const photos = await db.select().from(photosTable).where(whereClause);
 
     return photos.map((photo) => photoSchema.parse(photo));
   }
@@ -217,6 +229,17 @@ class CollectionsRepository {
 
   async deletePhoto(photoId: string): Promise<void> {
     await db.delete(photosTable).where(eq(photosTable.id, photoId)).returning();
+  }
+
+  async updatePhotoStatus(
+    photoId: string,
+    status: PhotoUploadStatus,
+  ): Promise<void> {
+    await db
+      .update(photosTable)
+      .set({ status })
+      .where(eq(photosTable.id, photoId))
+      .returning();
   }
 }
 

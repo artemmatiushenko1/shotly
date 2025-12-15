@@ -114,8 +114,11 @@ export class S3ImageStorageService implements IImageStorage {
     // 2. Construct the Key safely
     // If folder is provided: "folder/filename"
     // If no folder: "filename"
-    let key = cleanFolder ? `${cleanFolder}/${filename}` : filename;
-    key += `-${crypto.randomUUID()}`;
+    const extension = filename.split('.').pop() ?? contentType.split('/').pop();
+    const randomName = crypto.randomUUID();
+    const key = cleanFolder
+      ? `${cleanFolder}/${randomName}.${extension}`
+      : `${randomName}.${extension}`;
 
     const command = new PutObjectCommand({
       Bucket: bucket,

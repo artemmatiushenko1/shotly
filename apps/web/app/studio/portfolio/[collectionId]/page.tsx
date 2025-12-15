@@ -104,11 +104,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
           status={collection.visibilityStatus}
         />
       </div>
-      <PhotosUploadQueueProvider
-        userId={user.id}
-        collectionId={collection.id}
-        existingPhotos={photos}
-      >
+      <PhotosUploadQueueProvider userId={user.id} collectionId={collection.id}>
         <PhotosGrid
           coverPhotoId={coverPhoto?.id ?? null}
           collectionId={collection.id}

@@ -11,10 +11,13 @@ import {
 } from 'react';
 
 import { UploadResult } from '@/application/use-cases/portfolio';
-import { Photo } from '@/entities/models/photo';
+import { NotEnoughStorageError } from '@/entities/errors/storage';
 import { uploadFileViaXhr } from '@/utils/files/upload-file';
 
-import { preparePhotoUploadAction } from './use-cases/upload-photos/actions';
+import {
+  confirmPhotoUploadAction,
+  preparePhotoUploadAction,
+} from './use-cases/upload-photos/actions';
 
 export type ActiveUpload = {
   uploadId: string;
@@ -22,6 +25,7 @@ export type ActiveUpload = {
   status: 'idle' | 'uploading' | 'completed' | 'failed';
   progress: number;
   result?: UploadResult;
+  errorMessage?: string;
 };
 
 type PhotosUploadQueueContextType = {
@@ -44,7 +48,6 @@ type PhotosUploadQueueProviderProps = {
   userId: string;
   collectionId: string;
   children: React.ReactNode;
-  existingPhotos: Photo[];
 };
 
 export const PhotosUploadQueueProvider = (
@@ -135,6 +138,12 @@ export const PhotosUploadQueueProvider = (
           },
         );
 
+        await confirmPhotoUploadAction(
+          userId,
+          serverData.photo.id,
+          collectionId,
+        );
+
         updateUpload(item.uploadId, {
           status: 'completed',
           progress: 100,
@@ -142,8 +151,18 @@ export const PhotosUploadQueueProvider = (
 
         // TODO: confirm upload, show photo in ui (if needed beyond status)
       } catch (error) {
-        console.error(`Failed to upload ${item.file.name}:`, error);
-        updateUpload(item.uploadId, { status: 'failed' });
+        if (
+          error instanceof Error &&
+          'digest' in error &&
+          error.digest === NotEnoughStorageError.DIGEST
+        ) {
+          updateUpload(item.uploadId, {
+            status: 'failed',
+            errorMessage: 'Not enough storage',
+          });
+        } else {
+          updateUpload(item.uploadId, { status: 'failed' });
+        }
 
         // Optional: If you want to stop remaining uploads on error, add `break;` here.
         // Currently, it continues to try the next file.

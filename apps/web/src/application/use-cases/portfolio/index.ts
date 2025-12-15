@@ -1,4 +1,5 @@
 export { changeCollectionVisibilityUseCase } from './change-collection-visibility.use-case';
+export { confirmPhotoUploadUseCase } from './confirm-photo-upload.use-case';
 export { createCollectionUseCase } from './create-collection.use-case';
 export { deleteCollectionUseCase } from './delete-collection.use-case';
 export { deletePhotoUseCase } from './delete-photo.use-case';
