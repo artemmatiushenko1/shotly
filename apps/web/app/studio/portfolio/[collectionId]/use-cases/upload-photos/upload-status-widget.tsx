@@ -19,6 +19,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@shotly/ui/components/collapsible';
+import { Skeleton } from '@shotly/ui/components/skeleton';
 import { Spinner } from '@shotly/ui/components/spinner';
 import { cn } from '@shotly/ui/lib/utils';
 
@@ -26,7 +27,7 @@ import { usePhotosUpload } from '../../photos-upload.context';
 import { formatBytes } from '../../utils';
 
 function UploadStatusWidget() {
-  const { isBatchLoading, uploads } = usePhotosUpload();
+  const { isBatchLoading, uploads, timeLeft } = usePhotosUpload();
 
   const t = useTranslations();
 
@@ -49,9 +50,25 @@ function UploadStatusWidget() {
       ? completedUploads
       : completedUploads + 1;
 
+  function formatSecondsLeft(seconds: number): string {
+    if (!seconds || !isFinite(seconds)) return '';
+
+    if (seconds < 60) {
+      return `${Math.round(seconds)}s`;
+    }
+
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.round(seconds % 60);
+    return `${minutes}m ${remainingSeconds}s`;
+  }
+
   const getHeaderTitle = () => {
     if (isBatchLoading) {
       return `Uploading ${currentUploadFileNumber} of ${uploads.length} photos`;
+    }
+
+    if (completedUploads === uploads.length) {
+      return 'Upload Complete';
     }
 
     if (failedUploads === uploads.length) {
@@ -61,15 +78,13 @@ function UploadStatusWidget() {
     if (failedUploads > 0) {
       return `Upload Finished: ${failedUploads} Failed`;
     }
-
-    if (completedUploads === uploads.length) {
-      return 'Upload Complete';
-    }
   };
 
   const getHeaderSubtitle = () => {
     if (isBatchLoading) {
-      return '12 seconds left';
+      return timeLeft
+        ? `${formatSecondsLeft(timeLeft)} left`
+        : 'Calculating remaining time...';
     }
 
     if (completedUploads === uploads.length) {
@@ -112,7 +127,9 @@ function UploadStatusWidget() {
         <div className="bg-accent/10 rounded-full p-2">{getIcon()}</div>
         <div>
           <h2 className="text-sm font-medium">{getHeaderTitle()}</h2>
-          <p className="text-xs text-muted-foreground">{getHeaderSubtitle()}</p>
+          <div className="text-xs text-muted-foreground h-3">
+            {getHeaderSubtitle()}
+          </div>
         </div>
         <div className="ml-auto flex items-center gap-2">
           <CollapsibleTrigger asChild>

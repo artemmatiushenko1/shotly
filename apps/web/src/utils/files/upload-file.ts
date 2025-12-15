@@ -1,7 +1,7 @@
 export function uploadFileViaXhr(
   url: string,
   file: File,
-  onProgress: (percent: number) => void,
+  onProgress: (loaded: number, total: number) => void,
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -9,8 +9,7 @@ export function uploadFileViaXhr(
     // 1. Hook into the "upload" progress event
     xhr.upload.onprogress = (event) => {
       if (event.lengthComputable) {
-        const percent = Math.round((event.loaded / event.total) * 100);
-        onProgress(percent);
+        onProgress(event.loaded, event.total);
       }
     };
 

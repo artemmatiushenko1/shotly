@@ -1,6 +1,13 @@
 'use client';
 
-import { createContext, useContext, useState, useTransition } from 'react';
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from 'react';
 
 import { UploadResult } from '@/application/use-cases/portfolio';
 import { Photo } from '@/entities/models/photo';
@@ -21,11 +28,13 @@ const PhotosUploadContext = createContext<{
   setUploads: (uploads: ActiveUpload[]) => void;
   isBatchLoading: boolean;
   uploadPhotos: (files: File[]) => Promise<void>;
+  timeLeft: number | null;
 }>({
   isBatchLoading: false,
   uploads: [],
   setUploads: () => {},
   uploadPhotos: async () => {},
+  timeLeft: null,
 });
 
 type PhotosUploadProviderProps = {
@@ -40,6 +49,11 @@ export const PhotosUploadProvider = (props: PhotosUploadProviderProps) => {
 
   const [uploads, setUploads] = useState<ActiveUpload[]>([]);
   const [isBatchLoading, startBatchLoadingTransition] = useTransition();
+  const [loadedBytesMap, setLoadedBytesMap] = useState<Record<number, number>>(
+    {},
+  );
+
+  const batchStartTimeRef = useRef<number>(0);
 
   const updateUpload = (id: string, patch: Partial<ActiveUpload>) => {
     setUploads((prev) =>
@@ -47,7 +61,35 @@ export const PhotosUploadProvider = (props: PhotosUploadProviderProps) => {
     );
   };
 
+  const totalBatchSize = useMemo(
+    () => uploads.reduce((acc, upload) => acc + upload.file.size, 0),
+    [uploads],
+  );
+
+  const totalUploadedBytes = Object.values(loadedBytesMap).reduce(
+    (acc, bytes) => acc + bytes,
+    0,
+  );
+
+  // TODO: move remaining time calculation to a separate hook
+  const calculateTimeLeft = () => {
+    if (!isBatchLoading || totalUploadedBytes === 0) return null;
+
+    const timeElapsed = (Date.now() - batchStartTimeRef.current) / 1000; // Seconds
+    const globalSpeed = totalUploadedBytes / timeElapsed; // Bytes per second
+
+    const remainingBytes = totalBatchSize - totalUploadedBytes;
+
+    if (globalSpeed <= 0) return null;
+
+    return remainingBytes / globalSpeed; // Seconds remaining
+  };
+
+  const timeLeft = calculateTimeLeft();
+
   const uploadPhotos = async (files: File[]) => {
+    batchStartTimeRef.current = Date.now();
+
     const queueItems: ActiveUpload[] = files.map((file) => ({
       file,
       uploadId: crypto.randomUUID(),
@@ -80,10 +122,19 @@ export const PhotosUploadProvider = (props: PhotosUploadProviderProps) => {
           await uploadFileViaXhr(
             serverData.uploadUrl,
             item.file,
-            (progress) => {
+            (uploadedBytes, totalFileBytes) => {
+              setLoadedBytesMap((prev) => ({
+                ...prev,
+                [item.uploadId]: uploadedBytes,
+              }));
+
+              const progressPercent = Math.round(
+                (uploadedBytes / totalFileBytes) * 100,
+              );
+
               updateUpload(item.uploadId, {
-                progress,
-                status: progress === 100 ? 'completed' : 'uploading',
+                progress: progressPercent,
+                status: progressPercent === 100 ? 'completed' : 'uploading',
               });
             },
           );
@@ -112,6 +163,7 @@ export const PhotosUploadProvider = (props: PhotosUploadProviderProps) => {
         setUploads,
         uploadPhotos,
         isBatchLoading,
+        timeLeft,
       }}
     >
       {children}
