@@ -19,6 +19,7 @@ const isProfileComplete = (userProfile: UserProfile) => {
     userProfile.coverImageUrl !== null &&
     userProfile.profileImageUrl !== null &&
     userProfile.bio !== null &&
+    userProfile.bio !== undefined &&
     userProfile.bio.length > 0 &&
     userProfile.locations.length > 0 &&
     userProfile.languages.length > 0 &&

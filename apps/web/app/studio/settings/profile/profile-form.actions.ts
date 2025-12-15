@@ -5,7 +5,6 @@ import { revalidatePath } from 'next/cache';
 import { updateProfileUseCase } from '@/application/use-cases/account';
 import { PROFILE_IMAGES_BUCKET_NAME } from '@/application/use-cases/images/constants';
 import { getUser } from '@/infrastructure/services/auth/dal';
-import { UploadResult } from '@/infrastructure/services/image-storage-service';
 import { s3ImageStorage } from '@/infrastructure/services/s3-image-storage-service';
 import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
@@ -22,9 +21,7 @@ export const updateProfileAction = async (
     return { status: 'success', message: 'Profile updated successfully!' };
   });
 
-export const uploadTmpProfileImage = async (
-  file: File,
-): Promise<UploadResult> => {
+export const uploadTmpProfileImage = async (file: File): Promise<string> => {
   const { uploadUrl, publicUrl } = await s3ImageStorage.prepareUpload(
     file.name,
     file.type,

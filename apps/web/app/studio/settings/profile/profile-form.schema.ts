@@ -30,7 +30,7 @@ export const profileFormSchema = z.object({
     ),
   websiteUrl: z.preprocess(
     (val) => (val === '' ? undefined : val),
-    z.url().optional(),
+    z.url().nullish(),
   ),
   instagramTag: z.string(),
   yearsOfExperience: z.coerce.number().min(0),
@@ -41,11 +41,11 @@ export const profileFormSchema = z.object({
     .pipe(z.array(locationDetailsSchema)),
   coverImageUrl: z.preprocess(
     (val) => (val === '' ? undefined : val),
-    z.url().optional(),
+    z.url().nullish(),
   ),
   profileImageUrl: z.preprocess(
     (val) => (val === '' ? undefined : val),
-    z.url().optional(),
+    z.url().nullish(),
   ),
 });
 

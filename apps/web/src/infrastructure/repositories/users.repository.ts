@@ -7,11 +7,11 @@ import {
   Role,
   StorageUsage,
   storageUsageSchema,
+  UpdateUserInput,
   User,
   UserProfile,
   userProfileSchema,
   userSchema,
-  UserUpdate,
 } from '@/entities/models/user';
 
 import { db } from '../../../drizzle';
@@ -101,7 +101,10 @@ class UsersRepository {
     }
   }
 
-  async updateUser(id: string, input: Partial<UserUpdate>): Promise<User> {
+  async updateUser(
+    id: string,
+    input: Omit<UpdateUserInput, 'languages' | 'locations'>,
+  ): Promise<User> {
     const [query] = await db
       .update(usersTable)
       .set(input)

@@ -1,22 +1,14 @@
 import { ConflictError, NotFoundError } from '@/entities/errors/common';
 import { LocationDetails } from '@/entities/models/locations';
+import { UpdateUserInput } from '@/entities/models/user';
 import usersRepository from '@/infrastructure/repositories/users.repository';
 
 const updateProfileUseCase = async (
   userId: string,
-  input: Partial<{
-    name: string;
-    username: string;
-    profileImageUrl: string;
-    coverImageUrl: string;
+  input: Omit<UpdateUserInput, 'languages' | 'locations'> & {
     languages: string[];
     locations: LocationDetails[];
-    bio: string;
-    websiteUrl: string;
-    instagramTag: string;
-    yearsOfExperience: number;
-    aboutMe: string;
-  }>,
+  },
 ) => {
   // TODO: should be a single transaction
   const user = await usersRepository.getUserById(userId);
@@ -35,24 +27,16 @@ const updateProfileUseCase = async (
     }
   }
 
-  await usersRepository.updateUser(userId, {
-    username: input.username,
-    name: input.name,
-    profileImageUrl: input.profileImageUrl,
-    coverImageUrl: input.coverImageUrl,
-    bio: input.bio,
-    websiteUrl: input.websiteUrl,
-    instagramTag: input.instagramTag,
-    yearsOfExperience: input.yearsOfExperience,
-    aboutMe: input.aboutMe,
-  });
+  const { languages, locations, ...rest } = input;
 
-  if (input.languages) {
+  await usersRepository.updateUser(userId, rest);
+
+  if (languages) {
     await usersRepository.updateUserLanguages(userId, input.languages);
   }
 
   if (input.locations) {
-    await usersRepository.updateUserLocations(userId, input.locations);
+    await usersRepository.updateUserLocations(userId, locations);
   }
 };
 

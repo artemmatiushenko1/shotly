@@ -21,13 +21,13 @@ export const userSchema = z.object({
   name: z.string().min(1),
   username: z.string(),
   email: z.email(),
-  coverImageUrl: z.url().nullable(),
-  profileImageUrl: z.url().nullable(),
-  yearsOfExperience: z.number().nullable(),
-  bio: z.string().nullable(),
-  aboutMe: z.string().nullable(),
-  websiteUrl: z.url().nullable(),
-  instagramTag: z.string().nullable(),
+  coverImageUrl: z.url().nullish(),
+  profileImageUrl: z.url().nullish(),
+  yearsOfExperience: z.number().nullish(),
+  bio: z.string().nullish(),
+  aboutMe: z.string().nullish(),
+  websiteUrl: z.url().nullish(),
+  instagramTag: z.string().nullish(),
   createdAt: z.date(),
   approvalStatus: z.enum(ApprovalStatus),
 });
@@ -46,6 +46,7 @@ export const userProfileSchema = userSchema
     websiteUrl: true,
     instagramTag: true,
     createdAt: true,
+    email: true,
   })
   .and(
     z.object({
@@ -55,6 +56,27 @@ export const userProfileSchema = userSchema
   );
 
 export type UserProfile = z.infer<typeof userProfileSchema>;
+
+export const userUpdateInputSchema = userSchema
+  .pick({
+    name: true,
+    username: true,
+    coverImageUrl: true,
+    profileImageUrl: true,
+    yearsOfExperience: true,
+    bio: true,
+    aboutMe: true,
+    websiteUrl: true,
+    instagramTag: true,
+  })
+  .and(
+    z.object({
+      languages: z.array(languageSchema),
+      locations: z.array(locationDetailsSchema),
+    }),
+  );
+
+export type UpdateUserInput = z.infer<typeof userUpdateInputSchema>;
 
 export const storageUsageSchema = z.object({
   storageUsage: z.number(),

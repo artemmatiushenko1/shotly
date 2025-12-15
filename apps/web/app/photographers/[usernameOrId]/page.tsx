@@ -83,20 +83,12 @@ async function PhotographerPublicProfile({
               <div>
                 <h3 className="text-lg font-bold mb-3">{t('aboutMe')}</h3>
                 <div className="leading-relaxed space-y-4 text-muted-foreground">
-                  {/* Add about me text to profile in db*/}
-                  <p>
-                    Захоплююся створенням візуальних історій, що залишаються в
-                    пам&apos;яті назавжди. Мої роботи брали участь у локальних
-                    виставках та публікувалися онлайн. Для мене важливо, щоб
-                    кожен клієнт почувався впевнено та розкуто перед камерою,
-                    адже саме так народжуються найкращі кадри.
-                  </p>
+                  <p>{profile.aboutMe}</p>
                 </div>
               </div>
             </div>
             <div className="space-y-6 col-span-3">
               <div className="grid grid-cols-2 sm:grid-cols-2 gap-x-9 gap-y-6">
-                {/* Website */}
                 {profile.websiteUrl && (
                   <div>
                     <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
@@ -108,8 +100,10 @@ async function PhotographerPublicProfile({
                       rel="noreferrer"
                       className="flex items-center gap-2 font-medium hover:text-primary transition-colors group"
                     >
-                      {profile.websiteUrl.replace(/^https?:\/\//, '')}
-                      <ArrowUpRightIcon className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
+                      <span className="truncate">
+                        {profile.websiteUrl.replace(/^https?:\/\//, '')}
+                      </span>
+                      <ArrowUpRightIcon className="w-4 h-4 text-muted-foreground group-hover:text-primary shrink-0" />
                     </a>
                   </div>
                 )}
@@ -127,17 +121,16 @@ async function PhotographerPublicProfile({
                   </div>
                 )}
 
-                {/* Email (Mock) */}
-                <div>
+                <div className="overflow-hidden">
                   <h4 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-1">
                     {t('email')}
                   </h4>
                   <a
-                    href={`mailto:hello@${profile.username}.com`}
+                    href={`mailto:${profile.email}`}
                     className="flex items-center gap-2 font-medium hover:text-primary transition-colors group"
                   >
-                    hello@{profile.username}.com
-                    <ArrowUpRightIcon className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
+                    <span className="truncate">{profile.email}</span>
+                    <ArrowUpRightIcon className="w-4 h-4 text-muted-foreground group-hover:text-primary shrink-0" />
                   </a>
                 </div>
 
@@ -153,8 +146,8 @@ async function PhotographerPublicProfile({
                       rel="noreferrer"
                       className="flex items-center gap-2 font-medium hover:text-primary transition-colors group"
                     >
-                      @{profile.instagramTag}
-                      <ArrowUpRightIcon className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
+                      <span className="truncate">@{profile.instagramTag}</span>
+                      <ArrowUpRightIcon className="w-4 h-4 text-muted-foreground group-hover:text-primary shrink-0" />
                     </a>
                   </div>
                 )}
