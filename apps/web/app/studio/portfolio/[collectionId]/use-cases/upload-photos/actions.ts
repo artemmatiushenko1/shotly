@@ -1,12 +1,14 @@
 'use server';
 
-import { initiatePhotosBatchUploadUseCase } from '@/application/use-cases/portfolio';
-import { BatchUploadItem } from '@/application/use-cases/portfolio/initiate-photos-batch-upload.use-case';
+import {
+  InitiatePhotoUploadInput,
+  preparePhotoUploadUseCase,
+} from '@/application/use-cases/portfolio';
 
-export const initiatePhotosBatchUploadAction = async (
+export const preparePhotoUploadAction = async (
   userId: string,
   collectionId: string,
-  items: BatchUploadItem[],
+  input: InitiatePhotoUploadInput,
 ) => {
-  return await initiatePhotosBatchUploadUseCase(userId, collectionId, items);
+  return await preparePhotoUploadUseCase(userId, collectionId, input);
 };
