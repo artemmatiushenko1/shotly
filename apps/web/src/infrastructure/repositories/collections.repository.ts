@@ -83,7 +83,7 @@ class CollectionsRepository {
         photographerId: collectionsTable.photographerId,
         categoryId: collectionsTable.categoryId,
         archivedAt: collectionsTable.archivedAt,
-        coverPhotoUrl: photosTable.url,
+        coverPhotoUrl: photosTable.thumbnailUrl,
         photosCount: sql<number>`coalesce(${photosCountSq.count}, 0)`.mapWith(
           Number,
         ),
@@ -171,20 +171,6 @@ class CollectionsRepository {
     const photos = await db.select().from(photosTable).where(whereClause);
 
     return photos.map((photo) => photoSchema.parse(photo));
-  }
-
-  async getCollectionIdToCoverPhotoUrlMap(
-    userId: string,
-  ): Promise<Record<string, string>> {
-    const coverPhotoUrls = await db
-      .select({ collectionId: collectionsTable.id, url: photosTable.url })
-      .from(collectionsTable)
-      .innerJoin(photosTable, eq(collectionsTable.coverPhotoId, photosTable.id))
-      .where(eq(collectionsTable.photographerId, userId));
-
-    return Object.fromEntries(
-      coverPhotoUrls.map(({ collectionId, url }) => [collectionId, url ?? '']),
-    );
   }
 
   async updateCollectionCoverImage(
