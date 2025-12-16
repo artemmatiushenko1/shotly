@@ -45,7 +45,7 @@ const filterByCategory = (
 ) => {
   if (!categoryId) return collections;
   return collections.filter(
-    (collection) => collection.categoryId === categoryId,
+    (collection) => collection.category.id === categoryId,
   );
 };
 

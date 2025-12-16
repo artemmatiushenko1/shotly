@@ -2,7 +2,7 @@ import { ArrowUpRightIcon, BookmarkIcon } from 'lucide-react';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 
-import { getProfileByUsernameOrIdUseCase } from '@/application/use-cases/account';
+import { getProfilePageInfoByUsernameOrIdUseCase } from '@/application/use-cases/public-profile';
 
 import { Avatar, AvatarImage } from '@shotly/ui/components/avatar';
 import { Button } from '@shotly/ui/components/button';
@@ -25,7 +25,8 @@ async function PhotographerPublicProfile({
 
   const t = await getTranslations('photographerProfile');
 
-  const profile = await getProfileByUsernameOrIdUseCase(usernameOrId);
+  const { profile, collections } =
+    await getProfilePageInfoByUsernameOrIdUseCase(usernameOrId);
 
   const coverImageUrl = profile.coverImageUrl || '/default-cover.jpg';
   const profileImageUrl = profile.profileImageUrl || undefined;
@@ -191,7 +192,7 @@ async function PhotographerPublicProfile({
             </div>
           </div>
         </div>
-        <ProfileTabs />
+        <ProfileTabs collections={collections} />
       </div>
     </div>
   );

@@ -69,7 +69,7 @@ function CollectionForm(props: CollectionFormProps) {
     defaultValues?.shootDate,
   );
   const [categoryId, setCategoryId] = useState<string>(
-    defaultValues?.categoryId ?? '',
+    defaultValues?.category.id ?? '',
   );
 
   const nameId = useId();

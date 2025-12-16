@@ -1,5 +1,6 @@
 import z from 'zod';
 
+import { categorySchema } from './category';
 import { visibilityStatusSchema } from './common';
 
 export const collectionSchema = z.object({
@@ -10,22 +11,27 @@ export const collectionSchema = z.object({
   coverPhotoId: z.string().nullish(),
   visibilityStatus: visibilityStatusSchema,
   shootDate: z.date(),
-  categoryId: z.string(),
   photosCount: z.number().default(0),
   archivedAt: z.date().nullish(),
   createdAt: z.date(),
   updatedAt: z.date(),
   photographerId: z.string(),
+  category: categorySchema,
 });
 
 export type Collection = z.infer<typeof collectionSchema>;
 
-export const createCollectionInputSchema = collectionSchema.pick({
-  name: true,
-  description: true,
-  shootDate: true,
-  categoryId: true,
-});
+export const createCollectionInputSchema = collectionSchema
+  .pick({
+    name: true,
+    description: true,
+    shootDate: true,
+  })
+  .and(
+    z.object({
+      categoryId: z.string(),
+    }),
+  );
 
 export type CreateCollectionInput = z.infer<typeof createCollectionInputSchema>;
 

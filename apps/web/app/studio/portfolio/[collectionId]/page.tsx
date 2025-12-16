@@ -42,16 +42,9 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
     getAllCategoriesUseCase(),
   ]);
 
-  const category = categories.find(
-    (category) => category.id === collection.categoryId,
-  );
   const coverPhoto = photos.find(
     (photo) => photo.id === collection.coverPhotoId,
   );
-
-  if (!category) {
-    throw new Error(t('errors.categoryNotFound'));
-  }
 
   return (
     <FadeIn className="h-full flex flex-col">
@@ -100,7 +93,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
           description={collection.description ?? ''}
           photosCount={collection.photosCount}
           shootDate={collection.shootDate}
-          categoryName={category.name}
+          categoryName={collection.category.name}
           status={collection.visibilityStatus}
         />
       </div>

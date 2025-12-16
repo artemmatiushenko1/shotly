@@ -1,14 +1,16 @@
 import Image from 'next/image';
 import React from 'react';
 
+import { Category } from '@/entities/models/category';
+
 type CollectionCardProps = {
   id: string;
   coverPhotoUrl: string;
   title: string;
-  description: string;
+  description?: string | null;
   photosCount: number;
   updatedAt: Date;
-  category: string;
+  category: Category;
 };
 
 function CollectionCard({
@@ -23,8 +25,8 @@ function CollectionCard({
       <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
         <Image
           unoptimized
-          width={1000}
-          height={1000}
+          width={300}
+          height={300}
           src={coverPhotoUrl}
           alt={title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -38,7 +40,7 @@ function CollectionCard({
         <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
           <span>{photosCount} Photos</span>
           <span>•</span>
-          <span>{category}</span>
+          <span>{category.name}</span>
         </div>
       </div>
     </div>

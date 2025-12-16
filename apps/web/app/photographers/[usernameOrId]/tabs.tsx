@@ -2,6 +2,8 @@
 
 import { useTranslations } from 'next-intl';
 
+import { Collection } from '@/entities/models/collection';
+
 import {
   Tabs,
   TabsContent,
@@ -13,14 +15,18 @@ import SeePorfolio from './see-portfolio/see-porfolio';
 import SeeReviews from './see-reviews/see-reviews';
 import SeeServices from './see-services/see-services';
 
-const ProfileTabs = () => {
+type ProfileTabsProps = {
+  collections: Collection[];
+};
+
+const ProfileTabs = ({ collections }: ProfileTabsProps) => {
   const t = useTranslations('photographerProfile.tabs');
 
   const tabs = [
     {
       name: t('portfolio'),
       value: 'portfolio',
-      content: <SeePorfolio />,
+      content: <SeePorfolio collections={collections} />,
     },
     {
       name: t('services'),

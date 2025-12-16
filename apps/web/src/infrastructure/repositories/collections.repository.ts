@@ -16,11 +16,16 @@ import {
 
 // TODO: make it possible to import from @/drizzle
 import { db } from '../../../drizzle';
-import { collectionsTable, photosTable } from '../../../drizzle/schema';
+import {
+  categoriesTable,
+  collectionsTable,
+  photosTable,
+} from '../../../drizzle/schema';
 
 type CollectionRow = typeof collectionsTable.$inferSelect & {
   photosCount?: number;
   coverPhotoUrl?: string | null;
+  categoryName: string;
 };
 
 class CollectionsRepository {
@@ -35,6 +40,10 @@ class CollectionsRepository {
       updatedAt: collection.updatedAt
         ? new Date(collection.updatedAt)
         : undefined,
+      category: {
+        id: collection.categoryId,
+        name: collection.categoryName,
+      },
     });
   }
 
@@ -57,7 +66,7 @@ class CollectionsRepository {
       return null;
     }
 
-    return this.parseCollection({ ...collection, photosCount: 0 });
+    return this.getCollectionById(collection.id);
   }
 
   private getCollectionsBaseQuery() {
@@ -84,6 +93,7 @@ class CollectionsRepository {
         categoryId: collectionsTable.categoryId,
         archivedAt: collectionsTable.archivedAt,
         coverPhotoUrl: photosTable.thumbnailUrl,
+        categoryName: categoriesTable.name,
         photosCount: sql<number>`coalesce(${photosCountSq.count}, 0)`.mapWith(
           Number,
         ),
@@ -93,12 +103,24 @@ class CollectionsRepository {
       .leftJoin(
         photosCountSq,
         eq(collectionsTable.id, photosCountSq.collectionId),
+      )
+      .innerJoin(
+        categoriesTable,
+        eq(collectionsTable.categoryId, categoriesTable.id),
       );
   }
 
-  async getAllCollections(userId: string): Promise<Collection[]> {
+  async getAllCollections(
+    userId: string,
+    visibilityStatus?: VisibilityStatus,
+  ): Promise<Collection[]> {
     const collections = await this.getCollectionsBaseQuery().where(
-      eq(collectionsTable.photographerId, userId),
+      and(
+        eq(collectionsTable.photographerId, userId),
+        visibilityStatus
+          ? eq(collectionsTable.visibilityStatus, visibilityStatus)
+          : undefined,
+      ),
     );
 
     return collections.map((collection) => this.parseCollection(collection));
