@@ -1,16 +1,21 @@
 import { getTranslations } from 'next-intl/server';
 
+import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
+import { getAllLanguagesUseCase } from '@/application/use-cases/languages';
+
 import Filters from './filters';
 import PhotographerCard from './photographer-card';
 
 async function SearchPage() {
   const t = await getTranslations('landing.searchPage');
+  const categories = await getAllCategoriesUseCase();
+  const languages = await getAllLanguagesUseCase();
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold">{t('title')}</h1>
       <p className="text-sm text-muted-foreground mb-4">{t('description')}</p>
-      <Filters />
+      <Filters categories={categories} languages={languages} />
       <p className="text-lg font-bold mb-4 mt-12">
         {t('resultsCount', { count: 3 })}
       </p>

@@ -1,8 +1,8 @@
 import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
+import { getAllLanguagesUseCase } from '@/application/use-cases/languages';
 import { getProfileByUsernameOrIdUseCase } from '@/application/use-cases/public-profile';
-import languagesRepository from '@/infrastructure/repositories/languages.repository';
 import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 
 import FadeIn from '@shotly/ui/components/fade-in';
@@ -21,7 +21,7 @@ import { ProfileSettings } from './profile';
 const getProfileTabData = (userId: string) => {
   return Promise.all([
     getProfileByUsernameOrIdUseCase(userId),
-    languagesRepository.getAllLanguages(),
+    getAllLanguagesUseCase(),
   ]);
 };
 

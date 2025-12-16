@@ -16,7 +16,7 @@ import { cn } from '@shotly/ui/lib/utils';
 type CountSelectProps = {
   label: string;
   values: string[];
-  options: { value: string; label: string }[];
+  options: { value: string; label: string | React.ReactNode }[];
   onChange?: (values: string[]) => void;
 };
 

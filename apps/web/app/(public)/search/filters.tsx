@@ -1,7 +1,11 @@
 'use client';
 
+import { StarIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React from 'react';
+
+import { Category } from '@/entities/models/category';
+import { Language } from '@/entities/models/language';
 
 import { Input } from '@shotly/ui/components/input';
 import {
@@ -15,7 +19,14 @@ import {
 import CountSelect from './count-select';
 import { LabeledSelect } from './labeled-select';
 
-function Filters() {
+type FiltersProps = {
+  categories: Category[];
+  languages: Language[];
+};
+
+function Filters(props: FiltersProps) {
+  const { categories, languages } = props;
+
   const t = useTranslations('landing.searchPage.filters');
   const tBudgetRanges = useTranslations('landing.search.budgetRanges');
 
@@ -27,6 +38,27 @@ function Filters() {
     { label: tBudgetRanges('10000to20000'), value: '10000-20000' },
     { label: tBudgetRanges('over20000'), value: '20000+' },
   ];
+
+  const getRatingOptions = (maxStars: number = 5) => {
+    return Array.from({ length: maxStars }, (_, i) => {
+      const ratingValue = i + 1;
+
+      return {
+        value: String(ratingValue),
+        label: (
+          <div className="flex items-center gap-1">
+            {Array.from({ length: ratingValue }).map((_, starIndex) => (
+              <StarIcon
+                key={starIndex}
+                className="size-4 text-yellow-400 fill-yellow-400"
+              />
+            ))}
+          </div>
+        ),
+      };
+    });
+  };
+
   return (
     <div className="sticky top-0 z-10 p-4 rounded-3xl bg-[linear-gradient(to_right,_#e8ebff_0%,_#fff4ea_100%)] border">
       <div className="mb-4 lg:grid lg:grid-cols-4 lg:gap-4">
@@ -37,10 +69,11 @@ function Filters() {
           defaultValue="any"
         >
           <SelectItem value="any">{t('category.any')}</SelectItem>
-          <SelectItem value="1">Credit Card</SelectItem>
-          <SelectItem value="2">Google Pay</SelectItem>
-          <SelectItem value="3">PayPal</SelectItem>
-          <SelectItem value="4">Bitcoin</SelectItem>
+          {categories.map((category) => (
+            <SelectItem key={category.id} value={category.id}>
+              {category.name}
+            </SelectItem>
+          ))}
         </LabeledSelect>
         <LabeledSelect
           label={t('location.label')}
@@ -81,10 +114,9 @@ function Filters() {
           defaultValue="any"
         >
           <SelectItem value="any">{t('delivery.any')}</SelectItem>
-          <SelectItem value="1">Credit Card</SelectItem>
-          <SelectItem value="2">Google Pay</SelectItem>
-          <SelectItem value="3">PayPal</SelectItem>
-          <SelectItem value="4">Bitcoin</SelectItem>
+          <SelectItem value="1">Day</SelectItem>
+          <SelectItem value="2">Week</SelectItem>
+          <SelectItem value="3">Month</SelectItem>
         </LabeledSelect>
       </div>
       <div className="flex flex-row gap-4 items-start md:items-center">
@@ -92,29 +124,32 @@ function Filters() {
           <CountSelect
             label={t('languages.label')}
             values={[]}
-            options={[
-              { value: 'english', label: 'English' },
-              { value: 'spanish', label: 'Spanish' },
-              { value: 'french', label: 'French' },
-            ]}
+            options={languages.map((language) => ({
+              value: language.code,
+              label: `${language.flag} ${language.name}`,
+            }))}
           />
           <CountSelect
             label={t('experience.label')}
             values={[]}
             options={[
+              { value: '0', label: '0 years' },
               { value: '1', label: '1 year' },
               { value: '2', label: '2 years' },
               { value: '3', label: '3 years' },
+              { value: '4', label: '4 years' },
+              { value: '5', label: '5 years' },
+              { value: '6', label: '6 years' },
+              { value: '7', label: '7 years' },
+              { value: '8', label: '8 years' },
+              { value: '9', label: '9 years' },
+              { value: '10', label: '10+ years' },
             ]}
           />
           <CountSelect
             label={t('rating.label')}
             values={[]}
-            options={[
-              { value: '1', label: '1 star' },
-              { value: '2', label: '2 stars' },
-              { value: '3', label: '3 stars' },
-            ]}
+            options={getRatingOptions(5)}
           />
         </div>
         <div className="flex flex-row justify-between items-center flex-1">
