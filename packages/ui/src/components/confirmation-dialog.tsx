@@ -1,6 +1,15 @@
 'use client';
 
+import { cva } from 'class-variance-authority';
+import {
+  AlertCircleIcon,
+  CheckCircleIcon,
+  InfoIcon,
+  Trash2Icon,
+} from 'lucide-react';
 import { useState } from 'react';
+
+import { Button } from '@shotly/ui/components/button';
 import {
   Dialog,
   DialogClose,
@@ -11,15 +20,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
-import { Button } from '@shotly/ui/components/button';
-import {
-  AlertCircleIcon,
-  CheckCircleIcon,
-  InfoIcon,
-  Trash2Icon,
-} from 'lucide-react';
-
-import { cva } from 'class-variance-authority';
 import { cn } from '@shotly/ui/lib/utils';
 
 type ActionSeverity = 'neutral' | 'danger' | 'caution' | 'success' | 'info';

@@ -1,12 +1,9 @@
 'use client';
 
-import * as React from 'react';
-import { Slot } from '@radix-ui/react-slot';
 import { cva, VariantProps } from 'class-variance-authority';
 import { PanelLeftIcon } from 'lucide-react';
+import * as React from 'react';
 
-import { useIsMobile } from '@shotly/ui/hooks/use-mobile';
-import { cn } from '@shotly/ui/lib/utils';
 import { Button } from '@shotly/ui/components/button';
 import { Input } from '@shotly/ui/components/input';
 import { Separator } from '@shotly/ui/components/separator';
@@ -24,6 +21,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@shotly/ui/components/tooltip';
+import { useIsMobile } from '@shotly/ui/hooks/use-mobile';
+import { cn } from '@shotly/ui/lib/utils';
+
+import { Slot } from '@radix-ui/react-slot';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
