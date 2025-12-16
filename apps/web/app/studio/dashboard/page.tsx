@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { getOnboardingStateUseCase } from '@/application/use-cases/account';
 import { ApprovalStatus } from '@/entities/models/user';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 
 import MainHeader from '../../_components/main-header';
 import OnboardingChecklist, { OnboardingStep } from './onboarding-checklist';
@@ -49,7 +49,7 @@ const getOnboardingStepsInfo = async (
 };
 
 async function Dashboard() {
-  const user = await getUser();
+  const user = await getAuthenticatedUserOrRedirect();
 
   const t = await getTranslations('dashboard');
   const onboardingStepsInfo = await getOnboardingStepsInfo(user.id, t);

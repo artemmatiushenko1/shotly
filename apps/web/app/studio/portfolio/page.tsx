@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
 import { getPhotographerCollectionsUseCase } from '@/application/use-cases/portfolio';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 
 import { Button } from '@shotly/ui/components/button';
 import FadeIn from '@shotly/ui/components/fade-in';
@@ -16,7 +16,7 @@ import { CollectionsList } from './use-cases/see-collections/collections-list';
 const Portfolio = async () => {
   const t = await getTranslations('portfolio');
 
-  const user = await getUser();
+  const user = await getAuthenticatedUserOrRedirect();
 
   const [collections, categories] = await Promise.all([
     getPhotographerCollectionsUseCase(user.id),

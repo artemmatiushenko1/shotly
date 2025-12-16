@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 
 import { updateServiceUseCase } from '@/application/use-cases/services';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
 import {
@@ -21,7 +21,7 @@ export const updateServiceAction = async (
     serviceFormSchema,
     formData,
     async (data) => {
-      const user = await getUser();
+      const user = await getAuthenticatedUserOrRedirect();
 
       await updateServiceUseCase(user.id, serviceId, data);
       revalidatePath('/services');

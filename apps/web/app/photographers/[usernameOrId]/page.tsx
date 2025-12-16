@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 
 import { getProfilePageInfoByUsernameOrIdUseCase } from '@/application/use-cases/public-profile';
+import { getAuthenticatedUser } from '@/infrastructure/services/auth/dal';
 
 import { Avatar, AvatarImage } from '@shotly/ui/components/avatar';
 import { Button } from '@shotly/ui/components/button';
@@ -25,8 +26,10 @@ async function PhotographerPublicProfile({
 
   const t = await getTranslations('photographerProfile');
 
+  const user = await getAuthenticatedUser();
+
   const { profile, collections, services } =
-    await getProfilePageInfoByUsernameOrIdUseCase(usernameOrId);
+    await getProfilePageInfoByUsernameOrIdUseCase(usernameOrId, user?.id);
 
   const coverImageUrl = profile.coverImageUrl || '/default-cover.jpg';
   const profileImageUrl = profile.profileImageUrl || undefined;

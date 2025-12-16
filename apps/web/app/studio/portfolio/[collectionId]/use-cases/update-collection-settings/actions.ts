@@ -9,7 +9,7 @@ import {
   updateCollectionUseCase,
 } from '@/application/use-cases/portfolio';
 import { VisibilityStatus } from '@/entities/models/common';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 import {
   collectionFormSchema,
   CollectionFormValues,
@@ -20,7 +20,7 @@ export const changeCollectionVisibilityStatusAction = async (
   collectionId: string,
   status: VisibilityStatus,
 ) => {
-  const user = await getUser();
+  const user = await getAuthenticatedUserOrRedirect();
   await changeCollectionVisibilityUseCase(user.id, collectionId, status);
   revalidatePath(`/studio/portfolio/${collectionId}`);
   return { status: 'success' };
@@ -32,14 +32,14 @@ export const updateCollectionAction = async (
   formData: FormData,
 ) =>
   validatedFormAction(collectionFormSchema, formData, async (data) => {
-    const user = await getUser();
+    const user = await getAuthenticatedUserOrRedirect();
     await updateCollectionUseCase(user.id, collectionId, data);
     revalidatePath(`/studio/portfolio/${collectionId}`);
     return { status: 'success', message: 'Collection updated successfully' };
   });
 
 export const deleteCollectionAction = async (collectionId: string) => {
-  const user = await getUser();
+  const user = await getAuthenticatedUserOrRedirect();
   await deleteCollectionUseCase(user.id, collectionId);
   redirect(`/studio/portfolio`);
   return { status: 'success' };

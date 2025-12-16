@@ -6,11 +6,11 @@ import {
   archiveServiceUseCase,
   restoreServiceUseCase,
 } from '@/application/use-cases/services';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 
 export const archiveServiceAction = async (serviceId: string) => {
   try {
-    const user = await getUser();
+    const user = await getAuthenticatedUserOrRedirect();
     await archiveServiceUseCase(user.id, serviceId);
     revalidatePath('/services');
     return { success: true };
@@ -21,7 +21,7 @@ export const archiveServiceAction = async (serviceId: string) => {
 
 export const restoreServiceAction = async (serviceId: string) => {
   try {
-    const user = await getUser();
+    const user = await getAuthenticatedUserOrRedirect();
     await restoreServiceUseCase(user.id, serviceId);
     revalidatePath('/services');
     return { success: true };

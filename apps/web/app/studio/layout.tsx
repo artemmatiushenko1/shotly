@@ -1,5 +1,5 @@
 import { getStorageUsageUseCase } from '@/application/use-cases/account';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 
 import { SidebarProvider } from '@shotly/ui/components/sidebar';
 import { ThemeProvider } from '@shotly/ui/components/theme-provider';
@@ -7,7 +7,7 @@ import { ThemeProvider } from '@shotly/ui/components/theme-provider';
 import { AppSidebar } from './_ui/app-sidebar';
 
 async function Layout({ children }: { children: React.ReactNode }) {
-  const user = await getUser();
+  const user = await getAuthenticatedUserOrRedirect();
   const storageUsage = await getStorageUsageUseCase(user.id);
 
   return (

@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
 import { getPhotographerServicesUseCase } from '@/application/use-cases/services';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 
 import { Button } from '@shotly/ui/components/button';
 import FadeIn from '@shotly/ui/components/fade-in';
@@ -14,7 +14,7 @@ import CreateServiceDialog from './use-cases/create-service/creare-service-dialo
 import ServicesList from './use-cases/see-services/service-list';
 
 async function Services() {
-  const user = await getUser();
+  const user = await getAuthenticatedUserOrRedirect();
 
   const t = await getTranslations('services');
 

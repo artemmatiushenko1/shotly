@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 
 import { updateProfileUseCase } from '@/application/use-cases/account';
 import { PROFILE_IMAGES_BUCKET_NAME } from '@/application/use-cases/images/constants';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 import { s3ImageStorage } from '@/infrastructure/services/s3-image-storage-service';
 import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
@@ -15,7 +15,7 @@ export const updateProfileAction = async (
   formData: FormData,
 ) =>
   validatedFormAction(profileFormSchema, formData, async (data) => {
-    const user = await getUser();
+    const user = await getAuthenticatedUserOrRedirect();
     await updateProfileUseCase(user.id, data);
     revalidatePath('/studio/settings');
     return { status: 'success', message: 'Profile updated successfully!' };

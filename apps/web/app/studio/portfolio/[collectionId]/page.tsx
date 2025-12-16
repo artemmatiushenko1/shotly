@@ -7,7 +7,7 @@ import {
   getCollectionByIdUseCase,
   getCollectionPhotosUseCase,
 } from '@/application/use-cases/portfolio';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 
 import { Button, buttonVariants } from '@shotly/ui/components/button';
 import FadeIn from '@shotly/ui/components/fade-in';
@@ -32,7 +32,7 @@ type CollectionDetailsProps = {
 async function CollectionDetails({ params }: CollectionDetailsProps) {
   const { collectionId } = await params;
 
-  const user = await getUser();
+  const user = await getAuthenticatedUserOrRedirect();
 
   const t = await getTranslations('portfolio.collectionDetails');
 

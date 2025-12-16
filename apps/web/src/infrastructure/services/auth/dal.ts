@@ -7,8 +7,12 @@ import { Role } from '@/entities/models/user';
 
 import { auth } from './auth';
 
-// TODO: rename to getAuthenticatedUser
-export const getUser = async () => {
+export const getAuthenticatedUser = async () => {
+  const session = await auth.api.getSession({ headers: await headers() });
+  return session?.user;
+};
+
+export const getAuthenticatedUserOrRedirect = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user) {
@@ -19,7 +23,7 @@ export const getUser = async () => {
 };
 
 export const requireCustomerRole = async () => {
-  const user = await getUser();
+  const user = await getAuthenticatedUserOrRedirect();
   const isCustomer = user.role === Role.CUSTOMER;
 
   if (!isCustomer) {
@@ -28,7 +32,7 @@ export const requireCustomerRole = async () => {
 };
 
 export const requirePhotographerRole = async () => {
-  const user = await getUser();
+  const user = await getAuthenticatedUserOrRedirect();
   const isPhotographer = user.role === Role.PHOTOGRAPHER;
 
   if (!isPhotographer) {
@@ -37,6 +41,6 @@ export const requirePhotographerRole = async () => {
 };
 
 export const isNewUser = async () => {
-  const user = await getUser();
+  const user = await getAuthenticatedUserOrRedirect();
   return user.role === Role.UNKNOWN;
 };

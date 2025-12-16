@@ -3,7 +3,7 @@ import { getTranslations } from 'next-intl/server';
 
 import { getProfileByUsernameOrIdUseCase } from '@/application/use-cases/public-profile';
 import languagesRepository from '@/infrastructure/repositories/languages.repository';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 
 import FadeIn from '@shotly/ui/components/fade-in';
 import {
@@ -26,7 +26,7 @@ const getProfileTabData = (userId: string) => {
 };
 
 const Settings = async () => {
-  const user = await getUser();
+  const user = await getAuthenticatedUserOrRedirect();
   const t = await getTranslations('settings');
 
   const [profile, languages] = await getProfileTabData(user.id);

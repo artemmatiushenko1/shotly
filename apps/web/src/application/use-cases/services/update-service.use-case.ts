@@ -4,14 +4,14 @@ import {
   updateServiceInputSchema,
 } from '@/entities/models/service';
 import servicesRepository from '@/infrastructure/repositories/services.repository';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 
 export const updateServiceUseCase = async (
   userId: string,
   serviceId: string,
   input: UpdateServiceInput,
 ) => {
-  await getUser();
+  await getAuthenticatedUserOrRedirect();
 
   const service = await servicesRepository.getServiceById(serviceId);
 

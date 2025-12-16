@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 
 import { createCollectionUseCase } from '@/application/use-cases/portfolio';
-import { getUser } from '@/infrastructure/services/auth/dal';
+import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 import { FormActionState, validatedFormAction } from '@/utils/server-actions';
 
 import {
@@ -16,7 +16,7 @@ export const createCollectionAction = async (
   formData: FormData,
 ) =>
   validatedFormAction(collectionFormSchema, formData, async (data) => {
-    const user = await getUser();
+    const user = await getAuthenticatedUserOrRedirect();
     const collectionId = await createCollectionUseCase(user.id, data);
     redirect(`/studio/portfolio/${collectionId}`);
   });
