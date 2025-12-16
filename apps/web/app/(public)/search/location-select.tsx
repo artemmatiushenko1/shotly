@@ -9,6 +9,8 @@ import { Button } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
 
 type LocationSelectProps = {
+  value: LocationDetails | null;
+  onValueChange: (value: LocationDetails | null) => void;
   className?: string;
   label: string;
 };
@@ -16,12 +18,15 @@ type LocationSelectProps = {
 function LocationSelect(props: LocationSelectProps) {
   const t = useTranslations('landing.searchPage.filters');
 
-  const { className, label } = props;
+  const { className, label, onValueChange } = props;
 
   const [value, setValue] = useState<LocationDetails | null>(null);
 
   const handleChange = (location: LocationDetails) => {
-    setValue(location);
+    const shouldReset = value?.externalId === location.externalId;
+    const valueToSet = shouldReset ? null : location;
+    setValue(valueToSet);
+    onValueChange(valueToSet);
   };
 
   return (

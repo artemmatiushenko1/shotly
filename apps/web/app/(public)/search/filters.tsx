@@ -1,12 +1,20 @@
+// src/presentation/search/filters.tsx
 'use client';
 
 import { StarIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
 
-import { SortOption } from '@/application/use-cases/search';
+// Use the inferred type from your Zod schema (or the manual type if preferred)
 import { Category } from '@/entities/models/category';
 import { Language } from '@/entities/models/language';
+import { LocationDetails } from '@/entities/models/locations'; // Import LocationDetails
+import {
+  DeliveryTime,
+  PriceRange,
+  RatingOption,
+  SearchParams,
+  SortOption,
+} from '@/entities/models/search';
 
 import { Input } from '@shotly/ui/components/input';
 import {
@@ -24,35 +32,65 @@ import LocationSelect from './location-select';
 type FiltersProps = {
   categories: Category[];
   languages: Language[];
+  filters: SearchParams;
+  onFilterChange: (newFilters: Partial<SearchParams>) => void;
 };
 
-function Filters(props: FiltersProps) {
-  const { categories, languages } = props;
-
+function Filters({
+  categories,
+  languages,
+  filters,
+  onFilterChange,
+}: FiltersProps) {
   const t = useTranslations('landing.searchPage.filters');
   const tBudgetRanges = useTranslations('landing.search.budgetRanges');
 
-  const [sort, setSort] = useState<SortOption>(SortOption.PRICE_LOW_TO_HIGH);
-  const [categoryId, setCategoryId] = useState<string>('');
+  /**
+   * Generic Type-Safe Handler
+   * <K extends keyof SearchParams> ensures 'key' must be a valid property of SearchParams.
+   * 'value' is then automatically restricted to the correct type for that specific key.
+   */
+  const handleChange = <K extends keyof SearchParams>(
+    key: K,
+    value: SearchParams[K],
+  ) => {
+    onFilterChange({ [key]: value });
+  };
 
   const budgetRangesOptions = [
-    { label: tBudgetRanges('under1000'), value: '0-1000' },
-    { label: tBudgetRanges('1000to3000'), value: '1000-3000' },
-    { label: tBudgetRanges('3000to5000'), value: '3000-5000' },
-    { label: tBudgetRanges('5000to10000'), value: '5000-10000' },
-    { label: tBudgetRanges('10000to20000'), value: '10000-20000' },
-    { label: tBudgetRanges('over20000'), value: '20000+' },
+    { label: tBudgetRanges('under1000'), value: PriceRange.UNDER_1000 },
+    {
+      label: tBudgetRanges('1000to3000'),
+      value: PriceRange.BETWEEN_1000_AND_3000,
+    },
+    {
+      label: tBudgetRanges('3000to5000'),
+      value: PriceRange.BETWEEN_3000_AND_5000,
+    },
+    {
+      label: tBudgetRanges('5000to10000'),
+      value: PriceRange.BETWEEN_5000_AND_10000,
+    },
+    {
+      label: tBudgetRanges('10000to20000'),
+      value: PriceRange.BETWEEN_10000_AND_20000,
+    },
+    { label: tBudgetRanges('over20000'), value: PriceRange.OVER_20000 },
   ];
 
-  const getRatingOptions = (maxStars: number = 5) => {
-    return Array.from({ length: maxStars }, (_, i) => {
-      const ratingValue = i + 1;
-
+  const getRatingOptions = () => {
+    return [
+      RatingOption.ONE_STAR,
+      RatingOption.TWO_STARS,
+      RatingOption.THREE_STARS,
+      RatingOption.FOUR_STARS,
+      RatingOption.FIVE_STARS,
+    ].map((ratingOption, index) => {
       return {
-        value: String(ratingValue),
+        value: ratingOption,
         label: (
           <div className="flex items-center gap-1">
-            {Array.from({ length: ratingValue }).map((_, starIndex) => (
+            {Array.from({ length: index + 1 }).map((_, starIndex) => (
               <StarIcon
                 key={starIndex}
                 className="size-4 text-yellow-400 fill-yellow-400"
@@ -67,12 +105,13 @@ function Filters(props: FiltersProps) {
   return (
     <div className="sticky top-0 z-10 p-4 rounded-3xl bg-[linear-gradient(to_right,_#e8ebff_0%,_#fff4ea_100%)] border">
       <div className="mb-4 lg:grid lg:grid-cols-4 lg:gap-4">
+        {/* Category */}
         <LabeledSelect
           label={t('category.label')}
           placeholder={t('category.placeholder')}
           className="max-w-xs"
-          value={categoryId}
-          onValueChange={(value) => setCategoryId(value)}
+          value={filters.categoryId}
+          onValueChange={(val) => handleChange('categoryId', val)}
         >
           <SelectItem value="any">{t('category.any')}</SelectItem>
           {categories.map((category) => (
@@ -81,11 +120,24 @@ function Filters(props: FiltersProps) {
             </SelectItem>
           ))}
         </LabeledSelect>
-        <LocationSelect label={t('location.label')} className="max-w-xs" />
+
+        {/* Location - Strictly typed callback */}
+        <LocationSelect
+          label={t('location.label')}
+          className="max-w-xs"
+          value={filters.location}
+          onValueChange={(val: LocationDetails | null) =>
+            handleChange('location', val)
+          }
+        />
+
+        {/* Price */}
         <LabeledSelect
           className="max-w-xs"
           label={t('price.label')}
           placeholder={t('price.placeholder')}
+          value={filters.priceRange}
+          onValueChange={(val) => handleChange('priceRange', val as PriceRange)}
         >
           <SelectItem value="any">{t('price.any')}</SelectItem>
           {budgetRangesOptions.map((option) => (
@@ -94,54 +146,75 @@ function Filters(props: FiltersProps) {
             </SelectItem>
           ))}
         </LabeledSelect>
+
+        {/* Delivery Time */}
         <LabeledSelect
           label={t('delivery.label')}
           placeholder={t('delivery.placeholder')}
           className="max-w-xs"
+          value={filters.deliveryTime}
+          onValueChange={(val) =>
+            handleChange('deliveryTime', val as DeliveryTime)
+          }
         >
           <SelectItem value="any">{t('delivery.any')}</SelectItem>
-          <SelectItem value="1">Day</SelectItem>
-          <SelectItem value="2">Week</SelectItem>
-          <SelectItem value="3">Month</SelectItem>
+          <SelectItem value={DeliveryTime.UNDER_1_DAY}>Day</SelectItem>
+          <SelectItem value={DeliveryTime.UNDER_WEEK}>Week</SelectItem>
+          <SelectItem value={DeliveryTime.UNDER_MONTH}>Month</SelectItem>
         </LabeledSelect>
       </div>
+
       <div className="flex flex-row gap-4 items-start md:items-center">
         <div className="flex flex-wrap gap-2 items-center border-r border-muted pr-6">
+          {/* Languages */}
           <CountSelect
             label={t('languages.label')}
-            values={[]}
+            values={filters.languageCodes}
+            onChange={(values: string[]) =>
+              handleChange('languageCodes', values)
+            }
             options={languages.map((language) => ({
               value: language.code,
               label: `${language.flag} ${language.name}`,
             }))}
           />
+
+          {/* Experience */}
           <CountSelect
             label={t('experience.label')}
-            values={[]}
-            options={[
-              { value: '0', label: '0 years' },
-              { value: '1', label: '1 year' },
-              { value: '2', label: '2 years' },
-              { value: '3', label: '3 years' },
-              { value: '4', label: '4 years' },
-              { value: '5', label: '5 years' },
-              { value: '6', label: '6 years' },
-              { value: '7', label: '7 years' },
-              { value: '8', label: '8 years' },
-              { value: '9', label: '9 years' },
-              { value: '10', label: '10+ years' },
-            ]}
+            values={
+              filters.experienceYears !== null
+                ? [String(filters.experienceYears)]
+                : []
+            }
+            onChange={(values: string[]) =>
+              handleChange(
+                'experienceYears',
+                values.length ? Number(values[0]) : null,
+              )
+            }
+            options={Array.from({ length: 11 }, (_, i) => ({
+              value: String(i),
+              label: i === 10 ? '10+ years' : `${i} years`,
+            }))}
           />
+
+          {/* Rating */}
           <CountSelect
             label={t('rating.label')}
-            values={[]}
-            options={getRatingOptions(5)}
+            values={filters.rating ? [filters.rating] : []}
+            onChange={(values: string[]) =>
+              handleChange('rating', (values[0] || null) as RatingOption)
+            }
+            options={getRatingOptions()}
           />
         </div>
+
         <div className="flex flex-row justify-between items-center flex-1">
+          {/* Sort */}
           <Select
-            value={sort}
-            onValueChange={(value) => setSort(value as SortOption)}
+            value={filters.sort}
+            onValueChange={(val) => handleChange('sort', val as SortOption)}
           >
             <SelectTrigger className="border-none shadow-none">
               <span>
@@ -149,7 +222,7 @@ function Filters(props: FiltersProps) {
                   {t('sort.label')}
                 </span>{' '}
                 <SelectValue placeholder={t('sort.placeholder')}>
-                  {t(`sort.${sort}`)}
+                  {t(`sort.${filters.sort}`)}
                 </SelectValue>
               </span>
             </SelectTrigger>
@@ -168,10 +241,14 @@ function Filters(props: FiltersProps) {
               </SelectItem>
             </SelectContent>
           </Select>
+
+          {/* Text Search */}
           <Input
             type="search"
             placeholder={t('searchByName')}
             className="max-w-xs ml-auto shadow-none bg-background"
+            value={filters.search}
+            onChange={(e) => handleChange('search', e.target.value)}
           />
         </div>
       </div>
