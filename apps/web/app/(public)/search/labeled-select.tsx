@@ -16,7 +16,7 @@ type LabeledSelectProps = {
   value?: string;
   onValueChange?: (value: string) => void;
   disabled?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 } & Omit<React.ComponentProps<typeof Select>, 'children'>;
 

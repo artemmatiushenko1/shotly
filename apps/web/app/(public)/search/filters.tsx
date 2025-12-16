@@ -2,7 +2,6 @@
 
 import { StarIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import React from 'react';
 
 import { Category } from '@/entities/models/category';
 import { Language } from '@/entities/models/language';
@@ -18,6 +17,7 @@ import {
 
 import CountSelect from './count-select';
 import { LabeledSelect } from './labeled-select';
+import LocationSelect from './location-select';
 
 type FiltersProps = {
   categories: Category[];
@@ -75,25 +75,7 @@ function Filters(props: FiltersProps) {
             </SelectItem>
           ))}
         </LabeledSelect>
-        <LabeledSelect
-          label={t('location.label')}
-          placeholder={t('location.placeholder')}
-          className="max-w-xs"
-          defaultValue="any"
-        >
-          <SelectItem value="any">{t('location.any')}</SelectItem>
-          <SelectItem value="1">Київ</SelectItem>
-          <SelectItem value="2">Львів</SelectItem>
-          <SelectItem value="3">Одеса</SelectItem>
-          <SelectItem value="4">Харків</SelectItem>
-          <SelectItem value="5">Дніпро</SelectItem>
-          <SelectItem value="6">Запоріжжя</SelectItem>
-          <SelectItem value="7">Івано-Франківськ</SelectItem>
-          <SelectItem value="8">Кривий Ріг</SelectItem>
-          <SelectItem value="9">Миколаїв</SelectItem>
-          <SelectItem value="10">Херсон</SelectItem>
-          <SelectItem value="11">Черкаси</SelectItem>
-        </LabeledSelect>
+        <LocationSelect label={t('location.label')} />
         <LabeledSelect
           label={t('price.label')}
           placeholder={t('price.placeholder')}

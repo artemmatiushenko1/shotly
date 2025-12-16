@@ -27,6 +27,20 @@ const LocationSelector = (props: LocationSelectorProps) => {
     onChange(newLocations);
   };
 
+  const selectedLocationExternalIds = value.map(
+    (locationDetails) => locationDetails.externalId,
+  );
+
+  const handleChange = (location: LocationDetails) => {
+    const newLocations = selectedLocationExternalIds.includes(
+      location.externalId,
+    )
+      ? value.filter((item) => item !== location)
+      : [...value, location];
+
+    onChange(newLocations);
+  };
+
   const hasSelectedLocations = value.length > 0;
 
   // TODO: add removable prop to badge
@@ -56,7 +70,7 @@ const LocationSelector = (props: LocationSelectorProps) => {
     <div className="space-y-3">
       <LocationSearch
         value={value}
-        onChange={onChange}
+        onChange={handleChange}
         error={error}
         trigger={
           <Button

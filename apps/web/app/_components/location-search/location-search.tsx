@@ -18,7 +18,7 @@ import { searchLocationsAction } from './actions';
 
 type LocationSelectorProps = {
   value: LocationDetails[];
-  onChange: (locations: LocationDetails[]) => void;
+  onChange: (locations: LocationDetails) => void;
 
   inputId?: string;
   error?: string;
@@ -45,13 +45,7 @@ function LocationSearch(props: LocationSelectorProps) {
   );
 
   const toggleLocation = (location: LocationDetails) => {
-    const newLocations = selectedLocationExternalIds.includes(
-      location.externalId,
-    )
-      ? value.filter((item) => item !== location)
-      : [...value, location];
-
-    onChange(newLocations);
+    onChange(location);
   };
 
   return (
@@ -66,7 +60,7 @@ function LocationSearch(props: LocationSelectorProps) {
             <SearchIcon className="size-4 text-muted-foreground" />
             <Input
               id={inputId}
-              className="border-none focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none h-7 p-0 pl-3"
+              className="border-none focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none h-7 p-0 pl-3 dark:bg-transparent"
               onChange={(e) => searchLocations(e.target.value)}
               placeholder="Start typing..."
               autoFocus
