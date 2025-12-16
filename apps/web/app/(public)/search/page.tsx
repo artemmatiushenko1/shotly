@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
+import { getLocale } from '@/_i18n/locale';
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
 import { getAllLanguagesUseCase } from '@/application/use-cases/languages';
 
@@ -7,8 +8,9 @@ import SearchView from './search-view';
 
 async function SearchPage() {
   const t = await getTranslations('landing.searchPage');
-  const categories = await getAllCategoriesUseCase();
-  const languages = await getAllLanguagesUseCase();
+  const locale = await getLocale();
+  const categories = await getAllCategoriesUseCase(locale);
+  const languages = await getAllLanguagesUseCase(locale);
 
   // TODO: get initial search results server side
 

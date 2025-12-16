@@ -85,6 +85,13 @@
       "when": 1765817891460,
       "tag": "0011_workable_cobalt_man",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1765901724543,
+      "tag": "0012_empty_shadow_king",
+      "breakpoints": true
     }
   ]
 }

@@ -1,6 +1,7 @@
 import { Search } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
+import { getLocale } from '@/_i18n/locale';
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
 
 import { Badge } from '@shotly/ui/components/badge';
@@ -9,7 +10,8 @@ import LandingSearchBar from './landing-search-bar';
 import PhotographerAvatars from './photographer-avatars';
 
 async function LandingPage() {
-  const categories = await getAllCategoriesUseCase();
+  const locale = await getLocale();
+  const categories = await getAllCategoriesUseCase(locale);
 
   const t = await getTranslations('landing');
 

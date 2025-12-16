@@ -1,6 +1,7 @@
 import { PlusIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
+import { getLocale } from '@/_i18n/locale';
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
 import { getPhotographerServicesUseCase } from '@/application/use-cases/services';
 import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
@@ -15,11 +16,11 @@ import ServicesList from './use-cases/see-services/service-list';
 
 async function Services() {
   const user = await getAuthenticatedUserOrRedirect();
-
+  const locale = await getLocale();
   const t = await getTranslations('services');
 
   const [categories, services] = await Promise.all([
-    getAllCategoriesUseCase(),
+    getAllCategoriesUseCase(locale),
     getPhotographerServicesUseCase(user.id),
   ]);
 

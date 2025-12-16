@@ -11,6 +11,5 @@ export async function getLocale(): Promise<Locale> {
     return localeCookie.value as Locale;
   }
 
-  // Default to English
-  return 'en';
+  return Locale.EN;
 }

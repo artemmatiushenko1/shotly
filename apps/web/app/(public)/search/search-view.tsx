@@ -42,7 +42,7 @@ export default function SearchView({ categories, languages }: SearchViewProps) {
   const t = useTranslations('landing.searchPage');
 
   const [filters, setFilters] = useState<SearchParams>(INITIAL_PARAMS);
-  const [results, setResults] = useState<object[]>([]);
+  const [results] = useState<object[]>([]);
   const [isPending, startTransition] = useTransition();
 
   const performSearch = useMemo(

@@ -2,6 +2,7 @@ import { ChevronLeftIcon, SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
+import { getLocale } from '@/_i18n/locale';
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
 import {
   getCollectionByIdUseCase,
@@ -33,13 +34,14 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
   const { collectionId } = await params;
 
   const user = await getAuthenticatedUserOrRedirect();
+  const locale = await getLocale();
 
   const t = await getTranslations('portfolio.collectionDetails');
 
   const [collection, photos, categories] = await Promise.all([
     getCollectionByIdUseCase(user.id, collectionId),
     getCollectionPhotosUseCase(user.id, collectionId),
-    getAllCategoriesUseCase(),
+    getAllCategoriesUseCase(locale),
   ]);
 
   const coverPhoto = photos.find(

@@ -1,6 +1,8 @@
 import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
+import { Locale } from '@/_i18n/config';
+import { getLocale } from '@/_i18n/locale';
 import { getAllLanguagesUseCase } from '@/application/use-cases/languages';
 import { getProfileByUsernameOrIdUseCase } from '@/application/use-cases/public-profile';
 import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
@@ -18,18 +20,19 @@ import { GeneralSettings } from './general';
 import { PrivacyAndSecuritySettings } from './privacy-and-security';
 import { ProfileSettings } from './profile';
 
-const getProfileTabData = (userId: string) => {
+const getProfileTabData = (userId: string, locale: Locale) => {
   return Promise.all([
     getProfileByUsernameOrIdUseCase(userId),
-    getAllLanguagesUseCase(),
+    getAllLanguagesUseCase(locale),
   ]);
 };
 
 const Settings = async () => {
   const user = await getAuthenticatedUserOrRedirect();
   const t = await getTranslations('settings');
+  const locale = await getLocale();
 
-  const [profile, languages] = await getProfileTabData(user.id);
+  const [profile, languages] = await getProfileTabData(user.id, locale);
 
   return (
     <>

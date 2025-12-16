@@ -1,6 +1,7 @@
 import { PlusIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
+import { getLocale } from '@/_i18n/locale';
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
 import { getPhotographerCollectionsUseCase } from '@/application/use-cases/portfolio';
 import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
@@ -16,11 +17,12 @@ import { CollectionsList } from './use-cases/see-collections/collections-list';
 const Portfolio = async () => {
   const t = await getTranslations('portfolio');
 
+  const locale = await getLocale();
   const user = await getAuthenticatedUserOrRedirect();
 
   const [collections, categories] = await Promise.all([
     getPhotographerCollectionsUseCase(user.id),
-    getAllCategoriesUseCase(),
+    getAllCategoriesUseCase(locale),
   ]);
 
   return (

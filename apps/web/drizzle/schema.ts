@@ -176,6 +176,7 @@ export const collectionsTable = pgTable(
 export const languagesTable = pgTable('languages', {
   code: text('code').primaryKey(), // ISO 639-1 code
   name: text('name').notNull(),
+  nameUk: text('name_uk').notNull(),
   flag: text('flag').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
@@ -224,6 +225,7 @@ export const categoriesTable = pgTable('categories', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: text('name').notNull().unique(),
   // TODO: add one more column per interface locale (name_en, name_uk)
+  nameUk: text('name_uk').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
