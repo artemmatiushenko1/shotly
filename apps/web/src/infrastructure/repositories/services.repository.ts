@@ -1,5 +1,6 @@
-import { desc, eq, inArray } from 'drizzle-orm';
+import { and, desc, eq, inArray } from 'drizzle-orm';
 
+import { VisibilityStatus } from '@/entities/models/common';
 import {
   CreateServiceInput,
   Service,
@@ -45,11 +46,21 @@ class ServicesRepository {
       .where(eq(servicesTable.id, serviceId));
   }
 
-  async getAllServices(userId: string): Promise<Service[]> {
+  async getAllServices(
+    userId: string,
+    visibilityStatus?: VisibilityStatus,
+  ): Promise<Service[]> {
     const services = await db
       .select()
       .from(servicesTable)
-      .where(eq(servicesTable.photographerId, userId))
+      .where(
+        and(
+          eq(servicesTable.photographerId, userId),
+          visibilityStatus
+            ? eq(servicesTable.visibilityStatus, visibilityStatus)
+            : undefined,
+        ),
+      )
       .orderBy(desc(servicesTable.createdAt));
 
     if (services.length === 0) {

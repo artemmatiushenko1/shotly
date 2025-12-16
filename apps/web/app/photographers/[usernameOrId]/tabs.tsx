@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 
 import { Collection } from '@/entities/models/collection';
+import { Service } from '@/entities/models/service';
 
 import {
   Tabs,
@@ -17,9 +18,10 @@ import SeeServices from './see-services/see-services';
 
 type ProfileTabsProps = {
   collections: Collection[];
+  services: Service[];
 };
 
-const ProfileTabs = ({ collections }: ProfileTabsProps) => {
+const ProfileTabs = ({ collections, services }: ProfileTabsProps) => {
   const t = useTranslations('photographerProfile.tabs');
 
   const tabs = [
@@ -31,7 +33,7 @@ const ProfileTabs = ({ collections }: ProfileTabsProps) => {
     {
       name: t('services'),
       value: 'services',
-      content: <SeeServices />,
+      content: <SeeServices services={services} />,
     },
     {
       name: t('reviews'),
@@ -54,7 +56,6 @@ const ProfileTabs = ({ collections }: ProfileTabsProps) => {
             </TabsTrigger>
           ))}
         </TabsList>
-
         {tabs.map((tab) => (
           <TabsContent key={tab.value} value={tab.value}>
             {tab.content}

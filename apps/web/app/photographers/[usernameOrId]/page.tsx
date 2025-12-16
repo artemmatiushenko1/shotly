@@ -25,7 +25,7 @@ async function PhotographerPublicProfile({
 
   const t = await getTranslations('photographerProfile');
 
-  const { profile, collections } =
+  const { profile, collections, services } =
     await getProfilePageInfoByUsernameOrIdUseCase(usernameOrId);
 
   const coverImageUrl = profile.coverImageUrl || '/default-cover.jpg';
@@ -192,7 +192,7 @@ async function PhotographerPublicProfile({
             </div>
           </div>
         </div>
-        <ProfileTabs collections={collections} />
+        <ProfileTabs collections={collections} services={services} />
       </div>
     </div>
   );
