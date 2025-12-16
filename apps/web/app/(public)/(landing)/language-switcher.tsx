@@ -59,7 +59,7 @@ function LanguageSwitcher({ variant = 'default' }: LanguageSwitcherProps) {
             variant === 'contrast' ? 'text-gray-600' : 'text-white',
           )}
         />
-        <SelectValue />
+        <SelectValue>{localeNames[locale]}</SelectValue>
       </SelectTrigger>
       <SelectContent>
         {locales.map((loc) => (
