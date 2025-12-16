@@ -1,9 +1,11 @@
 'use client';
 
 import debounce from 'debounce';
+import { SearchIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useMemo, useState, useTransition } from 'react';
 
+import EmptyState from '@/_components/empty-state';
 import { Category } from '@/entities/models/category';
 import { Language } from '@/entities/models/language';
 import {
@@ -13,6 +15,8 @@ import {
   SearchParams,
   SortOption,
 } from '@/entities/models/search';
+
+import { Button } from '@shotly/ui/components/button';
 
 import { searchPhotographersAction } from './actions';
 import Filters from './filters';
@@ -88,17 +92,29 @@ export default function SearchView({ categories, languages }: SearchViewProps) {
           )}
         </div>
 
-        <div className="min-h-[300px] grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* {results.map((photographer) => (
-            <PhotographerCard key={photographer.id} {...photographer} />
-          ))} */}
-
-          {!isPending && results.length === 0 && (
-            <div className="col-span-2 text-center py-10 text-muted-foreground">
-              No photographers found matching your criteria.
-            </div>
-          )}
-        </div>
+        {results.length > 0 && !isPending ? (
+          <div className="min-h-[300px] grid grid-cols-1 md:grid-cols-2 gap-4">
+            {results.map((_, index) => (
+              <div key={index}>{index}</div>
+              // <PhotographerCard key={photographer.id} {...photographer} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState
+            className="mt-20"
+            icon={SearchIcon}
+            title={'No photographers found'}
+            description={'Try adjusting your search criteria'}
+            action={
+              <Button
+                variant="outline"
+                onClick={() => setFilters(INITIAL_PARAMS)}
+              >
+                Clear filters
+              </Button>
+            }
+          />
+        )}
       </div>
     </>
   );
