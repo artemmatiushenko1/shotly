@@ -14,6 +14,8 @@ export const serverEnv = createEnv({
     S3_ACCESS_KEY: z.string().nonempty(),
     S3_SECRET_KEY: z.string().nonempty(),
     S3_PUBLIC_URL: z.url(),
+    NOVA_POST_API_KEY: z.string().nonempty(),
+    NOVA_POST_API_URL: z.url(),
   },
   experimental__runtimeEnv: process.env,
 });

@@ -1,35 +1,13 @@
 'use client';
 
-import debounce from 'debounce';
-import {
-  ChevronsUpDownIcon,
-  MapPinPlus,
-  SearchIcon,
-  XIcon,
-} from 'lucide-react';
-import { useState } from 'react';
+import { ChevronsUpDownIcon, MapPinPlus, XIcon } from 'lucide-react';
 
+import LocationSearch from '@/_components/location-search/location-search';
 import { LocationDetails } from '@/entities/models/locations';
-import { clientEnv } from '@/env/client';
-import { NovaPostGeocodingService } from '@/infrastructure/services/geocoding-service/nova-post-geocoding.service';
 
 import { Badge } from '@shotly/ui/components/badge';
 import { Button } from '@shotly/ui/components/button';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@shotly/ui/components/dropdown-menu';
-import { Input } from '@shotly/ui/components/input';
 import { cn } from '@shotly/ui/lib/utils';
-
-const geocodingService = new NovaPostGeocodingService(
-  clientEnv.NEXT_PUBLIC_NOVA_POST_API_URL,
-  clientEnv.NEXT_PUBLIC_NOVA_POST_API_KEY,
-);
 
 type LocationSelectorProps = {
   value: LocationDetails[];
@@ -40,25 +18,7 @@ type LocationSelectorProps = {
 };
 
 const LocationSelector = (props: LocationSelectorProps) => {
-  const { inputId, value, onChange, error } = props;
-
-  const [searchResults, setSearchResults] = useState<LocationDetails[]>([]);
-
-  const [open, setOpen] = useState(false);
-
-  const selectedLocationExternalIds = value.map(
-    (locationDetails) => locationDetails.externalId,
-  );
-
-  const toggleLocation = (location: LocationDetails) => {
-    const newLocations = selectedLocationExternalIds.includes(
-      location.externalId,
-    )
-      ? value.filter((item) => item !== location)
-      : [...value, location];
-
-    onChange(newLocations);
-  };
+  const { value, onChange, error } = props;
 
   const removeLocation = (location: LocationDetails) => {
     const newLocations = value.filter(
@@ -68,15 +28,6 @@ const LocationSelector = (props: LocationSelectorProps) => {
   };
 
   const hasSelectedLocations = value.length > 0;
-
-  // TODO: move to hook
-  const searchLocations = debounce(async (searchString: string) => {
-    if (searchString.trim().length === 0) return;
-
-    const response =
-      await geocodingService.searchUkrainianSettlementByName(searchString);
-    setSearchResults(response);
-  }, 1000);
 
   // TODO: add removable prop to badge
   const renderTag = (location: LocationDetails) => (
@@ -103,12 +54,14 @@ const LocationSelector = (props: LocationSelectorProps) => {
 
   return (
     <div className="space-y-3">
-      <DropdownMenu open={open} onOpenChange={setOpen}>
-        <DropdownMenuTrigger asChild>
+      <LocationSearch
+        value={value}
+        onChange={onChange}
+        error={error}
+        trigger={
           <Button
             variant="outline"
             role="combobox"
-            aria-expanded={open}
             className={cn(
               'w-full justify-between text-left font-normal text-muted-foreground',
             )}
@@ -116,54 +69,13 @@ const LocationSelector = (props: LocationSelectorProps) => {
             <span className="flex gap-3 items-center">
               <MapPinPlus /> Search locations...
             </span>
-            <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <ChevronsUpDownIcon />
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          className="w-[var(--radix-dropdown-menu-trigger-width)]"
-          align="start"
-        >
-          <div className="flex items-center pl-2">
-            <SearchIcon className="size-4 text-muted-foreground" />
-            <Input
-              id={inputId}
-              className="border-none focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none h-7 p-0 pl-3"
-              onChange={(e) => searchLocations(e.target.value)}
-              placeholder="Start typing..."
-              autoFocus
-            />
-          </div>
-          {searchResults.length > 0 && (
-            <>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                {searchResults.map((location) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={location.externalId}
-                      checked={selectedLocationExternalIds.includes(
-                        location.externalId,
-                      )}
-                      onCheckedChange={() => toggleLocation(location)}
-                    >
-                      <div>
-                        <p>{location.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {location.displayName}
-                        </p>
-                      </div>
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-              </DropdownMenuGroup>
-            </>
-          )}
-        </DropdownMenuContent>
-      </DropdownMenu>
+        }
+      />
       {hasSelectedLocations && (
         <div className="flex flex-wrap gap-2">{value.map(renderTag)}</div>
       )}
-      {error && <div className="text-sm text-destructive mt-2">{error}</div>}
     </div>
   );
 };

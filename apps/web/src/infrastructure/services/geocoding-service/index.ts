@@ -1,10 +1,10 @@
-import { clientEnv } from '@/env/client';
+import { serverEnv } from '@/env/server';
 
 import { NovaPostGeocodingService } from './nova-post-geocoding.service';
 
 const geocodingService = new NovaPostGeocodingService(
-  clientEnv.NEXT_PUBLIC_NOVA_POST_API_URL,
-  clientEnv.NEXT_PUBLIC_NOVA_POST_API_KEY,
+  serverEnv.NOVA_POST_API_URL,
+  serverEnv.NOVA_POST_API_KEY,
 );
 
 export { geocodingService };
