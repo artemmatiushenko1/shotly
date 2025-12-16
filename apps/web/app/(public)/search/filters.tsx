@@ -2,7 +2,9 @@
 
 import { StarIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
 
+import { SortOption } from '@/application/use-cases/search';
 import { Category } from '@/entities/models/category';
 import { Language } from '@/entities/models/language';
 
@@ -29,6 +31,9 @@ function Filters(props: FiltersProps) {
 
   const t = useTranslations('landing.searchPage.filters');
   const tBudgetRanges = useTranslations('landing.search.budgetRanges');
+
+  const [sort, setSort] = useState<SortOption>(SortOption.PRICE_LOW_TO_HIGH);
+  const [categoryId, setCategoryId] = useState<string>('');
 
   const budgetRangesOptions = [
     { label: tBudgetRanges('under1000'), value: '0-1000' },
@@ -66,7 +71,8 @@ function Filters(props: FiltersProps) {
           label={t('category.label')}
           placeholder={t('category.placeholder')}
           className="max-w-xs"
-          defaultValue="any"
+          value={categoryId}
+          onValueChange={(value) => setCategoryId(value)}
         >
           <SelectItem value="any">{t('category.any')}</SelectItem>
           {categories.map((category) => (
@@ -75,12 +81,11 @@ function Filters(props: FiltersProps) {
             </SelectItem>
           ))}
         </LabeledSelect>
-        <LocationSelect label={t('location.label')} />
+        <LocationSelect label={t('location.label')} className="max-w-xs" />
         <LabeledSelect
+          className="max-w-xs"
           label={t('price.label')}
           placeholder={t('price.placeholder')}
-          className="max-w-xs"
-          defaultValue="any"
         >
           <SelectItem value="any">{t('price.any')}</SelectItem>
           {budgetRangesOptions.map((option) => (
@@ -93,7 +98,6 @@ function Filters(props: FiltersProps) {
           label={t('delivery.label')}
           placeholder={t('delivery.placeholder')}
           className="max-w-xs"
-          defaultValue="any"
         >
           <SelectItem value="any">{t('delivery.any')}</SelectItem>
           <SelectItem value="1">Day</SelectItem>
@@ -135,24 +139,33 @@ function Filters(props: FiltersProps) {
           />
         </div>
         <div className="flex flex-row justify-between items-center flex-1">
-          <Select defaultValue="Low to High">
+          <Select
+            value={sort}
+            onValueChange={(value) => setSort(value as SortOption)}
+          >
             <SelectTrigger className="border-none shadow-none">
               <span>
                 <span className="text-muted-foreground text-xs">
                   {t('sort.label')}
                 </span>{' '}
-                <SelectValue placeholder={t('sort.placeholder')} />
+                <SelectValue placeholder={t('sort.placeholder')}>
+                  {t(`sort.${sort}`)}
+                </SelectValue>
               </span>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Low to High">
+              <SelectItem value={SortOption.PRICE_LOW_TO_HIGH}>
                 {t('sort.priceLowToHigh')}
               </SelectItem>
-              <SelectItem value="High to Low<">
+              <SelectItem value={SortOption.PRICE_HIGH_TO_LOW}>
                 {t('sort.priceHighToLow')}
               </SelectItem>
-              <SelectItem value="Highest">{t('sort.ratingHighest')}</SelectItem>
-              <SelectItem value="Lowest">{t('sort.ratingLowest')}</SelectItem>
+              <SelectItem value={SortOption.RATING_HIGHEST}>
+                {t('sort.ratingHighest')}
+              </SelectItem>
+              <SelectItem value={SortOption.RATING_LOWEST}>
+                {t('sort.ratingLowest')}
+              </SelectItem>
             </SelectContent>
           </Select>
           <Input
