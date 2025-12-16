@@ -2,10 +2,7 @@ import z from 'zod';
 
 import { FormActionState } from './form-action-state';
 
-export async function validatedFormAction<
-  T extends z.ZodType,
-  D extends object,
->(
+export async function validatedFormAction<T extends z.ZodType, D>(
   schema: T,
   rawData: D,
   handler: (data: z.infer<T>) => Promise<FormActionState<z.infer<T>>>,
