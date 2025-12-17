@@ -2,14 +2,14 @@ import z from 'zod';
 
 import { FormActionState } from './form-action-state';
 
-export async function validatedFormAction<T extends z.ZodType, D>(
+export async function validatedFormAction<T extends z.ZodType, D, R = void>(
   schema: T,
   rawData: D,
-  handler: (data: z.infer<T>) => Promise<FormActionState<z.infer<T>>>,
+  handler: (data: z.infer<T>) => Promise<FormActionState<z.infer<T>, R>>,
   options?: {
     normalizer?: (rawData: D) => unknown;
   },
-): Promise<FormActionState<z.infer<T>>> {
+): Promise<FormActionState<z.infer<T>, R>> {
   const rawInputs = options?.normalizer
     ? options.normalizer(rawData)
     : rawData instanceof FormData
