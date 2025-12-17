@@ -22,7 +22,7 @@ import { ProfileSettings } from './profile';
 
 const getProfileTabData = (userId: string, locale: Locale) => {
   return Promise.all([
-    getProfileByUsernameOrIdUseCase(userId),
+    getProfileByUsernameOrIdUseCase(userId, locale),
     getAllLanguagesUseCase(locale),
   ]);
 };

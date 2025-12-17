@@ -126,6 +126,7 @@ class UsersRepository {
         code: languagesTable.code,
         name: languagesTable.name,
         flag: languagesTable.flag,
+        nameUk: languagesTable.nameUk,
       })
       .from(userLanguagesTable)
       .innerJoin(

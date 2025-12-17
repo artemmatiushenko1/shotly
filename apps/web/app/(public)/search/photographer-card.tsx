@@ -26,7 +26,6 @@ import ImagePlaceholder from '../../_components/image-placeholder';
 type PhotographerCardProps = {
   id: string;
   name: string;
-  image?: string | null;
   location?: string;
   rating?: number | string;
   yearsOfExperience?: number | null;
@@ -35,12 +34,13 @@ type PhotographerCardProps = {
   categoryName?: string;
   portfolioImages?: string[];
   className?: string;
+  profileImageUrl?: string | null;
+  totalReviews: number;
 };
 
 function PhotographerCard({
   id,
   name,
-  image,
   location,
   rating,
   yearsOfExperience,
@@ -49,6 +49,8 @@ function PhotographerCard({
   categoryName,
   portfolioImages = [],
   className,
+  profileImageUrl,
+  totalReviews,
 }: PhotographerCardProps) {
   const t = useTranslations('landing.searchPage.photographerCard');
 
@@ -86,7 +88,7 @@ function PhotographerCard({
         <div className="flex items-start justify-between p-4 pb-3">
           <div className="flex items-start gap-3 flex-1 min-w-0">
             <Avatar className="size-12 rounded-full shrink-0">
-              <AvatarImage src={image || undefined} alt={name} />
+              <AvatarImage src={profileImageUrl || undefined} alt={name} />
               <AvatarFallback className="text-sm font-medium">
                 {initials}
               </AvatarFallback>
@@ -170,7 +172,7 @@ function PhotographerCard({
                       {typeof rating === 'number' ? rating.toFixed(1) : rating}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      {t('reviews', { count: 12 })}
+                      {t('reviews', { count: totalReviews })}
                     </span>
                   </div>
                   <span className="text-xs text-muted-foreground mt-0.5">

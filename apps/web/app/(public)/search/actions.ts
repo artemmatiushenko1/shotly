@@ -8,10 +8,9 @@ export const searchPhotographersAction = async (rawParams: SearchParams) =>
   validatedFormAction(searchParamsSchema, rawParams, async (searchParams) => {
     const searchResults = await searchPhotographersUseCase(searchParams);
 
-    console.log({ searchResults, searchParams });
-
     return {
       status: 'success',
       message: 'Search photographers successful',
+      response: searchResults,
     };
   });

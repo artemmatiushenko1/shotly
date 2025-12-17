@@ -5,30 +5,23 @@ import { useTranslations } from 'next-intl';
 import { useActionState, useId } from 'react';
 
 import { Role } from '@/entities/models/user';
-import { FormActionState } from '@/utils/server-actions';
 
 import { Button } from '@shotly/ui/components/button';
 import { Label } from '@shotly/ui/components/label';
 import { RadioGroup, RadioGroupItem } from '@shotly/ui/components/radio-group';
 
 import { updateUserRoleAction } from './choose-role-form.actions';
-import { UpdateUserRoleFormValues } from './choose-role-form.schema';
-
-const INITIAL_STATE: FormActionState<UpdateUserRoleFormValues> = {
-  status: 'idle',
-  inputs: {
-    role: Role.CUSTOMER,
-  },
-};
 
 function ChooseRolePage() {
   const id = useId();
   const t = useTranslations('auth.onboarding');
 
-  const [state, formAction, pending] = useActionState(
-    updateUserRoleAction,
-    INITIAL_STATE,
-  );
+  const [state, formAction, pending] = useActionState(updateUserRoleAction, {
+    status: 'idle',
+    inputs: {
+      role: Role.CUSTOMER,
+    },
+  });
 
   const { inputs } = state;
 

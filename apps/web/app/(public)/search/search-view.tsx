@@ -10,6 +10,7 @@ import { Category } from '@/entities/models/category';
 import { Language } from '@/entities/models/language';
 import {
   DeliveryTime,
+  PhotographerSearchResult,
   PriceRange,
   RatingOption,
   SearchParams,
@@ -20,6 +21,7 @@ import { Button } from '@shotly/ui/components/button';
 
 import { searchPhotographersAction } from './actions';
 import Filters from './filters';
+import PhotographerCard from './photographer-card';
 
 type SearchViewProps = {
   categories: Category[];
@@ -42,17 +44,16 @@ export default function SearchView({ categories, languages }: SearchViewProps) {
   const t = useTranslations('landing.searchPage');
 
   const [filters, setFilters] = useState<SearchParams>(INITIAL_PARAMS);
-  const [results] = useState<object[]>([]);
+  const [results, setResults] = useState<PhotographerSearchResult[]>([]);
   const [isPending, startTransition] = useTransition();
 
   const performSearch = useMemo(
     () =>
       debounce((currentFilters: SearchParams) => {
         startTransition(async () => {
-          const response = await searchPhotographersAction(currentFilters);
-          console.log({ response });
-          if (response.status === 'success') {
-            // setResults(response.data);
+          const result = await searchPhotographersAction(currentFilters);
+          if (result.status === 'success' && result.response) {
+            setResults(result.response);
           }
         });
       }, 1000),
@@ -94,9 +95,20 @@ export default function SearchView({ categories, languages }: SearchViewProps) {
 
         {results.length > 0 && !isPending ? (
           <div className="min-h-[300px] grid grid-cols-1 md:grid-cols-2 gap-4">
-            {results.map((_, index) => (
-              <div key={index}>{index}</div>
-              // <PhotographerCard key={photographer.id} {...photographer} />
+            {results.map((result) => (
+              <PhotographerCard
+                key={result.id}
+                id={result.id}
+                name={result.name}
+                profileImageUrl={result.profileImageUrl}
+                location={result.locationName}
+                rating={result.rating}
+                yearsOfExperience={result.yearsOfExperience}
+                startingPrice={result.startingPrice}
+                currency={result.currency}
+                categoryName={result.categoryName}
+                totalReviews={result.totalReviews}
+              />
             ))}
           </div>
         ) : (

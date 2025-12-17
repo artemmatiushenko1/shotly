@@ -38,7 +38,7 @@ export enum RatingOption {
 
 export const searchParamsSchema = z.object({
   sort: z.enum(SortOption).default(SortOption.PRICE_LOW_TO_HIGH),
-  priceRange: z.enum(PriceRange).default(PriceRange.UNDER_1000),
+  priceRange: z.enum(PriceRange).default(PriceRange.UNSPECIFIED),
   deliveryTime: z.enum(DeliveryTime).default(DeliveryTime.UNSPECIFIED),
   languageCodes: z.array(z.string()).default([]),
   experienceYears: z.number().nullable().default(null),
@@ -49,3 +49,21 @@ export const searchParamsSchema = z.object({
 });
 
 export type SearchParams = z.infer<typeof searchParamsSchema>;
+
+export const photographerSearchResultSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  username: z.string(),
+  profileImageUrl: z.string().nullish(),
+  locationName: z.string(),
+  rating: z.string(),
+  totalReviews: z.number(),
+  yearsOfExperience: z.number(),
+  startingPrice: z.number(),
+  currency: z.string(),
+  categoryName: z.string(),
+});
+
+export type PhotographerSearchResult = z.infer<
+  typeof photographerSearchResultSchema
+>;
