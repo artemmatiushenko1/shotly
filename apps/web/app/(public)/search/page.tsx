@@ -5,17 +5,29 @@ import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
 import { getAllLanguagesUseCase } from '@/application/use-cases/languages';
 import { searchPhotographersUseCase } from '@/application/use-cases/search';
 
-import { INITIAL_SEARCH_PARAMS } from './constants';
+import { DEFAULT_SEARCH_PARAMS } from './constants';
 import SearchView from './search-view';
+import { parseSearchParams } from './utils';
 
-async function SearchPage() {
+type SearchPageProps = {
+  searchParams: Promise<Record<string, string> | undefined>;
+};
+
+async function SearchPage(props: SearchPageProps) {
+  const rawSearchParams = await props.searchParams;
+  const searchParams = new URLSearchParams(rawSearchParams ?? {});
+  const initialSearchParams = parseSearchParams(
+    searchParams,
+    DEFAULT_SEARCH_PARAMS,
+  );
+
   const t = await getTranslations('landing.searchPage');
   const locale = await getLocale();
 
   const [categories, languages, initialSearchResults] = await Promise.all([
     getAllCategoriesUseCase(locale),
     getAllLanguagesUseCase(locale),
-    searchPhotographersUseCase(INITIAL_SEARCH_PARAMS),
+    searchPhotographersUseCase(initialSearchParams),
   ]);
 
   return (
@@ -25,6 +37,7 @@ async function SearchPage() {
       <SearchView
         categories={categories}
         languages={languages}
+        initialSearchParams={initialSearchParams}
         initialSearchResults={initialSearchResults}
       />
     </div>

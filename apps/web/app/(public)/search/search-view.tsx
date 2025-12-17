@@ -2,6 +2,7 @@
 
 import debounce from 'debounce';
 import { SearchIcon } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useMemo, useState, useTransition } from 'react';
 
@@ -16,24 +17,31 @@ import {
 import { Button } from '@shotly/ui/components/button';
 
 import { searchPhotographersAction } from './actions';
-import { INITIAL_SEARCH_PARAMS } from './constants';
+import { DEFAULT_SEARCH_PARAMS } from './constants';
 import Filters from './filters';
 import PhotographerCard from './photographer-card';
+import { serializeParams } from './utils';
 
 type SearchViewProps = {
   categories: Category[];
   languages: Language[];
   initialSearchResults: PhotographerSearchResult[];
+  initialSearchParams: SearchParams;
 };
 
 export default function SearchView({
   categories,
   languages,
   initialSearchResults,
+  initialSearchParams,
 }: SearchViewProps) {
   const t = useTranslations('landing.searchPage');
 
-  const [filters, setFilters] = useState<SearchParams>(INITIAL_SEARCH_PARAMS);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [filters, setFilters] = useState<SearchParams>(initialSearchParams);
+
   const [results, setResults] =
     useState<PhotographerSearchResult[]>(initialSearchResults);
   const [isPending, startTransition] = useTransition();
@@ -42,13 +50,18 @@ export default function SearchView({
     () =>
       debounce((currentFilters: SearchParams) => {
         startTransition(async () => {
+          // A. Update URL (Shallow update to avoid full reload)
+          const queryString = serializeParams(currentFilters).toString();
+          router.replace(`${pathname}?${queryString}`, { scroll: false });
+
+          // B. Fetch Data
           const result = await searchPhotographersAction(currentFilters);
           if (result.status === 'success' && result.response) {
             setResults(result.response);
           }
         });
-      }, 1000),
-    [],
+      }, 500), // Reduced debounce slightly for better URL responsiveness
+    [pathname, router],
   );
 
   // Handler for filter updates
@@ -59,8 +72,9 @@ export default function SearchView({
   };
 
   const handleClearFilters = () => {
-    setFilters(INITIAL_SEARCH_PARAMS);
-    performSearch(INITIAL_SEARCH_PARAMS);
+    setFilters(DEFAULT_SEARCH_PARAMS);
+    router.replace(pathname, { scroll: false }); // Clear URL immediately
+    performSearch(DEFAULT_SEARCH_PARAMS);
   };
 
   return (
