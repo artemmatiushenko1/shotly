@@ -182,16 +182,9 @@ function Filters({
           {/* Experience */}
           <CountSelect
             label={t('experience.label')}
-            values={
-              filters.experienceYears !== null
-                ? [String(filters.experienceYears)]
-                : []
-            }
-            onChange={(values: string[]) =>
-              handleChange(
-                'experienceYears',
-                values.length ? Number(values[0]) : null,
-              )
+            values={filters.experienceYears.map(String)}
+            onChange={(vals) =>
+              handleChange('experienceYears', vals.map(Number))
             }
             options={Array.from({ length: 11 }, (_, i) => ({
               value: String(i),
@@ -202,10 +195,8 @@ function Filters({
           {/* Rating */}
           <CountSelect
             label={t('rating.label')}
-            values={filters.rating ? [filters.rating] : []}
-            onChange={(values: string[]) =>
-              handleChange('rating', (values[0] || null) as RatingOption)
-            }
+            values={filters.rating}
+            onChange={(vals) => handleChange('rating', vals as RatingOption[])}
             options={getRatingOptions()}
           />
         </div>

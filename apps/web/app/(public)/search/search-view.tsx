@@ -12,7 +12,6 @@ import {
   DeliveryTime,
   PhotographerSearchResult,
   PriceRange,
-  RatingOption,
   SearchParams,
   SortOption,
 } from '@/entities/models/search';
@@ -33,8 +32,8 @@ const INITIAL_PARAMS: SearchParams = {
   priceRange: PriceRange.UNSPECIFIED,
   deliveryTime: DeliveryTime.UNSPECIFIED,
   languageCodes: [],
-  experienceYears: null,
-  rating: RatingOption.UNSPECIFIED,
+  experienceYears: [],
+  rating: [],
   search: '',
   categoryId: '',
   location: null,
@@ -70,6 +69,11 @@ export default function SearchView({ categories, languages }: SearchViewProps) {
     const updated = { ...filters, ...newValues };
     setFilters(updated);
     performSearch(updated);
+  };
+
+  const handleClearFilters = () => {
+    setFilters(INITIAL_PARAMS);
+    performSearch(INITIAL_PARAMS);
   };
 
   return (
@@ -120,10 +124,7 @@ export default function SearchView({ categories, languages }: SearchViewProps) {
             title={'No photographers found'}
             description={'Try adjusting your search criteria'}
             action={
-              <Button
-                variant="outline"
-                onClick={() => setFilters(INITIAL_PARAMS)}
-              >
+              <Button variant="outline" onClick={handleClearFilters}>
                 Clear filters
               </Button>
             }

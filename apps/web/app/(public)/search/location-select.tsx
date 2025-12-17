@@ -1,6 +1,5 @@
 import { ChevronDownIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import React, { useState } from 'react';
 
 import LocationSearch from '@/_components/location-search/location-search';
 import { LocationDetails } from '@/entities/models/locations';
@@ -18,14 +17,11 @@ type LocationSelectProps = {
 function LocationSelect(props: LocationSelectProps) {
   const t = useTranslations('landing.searchPage.filters');
 
-  const { className, label, onValueChange } = props;
-
-  const [value, setValue] = useState<LocationDetails | null>(null);
+  const { className, label, onValueChange, value } = props;
 
   const handleChange = (location: LocationDetails) => {
     const shouldReset = value?.externalId === location.externalId;
     const valueToSet = shouldReset ? null : location;
-    setValue(valueToSet);
     onValueChange(valueToSet);
   };
 

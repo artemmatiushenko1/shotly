@@ -7,6 +7,7 @@ import {
   ilike,
   inArray,
   lte,
+  or,
   SQL,
   sql,
 } from 'drizzle-orm';
@@ -62,10 +63,16 @@ export class PhotographerSearchService implements IPhotographerSearchService {
     }
 
     // 3. Handle Rating Enum -> Number
-    const minRating = this.getMinRating(rating);
-    if (minRating !== null) {
-      // Cast input to numeric to prevent "operator does not exist" errors
-      filters.push(sql`${usersTable.averageRating} >= ${minRating}::numeric`);
+    const ratingFloors = rating
+      .map((r) => this.getRatingValue(r))
+      .filter((r): r is number => r !== null);
+
+    if (ratingFloors.length > 0) {
+      // Logic: floor(4.5) = 4.
+      // So checking `floor(rating) IN (4, 5)` matches 4.0-4.9 AND 5.0
+      filters.push(
+        inArray(sql`FLOOR(${usersTable.averageRating})`, ratingFloors),
+      );
     }
 
     // 4. Handle Price Range Enum -> [Min, Max]
@@ -78,8 +85,29 @@ export class PhotographerSearchService implements IPhotographerSearchService {
     }
 
     // 5. Handle Other Filters
-    if (experienceYears !== null) {
-      filters.push(gte(usersTable.yearsOfExperience, experienceYears));
+    if (experienceYears.length > 0) {
+      const experienceConditions: SQL[] = [];
+      const exactYears: number[] = [];
+
+      experienceYears.forEach((year) => {
+        if (year >= 10) {
+          // If "10+" is selected, match anything >= 10
+          experienceConditions.push(gte(usersTable.yearsOfExperience, 10));
+        } else {
+          exactYears.push(year);
+        }
+      });
+
+      // Combine "Exact Years" (IN array) with "10+" (>= 10) using OR
+      if (exactYears.length > 0) {
+        experienceConditions.push(
+          inArray(usersTable.yearsOfExperience, exactYears),
+        );
+      }
+
+      if (experienceConditions.length > 0) {
+        filters.push(or(...experienceConditions)!);
+      }
     }
 
     if (location?.externalId) {
@@ -152,7 +180,7 @@ export class PhotographerSearchService implements IPhotographerSearchService {
   }
 
   // --- HELPER: Map Rating Strings to Numbers ---
-  private getMinRating(option: RatingOption | null): number | null {
+  private getRatingValue(option: RatingOption): number | null {
     switch (option) {
       case RatingOption.FIVE_STARS:
         return 5;
@@ -164,10 +192,8 @@ export class PhotographerSearchService implements IPhotographerSearchService {
         return 2;
       case RatingOption.ONE_STAR:
         return 1;
-      case RatingOption.UNSPECIFIED:
-      case null:
       default:
-        return null; // No filter
+        return null;
     }
   }
 
