@@ -103,7 +103,7 @@ function Filters({
   };
 
   return (
-    <div className="sticky top-0 z-10 p-4 rounded-3xl bg-[linear-gradient(to_right,_#e8ebff_0%,_#fff4ea_100%)] border">
+    <div className="sticky top-4 z-10 p-4 rounded-3xl bg-[linear-gradient(to_right,_#e8ebff_0%,_#fff4ea_100%)] border">
       <div className="mb-4 lg:grid lg:grid-cols-4 lg:gap-4">
         {/* Category */}
         <LabeledSelect
