@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  BadgeCheckIcon,
-  BookmarkIcon,
-  MapPinIcon,
-  StarIcon,
-} from 'lucide-react';
+import { BadgeCheckIcon, MapPinIcon, StarIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
@@ -107,9 +102,6 @@ function PhotographerCard({
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0 ml-2">
-            <Button variant="ghost" size="icon" className="size-9 rounded-md">
-              <BookmarkIcon className="size-4" />
-            </Button>
             <Button asChild variant="default" className="rounded-full">
               <Link href={`/photographers/${id}`}>{t('viewProfile')}</Link>
             </Button>

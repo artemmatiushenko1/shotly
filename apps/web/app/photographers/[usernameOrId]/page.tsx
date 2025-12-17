@@ -1,4 +1,4 @@
-import { ArrowUpRightIcon, BookmarkIcon } from 'lucide-react';
+import { ArrowUpRightIcon } from 'lucide-react';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 
@@ -8,11 +8,6 @@ import { getAuthenticatedUser } from '@/infrastructure/services/auth/dal';
 
 import { Avatar, AvatarImage } from '@shotly/ui/components/avatar';
 import { Button } from '@shotly/ui/components/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@shotly/ui/components/tooltip';
 
 import ProfileTabs from './tabs';
 
@@ -76,14 +71,6 @@ async function PhotographerPublicProfile({
             )}
           </div>
           <div className="flex items-center pt-20 gap-2 ml-auto">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost">
-                  <BookmarkIcon />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>{t('bookmark')}</TooltipContent>
-            </Tooltip>
             <Button className="rounded-full">{t('bookNow')}</Button>
           </div>
         </div>
