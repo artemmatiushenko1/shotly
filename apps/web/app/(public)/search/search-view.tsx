@@ -3,47 +3,39 @@
 import debounce from 'debounce';
 import { SearchIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useEffect, useMemo, useState, useTransition } from 'react';
+import { useMemo, useState, useTransition } from 'react';
 
 import EmptyState from '@/_components/empty-state';
 import { Category } from '@/entities/models/category';
 import { Language } from '@/entities/models/language';
 import {
-  DeliveryTime,
   PhotographerSearchResult,
-  PriceRange,
   SearchParams,
-  SortOption,
 } from '@/entities/models/search';
 
 import { Button } from '@shotly/ui/components/button';
 
 import { searchPhotographersAction } from './actions';
+import { INITIAL_SEARCH_PARAMS } from './constants';
 import Filters from './filters';
 import PhotographerCard from './photographer-card';
 
 type SearchViewProps = {
   categories: Category[];
   languages: Language[];
+  initialSearchResults: PhotographerSearchResult[];
 };
 
-const INITIAL_PARAMS: SearchParams = {
-  sort: SortOption.PRICE_LOW_TO_HIGH,
-  priceRange: PriceRange.UNSPECIFIED,
-  deliveryTime: DeliveryTime.UNSPECIFIED,
-  languageCodes: [],
-  experienceYears: [],
-  rating: [],
-  search: '',
-  categoryId: '',
-  location: null,
-};
-
-export default function SearchView({ categories, languages }: SearchViewProps) {
+export default function SearchView({
+  categories,
+  languages,
+  initialSearchResults,
+}: SearchViewProps) {
   const t = useTranslations('landing.searchPage');
 
-  const [filters, setFilters] = useState<SearchParams>(INITIAL_PARAMS);
-  const [results, setResults] = useState<PhotographerSearchResult[]>([]);
+  const [filters, setFilters] = useState<SearchParams>(INITIAL_SEARCH_PARAMS);
+  const [results, setResults] =
+    useState<PhotographerSearchResult[]>(initialSearchResults);
   const [isPending, startTransition] = useTransition();
 
   const performSearch = useMemo(
@@ -59,11 +51,6 @@ export default function SearchView({ categories, languages }: SearchViewProps) {
     [],
   );
 
-  useEffect(() => {
-    performSearch(filters);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // Handler for filter updates
   const handleFilterChange = (newValues: Partial<SearchParams>) => {
     const updated = { ...filters, ...newValues };
@@ -72,8 +59,8 @@ export default function SearchView({ categories, languages }: SearchViewProps) {
   };
 
   const handleClearFilters = () => {
-    setFilters(INITIAL_PARAMS);
-    performSearch(INITIAL_PARAMS);
+    setFilters(INITIAL_SEARCH_PARAMS);
+    performSearch(INITIAL_SEARCH_PARAMS);
   };
 
   return (
