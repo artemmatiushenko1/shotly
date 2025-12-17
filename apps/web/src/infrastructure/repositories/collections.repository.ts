@@ -26,6 +26,7 @@ type CollectionRow = typeof collectionsTable.$inferSelect & {
   photosCount?: number;
   coverPhotoUrl?: string | null;
   categoryName: string;
+  categoryNameUk: string;
 };
 
 class CollectionsRepository {
@@ -43,6 +44,7 @@ class CollectionsRepository {
       category: {
         id: collection.categoryId,
         name: collection.categoryName,
+        nameUk: collection.categoryNameUk,
       },
     });
   }
@@ -94,6 +96,7 @@ class CollectionsRepository {
         archivedAt: collectionsTable.archivedAt,
         coverPhotoUrl: photosTable.thumbnailUrl,
         categoryName: categoriesTable.name,
+        categoryNameUk: categoriesTable.nameUk,
         photosCount: sql<number>`coalesce(${photosCountSq.count}, 0)`.mapWith(
           Number,
         ),

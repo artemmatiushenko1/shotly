@@ -39,7 +39,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
   const t = await getTranslations('portfolio.collectionDetails');
 
   const [collection, photos, categories] = await Promise.all([
-    getCollectionByIdUseCase(user.id, collectionId),
+    getCollectionByIdUseCase(user.id, collectionId, locale),
     getCollectionPhotosUseCase(user.id, collectionId),
     getAllCategoriesUseCase(locale),
   ]);

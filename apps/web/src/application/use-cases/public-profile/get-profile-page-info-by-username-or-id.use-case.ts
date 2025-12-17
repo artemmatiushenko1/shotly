@@ -1,3 +1,4 @@
+import { Locale } from '@/_i18n/config';
 import { NotFoundError } from '@/entities/errors/common';
 import { VisibilityStatus } from '@/entities/models/common';
 import { ApprovalStatus } from '@/entities/models/user';
@@ -8,6 +9,7 @@ import usersRepository from '@/infrastructure/repositories/users.repository';
 export const getProfilePageInfoByUsernameOrIdUseCase = async (
   usernameOrId: string,
   authenticatedUserId?: string,
+  locale?: Locale,
 ) => {
   const user =
     (await usersRepository.getUserByUsername(usernameOrId)) ??
@@ -32,7 +34,17 @@ export const getProfilePageInfoByUsernameOrIdUseCase = async (
 
   return {
     profile,
-    collections,
+    collections: collections.map((collection) => ({
+      ...collection,
+      category: {
+        id: collection.category.id,
+        name:
+          locale === 'uk'
+            ? collection.category.nameUk
+            : collection.category.name,
+        nameUk: collection.category.nameUk,
+      },
+    })),
     services,
   };
 };

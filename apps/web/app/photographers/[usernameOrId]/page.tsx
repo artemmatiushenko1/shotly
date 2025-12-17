@@ -2,6 +2,7 @@ import { ArrowUpRightIcon, BookmarkIcon } from 'lucide-react';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 
+import { getLocale } from '@/_i18n/locale';
 import { getProfilePageInfoByUsernameOrIdUseCase } from '@/application/use-cases/public-profile';
 import { getAuthenticatedUser } from '@/infrastructure/services/auth/dal';
 
@@ -25,11 +26,16 @@ async function PhotographerPublicProfile({
   const { usernameOrId } = await params;
 
   const t = await getTranslations('photographerProfile');
+  const locale = await getLocale();
 
   const user = await getAuthenticatedUser();
 
   const { profile, collections, services } =
-    await getProfilePageInfoByUsernameOrIdUseCase(usernameOrId, user?.id);
+    await getProfilePageInfoByUsernameOrIdUseCase(
+      usernameOrId,
+      user?.id,
+      locale,
+    );
 
   const coverImageUrl = profile.coverImageUrl || '/default-cover.jpg';
   const profileImageUrl = profile.profileImageUrl || undefined;
