@@ -103,11 +103,13 @@ export default function SearchView({ categories, languages }: SearchViewProps) {
                 profileImageUrl={result.profileImageUrl}
                 location={result.locationName}
                 rating={result.rating}
+                username={result.username}
                 yearsOfExperience={result.yearsOfExperience}
                 startingPrice={result.startingPrice}
                 currency={result.currency}
                 categoryName={result.categoryName}
                 totalReviews={result.totalReviews}
+                portfolioImages={result.portfolioImages}
               />
             ))}
           </div>

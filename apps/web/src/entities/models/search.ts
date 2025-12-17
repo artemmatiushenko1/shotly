@@ -62,6 +62,7 @@ export const photographerSearchResultSchema = z.object({
   startingPrice: z.number(),
   currency: z.string(),
   categoryName: z.string(),
+  portfolioImages: z.array(z.string()),
 });
 
 export type PhotographerSearchResult = z.infer<

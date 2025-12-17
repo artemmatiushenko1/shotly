@@ -12,6 +12,7 @@ import {
 } from 'drizzle-orm';
 
 import { IPhotographerSearchService } from '@/application/services/photographer-search-service.interface';
+import { VisibilityStatus } from '@/entities/models/common';
 import {
   photographerSearchResultSchema,
   PriceRange,
@@ -24,12 +25,16 @@ import { Role } from '@/entities/models/user';
 import { db } from '../../../../drizzle';
 import {
   categoriesTable,
+  collectionsTable,
   locationsTable,
+  photosTable,
   servicesTable,
   userLanguagesTable,
   usersTable,
   usersToLocationsTable,
 } from '../../../../drizzle/schema';
+
+const MAX_PORTFOLIO_PREVIEW_COUNT = 4;
 
 export class PhotographerSearchService implements IPhotographerSearchService {
   async search(params: SearchParams) {
@@ -104,6 +109,18 @@ export class PhotographerSearchService implements IPhotographerSearchService {
         startingPrice: sql<number>`MIN(${servicesTable.price})`,
         currency: sql<string>`MAX(${servicesTable.currency})`,
         categoryName: sql<string>`MAX(${categoriesTable.name})`,
+        portfolioImages: sql<string[]>`(
+          SELECT array_agg(t.thumbnail_url)
+          FROM (
+            SELECT ${photosTable.thumbnailUrl} as thumbnail_url
+            FROM ${collectionsTable}
+            INNER JOIN ${photosTable} 
+              ON ${collectionsTable.coverPhotoId} = ${photosTable.id}
+            WHERE ${collectionsTable.photographerId} = ${usersTable.id}
+              AND ${collectionsTable.visibilityStatus} = ${VisibilityStatus.PUBLIC}
+            LIMIT ${MAX_PORTFOLIO_PREVIEW_COUNT}
+          ) as t
+        )`,
       })
       .from(usersTable)
       .innerJoin(

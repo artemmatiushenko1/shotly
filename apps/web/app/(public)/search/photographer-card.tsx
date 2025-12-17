@@ -36,6 +36,7 @@ type PhotographerCardProps = {
   className?: string;
   profileImageUrl?: string | null;
   totalReviews: number;
+  username: string;
 };
 
 function PhotographerCard({
@@ -121,9 +122,9 @@ function PhotographerCard({
             {image1 ? (
               <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
                 <Image
+                  fill
                   src={image1}
                   alt={t('portfolioImageAlt', { name })}
-                  fill
                   className="object-cover"
                   sizes="(max-width: 768px) 50vw, 25vw"
                 />
