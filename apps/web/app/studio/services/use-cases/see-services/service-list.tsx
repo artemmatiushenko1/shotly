@@ -1,7 +1,10 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { startTransition } from 'react';
+import {
+  startTransition,
+  unstable_ViewTransition as ViewTransition,
+} from 'react';
 
 import { Category } from '@/entities/models/category';
 import { Service } from '@/entities/models/service';
@@ -66,18 +69,20 @@ function ServicesList(props: ServicesListProps) {
           />
         ) : (
           filteredServices.map((service) => (
-            // TODO: add view transition back, currently when edit service, it displays a card over the modal for a sec
-            // <ViewTransition key={service.id}>
-            <ServiceCard
-              key={service.id}
-              service={service}
-              isPublicView={false}
-              categoryName={categoryMap[service.categoryId] ?? '-'}
-              extraActions={
-                <ServiceCardButtons service={service} categories={categories} />
-              }
-            />
-            // </ViewTransition>
+            <ViewTransition key={service.id}>
+              <ServiceCard
+                key={service.id}
+                service={service}
+                isPublicView={false}
+                categoryName={categoryMap[service.categoryId] ?? '-'}
+                extraActions={
+                  <ServiceCardButtons
+                    service={service}
+                    categories={categories}
+                  />
+                }
+              />
+            </ViewTransition>
           ))
         )}
       </div>

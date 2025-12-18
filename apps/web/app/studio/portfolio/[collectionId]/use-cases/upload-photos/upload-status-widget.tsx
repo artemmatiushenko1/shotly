@@ -115,9 +115,9 @@ function UploadStatusWidget() {
 
   return (
     <Collapsible
-      className="shadow-lg rounded-lg"
       open={isOpen}
       onOpenChange={setIsOpen}
+      className="shadow-lg rounded-lg"
     >
       <div
         className={cn(

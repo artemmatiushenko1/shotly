@@ -1,6 +1,7 @@
 import { ChevronLeftIcon, SettingsIcon } from 'lucide-react';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
+import { unstable_ViewTransition as ViewTransition } from 'react';
 
 import { getLocale } from '@/_i18n/locale';
 import { getAllCategoriesUseCase } from '@/application/use-cases/categories';
@@ -102,8 +103,10 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
           photographerId={user.id}
           photos={photos}
         />
-        <div className="fixed bottom-4 right-4 z-10">
-          <UploadStatusWidget />
+        <div className="fixed bottom-4 right-4 z-50">
+          <ViewTransition>
+            <UploadStatusWidget />
+          </ViewTransition>
         </div>
       </PhotosUploadQueueProvider>
     </FadeIn>

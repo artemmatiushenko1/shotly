@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { unstable_ViewTransition as ViewTransition } from 'react';
 
 import { Photo } from '@/entities/models/photo';
 
@@ -44,17 +45,18 @@ const PhotosGrid = (props: PhotosGridProps) => {
           <UploadPhotosCard />
         </UploadPhotosDialog>
         {photos.map((photo) => (
-          <PhotoCard
-            key={photo.id}
-            id={photo.id}
-            size={formatBytes(photo.sizeInBytes, t)}
-            isCoverPhoto={photo.id === coverPhotoId}
-            url={photo.thumbnailUrl}
-            collectionId={collectionId}
-            filename={photo.originalFilename}
-            width={photo.width}
-            height={photo.height}
-          />
+          <ViewTransition key={photo.id}>
+            <PhotoCard
+              id={photo.id}
+              size={formatBytes(photo.sizeInBytes, t)}
+              isCoverPhoto={photo.id === coverPhotoId}
+              url={photo.thumbnailUrl}
+              collectionId={collectionId}
+              filename={photo.originalFilename}
+              width={photo.width}
+              height={photo.height}
+            />
+          </ViewTransition>
         ))}
       </div>
     </div>

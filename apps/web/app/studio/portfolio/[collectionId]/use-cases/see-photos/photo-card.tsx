@@ -22,7 +22,7 @@ const PhotoCard = (props: PhotoCardProps) => {
     props;
 
   return (
-    <Card className="overflow-hidden shadow-none group cursor-pointer hover:shadow-lg transition-shadow p-0">
+    <Card className="overflow-hidden border-none shadow-none group cursor-pointer hover:shadow-lg transition-shadow p-0">
       <div className="relative">
         <Image
           src={url}

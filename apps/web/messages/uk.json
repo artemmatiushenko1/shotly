@@ -297,7 +297,7 @@
       }
     },
     "collectionCard": {
-      "imagesCount": "{count, plural, one {1 фотографія} other {# фотографій}}"
+      "imagesCount": "{count, plural, one {# фотографія} few {# фотографії} many {# фотографій} other {# фотографій}}"
     },
     "empty": {
       "title": "Почніть створювати своє портфоліо",
@@ -318,7 +318,7 @@
         "alt": "Обкладинка колекції"
       },
       "metadata": {
-        "assetsCount": "{count, plural, one {1 фотографія} other {# фотографій}}"
+        "assetsCount": "{count, plural, one {# фотографія} few {# фотографії} many {# фотографій} other {# фотографій}}"
       },
       "empty": {
         "title": "У цій колекції ще немає фотографій",
