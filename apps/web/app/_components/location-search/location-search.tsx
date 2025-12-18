@@ -49,7 +49,7 @@ function LocationSearch(props: LocationSelectorProps) {
   };
 
   return (
-    <div className="space-y-3">
+    <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
         <DropdownMenuContent
@@ -94,7 +94,7 @@ function LocationSearch(props: LocationSelectorProps) {
         </DropdownMenuContent>
       </DropdownMenu>
       {error && <div className="text-sm text-destructive mt-2">{error}</div>}
-    </div>
+    </>
   );
 }
 
