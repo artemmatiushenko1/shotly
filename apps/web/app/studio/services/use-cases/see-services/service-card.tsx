@@ -90,7 +90,7 @@ function ServiceCard(props: ServiceCardProps) {
             <p className="text-muted-foreground text-xs mb-1">
               {t('fields.features')}
             </p>
-            <p className="inline-flex gap-1 items-center font-medium text-sm">
+            <p className="inline-flex gap-1 items-center font-medium text-sm text-nowrap">
               <PackageIcon className="text-muted-foreground w-4" />{' '}
               {featuresLabel}
             </p>

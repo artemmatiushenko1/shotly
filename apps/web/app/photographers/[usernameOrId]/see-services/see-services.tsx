@@ -28,7 +28,6 @@ function SeeServices({ services }: SeeServicesProps) {
           extraActions={
             <BookServiceDialog>
               <Button className="mr-4 mt-4 rounded-full">
-                <CalendarCheckIcon />
                 {t('bookButton')}
               </Button>
             </BookServiceDialog>
