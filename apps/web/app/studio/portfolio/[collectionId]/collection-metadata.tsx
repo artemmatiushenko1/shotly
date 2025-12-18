@@ -1,8 +1,9 @@
 'use client';
 
 import { CalendarIcon, ImagesIcon, TagIcon } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
+import { Locale } from '@/_i18n/config';
 import { VisibilityStatus } from '@/entities/models/common';
 import { formatDateWithOrdinal } from '@/utils/date-formatting';
 
@@ -22,6 +23,7 @@ const CollectionMetadata = (props: CollectionMetadataProps) => {
   const { name, description, photosCount, shootDate, categoryName, status } =
     props;
   const t = useTranslations('portfolio.collectionDetails.metadata');
+  const locale = useLocale();
 
   return (
     <div className="flex justify-between items-start px-3">
@@ -35,7 +37,7 @@ const CollectionMetadata = (props: CollectionMetadataProps) => {
           />
           <IconWithText
             icon={CalendarIcon}
-            text={formatDateWithOrdinal(shootDate)}
+            text={formatDateWithOrdinal(shootDate, locale as Locale)}
           />
           <IconWithText icon={TagIcon} text={categoryName} />
         </div>

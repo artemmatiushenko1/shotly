@@ -3,6 +3,7 @@
 import dayjs from 'dayjs';
 import { CalendarIcon } from 'lucide-react';
 import type { DayPickerProps } from 'react-day-picker';
+import { uk } from 'react-day-picker/locale';
 
 import { Button } from '@shotly/ui/components/button';
 import { Calendar } from '@shotly/ui/components/calendar';
@@ -63,7 +64,9 @@ function DatePicker({
             )}
           >
             {value ? (
-              dayjs(value).format(dateFormat)
+              dayjs(value)
+                .locale(calendarProps.locale?.code ?? 'en')
+                .format(dateFormat)
             ) : (
               <span>{placeholder}</span>
             )}
@@ -80,6 +83,7 @@ function DatePicker({
             onSelect={handleSelect}
             className="rounded-md border"
             {...calendarProps}
+            locale={calendarProps.locale?.code === 'uk' ? uk : undefined}
           />
         </PopoverContent>
       </Popover>

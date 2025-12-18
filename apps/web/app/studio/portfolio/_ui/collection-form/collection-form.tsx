@@ -1,6 +1,6 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useActionState, useEffect, useId, useState } from 'react';
 
 import { COLLECTION_DESCRIPTION_MAX_LENGTH } from '@/application/use-cases/portfolio/constants';
@@ -50,6 +50,7 @@ function CollectionForm(props: CollectionFormProps) {
     submitLabel,
     action,
   } = props;
+  const locale = useLocale();
 
   const t = useTranslations('portfolio.createCollectionDialog.form');
 
@@ -151,9 +152,9 @@ function CollectionForm(props: CollectionFormProps) {
             onChange={setShootDate}
             placeholder={t('fields.shootDate.placeholder')}
             error={errors?.shootDate?.join(', ')}
-            captionLayout="dropdown"
             startMonth={new Date(2000, 0)}
             endMonth={new Date(new Date().getFullYear(), 11)}
+            locale={{ code: locale }}
           />
           <input
             type="hidden"
