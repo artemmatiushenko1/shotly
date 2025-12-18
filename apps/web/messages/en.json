@@ -563,6 +563,7 @@
       "title": "Find Photographers",
       "description": "Find the perfect photographer for your needs.",
       "resultsCount": "{count, plural, one {# photographer matches your needs} other {# photographers match your needs}}",
+      "clearFilters": "Clear filters",
       "filters": {
         "category": {
           "label": "I'm looking for",

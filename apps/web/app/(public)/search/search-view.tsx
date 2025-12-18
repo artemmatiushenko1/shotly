@@ -96,6 +96,13 @@ export default function SearchView({
               Updating...
             </span>
           )}
+          <Button
+            className="ml-auto p-0"
+            variant="link"
+            onClick={handleClearFilters}
+          >
+            {t('clearFilters')}
+          </Button>
         </div>
 
         {results.length > 0 && !isPending ? (
