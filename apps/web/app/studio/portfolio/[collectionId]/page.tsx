@@ -44,14 +44,10 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
     getAllCategoriesUseCase(locale),
   ]);
 
-  const coverPhoto = photos.find(
-    (photo) => photo.id === collection.coverPhotoId,
-  );
-
   return (
     <FadeIn className="h-full flex flex-col">
       <div className="p-3 pt-5 space-y-6">
-        <CollectionCover coverImageUrl={coverPhoto?.url}>
+        <CollectionCover coverImageUrl={collection.coverPhotoUrl}>
           <div>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -101,7 +97,7 @@ async function CollectionDetails({ params }: CollectionDetailsProps) {
       </div>
       <PhotosUploadQueueProvider userId={user.id} collectionId={collection.id}>
         <PhotosGrid
-          coverPhotoId={coverPhoto?.id ?? null}
+          coverPhotoId={collection.coverPhotoId ?? null}
           collectionId={collection.id}
           photographerId={user.id}
           photos={photos}

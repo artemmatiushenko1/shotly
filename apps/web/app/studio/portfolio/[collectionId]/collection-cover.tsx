@@ -25,7 +25,7 @@ const CollectionCover = (props: CollectionCoverProps) => {
           src={coverImageUrl}
           width={400}
           height={200}
-          quality={100}
+          unoptimized
           alt={t('alt')}
         />
       ) : (
