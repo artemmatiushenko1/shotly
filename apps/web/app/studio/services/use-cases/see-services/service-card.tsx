@@ -40,7 +40,7 @@ function ServiceCard(props: ServiceCardProps) {
 
   return (
     <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 gap-4">
-      <div className="relative p-2 overflow-hidden w-50">
+      <div className="relative p-2 overflow-hidden">
         <Image
           unoptimized
           alt={service.name}
@@ -50,7 +50,7 @@ function ServiceCard(props: ServiceCardProps) {
           className="size-40 w-50 object-cover rounded-lg border"
         />
       </div>
-      <div className="p-3 flex flex-col justify-between flex-1 w-0">
+      <div className="py-3 flex flex-col justify-between flex-1 w-0">
         <div>
           <h2 className="font-bold text-lg">{service.name}</h2>
           <CardDescription className="mb-2 max-w-lg">

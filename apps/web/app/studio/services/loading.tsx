@@ -1,5 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
+import { Card } from '@shotly/ui/components/card';
 import { Skeleton } from '@shotly/ui/components/skeleton';
 
 import GradientLoadingProgress from '../../_components/gradient-progress';
@@ -25,36 +26,36 @@ export async function Loading() {
           </div>
           <div className="flex flex-col gap-4">
             {Array.from({ length: 3 }).map((_, i) => (
-              <div
+              <Card
                 key={i}
-                className="shadow-none py-0 overflow-hidden flex-row gap-4 flex rounded-xl"
+                className="shadow-none border-none py-0 overflow-hidden flex-row gap-4 flex rounded-xl"
               >
-                <div className="relative p-2 overflow-hidden">
+                <div className="relative p-2">
                   <Skeleton className="size-40 w-50 object-cover rounded-lg" />
                 </div>
-                <div className="p-3 flex flex-col justify-between flex-1">
+                <div className="py-3 flex flex-col justify-between flex-1">
                   <div>
                     <Skeleton className="h-6 w-48 mb-2" />
                     <Skeleton className="h-4 w-full max-w-lg" />
                   </div>
                   <div className="flex items-center justify-start gap-10">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col w-1/3">
                       <Skeleton className="h-3 w-12 mb-1" />
                       <Skeleton className="h-6 w-24" />
                     </div>
-                    <div className="flex flex-col items-start">
+                    <div className="flex flex-col items-start w-1/5">
                       <Skeleton className="h-3 w-16 mb-1" />
                       <Skeleton className="h-6 w-20" />
                     </div>
-                    <div className="flex flex-col items-start">
+                    <div className="flex flex-col items-start w-1/5">
                       <Skeleton className="h-3 w-20 mb-1" />
                       <Skeleton className="h-6 w-28" />
                     </div>
-                    <div className="flex flex-col items-start">
+                    <div className="flex flex-col items-start w-1/5">
                       <Skeleton className="h-3 w-20 mb-1" />
                       <Skeleton className="h-6 w-48" />
                     </div>
-                    <div className="flex flex-col items-start">
+                    <div className="flex flex-col items-start w-1/5">
                       <Skeleton className="h-3 w-12 mb-1" />
                       <Skeleton className="h-6 w-20" />
                     </div>
@@ -64,7 +65,7 @@ export async function Loading() {
                   <Skeleton className="h-9 w-24" />
                   <Skeleton className="h-9 w-24" />
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
