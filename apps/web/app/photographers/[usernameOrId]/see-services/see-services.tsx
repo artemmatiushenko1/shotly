@@ -1,6 +1,5 @@
 'use client';
 
-import { CalendarCheckIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { Service } from '@/entities/models/service';
