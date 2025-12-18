@@ -45,6 +45,13 @@ export const getProfilePageInfoByUsernameOrIdUseCase = async (
         nameUk: collection.category.nameUk,
       },
     })),
-    services,
+    services: services.map((service) => ({
+      ...service,
+      category: {
+        id: service.category.id,
+        name: locale === 'uk' ? service.category.nameUk : service.category.name,
+        nameUk: service.category.nameUk,
+      },
+    })),
   };
 };

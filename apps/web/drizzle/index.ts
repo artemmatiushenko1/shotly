@@ -4,6 +4,8 @@ import Pool from 'pg-pool';
 
 import { serverEnv } from '@/env/server';
 
+import { schema } from './schema';
+
 config({ path: '.env' });
 
 const pool = new Pool({
@@ -11,4 +13,4 @@ const pool = new Pool({
   max: 20,
 });
 
-export const db = drizzle(pool, { logger: true });
+export const db = drizzle(pool, { logger: true, schema });

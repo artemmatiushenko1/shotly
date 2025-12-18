@@ -23,7 +23,7 @@ function SeeServices({ services }: SeeServicesProps) {
         <ServiceCard
           key={service.id}
           isPublicView
-          categoryName={'Тварини'}
+          categoryName={service.category.name}
           service={service}
           extraActions={
             <BookServiceDialog>

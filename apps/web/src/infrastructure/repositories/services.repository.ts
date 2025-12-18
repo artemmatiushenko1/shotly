@@ -1,4 +1,4 @@
-import { and, desc, eq, inArray } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 
 import { VisibilityStatus } from '@/entities/models/common';
 import {
@@ -17,14 +17,25 @@ import {
 // TODO: use drizzle relations
 class ServicesRepository {
   async getServiceById(serviceId: string): Promise<Service | null> {
-    const [service] = await db
-      .select()
-      .from(servicesTable)
-      .where(eq(servicesTable.id, serviceId));
+    const service = await db.query.servicesTable.findFirst({
+      where: eq(servicesTable.id, serviceId),
+      with: {
+        category: true,
+        servicesToFeatures: {
+          with: {
+            feature: true,
+          },
+        },
+      },
+    });
+
+    if (!service) {
+      return null;
+    }
 
     return serviceSchema.parse({
       ...service,
-      features: [],
+      features: service.servicesToFeatures.map((stf) => stf.feature.name),
     });
   }
 
@@ -50,70 +61,32 @@ class ServicesRepository {
     userId: string,
     visibilityStatus?: VisibilityStatus,
   ): Promise<Service[]> {
-    const services = await db
-      .select()
-      .from(servicesTable)
-      .where(
-        and(
-          eq(servicesTable.photographerId, userId),
-          visibilityStatus
-            ? eq(servicesTable.visibilityStatus, visibilityStatus)
-            : undefined,
-        ),
-      )
-      .orderBy(desc(servicesTable.createdAt));
+    const services = await db.query.servicesTable.findMany({
+      where: and(
+        eq(servicesTable.photographerId, userId),
+        visibilityStatus
+          ? eq(servicesTable.visibilityStatus, visibilityStatus)
+          : undefined,
+      ),
+      orderBy: desc(servicesTable.createdAt),
+      with: {
+        category: true,
+        servicesToFeatures: {
+          with: {
+            feature: true,
+          },
+        },
+      },
+    });
 
     if (services.length === 0) {
       return [];
     }
 
-    const serviceIds = services.map((service) => service.id);
-    const serviceFeaturesLinks = await db
-      .select()
-      .from(servicesToFeaturesTable)
-      .where(inArray(servicesToFeaturesTable.serviceId, serviceIds));
-
-    if (serviceFeaturesLinks.length === 0) {
-      return services.map((service) =>
-        serviceSchema.parse({
-          ...service,
-          features: [],
-        }),
-      );
-    }
-
-    const uniqueFeatureIds = [
-      ...new Set(serviceFeaturesLinks.map((link) => link.featureId)),
-    ];
-
-    const features = await db
-      .select({
-        id: featuresTable.id,
-        name: featuresTable.name,
-      })
-      .from(featuresTable)
-      .where(inArray(featuresTable.id, uniqueFeatureIds));
-
-    const featuresMap = new Map<string, string>();
-    for (const feature of features) {
-      featuresMap.set(feature.id, feature.name);
-    }
-
-    const serviceToFeaturesMap = new Map<string, string[]>();
-    for (const link of serviceFeaturesLinks) {
-      const featureName = featuresMap.get(link.featureId);
-      if (!featureName) continue;
-
-      if (!serviceToFeaturesMap.has(link.serviceId)) {
-        serviceToFeaturesMap.set(link.serviceId, []);
-      }
-      serviceToFeaturesMap.get(link.serviceId)!.push(featureName);
-    }
-
     return services.map((service) =>
       serviceSchema.parse({
         ...service,
-        features: serviceToFeaturesMap.get(service.id) || [],
+        features: service.servicesToFeatures.map((stf) => stf.feature.name),
       }),
     );
   }

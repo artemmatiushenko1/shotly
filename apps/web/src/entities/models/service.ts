@@ -1,5 +1,6 @@
 import z from 'zod';
 
+import { categorySchema } from './category';
 import { visibilityStatusSchema } from './common';
 
 export const serviceSchema = z.object({
@@ -15,6 +16,7 @@ export const serviceSchema = z.object({
   features: z.array(z.string()),
   categoryId: z.uuid(),
   archivedAt: z.date().nullable(),
+  category: categorySchema,
 });
 
 export type Service = z.infer<typeof serviceSchema>;

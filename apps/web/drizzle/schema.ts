@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import {
   AnyPgColumn,
   bigint,
@@ -300,6 +300,32 @@ export const servicesToFeaturesTable = pgTable(
   (table) => [primaryKey({ columns: [table.serviceId, table.featureId] })],
 );
 
+export const servicesRelations = relations(servicesTable, ({ one, many }) => ({
+  category: one(categoriesTable, {
+    fields: [servicesTable.categoryId],
+    references: [categoriesTable.id],
+  }),
+  servicesToFeatures: many(servicesToFeaturesTable),
+}));
+
+export const featuresRelations = relations(featuresTable, ({ many }) => ({
+  servicesToFeatures: many(servicesToFeaturesTable),
+}));
+
+export const servicesToFeaturesRelations = relations(
+  servicesToFeaturesTable,
+  ({ one }) => ({
+    service: one(servicesTable, {
+      fields: [servicesToFeaturesTable.serviceId],
+      references: [servicesTable.id],
+    }),
+    feature: one(featuresTable, {
+      fields: [servicesToFeaturesTable.featureId],
+      references: [featuresTable.id],
+    }),
+  }),
+);
+
 export const photoUploadStatusEnum = pgEnum('photo_upload_status', [
   PhotoUploadStatus.PENDING,
   PhotoUploadStatus.COMPLETED,
@@ -405,4 +431,9 @@ export const schema = {
   collectionsTable,
   categoriesTable,
   featuresTable,
+  servicesTable,
+  servicesToFeaturesTable,
+  servicesRelations,
+  featuresRelations,
+  servicesToFeaturesRelations,
 };
