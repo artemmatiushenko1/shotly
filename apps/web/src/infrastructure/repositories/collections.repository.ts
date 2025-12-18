@@ -193,7 +193,11 @@ class CollectionsRepository {
         )
       : eq(photosTable.collectionId, collectionId);
 
-    const photos = await db.select().from(photosTable).where(whereClause);
+    const photos = (
+      await db.select().from(photosTable).where(whereClause)
+    ).sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
 
     return photos.map((photo) => photoSchema.parse(photo));
   }
