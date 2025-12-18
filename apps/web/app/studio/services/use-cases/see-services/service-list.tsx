@@ -1,10 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import {
-  startTransition,
-  unstable_ViewTransition as ViewTransition,
-} from 'react';
+import { startTransition } from 'react';
 
 import { Category } from '@/entities/models/category';
 import { Service } from '@/entities/models/service';
@@ -69,20 +66,15 @@ function ServicesList(props: ServicesListProps) {
           />
         ) : (
           filteredServices.map((service) => (
-            <ViewTransition key={service.id}>
-              <ServiceCard
-                key={service.id}
-                service={service}
-                isPublicView={false}
-                categoryName={categoryMap[service.categoryId] ?? '-'}
-                extraActions={
-                  <ServiceCardButtons
-                    service={service}
-                    categories={categories}
-                  />
-                }
-              />
-            </ViewTransition>
+            <ServiceCard
+              key={service.id}
+              service={service}
+              isPublicView={false}
+              categoryName={categoryMap[service.categoryId] ?? '-'}
+              extraActions={
+                <ServiceCardButtons service={service} categories={categories} />
+              }
+            />
           ))
         )}
       </div>

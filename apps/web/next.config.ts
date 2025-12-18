@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   transpilePackages: ['@shotly/ui'],
   images: {
+    dangerouslyAllowLocalIP: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -22,7 +23,6 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
-    viewTransition: true,
   },
 };
 

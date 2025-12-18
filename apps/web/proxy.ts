@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 import { Role } from './src/entities/models/user';
 import { auth } from './src/infrastructure/services/auth/auth';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -20,7 +20,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  runtime: 'nodejs',
   // TODO: check if it's triggered for some unexpected routes/files
   matcher: ['/((?!api|static|.*\\..*|_next).*)'],
 };

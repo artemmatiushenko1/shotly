@@ -1,7 +1,6 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { unstable_ViewTransition as ViewTransition } from 'react';
 
 import {
   Tabs,
@@ -28,62 +27,60 @@ function MyBookings() {
           <TabsTrigger value="cancelled">{t('tabs.cancelled')}</TabsTrigger>
         </TabsList>
         <div className="min-h-[300px]">
-          <ViewTransition>
-            <TabsContent value="upcoming" className="flex flex-col gap-4">
-              <OrderCard
-                status="pending"
-                userInfo={<PhotorgapherInfo />}
-                actions={
-                  <BookingActions
-                    status="pending"
-                    onCancel={() => {}}
-                    onLeaveReview={() => {}}
-                    onMessage={() => {}}
-                  />
-                }
-              />
-              <OrderCard
-                status="confirmed"
-                userInfo={<PhotorgapherInfo />}
-                actions={
-                  <BookingActions
-                    status="confirmed"
-                    onCancel={() => {}}
-                    onLeaveReview={() => {}}
-                    onMessage={() => {}}
-                  />
-                }
-              />
-            </TabsContent>
-            <TabsContent value="past">
-              <OrderCard
-                status="completed"
-                userInfo={<PhotorgapherInfo />}
-                actions={
-                  <BookingActions
-                    status="completed"
-                    onCancel={() => {}}
-                    onLeaveReview={() => {}}
-                    onMessage={() => {}}
-                  />
-                }
-              />
-            </TabsContent>
-            <TabsContent value="cancelled">
-              <OrderCard
-                status="cancelled"
-                userInfo={<PhotorgapherInfo />}
-                actions={
-                  <BookingActions
-                    status="cancelled"
-                    onCancel={() => {}}
-                    onLeaveReview={() => {}}
-                    onMessage={() => {}}
-                  />
-                }
-              />
-            </TabsContent>
-          </ViewTransition>
+          <TabsContent value="upcoming" className="flex flex-col gap-4">
+            <OrderCard
+              status="pending"
+              userInfo={<PhotorgapherInfo />}
+              actions={
+                <BookingActions
+                  status="pending"
+                  onCancel={() => {}}
+                  onLeaveReview={() => {}}
+                  onMessage={() => {}}
+                />
+              }
+            />
+            <OrderCard
+              status="confirmed"
+              userInfo={<PhotorgapherInfo />}
+              actions={
+                <BookingActions
+                  status="confirmed"
+                  onCancel={() => {}}
+                  onLeaveReview={() => {}}
+                  onMessage={() => {}}
+                />
+              }
+            />
+          </TabsContent>
+          <TabsContent value="past">
+            <OrderCard
+              status="completed"
+              userInfo={<PhotorgapherInfo />}
+              actions={
+                <BookingActions
+                  status="completed"
+                  onCancel={() => {}}
+                  onLeaveReview={() => {}}
+                  onMessage={() => {}}
+                />
+              }
+            />
+          </TabsContent>
+          <TabsContent value="cancelled">
+            <OrderCard
+              status="cancelled"
+              userInfo={<PhotorgapherInfo />}
+              actions={
+                <BookingActions
+                  status="cancelled"
+                  onCancel={() => {}}
+                  onLeaveReview={() => {}}
+                  onMessage={() => {}}
+                />
+              }
+            />
+          </TabsContent>
         </div>
       </Tabs>
     </div>
