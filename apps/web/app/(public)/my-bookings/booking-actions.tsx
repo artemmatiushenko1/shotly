@@ -1,28 +1,35 @@
 'use client';
 
 import { MessageSquareIcon, StarIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
-import { Button } from '@shotly/ui/components/button';
+import { OrderStatus } from '@/entities/models/order';
+
+import { Button, buttonVariants } from '@shotly/ui/components/button';
+import { cn } from '@shotly/ui/lib/utils';
 
 import LeaveReviewDialog from './leave-review-dialog';
 
 type BookingActionsProps = {
-  status: 'completed' | 'cancelled' | 'pending' | 'confirmed';
+  status: OrderStatus;
   onCancel: () => void;
   onLeaveReview: () => void;
-  onMessage: () => void;
+  photographerEmail: string;
 };
 
-function BookingActions({ status }: BookingActionsProps) {
+function BookingActions({ status, photographerEmail }: BookingActionsProps) {
   const t = useTranslations('myBookings.actions');
 
   return (
     <>
-      <Button variant="outline" className="rounded-full">
+      <Link
+        href={`mailto:${photographerEmail}`}
+        className={cn(buttonVariants({ variant: 'outline' }), 'rounded-full')}
+      >
         <MessageSquareIcon /> {t('messagePhotographer')}
-      </Button>
+      </Link>
       {status === 'completed' && (
         <LeaveReviewDialog>
           <Button className="rounded-full">

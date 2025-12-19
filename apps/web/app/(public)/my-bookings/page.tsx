@@ -6,11 +6,11 @@ import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/d
 import BookingTabs from './booking-tabs';
 
 async function MyBookings() {
-  const t = await getTranslations('myBookings');
-
   const user = await getAuthenticatedUserOrRedirect();
 
   const orders = await getClientOrdersUseCase(user.id);
+
+  const t = await getTranslations('myBookings');
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
