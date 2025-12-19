@@ -2,7 +2,9 @@
 
 import { CopyIcon } from 'lucide-react';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+
+import { Order, OrderStatus } from '@/entities/models/order';
 
 import { Badge } from '@shotly/ui/components/badge';
 import {
@@ -11,12 +13,9 @@ import {
   CardFooter,
   CardHeader,
 } from '@shotly/ui/components/card';
+import { DateFormat, formatDate } from '@shotly/ui/lib/date';
 
-const BookingStatusBadge = ({
-  status,
-}: {
-  status: 'completed' | 'cancelled' | 'pending' | 'confirmed';
-}) => {
+const BookingStatusBadge = ({ status }: { status: OrderStatus }) => {
   const t = useTranslations('orders.status');
 
   switch (status) {
@@ -48,13 +47,14 @@ const BookingStatusBadge = ({
 };
 
 type OrderCardProps = {
-  status: 'completed' | 'cancelled' | 'pending' | 'confirmed';
+  order: Order;
   actions: React.ReactNode;
   userInfo: React.ReactNode;
 };
 
-function OrderCard({ status, actions, userInfo }: OrderCardProps) {
+function OrderCard({ order, actions, userInfo }: OrderCardProps) {
   const t = useTranslations('orders.card');
+  const locale = useLocale();
 
   return (
     <Card className="shadow-none pb-0 overflow-hidden">
@@ -63,7 +63,9 @@ function OrderCard({ status, actions, userInfo }: OrderCardProps) {
           <p className="text-xs text-muted-foreground mb-1">
             {t('bookingDate')}
           </p>
-          <p className="text-xl font-bold">Cб, 23 листопада 2025</p>
+          <p className="text-xl font-bold">
+            {formatDate(order.bookingDate, locale, DateFormat.DAY_MONTH_YEAR)}
+          </p>
         </div>
         {userInfo}
         <div>
@@ -75,7 +77,7 @@ function OrderCard({ status, actions, userInfo }: OrderCardProps) {
         </div>
         <div>
           <p className="text-xs text-muted-foreground mb-1">{t('status')}</p>
-          <BookingStatusBadge status={status} />
+          <BookingStatusBadge status={order.status} />
         </div>
       </CardHeader>
       <CardContent>
@@ -83,7 +85,7 @@ function OrderCard({ status, actions, userInfo }: OrderCardProps) {
           <div className="size-[60px] overflow-hidden rounded-sm shrink-0">
             <Image
               unoptimized
-              src="https://firebasestorage.googleapis.com/v0/b/personal-website-4afb5.appspot.com/o/artworks%2FIMG_3102-min.jpg?alt=media&token=56790863-45c0-4d5a-89b1-725c3d72536f"
+              src={order.service.coverImageUrl}
               alt={t('serviceImageAlt')}
               width={100}
               height={100}
@@ -91,14 +93,15 @@ function OrderCard({ status, actions, userInfo }: OrderCardProps) {
             />
           </div>
           <div>
-            <h3 className="text-sm font-bold">Індивідуальна фотосесія</h3>
+            <h3 className="text-sm font-bold">{order.service.name}</h3>
             <p className="text-xs text-muted-foreground">
-              Разом обираємо локацію та стиль фотосесії. Додатково підбираємо
-              гардероб та референси.
+              {order.service.description}
             </p>
           </div>
           <div className="ml-auto mr-2">
-            <span className="text-md font-bold">1800 грн</span>{' '}
+            <span className="text-md font-bold">
+              {order.service.price} {order.service.currency}
+            </span>{' '}
             <span className="text-xs text-muted-foreground text-nowrap">
               {t('priceUnit')}
             </span>
@@ -109,9 +112,11 @@ function OrderCard({ status, actions, userInfo }: OrderCardProps) {
         <div>
           <p className="text-xs text-muted-foreground">{t('total')}</p>
           <p className="text-md font-bold">
-            3600 грн{' '}
+            <span>
+              {order.service.price * order.hours} {order.service.currency}
+            </span>{' '}
             <span className="text-xs text-muted-foreground text-nowrap font-normal">
-              {t('duration', { hours: 2 })}
+              {t('duration', { hours: order.hours })}
             </span>
           </p>
         </div>

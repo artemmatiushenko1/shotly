@@ -391,6 +391,23 @@ export const ordersTable = pgTable('orders', {
   ),
 });
 
+export const ordersRelations = relations(ordersTable, ({ one }) => ({
+  client: one(usersTable, {
+    fields: [ordersTable.clientId],
+    references: [usersTable.id],
+    relationName: 'client',
+  }),
+  photographer: one(usersTable, {
+    fields: [ordersTable.photographerId],
+    references: [usersTable.id],
+    relationName: 'photographer',
+  }),
+  service: one(servicesTable, {
+    fields: [ordersTable.serviceId],
+    references: [servicesTable.id],
+  }),
+}));
+
 export const reviewsTable = pgTable(
   'reviews',
   {
@@ -432,4 +449,7 @@ export const schema = {
   servicesRelations,
   featuresRelations,
   servicesToFeaturesRelations,
+  ordersTable,
+  ordersRelations,
+  reviewsTable,
 };

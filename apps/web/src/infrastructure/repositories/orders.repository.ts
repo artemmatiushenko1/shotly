@@ -1,4 +1,6 @@
-import { CreateOrderInput } from '@/entities/models/order';
+import { eq } from 'drizzle-orm';
+
+import { CreateOrderInput, Order, orderSchema } from '@/entities/models/order';
 
 import { db } from '../../../drizzle';
 import { ordersTable } from '../../../drizzle/schema';
@@ -15,6 +17,38 @@ class OrdersRepository {
     }
 
     return order.id;
+  }
+
+  async getClientOrders(clientId: string): Promise<Order[]> {
+    const orders = await db.query.ordersTable.findMany({
+      where: eq(ordersTable.clientId, clientId),
+      with: {
+        client: true,
+        photographer: true,
+        service: {
+          with: {
+            category: true,
+            servicesToFeatures: {
+              with: {
+                feature: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return orders.map((order) => {
+      return orderSchema.parse({
+        ...order,
+        service: {
+          ...order.service,
+          features: order.service.servicesToFeatures.map(
+            (stf) => stf.feature.name,
+          ),
+        },
+      });
+    });
   }
 }
 

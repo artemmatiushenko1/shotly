@@ -10,6 +10,7 @@ export enum DateFormat {
   LONG = 'DD MMMM YYYY', // 19 March 2025
   FULL = 'DD MMMM YYYY HH:mm', // 19 March 2025 10:00
   MONTH_DAY_YEAR = 'MMMM D, YYYY', // March 19, 2025
+  DAY_MONTH_YEAR = 'dd, DD MMM YYYY', // Sat, 19 Mar 2025
 }
 
 /**

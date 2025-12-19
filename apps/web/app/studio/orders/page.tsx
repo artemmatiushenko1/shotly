@@ -3,6 +3,8 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
+import { Order, OrderStatus } from '@/entities/models/order';
+
 import { Badge } from '@shotly/ui/components/badge';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 
@@ -13,18 +15,16 @@ import OrderActions from './order-actions';
 
 function Orders() {
   const t = useTranslations('orders');
-  const [selectedTab, setSelectedTab] = useState<
-    'pending' | 'confirmed' | 'completed'
-  >('pending');
+  const [selectedTab, setSelectedTab] = useState<OrderStatus>(
+    OrderStatus.PENDING,
+  );
 
   return (
     <>
       <MainHeader title={t('title')} caption={t('caption')} />
       <Tabs
         value={selectedTab}
-        onValueChange={(value) =>
-          setSelectedTab(value as 'pending' | 'confirmed' | 'completed')
-        }
+        onValueChange={(value) => setSelectedTab(value as OrderStatus)}
       >
         <TabsList className="px-4 mt-4">
           <TabsTrigger value="pending">
@@ -42,25 +42,10 @@ function Orders() {
       </Tabs>
       <div className="p-4 space-y-4">
         <OrderCard
-          status="pending"
-          userInfo={<ClientInfo orderStatus="pending" />}
-          actions={<OrderActions status="pending" />}
+          order={{} as Order}
+          userInfo={<ClientInfo orderStatus={OrderStatus.PENDING} />}
+          actions={<OrderActions status={OrderStatus.PENDING} />}
         />
-        {/* <OrderCard
-          status="confirmed"
-          userInfo={<ClientInfo orderStatus="confirmed" />}
-          actions={<OrderActions status="confirmed" />}
-        />
-        <OrderCard
-          status="completed"
-          userInfo={<ClientInfo orderStatus="completed" />}
-          actions={<OrderActions status="completed" />}
-        />
-        <OrderCard
-          status="cancelled"
-          userInfo={<ClientInfo orderStatus="cancelled" />}
-          actions={<OrderActions status="cancelled" />}
-        /> */}
       </div>
     </>
   );
