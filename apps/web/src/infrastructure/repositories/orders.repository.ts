@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 
 import { CreateOrderInput, Order, orderSchema } from '@/entities/models/order';
 
@@ -36,6 +36,7 @@ class OrdersRepository {
           },
         },
       },
+      orderBy: desc(ordersTable.createdAt),
     });
 
     return orders.map((order) => {
