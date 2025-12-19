@@ -3,7 +3,7 @@
 import { ClockIcon, MinusIcon, PlusIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
-import React, { useActionState, useId, useState } from 'react';
+import React, { useActionState, useEffect, useId, useState } from 'react';
 
 import { Service } from '@/entities/models/service';
 import { UserProfile } from '@/entities/models/user';
@@ -40,10 +40,22 @@ type BookServiceFormProps = {
   service: Service;
   photographerProfile: UserProfile;
   photographerId: string;
+  onSuccess: (orderDetails: NewOrderDetails) => void;
+};
+
+export type NewOrderDetails = {
+  orderId: string;
+  photographerName: string;
 };
 
 function BookServiceForm(props: BookServiceFormProps) {
-  const { service, photographerProfile, clientInfo, photographerId } = props;
+  const {
+    service,
+    photographerProfile,
+    clientInfo,
+    photographerId,
+    onSuccess,
+  } = props;
 
   const t = useTranslations('photographerProfile.bookService');
   const locale = useLocale();
@@ -61,6 +73,20 @@ function BookServiceForm(props: BookServiceFormProps) {
   const durationId = useId();
   const notesId = useId();
 
+  useEffect(() => {
+    if (formState.status === 'success' && formState.response) {
+      onSuccess({
+        orderId: formState.response,
+        photographerName: photographerProfile.name,
+      });
+    }
+  }, [
+    formState.status,
+    formState.response,
+    onSuccess,
+    photographerProfile.name,
+  ]);
+
   const updateDuration = (step: number) => {
     const newDuration = duration + step;
 
@@ -74,8 +100,6 @@ function BookServiceForm(props: BookServiceFormProps) {
   };
 
   const { errors, inputs } = formState;
-
-  console.log({ errors });
 
   return (
     <form action={formAction} className="flex gap-4 flex-col">

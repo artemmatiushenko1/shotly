@@ -681,7 +681,13 @@
           "placeholder": "Describe your photoshoot idea, location preferences or any special requests"
         }
       },
-      "submitButton": "Book"
+      "submitButton": "Book",
+      "success": {
+        "title": "Request sent!",
+        "description": "We notified the photographer {photographerName} about your order. Wait for confirmation soon.",
+        "close": "Close",
+        "viewBookings": "View my bookings"
+      }
     },
     "reviews": {
       "verifiedReviews": "{count, plural, one {# verified review} other {# verified reviews}}"
