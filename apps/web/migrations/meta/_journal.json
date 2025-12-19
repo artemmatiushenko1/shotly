@@ -113,6 +113,20 @@
       "when": 1766164181803,
       "tag": "0015_clever_silverclaw",
       "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1766168972074,
+      "tag": "0016_spicy_longshot",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1766169079141,
+      "tag": "0017_complex_redwing",
+      "breakpoints": true
     }
   ]
 }

@@ -24,7 +24,7 @@ import {
 import { DEFAULT_STORAGE_CAPACITY_BYTES } from '@/application/use-cases/account/constants';
 import { generateDefaultUsername } from '@/application/use-cases/account/utils';
 import { VisibilityStatus } from '@/entities/models/common';
-import { OrderStatus } from '@/entities/models/order';
+import { generateOrderDisplayId, OrderStatus } from '@/entities/models/order';
 import { PhotoMetadata, PhotoUploadStatus } from '@/entities/models/photo';
 import { ApprovalStatus, Role } from '@/entities/models/user';
 
@@ -367,6 +367,10 @@ export const orderStatusEnum = pgEnum('order_status', [
 export const ordersTable = pgTable('orders', {
   id: uuid('id').defaultRandom().primaryKey(),
   hours: integer('hours').notNull(),
+  displayId: text('display_id')
+    .unique()
+    .notNull()
+    .$defaultFn(() => generateOrderDisplayId()),
   pricePerHour: integer('price_per_hour').notNull(),
   currency: text('currency').notNull(),
   status: orderStatusEnum('status').notNull().default(OrderStatus.PENDING),

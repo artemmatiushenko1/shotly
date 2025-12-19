@@ -71,7 +71,7 @@ function OrderCard({ order, actions, userInfo }: OrderCardProps) {
         <div>
           <p className="text-xs text-muted-foreground mb-1">{t('bookingId')}</p>
           <p className="text-md font-bold inline-flex items-center gap-2">
-            #1234567890{' '}
+            {order.displayId}{' '}
             <CopyIcon className="size-4 cursor-pointer text-muted-foreground" />
           </p>
         </div>

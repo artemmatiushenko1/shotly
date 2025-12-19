@@ -1,3 +1,4 @@
+import { customAlphabet } from 'nanoid';
 import z from 'zod';
 
 import { serviceSchema } from './service';
@@ -12,6 +13,7 @@ export enum OrderStatus {
 
 export const orderSchema = z.object({
   id: z.string(),
+  displayId: z.string(),
   hours: z.number(),
   pricePerHour: z.number(),
   currency: z.string(),
@@ -45,3 +47,11 @@ export const createOrderInputSchema = orderSchema
   );
 
 export type CreateOrderInput = z.infer<typeof createOrderInputSchema>;
+
+const alphabet = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+const nanoid = customAlphabet(alphabet, 8);
+
+export function generateOrderDisplayId(): string {
+  const id = nanoid();
+  return `ORD-${id.slice(0, 4)}-${id.slice(4)}`;
+}
