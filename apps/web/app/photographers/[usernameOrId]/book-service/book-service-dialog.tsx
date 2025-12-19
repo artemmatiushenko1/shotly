@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { Button } from '@shotly/ui/components/button';
 import { Card } from '@shotly/ui/components/card';
@@ -11,6 +11,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogFooter,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
@@ -25,12 +26,16 @@ type BookServiceDialogProps = {
 
 function BookServiceDialog({ children }: BookServiceDialogProps) {
   const t = useTranslations('photographerProfile.bookService');
+  const locale = useLocale();
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
-        <DialogTitle>{t('title')}</DialogTitle>
-        <DialogDescription>{t('description')}</DialogDescription>
+      <DialogContent className="sm:max-w-[550px]">
+        <DialogHeader>
+          <DialogTitle>{t('title')}</DialogTitle>
+          <DialogDescription>{t('description')}</DialogDescription>
+        </DialogHeader>
         <Card className="shadow-none p-2 flex-row items-center gap-4">
           <div className="size-[60px] overflow-hidden rounded-sm shrink-0">
             <Image
@@ -92,6 +97,7 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
               onChange={(date: Date | undefined) => {
                 console.log(date);
               }}
+              locale={{ code: locale }}
               id="date"
               name="date"
               placeholder={t('fields.date.placeholder')}

@@ -3,9 +3,9 @@
 import { CalendarIcon, ImagesIcon, TagIcon } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
-import { Locale } from '@/_i18n/config';
 import { VisibilityStatus } from '@/entities/models/common';
-import { formatDateWithOrdinal } from '@/utils/date-formatting';
+
+import { formatDate } from '@shotly/ui/lib/date';
 
 import { IconWithText } from '../../../_components/icon-with-text';
 import { VisibilityBadge } from '../../../_components/visibility-badge';
@@ -37,7 +37,7 @@ const CollectionMetadata = (props: CollectionMetadataProps) => {
           />
           <IconWithText
             icon={CalendarIcon}
-            text={formatDateWithOrdinal(shootDate, locale as Locale)}
+            text={formatDate(shootDate, locale)}
           />
           <IconWithText icon={TagIcon} text={categoryName} />
         </div>

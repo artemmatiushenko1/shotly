@@ -1,6 +1,5 @@
 'use client';
 
-import dayjs from 'dayjs';
 import { CalendarIcon } from 'lucide-react';
 import type { DayPickerProps } from 'react-day-picker';
 import { uk } from 'react-day-picker/locale';
@@ -12,6 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@shotly/ui/components/popover';
+import { DateFormat, formatDate } from '@shotly/ui/lib/date';
 import { cn } from '@shotly/ui/lib/utils';
 
 type DatePickerProps = {
@@ -40,7 +40,7 @@ function DatePicker({
   buttonClassName,
   popoverContentClassName,
   align = 'start',
-  dateFormat = 'MMMM D, YYYY',
+  dateFormat = DateFormat.LONG,
   disabled,
   ...calendarProps
 }: DatePickerProps) {
@@ -64,9 +64,7 @@ function DatePicker({
             )}
           >
             {value ? (
-              dayjs(value)
-                .locale(calendarProps.locale?.code ?? 'en')
-                .format(dateFormat)
+              formatDate(value, calendarProps.locale?.code ?? 'en', dateFormat)
             ) : (
               <span>{placeholder}</span>
             )}

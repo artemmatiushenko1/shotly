@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
 
-import { Locale } from '@/_i18n/config';
 import { Collection } from '@/entities/models/collection';
 import { VisibilityStatus } from '@/entities/models/common';
-import { formatDateWithOrdinal } from '@/utils/date-formatting';
+
+import { formatDate } from '@shotly/ui/lib/date';
 
 import CollectionCard from './collection-card';
 
@@ -27,10 +27,7 @@ const CollectionsGrid = ({ collections }: CollectionsGridProps) => {
             coverImageUrl={collection.coverPhotoUrl}
             description={collection.description ?? ''}
             isPublic={collection.visibilityStatus === VisibilityStatus.PUBLIC}
-            createdAt={formatDateWithOrdinal(
-              collection.shootDate,
-              locale as Locale,
-            )}
+            createdAt={formatDate(collection.shootDate, locale)}
           />
         </Link>
       ))}
