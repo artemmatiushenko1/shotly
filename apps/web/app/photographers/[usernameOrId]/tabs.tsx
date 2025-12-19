@@ -1,6 +1,8 @@
 'use client';
 
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
 
 import { Collection } from '@/entities/models/collection';
 import { Service } from '@/entities/models/service';
@@ -21,30 +23,61 @@ type ProfileTabsProps = {
   services: Service[];
 };
 
+enum ProfileTab {
+  PORTFOLIO = 'portfolio',
+  SERVICES = 'services',
+  REVIEWS = 'reviews',
+}
+
 const ProfileTabs = ({ collections, services }: ProfileTabsProps) => {
   const t = useTranslations('photographerProfile.tabs');
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const [activeTab, setActiveTab] = useState(
+    (searchParams.get('tab') as ProfileTab) || ProfileTab.PORTFOLIO,
+  );
+
+  useEffect(() => {
+    const tabParam = searchParams.get('tab') as ProfileTab;
+    if (
+      tabParam &&
+      [ProfileTab.PORTFOLIO, ProfileTab.SERVICES, ProfileTab.REVIEWS].includes(
+        tabParam,
+      )
+    ) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value as ProfileTab);
+    router.replace(`${pathname}?tab=${value}`, { scroll: false });
+  };
 
   const tabs = [
     {
       name: t('portfolio'),
-      value: 'portfolio',
+      value: ProfileTab.PORTFOLIO,
       content: <SeePorfolio collections={collections} />,
     },
     {
       name: t('services'),
-      value: 'services',
+      value: ProfileTab.SERVICES,
       content: <SeeServices services={services} />,
     },
     {
       name: t('reviews'),
-      value: 'reviews',
+      value: ProfileTab.REVIEWS,
       content: <SeeReviews />,
     },
   ];
 
   return (
-    <div className="w-full">
-      <Tabs defaultValue="portfolio" className="gap-4">
+    <div className="w-full" id="profile-tabs">
+      <Tabs className="gap-4" value={activeTab} onValueChange={handleTabChange}>
         <TabsList className="bg-background rounded-none border-b p-0 w-full justify-start">
           {tabs.map((tab) => (
             <TabsTrigger

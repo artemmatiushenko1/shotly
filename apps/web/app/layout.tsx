@@ -33,7 +33,11 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html
+      lang={locale}
+      suppressHydrationWarning
+      style={{ scrollBehavior: 'smooth' }}
+    >
       <body
         className={`${interSans.variable} ${borel.variable} antialiased font-[family-name:var(--font-inter-sans)] has-data-[slot=sidebar-wrapper]:bg-sidebar`}
       >

@@ -1,5 +1,6 @@
 import { ArrowUpRightIcon } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 
 import { getLocale } from '@/_i18n/locale';
@@ -7,7 +8,8 @@ import { getProfilePageInfoByUsernameOrIdUseCase } from '@/application/use-cases
 import { getAuthenticatedUser } from '@/infrastructure/services/auth/dal';
 
 import { Avatar, AvatarImage } from '@shotly/ui/components/avatar';
-import { Button } from '@shotly/ui/components/button';
+import { buttonVariants } from '@shotly/ui/components/button';
+import { cn } from '@shotly/ui/lib/utils';
 
 import ProfileTabs from './tabs';
 
@@ -71,7 +73,16 @@ async function PhotographerPublicProfile({
             )}
           </div>
           <div className="flex items-center pt-20 gap-2 ml-auto">
-            <Button className="rounded-full">{t('bookNow')}</Button>
+            <Link
+              scroll
+              href="?tab=services#profile-tabs"
+              className={cn(
+                buttonVariants({ variant: 'default' }),
+                'rounded-full',
+              )}
+            >
+              {t('bookNow')}
+            </Link>
           </div>
         </div>
         <div className="-mt-13 flex">
