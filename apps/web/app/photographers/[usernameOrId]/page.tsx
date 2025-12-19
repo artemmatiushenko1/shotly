@@ -199,7 +199,12 @@ async function PhotographerPublicProfile({
             </div>
           </div>
         </div>
-        <ProfileTabs collections={collections} services={services} />
+        <ProfileTabs
+          collections={collections}
+          services={services}
+          user={user}
+          photographerProfile={profile}
+        />
       </div>
     </div>
   );

@@ -1,9 +1,15 @@
 'use client';
 
+import { ClockIcon, MinusIcon, PlusIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
+import { useState } from 'react';
+
+import { Service } from '@/entities/models/service';
+import { UserProfile } from '@/entities/models/user';
 
 import { Button } from '@shotly/ui/components/button';
+import { ButtonGroup } from '@shotly/ui/components/button-group';
 import { Card } from '@shotly/ui/components/card';
 import { DatePicker } from '@shotly/ui/components/date-picker';
 import {
@@ -16,17 +22,48 @@ import {
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
 import { Input } from '@shotly/ui/components/input';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@shotly/ui/components/input-group';
 import { Label } from '@shotly/ui/components/label';
 import { Separator } from '@shotly/ui/components/separator';
 import { Textarea } from '@shotly/ui/components/textarea';
 
 type BookServiceDialogProps = {
   children: React.ReactNode;
+  userEmail: string;
+  username: string;
+  service: Service;
+  photographerProfile: UserProfile;
 };
 
-function BookServiceDialog({ children }: BookServiceDialogProps) {
+const MAX_DURATION = 8;
+const MIN_DURATION = 1;
+const DEFAULT_DURATION_CHANGE_STEP = 1;
+
+function BookServiceDialog(props: BookServiceDialogProps) {
+  const { children, userEmail, username, service, photographerProfile } = props;
+
+  const [duration, setDuration] = useState(MIN_DURATION);
+  const [date, setDate] = useState<Date | undefined>(undefined);
+
   const t = useTranslations('photographerProfile.bookService');
+
   const locale = useLocale();
+
+  const updateDuration = (step: number) => {
+    const newDuration = duration + step;
+
+    if (newDuration < MIN_DURATION) {
+      setDuration(MIN_DURATION);
+    } else if (newDuration > MAX_DURATION) {
+      setDuration(MAX_DURATION);
+    } else {
+      setDuration(newDuration);
+    }
+  };
 
   return (
     <Dialog>
@@ -37,30 +74,46 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
           <DialogDescription>{t('description')}</DialogDescription>
         </DialogHeader>
         <Card className="shadow-none p-2 flex-row items-center gap-4">
-          <div className="size-[60px] overflow-hidden rounded-sm shrink-0">
+          <div className="size-[65px] overflow-hidden rounded-sm shrink-0">
             <Image
-              src="https://firebasestorage.googleapis.com/v0/b/personal-website-4afb5.appspot.com/o/artworks%2FIMG_3102-min.jpg?alt=media&token=56790863-45c0-4d5a-89b1-725c3d72536f"
+              width={110}
+              height={110}
               alt={t('serviceImageAlt')}
-              width={100}
-              height={100}
+              src={service.coverImageUrl}
               className="object-cover w-full h-full"
             />
           </div>
-          <div>
-            <h3 className="text-sm font-bold">Індивідуальна фотосесія</h3>
-            <p className="text-xs text-muted-foreground">
-              Разом обираємо локацію та стиль фотосесії. Додатково підбираємо
-              гардероб та референси.
+          <div className="overflow-hidden">
+            <h3 className="text-sm font-bold">{service.name}</h3>
+            <p className="text-xs text-muted-foreground truncate max-w-[260px] mb-2">
+              {service.description}
             </p>
+            <div className="flex items-center gap-2">
+              <div className="size-[20px] overflow-hidden rounded-full shrink-0">
+                <Image
+                  width={20}
+                  height={20}
+                  className="object-cover w-full h-full"
+                  src={photographerProfile.profileImageUrl ?? ''}
+                  alt={photographerProfile.name}
+                />
+              </div>
+              <p className="text-xs truncate max-w-[260px]">
+                {photographerProfile.name}
+              </p>
+            </div>
           </div>
-          <div>
-            <span className="text-md font-bold">1800 грн</span>{' '}
+          <p className="text-right ml-auto">
+            <span className="text-md font-bold">
+              {service.price} {service.currency.toUpperCase()}
+            </span>{' '}
             <span className="text-xs text-muted-foreground text-nowrap">
+              <br />
               {t('priceUnit')}
             </span>
-          </div>
+          </p>
         </Card>
-        <div>
+        <form>
           <Label htmlFor="name" className="mb-2">
             {t('fields.name.label')}
           </Label>
@@ -69,10 +122,10 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
             disabled
             name="name"
             id="name"
-            value="Олена Коваленко"
+            value={username}
             placeholder={t('fields.name.placeholder')}
           />
-        </div>
+        </form>
         <div>
           <Label htmlFor="email" className="mb-2">
             {t('fields.email.label')}
@@ -82,45 +135,72 @@ function BookServiceDialog({ children }: BookServiceDialogProps) {
             disabled
             name="email"
             id="email"
-            value="olena.kovalenko@example.com"
+            value={userEmail}
             placeholder={t('fields.email.placeholder')}
           />
         </div>
         <Separator className="my-3" />
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mb-2">
           <div>
             <Label htmlFor="date" className="mb-2">
               {t('fields.date.label')}
             </Label>
             <DatePicker
-              value={new Date()}
-              onChange={(date: Date | undefined) => {
-                console.log(date);
-              }}
+              value={date}
+              onChange={setDate}
               locale={{ code: locale }}
               id="date"
               name="date"
+              disabled={{ before: new Date() }}
               placeholder={t('fields.date.placeholder')}
             />
           </div>
           <div>
             <Label htmlFor="duration" className="mb-2">
               {t('fields.duration.label')}
+              <span className="text-xs text-muted-foreground">
+                ({t('fields.duration.unit')})
+              </span>
             </Label>
-            <Input
-              type="number"
-              name="duration"
-              id="duration"
-              placeholder={t('fields.duration.placeholder')}
-              min={1}
-              max={10}
-              step={1}
-            />
+            <ButtonGroup className="w-full gap-1/2">
+              <InputGroup>
+                <InputGroupAddon>
+                  <ClockIcon />
+                </InputGroupAddon>
+                <InputGroupInput
+                  type="number"
+                  name="duration"
+                  id="duration"
+                  value={duration}
+                  onChange={(e) => setDuration(Number(e.target.value))}
+                  placeholder={t('fields.duration.placeholder')}
+                  min={MIN_DURATION}
+                  max={MAX_DURATION}
+                  step={DEFAULT_DURATION_CHANGE_STEP}
+                  className="rounded-r-none relative [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+              </InputGroup>
+              <Button
+                variant="outline"
+                onClick={() => updateDuration(DEFAULT_DURATION_CHANGE_STEP)}
+              >
+                <PlusIcon className="size-4" />
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => updateDuration(-DEFAULT_DURATION_CHANGE_STEP)}
+              >
+                <MinusIcon className="size-4" />
+              </Button>
+            </ButtonGroup>
           </div>
         </div>
         <div>
           <Label htmlFor="notes" className="mb-2">
             {t('fields.notes.label')}
+            <span className="text-xs text-muted-foreground">
+              ({t('fields.notes.optional')})
+            </span>
           </Label>
           <div className="space-y-2">
             <Textarea

@@ -3,13 +3,21 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { UnauthorizedError } from '@/entities/errors/auth';
-import { Role } from '@/entities/models/user';
+import { ApprovalStatus, Role } from '@/entities/models/user';
 
 import { auth } from './auth';
 
+export type AuthenticatedUser = {
+  id: string;
+  name: string;
+  email: string;
+  role: Role;
+  approvalStatus: ApprovalStatus;
+};
+
 export const getAuthenticatedUser = async () => {
   const session = await auth.api.getSession({ headers: await headers() });
-  return session?.user;
+  return session?.user as AuthenticatedUser | undefined;
 };
 
 export const getAuthenticatedUserOrRedirect = async () => {
@@ -19,7 +27,7 @@ export const getAuthenticatedUserOrRedirect = async () => {
     redirect('/auth/sign-in');
   }
 
-  return session.user;
+  return session.user as AuthenticatedUser;
 };
 
 export const requireCustomerRole = async () => {

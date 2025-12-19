@@ -145,16 +145,14 @@ function CollectionForm(props: CollectionFormProps) {
         </div>
         <div className="grid gap-3 w-full">
           <Label htmlFor={shootDateId}>{t('fields.shootDate.label')}</Label>
-          {/* TODO: disable future dates */}
           <DatePicker
             id={shootDateId}
             value={shootDate}
             onChange={setShootDate}
             placeholder={t('fields.shootDate.placeholder')}
             error={errors?.shootDate?.join(', ')}
-            startMonth={new Date(2000, 0)}
-            endMonth={new Date(new Date().getFullYear(), 11)}
             locale={{ code: locale }}
+            disabled={{ after: new Date() }}
           />
           <input
             type="hidden"

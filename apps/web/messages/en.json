@@ -671,11 +671,13 @@
           "placeholder": "Select a date"
         },
         "duration": {
-          "label": "Duration (hours)",
+          "label": "Duration",
+          "unit": "hours",
           "placeholder": "Enter the duration in hours"
         },
         "notes": {
-          "label": "Notes (optional)",
+          "label": "Notes",
+          "optional": "optional",
           "placeholder": "Describe your photoshoot idea, location preferences or any special requests"
         }
       },

@@ -3,6 +3,8 @@
 import { useTranslations } from 'next-intl';
 
 import { Service } from '@/entities/models/service';
+import { UserProfile } from '@/entities/models/user';
+import { AuthenticatedUser } from '@/infrastructure/services/auth/dal';
 
 import { Button } from '@shotly/ui/components/button';
 
@@ -11,9 +13,13 @@ import BookServiceDialog from '../book-service/book-service-dialog';
 
 type SeeServicesProps = {
   services: Service[];
+  user?: AuthenticatedUser;
+  photographerProfile: UserProfile;
 };
 
-function SeeServices({ services }: SeeServicesProps) {
+function SeeServices(props: SeeServicesProps) {
+  const { services, user, photographerProfile } = props;
+
   const t = useTranslations('photographerProfile.seeServices');
 
   return (
@@ -25,11 +31,18 @@ function SeeServices({ services }: SeeServicesProps) {
           categoryName={service.category.name}
           service={service}
           extraActions={
-            <BookServiceDialog>
-              <Button className="mr-4 mt-4 rounded-full">
-                {t('bookButton')}
-              </Button>
-            </BookServiceDialog>
+            user ? (
+              <BookServiceDialog
+                userEmail={user.email}
+                username={user.name}
+                service={service}
+                photographerProfile={photographerProfile}
+              >
+                <Button className="mr-4 mt-4 rounded-full">
+                  {t('bookButton')}
+                </Button>
+              </BookServiceDialog>
+            ) : null
           }
         />
       ))}

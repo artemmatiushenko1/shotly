@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 
 import { Collection } from '@/entities/models/collection';
 import { Service } from '@/entities/models/service';
+import { UserProfile } from '@/entities/models/user';
+import { AuthenticatedUser } from '@/infrastructure/services/auth/dal';
 
 import {
   Tabs,
@@ -21,6 +23,8 @@ import SeeServices from './see-services/see-services';
 type ProfileTabsProps = {
   collections: Collection[];
   services: Service[];
+  user?: AuthenticatedUser;
+  photographerProfile: UserProfile;
 };
 
 enum ProfileTab {
@@ -29,7 +33,9 @@ enum ProfileTab {
   REVIEWS = 'reviews',
 }
 
-const ProfileTabs = ({ collections, services }: ProfileTabsProps) => {
+const ProfileTabs = (props: ProfileTabsProps) => {
+  const { collections, services, user, photographerProfile } = props;
+
   const t = useTranslations('photographerProfile.tabs');
 
   const searchParams = useSearchParams();
@@ -66,7 +72,13 @@ const ProfileTabs = ({ collections, services }: ProfileTabsProps) => {
     {
       name: t('services'),
       value: ProfileTab.SERVICES,
-      content: <SeeServices services={services} />,
+      content: (
+        <SeeServices
+          services={services}
+          user={user}
+          photographerProfile={photographerProfile}
+        />
+      ),
     },
     {
       name: t('reviews'),

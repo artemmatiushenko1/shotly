@@ -26,7 +26,6 @@ type DatePickerProps = {
   popoverContentClassName?: string;
   align?: 'start' | 'center' | 'end';
   dateFormat?: string;
-  disabled?: boolean;
 } & Omit<DayPickerProps, 'mode' | 'selected' | 'onSelect'>;
 
 function DatePicker({
@@ -41,7 +40,6 @@ function DatePicker({
   popoverContentClassName,
   align = 'start',
   dateFormat = DateFormat.LONG,
-  disabled,
   ...calendarProps
 }: DatePickerProps) {
   const handleSelect = (date: Date | undefined) => {
@@ -56,7 +54,6 @@ function DatePicker({
             id={id}
             type="button"
             variant="outline"
-            disabled={disabled}
             data-empty={!value}
             className={cn(
               'data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal',
