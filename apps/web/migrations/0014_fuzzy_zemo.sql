@@ -1,0 +1,2 @@
+ALTER TABLE "orders" ALTER COLUMN "client_id" DROP NOT NULL;--> statement-breakpoint
+ALTER TABLE "orders" ADD CONSTRAINT "orders_client_id_user_id_fk" FOREIGN KEY ("client_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;

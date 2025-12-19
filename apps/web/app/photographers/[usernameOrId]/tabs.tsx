@@ -25,6 +25,7 @@ type ProfileTabsProps = {
   services: Service[];
   user?: AuthenticatedUser;
   photographerProfile: UserProfile;
+  photographerId: string;
 };
 
 enum ProfileTab {
@@ -34,7 +35,8 @@ enum ProfileTab {
 }
 
 const ProfileTabs = (props: ProfileTabsProps) => {
-  const { collections, services, user, photographerProfile } = props;
+  const { collections, services, user, photographerProfile, photographerId } =
+    props;
 
   const t = useTranslations('photographerProfile.tabs');
 
@@ -74,8 +76,9 @@ const ProfileTabs = (props: ProfileTabsProps) => {
       value: ProfileTab.SERVICES,
       content: (
         <SeeServices
-          services={services}
           user={user}
+          services={services}
+          photographerId={photographerId}
           photographerProfile={photographerProfile}
         />
       ),

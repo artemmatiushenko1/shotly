@@ -33,6 +33,7 @@ export const getProfilePageInfoByUsernameOrIdUseCase = async (
   ]);
 
   return {
+    photographerId: user.id,
     profile,
     collections: collections.map((collection) => ({
       ...collection,

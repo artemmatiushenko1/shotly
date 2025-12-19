@@ -2,6 +2,7 @@ import z from 'zod';
 
 import { FormActionState } from './form-action-state';
 
+// TODO: rename to validatedAction
 export async function validatedFormAction<T extends z.ZodType, D, R = void>(
   schema: T,
   rawData: D,

@@ -24,6 +24,7 @@ import {
 import { DEFAULT_STORAGE_CAPACITY_BYTES } from '@/application/use-cases/account/constants';
 import { generateDefaultUsername } from '@/application/use-cases/account/utils';
 import { VisibilityStatus } from '@/entities/models/common';
+import { OrderStatus } from '@/entities/models/order';
 import { PhotoMetadata, PhotoUploadStatus } from '@/entities/models/photo';
 import { ApprovalStatus, Role } from '@/entities/models/user';
 
@@ -356,34 +357,29 @@ export const photosTable = pgTable('photos', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
-// TODO: fix order status enum
 export const orderStatusEnum = pgEnum('order_status', [
-  'pending',
-  'paid',
-  'delivered',
-  'cancelled',
-  'refunded',
+  OrderStatus.PENDING,
+  OrderStatus.CONFIRMED,
+  OrderStatus.COMPLETED,
+  OrderStatus.CANCELLED,
 ]);
 
-/**
- * Orders (for a Service)
- * Snapshots price and includes booking times.
- */
 export const ordersTable = pgTable('orders', {
   id: uuid('id').defaultRandom().primaryKey(),
-
-  // Price Snapshot
-  amount: integer('amount').notNull(),
+  hours: integer('hours').notNull(),
+  pricePerHour: integer('price_per_hour').notNull(),
   currency: text('currency').notNull(),
-
-  status: orderStatusEnum('status').notNull().default('pending'),
-
-  // Booking
-  bookingStart: timestamp('booking_start', { withTimezone: true }),
-  bookingEnd: timestamp('booking_end', { withTimezone: true }),
-
-  buyerEmail: text('buyer_email').notNull(),
-
+  status: orderStatusEnum('status').notNull().default(OrderStatus.PENDING),
+  bookingDate: date('shoot_date', {
+    mode: 'date',
+  }).notNull(),
+  notes: text('notes'),
+  clientId: text('client_id').references(() => usersTable.id, {
+    onDelete: 'cascade',
+  }),
+  photographerId: text('photographer_id')
+    .notNull()
+    .references(() => usersTable.id, { onDelete: 'cascade' }),
   serviceId: uuid('service_id')
     .notNull()
     .references(() => servicesTable.id, { onDelete: 'restrict' }),

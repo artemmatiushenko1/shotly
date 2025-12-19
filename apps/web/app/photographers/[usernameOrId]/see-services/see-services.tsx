@@ -15,10 +15,11 @@ type SeeServicesProps = {
   services: Service[];
   user?: AuthenticatedUser;
   photographerProfile: UserProfile;
+  photographerId: string;
 };
 
 function SeeServices(props: SeeServicesProps) {
-  const { services, user, photographerProfile } = props;
+  const { services, user, photographerProfile, photographerId } = props;
 
   const t = useTranslations('photographerProfile.seeServices');
 
@@ -33,10 +34,12 @@ function SeeServices(props: SeeServicesProps) {
           extraActions={
             user ? (
               <BookServiceDialog
+                userId={user.id}
                 userEmail={user.email}
                 username={user.name}
                 service={service}
                 photographerProfile={photographerProfile}
+                photographerId={photographerId}
               >
                 <Button className="mr-4 mt-4 rounded-full">
                   {t('bookButton')}

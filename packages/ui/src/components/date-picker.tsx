@@ -55,8 +55,10 @@ function DatePicker({
             type="button"
             variant="outline"
             data-empty={!value}
+            aria-invalid={!!error}
             className={cn(
               'data-[empty=true]:text-muted-foreground w-full justify-start text-left font-normal',
+              'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
               buttonClassName,
             )}
           >
