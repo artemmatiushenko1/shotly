@@ -2,7 +2,8 @@
 
 import { UserIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import React from 'react';
+
+import { OrderStatus } from '@/entities/models/order';
 
 import {
   Avatar,
@@ -17,10 +18,12 @@ import {
 } from '@shotly/ui/components/tooltip';
 
 type ClientInfoProps = {
-  orderStatus: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  clientName: string;
+  clientEmail: string;
+  orderStatus: OrderStatus;
 };
 
-function ClientInfo({ orderStatus }: ClientInfoProps) {
+function ClientInfo({ clientName, clientEmail, orderStatus }: ClientInfoProps) {
   const t = useTranslations('orders.clientInfo');
 
   return (
@@ -34,7 +37,8 @@ function ClientInfo({ orderStatus }: ClientInfoProps) {
           </AvatarFallback>
         </Avatar>
         <div>
-          {['pending', 'cancelled'].includes(orderStatus) ? (
+          {orderStatus === OrderStatus.PENDING ||
+          orderStatus === OrderStatus.CANCELLED ? (
             <Tooltip>
               <TooltipTrigger>
                 <Skeleton animation="none" className="w-15 h-3 mb-1" />
@@ -44,8 +48,8 @@ function ClientInfo({ orderStatus }: ClientInfoProps) {
             </Tooltip>
           ) : (
             <>
-              <p className="text-sm font-bold">John Doe</p>
-              <p className="text-xs text-muted-foreground">hello@example.com</p>
+              <p className="text-sm font-bold">{clientName}</p>
+              <p className="text-xs text-muted-foreground">{clientEmail}</p>
             </>
           )}
         </div>

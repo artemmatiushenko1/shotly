@@ -57,6 +57,39 @@ class OrdersRepository {
     });
   }
 
+  async getPhotographerOrders(photographerId: string): Promise<Order[]> {
+    const orders = await db.query.ordersTable.findMany({
+      where: eq(ordersTable.photographerId, photographerId),
+      with: {
+        client: true,
+        photographer: true,
+        service: {
+          with: {
+            category: true,
+            servicesToFeatures: {
+              with: {
+                feature: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: desc(ordersTable.createdAt),
+    });
+
+    return orders.map((order) => {
+      return orderSchema.parse({
+        ...order,
+        service: {
+          ...order.service,
+          features: order.service.servicesToFeatures.map(
+            (stf) => stf.feature.name,
+          ),
+        },
+      });
+    });
+  }
+
   async getOrderById(orderId: string): Promise<Order | null> {
     const order = await db.query.ordersTable.findFirst({
       where: eq(ordersTable.id, orderId),
