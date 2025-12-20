@@ -129,19 +129,18 @@ export const PhotosUploadQueueProvider = (
         );
 
         updateUpload(item.uploadId, {
-          status: 'uploading',
-          result: serverData,
-        });
-
-        updateUpload(item.uploadId, {
           status: 'processing',
         });
-
         const thumbnailFile = await imageCompression(item.file, {
           maxSizeMB: 1,
           useWebWorker: true,
           initialQuality: 0.8,
           fileType: 'image/webp',
+        });
+
+        updateUpload(item.uploadId, {
+          status: 'uploading',
+          result: serverData,
         });
         const thumbnailUploadPromise = uploadFileViaXhr(
           serverData.thumbnailUploadUrl,
