@@ -43,6 +43,15 @@ export const config = [
     },
   },
   {
-    ignores: ['dist/**'],
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      '.turbo/**',
+      '.env/**',
+      '.env.local/**',
+      '.env.development.local/**',
+      '.env.test.local/**',
+      '.env.production.local/**',
+    ],
   },
 ];
