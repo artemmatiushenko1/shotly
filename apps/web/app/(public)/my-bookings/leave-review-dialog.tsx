@@ -1,6 +1,5 @@
 'use client';
 
-import { StarIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
@@ -13,6 +12,7 @@ import {
   DialogTrigger,
 } from '@shotly/ui/components/dialog';
 import { Label } from '@shotly/ui/components/label';
+import { StarRating } from '@shotly/ui/components/star-rating';
 import { Textarea } from '@shotly/ui/components/textarea';
 
 type LeaveReviewDialogProps = {
@@ -23,7 +23,6 @@ function LeaveReviewDialog({ children }: LeaveReviewDialogProps) {
   const t = useTranslations('myBookings.leaveReview');
 
   const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState('');
 
   return (
@@ -42,28 +41,7 @@ function LeaveReviewDialog({ children }: LeaveReviewDialogProps) {
               Індивідуальна фотосесія
             </p>
           </div>
-          <div
-            className="flex justify-center gap-2"
-            onMouseLeave={() => setHoverRating(0)}
-          >
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                key={star}
-                type="button"
-                onClick={() => setRating(star)}
-                onMouseEnter={() => setHoverRating(star)}
-                className="focus:outline-none transition-transform hover:scale-110 duration-150"
-              >
-                <StarIcon
-                  className={`w-8 h-8 ${
-                    star <= (hoverRating || rating)
-                      ? 'text-yellow-400 fill-yellow-400'
-                      : 'text-gray-200'
-                  }`}
-                />
-              </button>
-            ))}
-          </div>
+          <StarRating rating={rating} onRatingChange={setRating} size="lg" />
         </div>
         <div className="space-y-2">
           <Label>{t('feedbackLabel')}</Label>
