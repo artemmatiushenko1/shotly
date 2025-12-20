@@ -9,11 +9,11 @@ import { Language } from '@/entities/models/language';
 import { LocationDetails } from '@/entities/models/locations';
 import { UserProfile } from '@/entities/models/user';
 
-import { Button, buttonVariants } from '@shotly/ui/components/button';
+import { Button } from '@shotly/ui/components/button';
+import { ButtonGroup } from '@shotly/ui/components/button-group';
 import { Input } from '@shotly/ui/components/input';
 import { toast } from '@shotly/ui/components/sonner';
 import { Textarea } from '@shotly/ui/components/textarea';
-import { cn } from '@shotly/ui/lib/utils';
 
 import CoverUpload from '../../../_components/cover-upload/cover-upload';
 import { LabeledControl } from '../labeled-control';
@@ -80,23 +80,18 @@ const ProfileSettings = (props: ProfileSettingsProps) => {
           <p className="text-xs text-muted-foreground text-right">
             {t('viewPublicProfile')}
           </p>
-          <div className="relative">
+          <ButtonGroup>
             <Input
               readOnly
-              className="pr-10"
+              className="rounded-r-none relative"
               value={`shotly.com/photographers/${profile.username}`}
             />
-            <Link
-              target="_blank"
-              href={`/photographers/${profile.username}`}
-              className={cn(
-                buttonVariants({ variant: 'ghost', size: 'icon' }),
-                'absolute right-1 top-1/2 -translate-y-1/2 text-sm text-muted-foreground hover:bg-transparent',
-              )}
-            >
-              <ExternalLink />
-            </Link>
-          </div>
+            <Button asChild variant="outline" size="icon">
+              <Link target="_blank" href={`/photographers/${profile.username}`}>
+                <ExternalLink />
+              </Link>
+            </Button>
+          </ButtonGroup>
         </div>
       </div>
       <form className="space-y-8" action={formAction}>
