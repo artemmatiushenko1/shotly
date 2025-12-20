@@ -84,11 +84,10 @@ function OrderCard({ order, actions, userInfo }: OrderCardProps) {
         <div className="shadow-none flex flex-row items-center gap-4 mb-4">
           <div className="size-[60px] overflow-hidden rounded-sm shrink-0">
             <Image
-              unoptimized
               src={order.service.coverImageUrl}
               alt={t('serviceImageAlt')}
-              width={100}
-              height={100}
+              width={60}
+              height={60}
               className="object-cover w-full h-full"
             />
           </div>

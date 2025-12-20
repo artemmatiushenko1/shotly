@@ -84,6 +84,8 @@ function BookingTabs(props: BookingTabsProps) {
               }
               actions={
                 <BookingActions
+                  orderId={order.id}
+                  orderDisplayId={order.displayId}
                   status={order.status}
                   onCancel={() => {}}
                   onLeaveReview={() => {}}

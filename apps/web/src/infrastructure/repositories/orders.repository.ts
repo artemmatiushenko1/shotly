@@ -1,6 +1,11 @@
 import { desc, eq } from 'drizzle-orm';
 
-import { CreateOrderInput, Order, orderSchema } from '@/entities/models/order';
+import {
+  CreateOrderInput,
+  Order,
+  orderSchema,
+  OrderStatus,
+} from '@/entities/models/order';
 
 import { db } from '../../../drizzle';
 import { ordersTable } from '../../../drizzle/schema';
@@ -50,6 +55,47 @@ class OrdersRepository {
         },
       });
     });
+  }
+
+  async getOrderById(orderId: string): Promise<Order | null> {
+    const order = await db.query.ordersTable.findFirst({
+      where: eq(ordersTable.id, orderId),
+      with: {
+        client: true,
+        photographer: true,
+        service: {
+          with: {
+            category: true,
+            servicesToFeatures: {
+              with: {
+                feature: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!order) {
+      return null;
+    }
+
+    return orderSchema.parse({
+      ...order,
+      service: {
+        ...order.service,
+        features: order.service.servicesToFeatures.map(
+          (stf) => stf.feature.name,
+        ),
+      },
+    });
+  }
+
+  async updateOrderStatus(orderId: string, status: OrderStatus) {
+    await db
+      .update(ordersTable)
+      .set({ status })
+      .where(eq(ordersTable.id, orderId));
   }
 }
 
