@@ -6,7 +6,11 @@ import ReviewsSummary from './reviews-summary';
 function SeeReviews() {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-      <ReviewsSummary averageRating={4.5} totalReviews={10} />
+      <ReviewsSummary
+        averageRating={4.5}
+        totalReviews={10}
+        reviews={MOCK_REVIEWS}
+      />
       <ReviewList reviews={MOCK_REVIEWS} />
     </div>
   );

@@ -5,12 +5,19 @@ import React from 'react';
 
 import { StarRating } from '@shotly/ui/components/star-rating';
 
+import RatingDistribution from './rating-distribution';
+
 type ReviewsSummaryProps = {
   averageRating: number;
   totalReviews: number;
+  reviews: Array<{ rating: number }>;
 };
 
-function ReviewsSummary({ averageRating, totalReviews }: ReviewsSummaryProps) {
+function ReviewsSummary({
+  averageRating,
+  totalReviews,
+  reviews,
+}: ReviewsSummaryProps) {
   const t = useTranslations('photographerProfile.reviews');
 
   return (
@@ -24,23 +31,7 @@ function ReviewsSummary({ averageRating, totalReviews }: ReviewsSummaryProps) {
           {t('verifiedReviews', { count: totalReviews })}
         </div>
       </div>
-      <div className="flex-1 w-full max-w-sm">
-        <div className="space-y-2">
-          {[5, 4, 3, 2, 1].map((star) => (
-            <div key={star} className="flex items-center gap-3 text-sm">
-              <span className="w-3 font-medium text-gray-600">{star}</span>
-              <div className="flex-1 h-2 bg-muted-foreground/20 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-primary rounded-full"
-                  style={{
-                    width: star === 5 ? '80%' : star === 4 ? '15%' : '5%',
-                  }}
-                ></div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <RatingDistribution reviews={reviews} />
     </div>
   );
 }
