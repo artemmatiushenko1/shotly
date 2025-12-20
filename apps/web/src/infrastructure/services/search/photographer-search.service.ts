@@ -21,7 +21,7 @@ import {
   SearchParams,
   SortOption,
 } from '@/entities/models/search';
-import { Role } from '@/entities/models/user';
+import { ApprovalStatus, Role } from '@/entities/models/user';
 
 import { db } from '../../../../drizzle';
 import {
@@ -49,8 +49,6 @@ export class PhotographerSearchService implements IPhotographerSearchService {
       rating,
       sort,
     } = params;
-
-    console.log({ params });
 
     // 1. Base Filter (Only Photographers)
     const filters: SQL[] = [eq(usersTable.role, Role.PHOTOGRAPHER)];
@@ -80,6 +78,7 @@ export class PhotographerSearchService implements IPhotographerSearchService {
     if (minPrice !== null) {
       filters.push(gte(servicesTable.price, minPrice));
     }
+
     if (maxPrice !== null) {
       filters.push(lte(servicesTable.price, maxPrice));
     }
@@ -122,6 +121,8 @@ export class PhotographerSearchService implements IPhotographerSearchService {
     if (languageCodes.length > 0) {
       filters.push(inArray(userLanguagesTable.languageCode, languageCodes));
     }
+
+    filters.push(eq(usersTable.approvalStatus, ApprovalStatus.APPROVED));
 
     // 6. Build Query
     const query = db
