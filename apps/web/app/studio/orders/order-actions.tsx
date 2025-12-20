@@ -1,40 +1,78 @@
 'use client';
 
-import { CheckIcon } from 'lucide-react';
+import { CheckIcon, MessageSquareIcon } from 'lucide-react';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-import React from 'react';
+import { useTransition } from 'react';
 
-import { Button } from '@shotly/ui/components/button';
+import { OrderStatus } from '@/entities/models/order';
+
+import { Button, buttonVariants } from '@shotly/ui/components/button';
+import { cn } from '@shotly/ui/lib/utils';
+
+import { acceptOrderAction, rejectOrderAction } from './actions';
 
 type OrderActionsProps = {
-  status: 'completed' | 'cancelled' | 'pending' | 'confirmed';
+  orderId: string;
+  status: OrderStatus;
+  clientEmail: string;
 };
 
 function OrderActions(props: OrderActionsProps) {
-  const { status } = props;
+  const { status, orderId, clientEmail } = props;
+
   const t = useTranslations('orders.actions');
 
-  if (status === 'pending') {
+  const [isAcceptingOrder, startAcceptOrderTransition] = useTransition();
+  const [isRejectingOrder, startRejectOrderTransition] = useTransition();
+
+  const handleAcceptOrder = async () => {
+    startAcceptOrderTransition(async () => {
+      await acceptOrderAction(orderId);
+    });
+  };
+
+  const handleRejectOrder = async () => {
+    startRejectOrderTransition(async () => {
+      await rejectOrderAction(orderId);
+    });
+  };
+
+  if (status === OrderStatus.PENDING) {
     return (
       <>
         <Button
+          loading={isRejectingOrder}
+          onClick={handleRejectOrder}
           variant="outline"
-          className="rounded-full border-destructive text-destructive bg-transparent hover:bg-destructive/10 hover:text-destructive"
+          className="border-destructive text-destructive bg-transparent hover:bg-destructive/10 hover:text-destructive"
         >
           {t('reject')}
         </Button>
-        <Button className="rounded-full bg-green-500 hover:bg-green-500/90">
+        <Button
+          loading={isAcceptingOrder}
+          onClick={handleAcceptOrder}
+          className="bg-green-500 hover:bg-green-500/90"
+        >
           <CheckIcon /> {t('accept')}
         </Button>
       </>
     );
   }
 
-  if (status === 'confirmed') {
+  if (status === OrderStatus.CONFIRMED) {
     return (
-      <Button className="rounded-full">
-        <CheckIcon /> {t('complete')}
-      </Button>
+      <>
+        <Link
+          href={`mailto:${clientEmail}`}
+          className={cn(buttonVariants({ variant: 'outline' }))}
+        >
+          <MessageSquareIcon /> Message Client
+        </Link>
+        <Button>
+          <CheckIcon /> {t('complete')}
+        </Button>
+      </>
     );
   }
 

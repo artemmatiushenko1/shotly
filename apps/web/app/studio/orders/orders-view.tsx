@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import OrderCard from '@/_components/booking-card';
 import { Order, OrderStatus } from '@/entities/models/order';
@@ -25,27 +25,48 @@ type OrdersViewProps = {
 function OrdersView({ orders }: OrdersViewProps) {
   const t = useTranslations('orders');
 
-  const [selectedTab, setSelectedTab] = useState<OrdersTab>(OrdersTab.REQUESTS);
+  const ordersByTab = useMemo(
+    () => ({
+      [OrdersTab.REQUESTS]: orders.filter(
+        (order) => order.status === OrderStatus.PENDING,
+      ),
+      [OrdersTab.UPCOMING]: orders.filter(
+        (order) => order.status === OrderStatus.CONFIRMED,
+      ),
+      [OrdersTab.HISTORY]: orders.filter(
+        (order) =>
+          order.status === OrderStatus.COMPLETED ||
+          order.status === OrderStatus.CANCELLED,
+      ),
+    }),
+    [orders],
+  );
 
-  const ordersByTab = {
-    [OrdersTab.REQUESTS]: orders.filter(
-      (order) => order.status === OrderStatus.PENDING,
-    ),
-    [OrdersTab.UPCOMING]: orders.filter(
-      (order) => order.status === OrderStatus.CONFIRMED,
-    ),
-    [OrdersTab.HISTORY]: orders.filter(
-      (order) =>
-        order.status === OrderStatus.COMPLETED ||
-        order.status === OrderStatus.CANCELLED,
-    ),
-  };
+  const [selectedTab, setSelectedTab] = useState<OrdersTab>(() => {
+    if (ordersByTab[OrdersTab.REQUESTS].length > 0) {
+      return OrdersTab.REQUESTS;
+    }
 
-  const ordersCountByTab = {
-    [OrdersTab.REQUESTS]: ordersByTab[OrdersTab.REQUESTS].length,
-    [OrdersTab.UPCOMING]: ordersByTab[OrdersTab.UPCOMING].length,
-    [OrdersTab.HISTORY]: ordersByTab[OrdersTab.HISTORY].length,
-  };
+    return OrdersTab.UPCOMING;
+  });
+
+  const ordersCountByTab = useMemo(
+    () => ({
+      [OrdersTab.REQUESTS]: ordersByTab[OrdersTab.REQUESTS].length,
+      [OrdersTab.UPCOMING]: ordersByTab[OrdersTab.UPCOMING].length,
+      [OrdersTab.HISTORY]: ordersByTab[OrdersTab.HISTORY].length,
+    }),
+    [ordersByTab],
+  );
+
+  useEffect(() => {
+    if (
+      selectedTab === OrdersTab.REQUESTS &&
+      ordersCountByTab[OrdersTab.REQUESTS] === 0
+    ) {
+      setSelectedTab(OrdersTab.UPCOMING);
+    }
+  }, [ordersCountByTab, selectedTab]);
 
   return (
     <>
@@ -54,17 +75,19 @@ function OrdersView({ orders }: OrdersViewProps) {
         onValueChange={(value) => setSelectedTab(value as OrdersTab)}
       >
         <TabsList className="px-4 mt-4">
-          <TabsTrigger value={OrdersTab.REQUESTS}>
-            {t('tabs.requests')}{' '}
-            <Badge
-              className="h-5 min-w-5 rounded-full px-1 ml-1"
-              variant={
-                selectedTab === OrdersTab.REQUESTS ? 'default' : 'secondary'
-              }
-            >
-              {ordersCountByTab[OrdersTab.REQUESTS]}
-            </Badge>
-          </TabsTrigger>
+          {ordersCountByTab[OrdersTab.REQUESTS] > 0 && (
+            <TabsTrigger value={OrdersTab.REQUESTS}>
+              {t('tabs.requests')}
+              <Badge
+                className="h-5 min-w-5 rounded-full px-1 ml-1"
+                variant={
+                  selectedTab === OrdersTab.REQUESTS ? 'default' : 'secondary'
+                }
+              >
+                {ordersCountByTab[OrdersTab.REQUESTS]}
+              </Badge>
+            </TabsTrigger>
+          )}
           <TabsTrigger value={OrdersTab.UPCOMING}>
             {t('tabs.upcoming')}
           </TabsTrigger>
@@ -78,8 +101,20 @@ function OrdersView({ orders }: OrdersViewProps) {
           <OrderCard
             key={order.id}
             order={order}
-            userInfo={<ClientInfo orderStatus={order.status} />}
-            actions={<OrderActions status={order.status} />}
+            userInfo={
+              <ClientInfo
+                orderStatus={order.status}
+                clientName={order.client.name}
+                clientEmail={order.client.email}
+              />
+            }
+            actions={
+              <OrderActions
+                clientEmail={order.client.email}
+                orderId={order.id}
+                status={order.status}
+              />
+            }
           />
         ))}
       </div>

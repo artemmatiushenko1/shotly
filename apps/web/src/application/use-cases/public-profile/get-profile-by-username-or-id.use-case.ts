@@ -4,7 +4,7 @@ import usersRepository from '@/infrastructure/repositories/users.repository';
 
 export const getProfileByUsernameOrIdUseCase = async (
   usernameOrId: string,
-  locale: Locale,
+  locale: Locale = Locale.EN,
 ) => {
   const userByUsername = await usersRepository.getUserByUsername(usernameOrId);
 

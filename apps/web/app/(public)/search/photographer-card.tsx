@@ -102,7 +102,7 @@ function PhotographerCard({
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0 ml-2">
-            <Button asChild variant="default" className="rounded-full">
+            <Button asChild>
               <Link href={`/photographers/${id}`}>{t('viewProfile')}</Link>
             </Button>
           </div>

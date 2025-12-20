@@ -76,10 +76,7 @@ async function PhotographerPublicProfile({
             <Link
               scroll
               href="?tab=services#profile-tabs"
-              className={cn(
-                buttonVariants({ variant: 'default' }),
-                'rounded-full',
-              )}
+              className={cn(buttonVariants({ variant: 'default' }))}
             >
               {t('bookNow')}
             </Link>

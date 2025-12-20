@@ -41,9 +41,7 @@ function SeeServices(props: SeeServicesProps) {
                 photographerProfile={photographerProfile}
                 photographerId={photographerId}
               >
-                <Button className="mr-4 mt-4 rounded-full">
-                  {t('bookButton')}
-                </Button>
+                <Button className="mr-4 mt-4">{t('bookButton')}</Button>
               </BookServiceDialog>
             ) : null
           }

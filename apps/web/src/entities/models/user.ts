@@ -21,6 +21,7 @@ export const userSchema = z.object({
   name: z.string().min(1),
   username: z.string(),
   email: z.email(),
+  role: z.enum(Role),
   coverImageUrl: z.url().nullish(),
   profileImageUrl: z.url().nullish(),
   yearsOfExperience: z.number().nullish(),

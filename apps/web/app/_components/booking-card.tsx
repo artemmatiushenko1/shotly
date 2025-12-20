@@ -19,25 +19,25 @@ const BookingStatusBadge = ({ status }: { status: OrderStatus }) => {
   const t = useTranslations('orders.status');
 
   switch (status) {
-    case 'completed':
+    case OrderStatus.COMPLETED:
       return (
         <Badge className="bg-lime-600/10 px-3 py-1 rounded-full text-lime-600">
           {t('completed')}
         </Badge>
       );
-    case 'confirmed':
+    case OrderStatus.CONFIRMED:
       return (
         <Badge className="bg-sky-600/10 px-3 py-1 rounded-full text-sky-600">
           {t('confirmed')}
         </Badge>
       );
-    case 'cancelled':
+    case OrderStatus.CANCELLED:
       return (
         <Badge className="bg-red-600/10 px-3 py-1 rounded-full text-red-600">
           {t('cancelled')}
         </Badge>
       );
-    case 'pending':
+    case OrderStatus.PENDING:
       return (
         <Badge className="bg-yellow-500/10 px-3 py-1 rounded-full text-yellow-500">
           {t('pending')}

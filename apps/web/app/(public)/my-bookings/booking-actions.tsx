@@ -44,13 +44,13 @@ function BookingActions({
     <>
       <Link
         href={`mailto:${photographerEmail}`}
-        className={cn(buttonVariants({ variant: 'outline' }), 'rounded-full')}
+        className={cn(buttonVariants({ variant: 'outline' }))}
       >
         <MessageSquareIcon /> {t('messagePhotographer')}
       </Link>
       {status === 'completed' && (
         <LeaveReviewDialog>
-          <Button className="rounded-full">
+          <Button>
             <StarIcon /> {t('leaveReview')}
           </Button>
         </LeaveReviewDialog>
@@ -62,11 +62,7 @@ function BookingActions({
           onConfirm={handleCancelOrder}
           actionSeverity="caution"
         >
-          <Button
-            loading={isCancelling}
-            variant="destructive"
-            className="rounded-full"
-          >
+          <Button loading={isCancelling} variant="destructive">
             {t('cancelBooking')}
           </Button>
         </ConfirmationDialog>
