@@ -6,12 +6,12 @@ import { useState } from 'react';
 
 import { cn } from '@shotly/ui/lib/utils';
 
-const starRatingVariants = cva('flex justify-center gap-2', {
+const starRatingVariants = cva('flex justify-center', {
   variants: {
     size: {
-      sm: '[&_svg]:w-4 [&_svg]:h-4',
-      md: '[&_svg]:w-6 [&_svg]:h-6',
-      lg: '[&_svg]:w-8 [&_svg]:h-8',
+      sm: '[&_svg]:w-4 [&_svg]:h-4 gap-1',
+      md: '[&_svg]:w-6 [&_svg]:h-6 gap-2',
+      lg: '[&_svg]:w-8 [&_svg]:h-8 gap-2',
     },
   },
   defaultVariants: {

@@ -1,6 +1,7 @@
-import { Star } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
+
+import { StarRating } from '@shotly/ui/components/star-rating';
 
 export type ReviewCardProps = {
   id: string;
@@ -37,12 +38,7 @@ function ReviewCard({
           </div>
         </div>
         <div className="flex">
-          {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              className={`w-4 h-4 ${i < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'}`}
-            />
-          ))}
+          <StarRating rating={rating} readonly size="sm" />
         </div>
       </div>
       <p className="text-gray-600 leading-relaxed">{text}</p>

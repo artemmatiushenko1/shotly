@@ -1,8 +1,9 @@
 'use client';
 
-import { StarIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import React from 'react';
+
+import { StarRating } from '@shotly/ui/components/star-rating';
 
 type ReviewsSummaryProps = {
   averageRating: number;
@@ -17,12 +18,7 @@ function ReviewsSummary({ averageRating, totalReviews }: ReviewsSummaryProps) {
       <div className="text-center">
         <div className="text-5xl font-bold tracking-tight">{averageRating}</div>
         <div className="flex justify-center my-2">
-          {[1, 2, 3, 4, 5].map((s) => (
-            <StarIcon
-              key={s}
-              className="w-5 h-5 text-yellow-400 fill-yellow-400"
-            />
-          ))}
+          <StarRating rating={averageRating} readonly size="lg" />
         </div>
         <div className="text-sm text-muted-foreground font-medium">
           {t('verifiedReviews', { count: totalReviews })}
