@@ -4,7 +4,7 @@ import { useTranslations } from 'next-intl';
 import LocationSearch from '@/_components/location-search/location-search';
 import { LocationDetails } from '@/entities/models/locations';
 
-import { Button } from '@shotly/ui/components/button';
+import { buttonVariants } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
 
 type LocationSelectProps = {
@@ -39,13 +39,17 @@ function LocationSelect(props: LocationSelectProps) {
         value={[value].filter(Boolean) as LocationDetails[]}
         onChange={handleChange}
         trigger={
-          <Button
-            variant="ghost"
-            className="font-medium dark:group-hover:bg-input/50 w-full rounded-t-none border-none bg-transparent shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 justify-between hover:bg-transparent active:scale-100"
+          <button
+            data-placeholder={!value ? true : undefined}
+            className={cn(
+              buttonVariants({ variant: 'ghost' }),
+              "data-[placeholder]:text-muted-foreground [&_svg:not([class*='text-'])]:text-muted-foreground",
+              'font-medium dark:group-hover:bg-input/50 w-full rounded-t-none border-none bg-transparent shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 justify-between hover:bg-transparent active:scale-100',
+            )}
           >
-            {value?.name ?? t('location.any')}
+            {value?.name ?? t('location.placeholder')}
             <ChevronDownIcon className="size-4 text-muted-foreground opacity-50" />
-          </Button>
+          </button>
         }
       />
     </div>

@@ -113,7 +113,6 @@ function Filters({
           value={filters.categoryId}
           onValueChange={(val) => handleChange('categoryId', val)}
         >
-          <SelectItem value="any">{t('category.any')}</SelectItem>
           {categories.map((category) => (
             <SelectItem key={category.id} value={category.id}>
               {category.name}
@@ -139,7 +138,6 @@ function Filters({
           value={filters.priceRange}
           onValueChange={(val) => handleChange('priceRange', val as PriceRange)}
         >
-          <SelectItem value="any">{t('price.any')}</SelectItem>
           {budgetRangesOptions.map((option) => (
             <SelectItem key={option.value} value={option.value}>
               {option.label}
@@ -157,7 +155,6 @@ function Filters({
             handleChange('deliveryTime', val as DeliveryTime)
           }
         >
-          <SelectItem value="any">{t('delivery.any')}</SelectItem>
           <SelectItem value={DeliveryTime.UNDER_1_DAY}>Day</SelectItem>
           <SelectItem value={DeliveryTime.UNDER_WEEK}>Week</SelectItem>
           <SelectItem value={DeliveryTime.UNDER_MONTH}>Month</SelectItem>
