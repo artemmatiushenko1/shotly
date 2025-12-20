@@ -240,6 +240,18 @@ class UsersRepository {
 
     return userSchema.parse(query);
   }
+
+  async updateRatingInfo(
+    userId: string,
+    totalReviews: number,
+    averageRating: string,
+  ) {
+    await db
+      .update(usersTable)
+      .set({ totalReviews, averageRating })
+      .where(eq(usersTable.id, userId))
+      .returning();
+  }
 }
 
 const usersRepository = new UsersRepository();

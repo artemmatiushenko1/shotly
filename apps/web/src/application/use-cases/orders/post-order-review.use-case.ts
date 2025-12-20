@@ -1,6 +1,6 @@
 import ordersRepository from '@/infrastructure/repositories/orders.repository';
 
-import { getUserByIdUseCase } from '../account';
+import { getUserByIdUseCase, revalidateReviewsCache } from '../account';
 import { getOrderByIdUseCase } from './get-order-by-id.use-case';
 
 export const postOrderReviewUseCase = async (
@@ -21,4 +21,5 @@ export const postOrderReviewUseCase = async (
     rating,
     comment,
   });
+  await revalidateReviewsCache(order.photographer.id);
 };

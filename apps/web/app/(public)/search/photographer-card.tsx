@@ -73,12 +73,7 @@ function PhotographerCard({
     : null;
 
   return (
-    <Card
-      className={cn(
-        'overflow-hidden shadow-sm hover:shadow-md transition-shadow py-0',
-        className,
-      )}
-    >
+    <Card className={cn('overflow-hidden shadow-none py-0', className)}>
       <CardContent className="p-0">
         {/* Header */}
         <div className="flex items-start justify-between p-4 pb-3">
