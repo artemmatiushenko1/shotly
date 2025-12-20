@@ -737,6 +737,19 @@
       "feedbackPlaceholder": "What did you like most about the photos? How was the communication?",
       "cancel": "Cancel",
       "postReview": "Post Review"
+    },
+    "emptyTabContent": {
+      "titles": {
+        "upcoming": "No upcoming bookings",
+        "past": "No past bookings",
+        "cancelled": "No cancelled bookings"
+      },
+      "descriptions": {
+        "upcoming": "You don't have any upcoming sessions scheduled yet. Start browsing to find the perfect photographer for your next event.",
+        "past": "You haven't completed any photo shoots yet. Once you do, your history will appear here.",
+        "cancelled": "You don't have any cancelled bookings."
+      },
+      "searchPhotographers": "Find a Photographer"
     }
   },
   "utils": {

@@ -10,9 +10,10 @@ import { Badge } from '@shotly/ui/components/badge';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 
 import BookingActions from './booking-actions';
+import EmptyTabContent from './empty-tab-content';
 import PhotorgapherInfo from './photographer-info';
 
-enum BookingTab {
+export enum BookingTab {
   UPCOMING = 'upcoming',
   PAST = 'past',
   CANCELLED = 'cancelled',
@@ -69,23 +70,30 @@ function BookingTabs(props: BookingTabsProps) {
           </TabsTrigger>
         ))}
       </TabsList>
-      <div className="min-h-[300px]">
-        <div className="flex flex-col gap-4">
-          {ordersByTab[selectedTab].map((order) => (
-            <OrderCard
-              key={order.id}
-              order={order}
-              userInfo={
-                <PhotorgapherInfo
-                  id={order.photographer.id}
-                  name={order.photographer.name}
-                  profileImageUrl={order.photographer.profileImageUrl}
-                />
-              }
-              actions={<BookingActions order={order} />}
-            />
-          ))}
-        </div>
+      <div className="min-h-[300px] relative">
+        {ordersByTab[selectedTab].length === 0 ? (
+          <EmptyTabContent
+            tab={selectedTab}
+            className="w-full flex items-center justify-center min-h-[380px]"
+          />
+        ) : (
+          <div className="flex flex-col gap-4">
+            {ordersByTab[selectedTab].map((order) => (
+              <OrderCard
+                key={order.id}
+                order={order}
+                userInfo={
+                  <PhotorgapherInfo
+                    id={order.photographer.id}
+                    name={order.photographer.name}
+                    profileImageUrl={order.photographer.profileImageUrl}
+                  />
+                }
+                actions={<BookingActions order={order} />}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </Tabs>
   );
