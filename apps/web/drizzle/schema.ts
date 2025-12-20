@@ -410,6 +410,10 @@ export const ordersRelations = relations(ordersTable, ({ one }) => ({
     fields: [ordersTable.serviceId],
     references: [servicesTable.id],
   }),
+  review: one(reviewsTable, {
+    fields: [ordersTable.id],
+    references: [reviewsTable.orderId],
+  }),
 }));
 
 export const reviewsTable = pgTable(

@@ -42,11 +42,10 @@ function ServiceCard(props: ServiceCardProps) {
     <Card className="shadow-none py-0 overflow-hidden flex-row bg-muted/20 hover:bg-accent/50 gap-4">
       <div className="relative p-2 overflow-hidden">
         <Image
-          unoptimized
           alt={service.name}
           src={service.coverImageUrl}
           width={200}
-          height={200}
+          height={160}
           className="size-40 w-50 object-cover rounded-lg border"
         />
       </div>

@@ -18,9 +18,14 @@ import PostReviewForm from './post-review-form';
 type PostReviewDialogProps = {
   children: React.ReactNode;
   order: Order;
+  isReadOnly: boolean;
 };
 
-function PostReviewDialog({ children, order }: PostReviewDialogProps) {
+function PostReviewDialog({
+  children,
+  order,
+  isReadOnly,
+}: PostReviewDialogProps) {
   const [open, setOpen] = useState(false);
   const t = useTranslations('myBookings.leaveReview');
 
@@ -32,7 +37,16 @@ function PostReviewDialog({ children, order }: PostReviewDialogProps) {
           <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
         <PostReviewForm
+          defaultValues={{
+            comment: order.review?.comment ?? '',
+            rating: order.review?.rating ?? 0,
+            orderId: order.id,
+          }}
+          isReadOnly={isReadOnly}
           onCancel={() => {
+            setOpen(false);
+          }}
+          onSuccess={() => {
             setOpen(false);
           }}
           orderId={order.id}

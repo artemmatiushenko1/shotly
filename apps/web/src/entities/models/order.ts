@@ -1,6 +1,7 @@
 import { customAlphabet } from 'nanoid';
 import z from 'zod';
 
+import { reviewSchema } from './review';
 import { serviceSchema } from './service';
 import { userSchema } from './user';
 
@@ -26,6 +27,7 @@ export const orderSchema = z.object({
   updatedAt: z.date(),
   notes: z.string().nullish(),
   photographer: userSchema,
+  review: reviewSchema.nullish(),
 });
 
 export type Order = z.infer<typeof orderSchema>;

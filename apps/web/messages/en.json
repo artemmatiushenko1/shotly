@@ -705,7 +705,8 @@
     "actions": {
       "messagePhotographer": "Message Photographer",
       "leaveReview": "Leave Review",
-      "cancelBooking": "Cancel Booking"
+      "cancelBooking": "Cancel Booking",
+      "seeReview": "See Your Review"
     },
     "photographerInfo": {
       "label": "Photographer"

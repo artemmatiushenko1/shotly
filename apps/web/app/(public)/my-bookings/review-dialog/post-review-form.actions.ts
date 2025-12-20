@@ -1,5 +1,7 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 import { postOrderReviewUseCase } from '@/application/use-cases/orders';
 import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 import { FormActionState, validatedFormAction } from '@/utils/server-actions';
@@ -19,6 +21,8 @@ export const postOrderReviewAction = async (
       data.rating,
       data.comment,
     );
+
+    revalidatePath('/my-bookings');
 
     return { status: 'success' };
   });

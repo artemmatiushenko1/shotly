@@ -695,7 +695,8 @@
     "actions": {
       "messagePhotographer": "Написати фотографу",
       "leaveReview": "Залишити відгук",
-      "cancelBooking": "Скасувати бронювання"
+      "cancelBooking": "Скасувати бронювання",
+      "seeReview": "Переглянути ваш відгук"
     },
     "photographerInfo": {
       "label": "Фотограф"

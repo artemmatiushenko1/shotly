@@ -41,6 +41,7 @@ class OrdersRepository {
             },
           },
         },
+        review: true,
       },
       orderBy: desc(ordersTable.createdAt),
     });

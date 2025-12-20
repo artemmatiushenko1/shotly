@@ -1,6 +1,6 @@
 'use client';
 
-import { MessageSquareIcon, StarIcon } from 'lucide-react';
+import { EyeIcon, MessageSquareIcon, StarIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import React, { useTransition } from 'react';
@@ -12,7 +12,7 @@ import { ConfirmationDialog } from '@shotly/ui/components/confirmation-dialog';
 import { cn } from '@shotly/ui/lib/utils';
 
 import { cancelOrderAction } from './actions';
-import PostReviewDialog from './post-review-form-dialog/post-review-dialog';
+import PostReviewDialog from './review-dialog/post-review-dialog';
 
 type BookingActionsProps = {
   order: Order;
@@ -37,10 +37,16 @@ function BookingActions({ order }: BookingActionsProps) {
         <MessageSquareIcon /> {t('messagePhotographer')}
       </Link>
       {order.status === OrderStatus.COMPLETED && (
-        <PostReviewDialog order={order}>
-          <Button>
-            <StarIcon /> {t('leaveReview')}
-          </Button>
+        <PostReviewDialog order={order} isReadOnly={!!order.review}>
+          {order.review ? (
+            <Button>
+              <EyeIcon /> {t('seeReview')}
+            </Button>
+          ) : (
+            <Button>
+              <StarIcon /> {t('leaveReview')}
+            </Button>
+          )}
         </PostReviewDialog>
       )}
       {order.status === OrderStatus.PENDING && (
