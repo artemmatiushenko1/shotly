@@ -27,7 +27,7 @@ async function PhotographerPublicProfile({
 
   const user = await getAuthenticatedUser();
 
-  const { profile, collections, services, photographerId } =
+  const { profile, collections, services, photographerId, reviews } =
     await getProfilePageInfoByUsernameOrIdUseCase(
       usernameOrId,
       user?.id,
@@ -197,6 +197,7 @@ async function PhotographerPublicProfile({
           </div>
         </div>
         <ProfileTabs
+          reviews={reviews}
           collections={collections}
           services={services}
           user={user}

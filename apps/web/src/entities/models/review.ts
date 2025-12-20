@@ -12,6 +12,15 @@ export const reviewSchema = z.object({
 
 export type Review = z.infer<typeof reviewSchema>;
 
+export const reviewWithAuthorSchema = reviewSchema.extend({
+  author: z.object({
+    name: z.string(),
+    profileImageUrl: z.string().nullish(),
+  }),
+});
+
+export type ReviewWithAuthor = z.infer<typeof reviewWithAuthorSchema>;
+
 export const createReviewInputSchema = z.object({
   rating: z.number().min(1).max(5),
   comment: z.string().min(1),

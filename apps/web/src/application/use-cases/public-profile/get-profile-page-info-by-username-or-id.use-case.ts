@@ -3,6 +3,7 @@ import { NotFoundError } from '@/entities/errors/common';
 import { VisibilityStatus } from '@/entities/models/common';
 import { ApprovalStatus } from '@/entities/models/user';
 import collectionsRepository from '@/infrastructure/repositories/collections.repository';
+import ordersRepository from '@/infrastructure/repositories/orders.repository';
 import servicesRepository from '@/infrastructure/repositories/services.repository';
 import usersRepository from '@/infrastructure/repositories/users.repository';
 
@@ -26,10 +27,11 @@ export const getProfilePageInfoByUsernameOrIdUseCase = async (
     throw new NotFoundError('User not found');
   }
 
-  const [profile, collections, services] = await Promise.all([
+  const [profile, collections, services, reviews] = await Promise.all([
     usersRepository.getUserProfile(user.id),
     collectionsRepository.getAllCollections(user.id, VisibilityStatus.PUBLIC),
     servicesRepository.getAllServices(user.id, VisibilityStatus.PUBLIC),
+    ordersRepository.getReviewsByPhotographerId(user.id),
   ]);
 
   return {
@@ -54,5 +56,6 @@ export const getProfilePageInfoByUsernameOrIdUseCase = async (
         nameUk: service.category.nameUk,
       },
     })),
+    reviews,
   };
 };

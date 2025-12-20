@@ -7,7 +7,6 @@ type RatingDistributionProps = {
 };
 
 function RatingDistribution({ reviews }: RatingDistributionProps) {
-  // Calculate distribution for each star rating (5 to 1)
   const distribution = [5, 4, 3, 2, 1].map((star) => {
     const count = reviews.filter((review) => review.rating === star).length;
     const percentage = reviews.length > 0 ? (count / reviews.length) * 100 : 0;

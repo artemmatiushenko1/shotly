@@ -378,9 +378,11 @@ export const ordersTable = pgTable('orders', {
     mode: 'date',
   }).notNull(),
   notes: text('notes'),
-  clientId: text('client_id').references(() => usersTable.id, {
-    onDelete: 'cascade',
-  }),
+  clientId: text('client_id')
+    .notNull()
+    .references(() => usersTable.id, {
+      onDelete: 'cascade',
+    }),
   photographerId: text('photographer_id')
     .notNull()
     .references(() => usersTable.id, { onDelete: 'cascade' }),

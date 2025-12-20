@@ -11,7 +11,7 @@ export const getOrderByIdUseCase = async (
   }
 
   if (
-    order.photographer.id !== authenticatedUserId ||
+    order.photographer.id !== authenticatedUserId &&
     order.client.id !== authenticatedUserId
   ) {
     throw new ForbiddenError('You are not allowed to access this order');

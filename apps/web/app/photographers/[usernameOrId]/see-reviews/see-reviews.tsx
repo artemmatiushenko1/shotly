@@ -1,17 +1,18 @@
 import React from 'react';
 
-import ReviewList, { MOCK_REVIEWS } from './review-list';
+import { ReviewWithAuthor } from '@/entities/models/review';
+
+import ReviewList from './review-list';
 import ReviewsSummary from './reviews-summary';
 
-function SeeReviews() {
+type SeeReviewsProps = {
+  reviews: ReviewWithAuthor[];
+};
+function SeeReviews({ reviews }: SeeReviewsProps) {
   return (
     <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-      <ReviewsSummary
-        averageRating={4.5}
-        totalReviews={10}
-        reviews={MOCK_REVIEWS}
-      />
-      <ReviewList reviews={MOCK_REVIEWS} />
+      <ReviewsSummary reviews={reviews} />
+      <ReviewList reviews={reviews} />
     </div>
   );
 }

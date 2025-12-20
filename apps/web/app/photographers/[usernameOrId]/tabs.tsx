@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 import { Collection } from '@/entities/models/collection';
+import { ReviewWithAuthor } from '@/entities/models/review';
 import { Service } from '@/entities/models/service';
 import { UserProfile } from '@/entities/models/user';
 import { AuthenticatedUser } from '@/infrastructure/services/auth/dal';
@@ -26,6 +27,7 @@ type ProfileTabsProps = {
   user?: AuthenticatedUser;
   photographerProfile: UserProfile;
   photographerId: string;
+  reviews: ReviewWithAuthor[];
 };
 
 enum ProfileTab {
@@ -35,8 +37,14 @@ enum ProfileTab {
 }
 
 const ProfileTabs = (props: ProfileTabsProps) => {
-  const { collections, services, user, photographerProfile, photographerId } =
-    props;
+  const {
+    collections,
+    services,
+    user,
+    photographerProfile,
+    photographerId,
+    reviews,
+  } = props;
 
   const t = useTranslations('photographerProfile.tabs');
 
@@ -86,7 +94,7 @@ const ProfileTabs = (props: ProfileTabsProps) => {
     {
       name: t('reviews'),
       value: ProfileTab.REVIEWS,
-      content: <SeeReviews />,
+      content: <SeeReviews reviews={reviews} />,
     },
   ];
 

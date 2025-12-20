@@ -6,7 +6,11 @@ import {
   orderSchema,
   OrderStatus,
 } from '@/entities/models/order';
-import { CreateReviewInput } from '@/entities/models/review';
+import {
+  CreateReviewInput,
+  ReviewWithAuthor,
+  reviewWithAuthorSchema,
+} from '@/entities/models/review';
 
 import { db } from '../../../drizzle';
 import { ordersTable, reviewsTable } from '../../../drizzle/schema';
@@ -135,6 +139,30 @@ class OrdersRepository {
 
   async createOrderReview(input: CreateReviewInput) {
     await db.insert(reviewsTable).values(input);
+  }
+
+  async getReviewsByPhotographerId(
+    photographerId: string,
+  ): Promise<ReviewWithAuthor[]> {
+    const orders = await db.query.ordersTable.findMany({
+      where: eq(ordersTable.photographerId, photographerId),
+      with: {
+        review: true,
+        client: true,
+      },
+    });
+
+    return orders
+      .filter((order) => order.review)
+      .map((order) =>
+        reviewWithAuthorSchema.parse({
+          ...order.review,
+          author: {
+            name: order.client.name,
+            profileImageUrl: order.client.profileImageUrl,
+          },
+        }),
+      );
   }
 }
 
