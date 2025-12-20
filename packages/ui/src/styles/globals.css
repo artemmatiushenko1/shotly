@@ -123,3 +123,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes reveal {
+  0% {
+    width: 0;
+    opacity: 0;
+    filter: blur(4px);
+  }
+  100% {
+    width: 16px; /* 16px equals tailwind w-4 */
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+/* This creates a class we can use in the button */
+.animate-reveal {
+  animation: reveal 0.3s ease-in-out forwards;
+}

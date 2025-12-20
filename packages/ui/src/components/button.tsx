@@ -68,21 +68,13 @@ function Button({
         children
       ) : (
         <>
-          <span
-            className={cn(
-              'transition-all duration-300 ease-in-out overflow-hidden flex items-center',
-              loading
-                ? 'w-4 opacity-100 translate-x-0 mr-0'
-                : cn(
-                    'w-0 opacity-0 -translate-x-2 blur-sm',
-                    size === 'sm' ? '-mr-1.5' : '-mr-2',
-                  ),
-            )}
-          >
-            <div className="w-4 shrink-0 flex items-center justify-center">
-              <Spinner size="sm" />
-            </div>
-          </span>
+          {loading && (
+            <span className="flex items-center gap-2 animate-reveal">
+              <div className="w-4 shrink-0 flex items-center justify-center">
+                <Spinner size="sm" />
+              </div>
+            </span>
+          )}
           {children}
         </>
       )}
