@@ -10,9 +10,10 @@ import { Badge } from '@shotly/ui/components/badge';
 import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
 
 import ClientInfo from './client-info';
+import EmptyTabContent from './empty-tab-content';
 import OrderActions from './order-actions';
 
-enum OrdersTab {
+export enum OrdersTab {
   REQUESTS = 'requests',
   UPCOMING = 'upcoming',
   COMPLETED = 'completed',
@@ -121,27 +122,34 @@ function OrdersView({ orders }: OrdersViewProps) {
           ))}
         </TabsList>
       </Tabs>
-      <div className="p-4 space-y-4">
-        {ordersByTab[selectedTab].map((order) => (
-          <OrderCard
-            key={order.id}
-            order={order}
-            userInfo={
-              <ClientInfo
-                orderStatus={order.status}
-                clientName={order.client.name}
-                clientEmail={order.client.email}
-              />
-            }
-            actions={
-              <OrderActions
-                clientEmail={order.client.email}
-                orderId={order.id}
-                status={order.status}
-              />
-            }
+      <div className="p-4 space-y-4 relative min-h-[calc(100vh-200px)]">
+        {ordersByTab[selectedTab].length === 0 ? (
+          <EmptyTabContent
+            tab={selectedTab}
+            className="absolute inset-0 w-full h-full flex items-center justify-center"
           />
-        ))}
+        ) : (
+          ordersByTab[selectedTab].map((order) => (
+            <OrderCard
+              key={order.id}
+              order={order}
+              userInfo={
+                <ClientInfo
+                  orderStatus={order.status}
+                  clientName={order.client.name}
+                  clientEmail={order.client.email}
+                />
+              }
+              actions={
+                <OrderActions
+                  clientEmail={order.client.email}
+                  orderId={order.id}
+                  status={order.status}
+                />
+              }
+            />
+          ))
+        )}
       </div>
     </>
   );

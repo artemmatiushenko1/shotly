@@ -2,7 +2,6 @@
 
 import { User } from 'better-auth';
 import {
-  Blocks,
   CalendarRangeIcon,
   ChevronRight,
   Handshake,
@@ -10,6 +9,7 @@ import {
   LayoutGrid,
   LogOutIcon,
   SettingsIcon,
+  StoreIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -67,7 +67,7 @@ export function AppSidebar(props: AppSidebarProps) {
     {
       title: t('menu.orders'),
       url: '/studio/orders',
-      icon: Blocks,
+      icon: StoreIcon,
     },
     {
       title: t('menu.services'),

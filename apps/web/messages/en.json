@@ -478,6 +478,11 @@
         "restore": "Service \"{name}\" restored successfully!"
       }
     },
+    "empty": {
+      "title": "Start selling your photography",
+      "description": "Services are the specific packages clients will see on your public profile. Create clear offerings like '1-Hour Portrait' or 'Full Day Wedding' to help clients book you faster.",
+      "createButton": "Create Service"
+    },
     "emptyTabContent": {
       "titles": {
         "All": "No active services",
@@ -525,6 +530,20 @@
       "priceUnit": "/ hour",
       "total": "Total",
       "duration": "({hours, plural, one {# hour} other {# hours}})"
+    },
+    "emptyTabContent": {
+      "titles": {
+        "requests": "No pending requests",
+        "upcoming": "No upcoming orders",
+        "completed": "No completed orders",
+        "cancelled": "No cancelled orders"
+      },
+      "descriptions": {
+        "requests": "You don't have any pending booking requests at the moment.",
+        "upcoming": "You don't have any upcoming orders at the moment.",
+        "completed": "You haven't completed any orders yet.",
+        "cancelled": "You don't have any cancelled orders."
+      }
     }
   },
   "landing": {

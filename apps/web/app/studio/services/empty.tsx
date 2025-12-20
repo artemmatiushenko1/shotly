@@ -1,4 +1,7 @@
+'use client';
+
 import { PackageIcon, PlusIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import { Category } from '@/entities/models/category';
@@ -13,16 +16,18 @@ type EmptyProps = {
 };
 
 function Empty({ categories }: EmptyProps) {
+  const t = useTranslations('services.empty');
+
   return (
     <EmptyState
-      title="Start selling your photography"
-      description="Services are the specific packages clients will see on your public profile. Create clear offerings like '1-Hour Portrait' or 'Full Day Wedding' to help clients book you faster."
+      title={t('title')}
+      description={t('description')}
       icon={PackageIcon}
       action={
         <CreateServiceDialog categories={categories}>
           <Button>
             <PlusIcon />
-            Create Service
+            {t('createButton')}
           </Button>
         </CreateServiceDialog>
       }
