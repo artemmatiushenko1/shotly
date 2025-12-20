@@ -129,9 +129,10 @@ function Calendar({
           return (
             <div
               data-slot="calendar"
-              ref={rootRef}
+              ref={rootRef as React.RefObject<HTMLDivElement>}
               className={cn(className)}
-              {...props}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              {...(props as any)}
             />
           );
         },
@@ -158,7 +159,9 @@ function Calendar({
         DayButton: CalendarDayButton,
         WeekNumber: ({ children, ...props }) => {
           return (
-            <td {...props}>
+            <td // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              {...(props as any)}
+            >
               <div className="flex size-(--cell-size) items-center justify-center text-center">
                 {children}
               </div>
@@ -205,7 +208,8 @@ function CalendarDayButton({
         defaultClassNames.day,
         className,
       )}
-      {...props}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(props as any)}
     />
   );
 }

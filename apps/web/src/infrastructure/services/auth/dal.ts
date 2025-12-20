@@ -13,6 +13,7 @@ export type AuthenticatedUser = {
   email: string;
   role: Role;
   approvalStatus: ApprovalStatus;
+  image: string;
 };
 
 export const getAuthenticatedUser = async () => {

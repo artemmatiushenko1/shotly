@@ -1,6 +1,5 @@
 'use client';
 
-import { User } from 'better-auth';
 import {
   CalendarRangeIcon,
   ChevronRight,
@@ -17,6 +16,7 @@ import { useTranslations } from 'next-intl';
 
 import { StorageUsage } from '@/entities/models/user';
 import { authClient } from '@/infrastructure/services/auth/auth-client';
+import { AuthenticatedUser } from '@/infrastructure/services/auth/dal';
 
 import {
   Avatar,
@@ -42,7 +42,7 @@ import {
 import { StorageUsageInfo } from './storage-usage-info';
 
 type AppSidebarProps = {
-  user: User;
+  user: AuthenticatedUser;
   storageUsage: StorageUsage;
 };
 
