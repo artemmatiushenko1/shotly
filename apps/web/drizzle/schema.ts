@@ -418,22 +418,13 @@ export const reviewsTable = pgTable(
     id: uuid('id').defaultRandom().primaryKey(),
     rating: integer('rating').notNull(),
     comment: text('comment').notNull(),
-    createdAt: timestamp('created_at', { withTimezone: true })
-      .defaultNow()
-      .notNull(),
     orderId: uuid('order_id')
       .notNull()
       .references(() => ordersTable.id, { onDelete: 'cascade' })
       .unique(),
-    buyerId: text('buyer_id')
-      .notNull()
-      .references(() => usersTable.id, { onDelete: 'set null' }),
-    serviceId: uuid('service_id')
-      .notNull()
-      .references(() => servicesTable.id, { onDelete: 'cascade' }),
-    photographerId: text('photographer_id')
-      .notNull()
-      .references(() => usersTable.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .defaultNow()
+      .notNull(),
   },
   (table) => [
     check('rating_check', sql`${table.rating} >= 1 AND ${table.rating} <= 5`),

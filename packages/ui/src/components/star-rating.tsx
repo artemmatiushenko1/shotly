@@ -51,6 +51,7 @@ type StarRatingProps = {
   onRatingChange?: (rating: number) => void;
   className?: string;
   readonly?: boolean;
+  error?: string;
 } & VariantProps<typeof starRatingVariants>;
 
 function StarRating({
@@ -59,6 +60,7 @@ function StarRating({
   size,
   className,
   readonly = false,
+  error,
 }: StarRatingProps) {
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -81,27 +83,34 @@ function StarRating({
   };
 
   return (
-    <div
-      className={cn(starRatingVariants({ size }), className)}
-      onMouseLeave={handleMouseLeave}
-    >
-      {[1, 2, 3, 4, 5].map((star) => {
-        const isFilled = star <= (hoverRating || rating);
+    <>
+      <div
+        className={cn(starRatingVariants({ size }), className)}
+        onMouseLeave={handleMouseLeave}
+      >
+        {[1, 2, 3, 4, 5].map((star) => {
+          const isFilled = star <= (hoverRating || rating);
 
-        return (
-          <button
-            key={star}
-            type="button"
-            onClick={() => handleStarClick(star)}
-            onMouseEnter={() => handleStarHover(star)}
-            disabled={readonly}
-            className={cn(starButtonVariants({ readonly }))}
-          >
-            <StarIcon className={cn(starIconVariants({ filled: isFilled }))} />
-          </button>
-        );
-      })}
-    </div>
+          return (
+            <button
+              key={star}
+              type="button"
+              onClick={() => handleStarClick(star)}
+              onMouseEnter={() => handleStarHover(star)}
+              disabled={readonly}
+              className={cn(starButtonVariants({ readonly }))}
+            >
+              <StarIcon
+                className={cn(starIconVariants({ filled: isFilled }))}
+              />
+            </button>
+          );
+        })}
+      </div>
+      {error && (
+        <div className="text-sm text-destructive mt-2 text-center">{error}</div>
+      )}
+    </>
   );
 }
 

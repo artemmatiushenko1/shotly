@@ -6,9 +6,10 @@ import {
   orderSchema,
   OrderStatus,
 } from '@/entities/models/order';
+import { CreateReviewInput } from '@/entities/models/review';
 
 import { db } from '../../../drizzle';
-import { ordersTable } from '../../../drizzle/schema';
+import { ordersTable, reviewsTable } from '../../../drizzle/schema';
 
 class OrdersRepository {
   async createOrder(input: CreateOrderInput): Promise<string | null> {
@@ -129,6 +130,10 @@ class OrdersRepository {
       .update(ordersTable)
       .set({ status })
       .where(eq(ordersTable.id, orderId));
+  }
+
+  async createOrderReview(input: CreateReviewInput) {
+    await db.insert(reviewsTable).values(input);
   }
 }
 

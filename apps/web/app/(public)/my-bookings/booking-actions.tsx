@@ -5,60 +5,48 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import React, { useTransition } from 'react';
 
-import { OrderStatus } from '@/entities/models/order';
+import { Order, OrderStatus } from '@/entities/models/order';
 
 import { Button, buttonVariants } from '@shotly/ui/components/button';
 import { ConfirmationDialog } from '@shotly/ui/components/confirmation-dialog';
 import { cn } from '@shotly/ui/lib/utils';
 
 import { cancelOrderAction } from './actions';
-import LeaveReviewDialog from './leave-review-dialog';
+import PostReviewDialog from './post-review-form-dialog/post-review-dialog';
 
 type BookingActionsProps = {
-  status: OrderStatus;
-  orderDisplayId: string;
-  orderId: string;
-  onCancel: () => void;
-  onLeaveReview: () => void;
-  photographerEmail: string;
+  order: Order;
 };
 
-function BookingActions({
-  status,
-  photographerEmail,
-  orderDisplayId,
-  onCancel,
-  orderId,
-}: BookingActionsProps) {
+function BookingActions({ order }: BookingActionsProps) {
   const t = useTranslations('myBookings.actions');
   const [isCancelling, startCancellingTransition] = useTransition();
 
   const handleCancelOrder = async () => {
     startCancellingTransition(async () => {
-      await cancelOrderAction(orderId);
-      onCancel();
+      await cancelOrderAction(order.id);
     });
   };
 
   return (
     <>
       <Link
-        href={`mailto:${photographerEmail}`}
+        href={`mailto:${order.photographer.email}`}
         className={cn(buttonVariants({ variant: 'outline' }))}
       >
         <MessageSquareIcon /> {t('messagePhotographer')}
       </Link>
-      {status === 'completed' && (
-        <LeaveReviewDialog>
+      {order.status === OrderStatus.COMPLETED && (
+        <PostReviewDialog order={order}>
           <Button>
             <StarIcon /> {t('leaveReview')}
           </Button>
-        </LeaveReviewDialog>
+        </PostReviewDialog>
       )}
-      {status === 'pending' && (
+      {order.status === OrderStatus.PENDING && (
         <ConfirmationDialog
           title="Cancel Booking"
-          description={`Are you sure you want to cancel booking ${orderDisplayId}?`}
+          description={`Are you sure you want to cancel booking ${order.displayId}?`}
           onConfirm={handleCancelOrder}
           actionSeverity="caution"
         >

@@ -82,16 +82,7 @@ function BookingTabs(props: BookingTabsProps) {
                   profileImageUrl={order.photographer.profileImageUrl}
                 />
               }
-              actions={
-                <BookingActions
-                  orderId={order.id}
-                  orderDisplayId={order.displayId}
-                  status={order.status}
-                  onCancel={() => {}}
-                  onLeaveReview={() => {}}
-                  photographerEmail={order.photographer.email}
-                />
-              }
+              actions={<BookingActions order={order} />}
             />
           ))}
         </div>
