@@ -21,6 +21,7 @@ type LeaveReviewDialogProps = {
 
 function LeaveReviewDialog({ children }: LeaveReviewDialogProps) {
   const t = useTranslations('myBookings.leaveReview');
+
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -41,14 +42,16 @@ function LeaveReviewDialog({ children }: LeaveReviewDialogProps) {
               Індивідуальна фотосесія
             </p>
           </div>
-          <div className="flex justify-center gap-2">
+          <div
+            className="flex justify-center gap-2"
+            onMouseLeave={() => setHoverRating(0)}
+          >
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
                 type="button"
                 onClick={() => setRating(star)}
                 onMouseEnter={() => setHoverRating(star)}
-                onMouseLeave={() => setHoverRating(0)}
                 className="focus:outline-none transition-transform hover:scale-110 duration-150"
               >
                 <StarIcon
