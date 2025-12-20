@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import {
   acceptOrderUseCase,
   cancelOrderUseCase,
+  completeOrderUseCase,
 } from '@/application/use-cases/orders';
 import { getAuthenticatedUserOrRedirect } from '@/infrastructure/services/auth/dal';
 
@@ -20,6 +21,14 @@ export const rejectOrderAction = async (orderId: string) => {
   const user = await getAuthenticatedUserOrRedirect();
 
   await cancelOrderUseCase(user.id, orderId);
+
+  revalidatePath('/studio/orders');
+};
+
+export const completeOrderAction = async (orderId: string) => {
+  const user = await getAuthenticatedUserOrRedirect();
+
+  await completeOrderUseCase(user.id, orderId);
 
   revalidatePath('/studio/orders');
 };

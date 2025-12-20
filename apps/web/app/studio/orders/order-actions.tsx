@@ -10,7 +10,11 @@ import { OrderStatus } from '@/entities/models/order';
 import { Button, buttonVariants } from '@shotly/ui/components/button';
 import { cn } from '@shotly/ui/lib/utils';
 
-import { acceptOrderAction, rejectOrderAction } from './actions';
+import {
+  acceptOrderAction,
+  completeOrderAction,
+  rejectOrderAction,
+} from './actions';
 
 type OrderActionsProps = {
   orderId: string;
@@ -25,6 +29,13 @@ function OrderActions(props: OrderActionsProps) {
 
   const [isAcceptingOrder, startAcceptOrderTransition] = useTransition();
   const [isRejectingOrder, startRejectOrderTransition] = useTransition();
+  const [isCompletingOrder, startCompleteOrderTransition] = useTransition();
+
+  const handleCompleteOrder = async () => {
+    startCompleteOrderTransition(async () => {
+      await completeOrderAction(orderId);
+    });
+  };
 
   const handleAcceptOrder = async () => {
     startAcceptOrderTransition(async () => {
@@ -69,7 +80,7 @@ function OrderActions(props: OrderActionsProps) {
         >
           <MessageSquareIcon /> Message Client
         </Link>
-        <Button>
+        <Button loading={isCompletingOrder} onClick={handleCompleteOrder}>
           <CheckIcon /> {t('complete')}
         </Button>
       </>

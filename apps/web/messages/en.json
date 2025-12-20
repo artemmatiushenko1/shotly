@@ -499,7 +499,8 @@
     "tabs": {
       "requests": "Requests",
       "upcoming": "Upcoming",
-      "history": "History"
+      "completed": "Completed",
+      "cancelled": "Cancelled"
     },
     "status": {
       "completed": "Completed",

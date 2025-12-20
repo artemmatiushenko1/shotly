@@ -15,7 +15,8 @@ import OrderActions from './order-actions';
 enum OrdersTab {
   REQUESTS = 'requests',
   UPCOMING = 'upcoming',
-  HISTORY = 'history',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled',
 }
 
 type OrdersViewProps = {
@@ -33,10 +34,11 @@ function OrdersView({ orders }: OrdersViewProps) {
       [OrdersTab.UPCOMING]: orders.filter(
         (order) => order.status === OrderStatus.CONFIRMED,
       ),
-      [OrdersTab.HISTORY]: orders.filter(
-        (order) =>
-          order.status === OrderStatus.COMPLETED ||
-          order.status === OrderStatus.CANCELLED,
+      [OrdersTab.COMPLETED]: orders.filter(
+        (order) => order.status === OrderStatus.COMPLETED,
+      ),
+      [OrdersTab.CANCELLED]: orders.filter(
+        (order) => order.status === OrderStatus.CANCELLED,
       ),
     }),
     [orders],
@@ -54,7 +56,8 @@ function OrdersView({ orders }: OrdersViewProps) {
     () => ({
       [OrdersTab.REQUESTS]: ordersByTab[OrdersTab.REQUESTS].length,
       [OrdersTab.UPCOMING]: ordersByTab[OrdersTab.UPCOMING].length,
-      [OrdersTab.HISTORY]: ordersByTab[OrdersTab.HISTORY].length,
+      [OrdersTab.COMPLETED]: ordersByTab[OrdersTab.COMPLETED].length,
+      [OrdersTab.CANCELLED]: ordersByTab[OrdersTab.CANCELLED].length,
     }),
     [ordersByTab],
   );
@@ -68,6 +71,36 @@ function OrdersView({ orders }: OrdersViewProps) {
     }
   }, [ordersCountByTab, selectedTab]);
 
+  const tabs = useMemo(
+    () => [
+      ...(ordersCountByTab[OrdersTab.REQUESTS] > 0
+        ? [
+            {
+              label: t('tabs.requests'),
+              value: OrdersTab.REQUESTS,
+              count: ordersCountByTab[OrdersTab.REQUESTS],
+            },
+          ]
+        : []),
+      {
+        label: t('tabs.upcoming'),
+        value: OrdersTab.UPCOMING,
+        count: ordersCountByTab[OrdersTab.UPCOMING],
+      },
+      {
+        label: t('tabs.completed'),
+        value: OrdersTab.COMPLETED,
+        count: ordersCountByTab[OrdersTab.COMPLETED],
+      },
+      {
+        label: t('tabs.cancelled'),
+        value: OrdersTab.CANCELLED,
+        count: ordersCountByTab[OrdersTab.CANCELLED],
+      },
+    ],
+    [ordersCountByTab, t],
+  );
+
   return (
     <>
       <Tabs
@@ -75,25 +108,17 @@ function OrdersView({ orders }: OrdersViewProps) {
         onValueChange={(value) => setSelectedTab(value as OrdersTab)}
       >
         <TabsList className="px-4 mt-4">
-          {ordersCountByTab[OrdersTab.REQUESTS] > 0 && (
-            <TabsTrigger value={OrdersTab.REQUESTS}>
-              {t('tabs.requests')}
+          {tabs.map((tab) => (
+            <TabsTrigger key={tab.value} value={tab.value}>
+              {tab.label}
               <Badge
                 className="h-5 min-w-5 rounded-full px-1 ml-1"
-                variant={
-                  selectedTab === OrdersTab.REQUESTS ? 'default' : 'secondary'
-                }
+                variant={selectedTab === tab.value ? 'default' : 'secondary'}
               >
-                {ordersCountByTab[OrdersTab.REQUESTS]}
+                {tab.count}
               </Badge>
             </TabsTrigger>
-          )}
-          <TabsTrigger value={OrdersTab.UPCOMING}>
-            {t('tabs.upcoming')}
-          </TabsTrigger>
-          <TabsTrigger value={OrdersTab.HISTORY}>
-            {t('tabs.history')}
-          </TabsTrigger>
+          ))}
         </TabsList>
       </Tabs>
       <div className="p-4 space-y-4">
