@@ -28,7 +28,7 @@ export async function Loading() {
             {Array.from({ length: 3 }).map((_, i) => (
               <Card
                 key={i}
-                className="shadow-none border-none py-0 overflow-hidden flex-row gap-4 flex rounded-xl"
+                className="shadow-none border-none py-0 overflow-hidden flex-row gap-4 flex rounded-xl bg-transparent"
               >
                 <div className="relative p-2">
                   <Skeleton className="size-40 w-50 object-cover rounded-lg" />

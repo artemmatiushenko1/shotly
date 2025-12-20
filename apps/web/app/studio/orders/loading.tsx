@@ -24,7 +24,7 @@ export async function Loading() {
         {Array.from({ length: 3 }).map((_, i) => (
           <Card
             key={i}
-            className="shadow-none pb-0 overflow-hidden border-transparent"
+            className="shadow-none pb-0 overflow-hidden border-transparent bg-transparent"
           >
             <CardHeader className="flex justify-between">
               <div>
