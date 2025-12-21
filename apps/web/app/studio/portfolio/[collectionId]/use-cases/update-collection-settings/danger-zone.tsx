@@ -38,11 +38,11 @@ function DangerZoneSettings(props: DangerZoneSettingsProps) {
     >
       <ConfirmationDialog
         onConfirm={handleDeleteCollection}
-        title="Are you sure you want to delete this collection?"
+        title={t('tabs.dangerZone.confirmDialog.title')}
         actionSeverity="danger"
-        confirmLabel="Delete"
-        cancelLabel="Cancel"
-        description="This action cannot be undone."
+        confirmLabel={t('tabs.dangerZone.confirmDialog.confirmLabel')}
+        cancelLabel={t('tabs.dangerZone.confirmDialog.cancelLabel')}
+        description={t('tabs.dangerZone.confirmDialog.description')}
         icon={<TrashIcon />}
       >
         <Button variant="destructive" disabled={loading}>
