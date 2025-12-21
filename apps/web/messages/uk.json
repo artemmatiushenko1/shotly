@@ -346,7 +346,7 @@
         "uploadZone": {
           "dragText": "Перетягніть зображення або",
           "browse": "Переглянути",
-          "fileTypes": "JPEG, PNG, PDF або MP4 до 45 МБ"
+          "fileTypes": "JPEG, PNG, PDF або MP4 до {maxSizeMb} МБ"
         },
         "continue": "Завантажити {count, plural, one {1 фотографію} other {# фотографій}}"
       },

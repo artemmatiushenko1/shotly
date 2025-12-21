@@ -1,4 +1,3 @@
-// utils/image-metadata.ts
 import exifr from 'exifr';
 
 import { PhotoMetadata } from '@/entities/models/photo';

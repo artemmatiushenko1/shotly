@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import React, { useCallback, useState } from 'react';
 
 import { clientEnv } from '@/env/client';
+import { extractThumbnailFromImageFile } from '@/utils/files/extract-thumbnail-from-image-file';
 
 import { Button } from '@shotly/ui/components/button';
 import {
@@ -45,16 +46,18 @@ const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
 
   const { uploadPhotos } = usePhotosUploadQueue();
 
-  const handleFiles = useCallback((files: FileList) => {
+  const handleFiles = useCallback(async (files: FileList) => {
     const newFiles: SelectedFile[] = [];
 
-    Array.from(files).forEach((file) => {
+    const promises = Array.from(files).map(async (file) => {
       if (file.type.startsWith('image/')) {
         const id = crypto.randomUUID();
-        const preview = URL.createObjectURL(file);
+        const preview = await extractThumbnailFromImageFile(file);
         newFiles.push({ id, file, preview });
       }
     });
+
+    await Promise.all(promises);
 
     setUploadFiles((prev) => [...prev, ...newFiles]);
   }, []);
@@ -93,10 +96,6 @@ const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
 
   const removeFile = (fileId: string) => {
     setUploadFiles((prev) => {
-      const file = prev.find((f) => f.id === fileId);
-      if (file) {
-        URL.revokeObjectURL(file.preview);
-      }
       return prev.filter((f) => f.id !== fileId);
     });
   };
@@ -106,10 +105,6 @@ const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
 
     try {
       await uploadPhotos(uploadFiles.map((uploadFile) => uploadFile.file));
-
-      uploadFiles.forEach((file) => {
-        URL.revokeObjectURL(file.preview);
-      });
 
       setUploadFiles([]);
       setIsOpen(false);
@@ -122,10 +117,6 @@ const UploadPhotosDialog = (props: UploadPhotosDialogProps) => {
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
-      uploadFiles.forEach((file) => {
-        URL.revokeObjectURL(file.preview);
-      });
-
       setUploadFiles([]);
     }
     setIsOpen(open);
