@@ -27,7 +27,7 @@ async function SearchPage(props: SearchPageProps) {
   const [categories, languages, initialSearchResults] = await Promise.all([
     getAllCategoriesUseCase(locale),
     getAllLanguagesUseCase(locale),
-    searchPhotographersUseCase(initialSearchParams),
+    searchPhotographersUseCase(initialSearchParams, locale),
   ]);
 
   return (

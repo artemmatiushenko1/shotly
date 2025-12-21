@@ -12,6 +12,7 @@ import {
   sql,
 } from 'drizzle-orm';
 
+import { Locale } from '@/_i18n/config';
 import { IPhotographerSearchService } from '@/application/services/photographer-search-service.interface';
 import { VisibilityStatus } from '@/entities/models/common';
 import {
@@ -38,7 +39,7 @@ import {
 const MAX_PORTFOLIO_PREVIEW_COUNT = 4;
 
 export class PhotographerSearchService implements IPhotographerSearchService {
-  async search(params: SearchParams) {
+  async search(params: SearchParams, locale: Locale) {
     const {
       search,
       categoryId,
@@ -137,7 +138,7 @@ export class PhotographerSearchService implements IPhotographerSearchService {
         locationName: sql<string>`MAX(${locationsTable.name})`,
         startingPrice: sql<number>`MIN(${servicesTable.price})`,
         currency: sql<string>`MAX(${servicesTable.currency})`,
-        categoryName: sql<string>`MAX(${categoriesTable.name})`,
+        categoryName: sql<string>`MAX(${locale === Locale.UK ? categoriesTable.nameUk : categoriesTable.name})`,
         portfolioImages: sql<string[]>`(
           SELECT array_agg(t.thumbnail_url)
           FROM (
