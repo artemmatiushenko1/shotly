@@ -619,7 +619,12 @@
           "label": "Languages"
         },
         "experience": {
-          "label": "Experience"
+          "label": "Experience",
+          "options": {
+            "noExperience": "No experience",
+            "years": "{count, plural, one {# year} other {# years}}",
+            "yearsPlus": "10+ years"
+          }
         },
         "rating": {
           "label": "Rating"

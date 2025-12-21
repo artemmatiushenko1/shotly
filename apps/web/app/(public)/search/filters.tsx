@@ -189,7 +189,12 @@ function Filters({
             }
             options={Array.from({ length: 11 }, (_, i) => ({
               value: String(i),
-              label: i === 10 ? '10+ years' : `${i} years`,
+              label:
+                i === 0
+                  ? t('experience.options.noExperience')
+                  : i === 10
+                    ? t('experience.options.yearsPlus')
+                    : t('experience.options.years', { count: i }),
             }))}
           />
 

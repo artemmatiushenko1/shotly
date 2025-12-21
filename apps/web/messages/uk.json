@@ -610,7 +610,12 @@
           "label": "Мови"
         },
         "experience": {
-          "label": "Досвід"
+          "label": "Досвід",
+          "options": {
+            "noExperience": "Без досвіду",
+            "years": "{count, plural, one {# рік} few {# роки} other {# років}}",
+            "yearsPlus": "10+ років"
+          }
         },
         "rating": {
           "label": "Рейтинг"
