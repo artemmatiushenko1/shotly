@@ -1,5 +1,6 @@
 import debounce from 'debounce';
 import { SearchIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { LocationDetails } from '@/entities/models/locations';
@@ -28,6 +29,8 @@ type LocationSelectorProps = {
 
 function LocationSearch(props: LocationSelectorProps) {
   const { inputId, value, onChange, error, trigger } = props;
+
+  const t = useTranslations('locationSearch');
 
   const [searchResults, setSearchResults] = useState<LocationDetails[]>([]);
 
@@ -62,7 +65,7 @@ function LocationSearch(props: LocationSelectorProps) {
               id={inputId}
               className="border-none focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none h-7 p-0 pl-3 dark:bg-transparent"
               onChange={(e) => searchLocations(e.target.value)}
-              placeholder="Start typing..."
+              placeholder={t('placeholder')}
               autoFocus
             />
           </div>

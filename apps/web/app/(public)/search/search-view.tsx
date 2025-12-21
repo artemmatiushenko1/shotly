@@ -93,7 +93,7 @@ export default function SearchView({
           </p>
           {isPending && (
             <span className="text-sm text-muted-foreground animate-pulse">
-              Updating...
+              {t('updating')}
             </span>
           )}
           <Button
@@ -129,11 +129,11 @@ export default function SearchView({
           <EmptyState
             className="mt-20"
             icon={SearchIcon}
-            title={'No photographers found'}
-            description={'Try adjusting your search criteria'}
+            title={t('emptyState.title')}
+            description={t('emptyState.description')}
             action={
               <Button variant="outline" onClick={handleClearFilters}>
-                Clear filters
+                {t('clearFilters')}
               </Button>
             }
           />

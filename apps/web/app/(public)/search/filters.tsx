@@ -1,7 +1,7 @@
 // src/presentation/search/filters.tsx
 'use client';
 
-import { StarIcon } from 'lucide-react';
+import { SearchIcon, StarIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 // Use the inferred type from your Zod schema (or the manual type if preferred)
@@ -16,7 +16,11 @@ import {
   SortOption,
 } from '@/entities/models/search';
 
-import { Input } from '@shotly/ui/components/input';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@shotly/ui/components/input-group';
 import {
   Select,
   SelectContent,
@@ -105,7 +109,6 @@ function Filters({
   return (
     <div className="sticky top-4 z-10 p-4 rounded-3xl bg-[linear-gradient(to_right,_#e8ebff_0%,_#fff4ea_100%)] border">
       <div className="mb-4 lg:grid lg:grid-cols-4 lg:gap-4">
-        {/* Category */}
         <LabeledSelect
           label={t('category.label')}
           placeholder={t('category.placeholder')}
@@ -120,7 +123,6 @@ function Filters({
           ))}
         </LabeledSelect>
 
-        {/* Location - Strictly typed callback */}
         <LocationSelect
           label={t('location.label')}
           className="max-w-xs"
@@ -130,7 +132,6 @@ function Filters({
           }
         />
 
-        {/* Price */}
         <LabeledSelect
           className="max-w-xs"
           label={t('price.label')}
@@ -145,7 +146,6 @@ function Filters({
           ))}
         </LabeledSelect>
 
-        {/* Delivery Time */}
         <LabeledSelect
           label={t('delivery.label')}
           placeholder={t('delivery.placeholder')}
@@ -155,15 +155,20 @@ function Filters({
             handleChange('deliveryTime', val as DeliveryTime)
           }
         >
-          <SelectItem value={DeliveryTime.UNDER_1_DAY}>Day</SelectItem>
-          <SelectItem value={DeliveryTime.UNDER_WEEK}>Week</SelectItem>
-          <SelectItem value={DeliveryTime.UNDER_MONTH}>Month</SelectItem>
+          <SelectItem value={DeliveryTime.UNDER_1_DAY}>
+            {t('delivery.options.under1Day')}
+          </SelectItem>
+          <SelectItem value={DeliveryTime.UNDER_WEEK}>
+            {t('delivery.options.underWeek')}
+          </SelectItem>
+          <SelectItem value={DeliveryTime.UNDER_MONTH}>
+            {t('delivery.options.underMonth')}
+          </SelectItem>
         </LabeledSelect>
       </div>
 
       <div className="flex flex-row gap-4 items-start md:items-center">
         <div className="flex flex-wrap gap-2 items-center border-r border-muted pr-6">
-          {/* Languages */}
           <CountSelect
             label={t('languages.label')}
             values={filters.languageCodes}
@@ -176,7 +181,6 @@ function Filters({
             }))}
           />
 
-          {/* Experience */}
           <CountSelect
             label={t('experience.label')}
             values={filters.experienceYears.map(String)}
@@ -189,7 +193,6 @@ function Filters({
             }))}
           />
 
-          {/* Rating */}
           <CountSelect
             label={t('rating.label')}
             values={filters.rating}
@@ -199,7 +202,6 @@ function Filters({
         </div>
 
         <div className="flex flex-row justify-between items-center flex-1">
-          {/* Sort */}
           <Select
             value={filters.sort}
             onValueChange={(val) => handleChange('sort', val as SortOption)}
@@ -230,14 +232,17 @@ function Filters({
             </SelectContent>
           </Select>
 
-          {/* Text Search */}
-          <Input
-            type="search"
-            placeholder={t('searchByName')}
-            className="max-w-xs ml-auto shadow-none bg-background"
-            value={filters.search}
-            onChange={(e) => handleChange('search', e.target.value)}
-          />
+          <InputGroup className="max-w-xs ml-auto shadow-none bg-background">
+            <InputGroupAddon>
+              <SearchIcon className="size-4 text-muted-foreground" />
+            </InputGroupAddon>
+            <InputGroupInput
+              type="search"
+              placeholder={t('searchByName')}
+              value={filters.search}
+              onChange={(e) => handleChange('search', e.target.value)}
+            />
+          </InputGroup>
         </div>
       </div>
     </div>

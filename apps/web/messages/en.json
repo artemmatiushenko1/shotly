@@ -584,6 +584,11 @@
       "description": "Find the perfect photographer for your needs.",
       "resultsCount": "{count, plural, one {# photographer matches your needs} other {# photographers match your needs}}",
       "clearFilters": "Clear filters",
+      "updating": "Updating...",
+      "emptyState": {
+        "title": "No photographers found",
+        "description": "Try adjusting your search criteria"
+      },
       "filters": {
         "category": {
           "label": "I'm looking for",
@@ -603,7 +608,12 @@
         "delivery": {
           "label": "I need photos by",
           "placeholder": "Select delivery duration",
-          "any": "Any Duration"
+          "any": "Any Duration",
+          "options": {
+            "under1Day": "Day",
+            "underWeek": "Week",
+            "underMonth": "Month"
+          }
         },
         "languages": {
           "label": "Languages"
@@ -759,5 +769,8 @@
       "mb": "MB",
       "gb": "GB"
     }
+  },
+  "locationSearch": {
+    "placeholder": "Start typing..."
   }
 }
