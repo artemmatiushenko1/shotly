@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronsUpDownIcon, MapPinPlus, XIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import LocationSearch from '@/_components/location-search/location-search';
 import { LocationDetails } from '@/entities/models/locations';
@@ -19,6 +20,7 @@ type LocationSelectorProps = {
 
 const LocationSelector = (props: LocationSelectorProps) => {
   const { value, onChange, error } = props;
+  const t = useTranslations('settings.profile.fields.locations');
 
   const removeLocation = (location: LocationDetails) => {
     const newLocations = value.filter(
@@ -81,7 +83,7 @@ const LocationSelector = (props: LocationSelectorProps) => {
             )}
           >
             <span className="flex gap-3 items-center">
-              <MapPinPlus /> Search locations...
+              <MapPinPlus /> {t('searchPlaceholder')}
             </span>
             <ChevronsUpDownIcon />
           </Button>

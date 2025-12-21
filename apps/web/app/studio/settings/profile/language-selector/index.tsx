@@ -1,6 +1,7 @@
 'use client';
 
 import { CheckIcon, ChevronsUpDownIcon, Languages } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { Language } from '@/entities/models/language';
@@ -34,6 +35,7 @@ type LanguageSelectorProps = {
 
 const LanguageSelector = (props: LanguageSelectorProps) => {
   const { value, inputId, languageOptions, onChange, error } = props;
+  const t = useTranslations('settings.profile.fields.languages');
 
   const [open, setOpen] = useState(false);
 
@@ -67,7 +69,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
             )}
           >
             <span className="flex items-center gap-3">
-              <Languages /> Search languages...
+              <Languages /> {t('searchPlaceholder')}
             </span>
             <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -80,7 +82,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
             <CommandInput
               autoFocus
               id={inputId}
-              placeholder="Search languages..."
+              placeholder={t('searchPlaceholder')}
             />
             <CommandList>
               <CommandEmpty>No languages found.</CommandEmpty>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 import { Slider } from '@shotly/ui/components/slider';
@@ -26,15 +27,17 @@ const ExperienceSlider = (props: ExperienceSliderProps) => {
     error,
   } = props;
 
+  const t = useTranslations('settings.profile.fields.experience.slider');
+
   const normalizedDefault = clamp(defaultYears, minYears, maxYears);
   const [years, setYears] = useState<number>(normalizedDefault);
 
   const displayValue =
     years >= maxYears
-      ? `${maxYears}+ years`
+      ? t('yearsPlus', { maxYears })
       : years === 0
-        ? 'Less than 1 year'
-        : `${years} year${years > 1 ? 's' : ''}`;
+        ? t('lessThanOneYear')
+        : t('years', { count: years });
 
   return (
     <div className="space-y-3 max-w-sm">
@@ -55,8 +58,8 @@ const ExperienceSlider = (props: ExperienceSliderProps) => {
         id={inputId}
       />
       <div className="flex justify-between text-xs text-muted-foreground">
-        <span>{minYears === 0 ? '0 years' : `${minYears} year`}</span>
-        <span>{maxYears}+ years</span>
+        <span>{t('minLabel', { minYears })}</span>
+        <span>{t('maxLabel', { maxYears })}</span>
       </div>
       {error && <div className="text-sm text-destructive mt-2">{error}</div>}
     </div>

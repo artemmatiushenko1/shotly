@@ -96,6 +96,7 @@
   "dashboard": {
     "title": "Панель керування",
     "description": "Ласкаво просимо, {name}!",
+    "completeProfileMessage": " Заповніть свій профіль, щоб отримати схвалення та почати приймати клієнтів.",
     "onboarding": {
       "title": "Початок роботи",
       "completed": "завершено",
@@ -206,15 +207,24 @@
         },
         "experience": {
           "title": "Досвід",
-          "description": "Скільки років ви займаєтесь фотографією"
+          "description": "Скільки років ви займаєтесь фотографією",
+          "slider": {
+            "lessThanOneYear": "Менше 1 року",
+            "years": "{count, plural, one {# рік} few {# роки} other {# років}}",
+            "yearsPlus": "{maxYears}+ років",
+            "minLabel": "{minYears, plural, =0 {0 років} one {# рік} few {# роки} other {# років}}",
+            "maxLabel": "{maxYears}+ років"
+          }
         },
         "locations": {
           "title": "Локації",
-          "description": "Міста або регіони, де клієнти можуть забронювати вас"
+          "description": "Міста, де клієнти можуть забронювати вас",
+          "searchPlaceholder": "Виберіть міста..."
         },
         "languages": {
           "title": "Мови",
-          "description": "Мови, якими ви можете комфортно спілкуватись з клієнтами"
+          "description": "Мови, якими ви можете комфортно спілкуватись з клієнтами",
+          "searchPlaceholder": "Виберіть мови..."
         },
         "personalWebsite": {
           "title": "Особистий веб-сайт",

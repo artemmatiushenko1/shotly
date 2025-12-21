@@ -57,8 +57,7 @@ async function Dashboard() {
   let description = t('description', { name: user.name });
 
   if (user.approvalStatus === ApprovalStatus.NOT_SUBMITTED) {
-    description +=
-      ' Complete your profile to get approved and start booking clients.';
+    description += t('completeProfileMessage');
   }
 
   return (

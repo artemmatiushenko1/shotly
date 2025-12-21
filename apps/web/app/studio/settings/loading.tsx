@@ -2,7 +2,12 @@ import { LockIcon, Settings2Icon, UserIcon } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
 import { Skeleton } from '@shotly/ui/components/skeleton';
-import { Tabs, TabsList, TabsTrigger } from '@shotly/ui/components/tabs';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@shotly/ui/components/tabs';
 
 import GradientLoadingProgress from '../../_components/gradient-progress';
 import MainHeader from '../../_components/main-header';
@@ -16,8 +21,8 @@ export async function Loading() {
         <GradientLoadingProgress />
       </div>
       <MainHeader title={t('title')} caption={t('caption')} />
-      <div className="px-4 pt-0">
-        <Tabs>
+      <div className="px-4">
+        <Tabs defaultValue="profile">
           <TabsList className="my-4">
             <TabsTrigger value="profile" disabled>
               <UserIcon /> {t('tabs.profile')}
@@ -30,17 +35,19 @@ export async function Loading() {
               {t('tabs.privacyAndSecurity')}
             </TabsTrigger>
           </TabsList>
+          <TabsContent value="profile">
+            <div className="space-y-6">
+              <div className="space-y-7">
+                <Skeleton className="h-15 w-full" />
+                <Skeleton className="h-48 w-full" />
+                <Skeleton className="h-15 w-full" />
+                <Skeleton className="h-15 w-full" />
+                <Skeleton className="h-28 w-full" />
+                <Skeleton className="h-15 w-full" />
+              </div>
+            </div>
+          </TabsContent>
         </Tabs>
-        <div className="space-y-6">
-          <div className="space-y-7">
-            <Skeleton className="h-15 w-full" />
-            <Skeleton className="h-48 w-full" />
-            <Skeleton className="h-15 w-full" />
-            <Skeleton className="h-15 w-full" />
-            <Skeleton className="h-28 w-full" />
-            <Skeleton className="h-15 w-full" />
-          </div>
-        </div>
       </div>
     </>
   );

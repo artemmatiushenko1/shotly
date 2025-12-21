@@ -96,6 +96,7 @@
   "dashboard": {
     "title": "Dashboard",
     "description": "Welcome back, {name}!",
+    "completeProfileMessage": " Complete your profile to get approved and start booking clients.",
     "onboarding": {
       "title": "Getting Started",
       "completed": "completed",
@@ -206,15 +207,24 @@
         },
         "experience": {
           "title": "Experience",
-          "description": "How many years you've been shooting"
+          "description": "How many years you've been shooting",
+          "slider": {
+            "lessThanOneYear": "Less than 1 year",
+            "years": "{count, plural, one {# year} other {# years}}",
+            "yearsPlus": "{maxYears}+ years",
+            "minLabel": "{minYears, plural, =0 {0 years} one {# year} other {# years}}",
+            "maxLabel": "{maxYears}+ years"
+          }
         },
         "locations": {
           "title": "Locations",
-          "description": "Cities or regions where clients can book you"
+          "description": "Cities or regions where clients can book you",
+          "searchPlaceholder": "Search locations..."
         },
         "languages": {
           "title": "Languages",
-          "description": "Languages you can comfortably use with clients"
+          "description": "Languages you can comfortably use with clients",
+          "searchPlaceholder": "Search languages..."
         },
         "personalWebsite": {
           "title": "Personal website",
