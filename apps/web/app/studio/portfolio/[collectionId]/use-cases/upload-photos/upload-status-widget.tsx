@@ -28,7 +28,8 @@ import { formatBytes } from '../../utils';
 function UploadStatusWidget() {
   const { isLoading, uploads, timeLeft } = usePhotosUploadQueue();
 
-  const t = useTranslations();
+  const tCommon = useTranslations();
+  const t = useTranslations('portfolio.collectionDetails.uploadStatus');
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -51,53 +52,62 @@ function UploadStatusWidget() {
       ? completedOrFailedUploadsCount
       : completedOrFailedUploadsCount + 1;
 
-  function formatSecondsLeft(seconds: number): string {
+  function formatSecondsLeft(
+    seconds: number,
+    t: ReturnType<typeof useTranslations>,
+  ): string {
     if (!seconds || !isFinite(seconds)) return '';
 
     if (seconds < 60) {
-      return `${Math.round(seconds)}s`;
+      return t('seconds', { count: Math.round(seconds) });
     }
 
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.round(seconds % 60);
-    return `${minutes}m ${remainingSeconds}s`;
+    return t('minutesAndSeconds', { minutes, seconds: remainingSeconds });
   }
 
   const getHeaderTitle = () => {
     if (isLoading) {
-      return `Uploading ${currentUploadFileNumber} of ${uploads.length} photos`;
+      return t('uploading', {
+        current: currentUploadFileNumber,
+        total: uploads.length,
+      });
     }
 
     if (completedUploads === uploads.length) {
-      return 'Upload Complete';
+      return t('uploadComplete');
     }
 
     if (failedUploads === uploads.length) {
-      return 'Upload Failed';
+      return t('uploadFailed');
     }
 
     if (failedUploads > 0) {
-      return `Upload Finished: ${failedUploads} Failed`;
+      return t('uploadFinished', { failed: failedUploads });
     }
   };
 
   const getHeaderSubtitle = () => {
     if (isLoading) {
       return timeLeft
-        ? `${formatSecondsLeft(timeLeft)} left`
-        : 'Calculating remaining time...';
+        ? t('timeLeft', { time: formatSecondsLeft(timeLeft, t) })
+        : t('calculatingTime');
     }
 
     if (completedUploads === uploads.length) {
-      return 'All photos uploaded successfully';
+      return t('allUploaded');
     }
 
     if (failedUploads === uploads.length) {
-      return `Could not upload ${failedUploads} photos`;
+      return t('couldNotUpload', { count: failedUploads });
     }
 
     if (failedUploads > 0) {
-      return `${completedUploads} successful, ${failedUploads} failed`;
+      return t('uploadSummary', {
+        completed: completedUploads,
+        failed: failedUploads,
+      });
     }
   };
 
@@ -121,7 +131,7 @@ function UploadStatusWidget() {
     >
       <div
         className={cn(
-          'flex items-center gap-3 bg-primary text-accent rounded-t-lg p-3 pt-4 w-sm relative overflow-hidden',
+          'flex items-center gap-3 bg-primary text-accent rounded-t-lg p-3 pt-4 w-md relative overflow-hidden',
           !isOpen && 'rounded-lg',
         )}
       >
@@ -172,11 +182,13 @@ function UploadStatusWidget() {
                 </h3>
                 <p className="text-xs text-muted-foreground">
                   <span className="mr-2">
-                    {formatBytes(upload.file.size, t)}
+                    {formatBytes(upload.file.size, tCommon)}
                   </span>
-                  {upload.status === 'processing' && <span>Processing...</span>}
+                  {upload.status === 'processing' && (
+                    <span>{t('processing')}</span>
+                  )}
                   {upload.status === 'uploading' && (
-                    <span>{upload.progress}% completed</span>
+                    <span>{t('completed', { progress: upload.progress })}</span>
                   )}
                   {upload.status === 'failed' && upload.errorMessage && (
                     <span className="text-destructive">

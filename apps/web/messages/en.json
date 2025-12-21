@@ -353,6 +353,21 @@
         },
         "continue": "Upload {count} Photo{count, plural, one {} other {s}}"
       },
+      "uploadStatus": {
+        "uploading": "Uploading {current} of {total} photos",
+        "uploadComplete": "Upload Complete",
+        "uploadFailed": "Upload Failed",
+        "uploadFinished": "Upload Finished: {failed} Failed",
+        "timeLeft": "{time} left",
+        "calculatingTime": "Calculating remaining time...",
+        "allUploaded": "All photos uploaded successfully",
+        "couldNotUpload": "Could not upload {count, plural, one {# photo} other {# photos}}",
+        "uploadSummary": "{completed} successful, {failed} failed",
+        "processing": "Processing...",
+        "completed": "{progress}% completed",
+        "minutesAndSeconds": "{minutes}m {seconds}s",
+        "seconds": "{count}s"
+      },
       "photoContextMenu": {
         "setAsCoverImage": "Set as cover image",
         "download": "Download",

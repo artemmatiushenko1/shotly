@@ -350,6 +350,21 @@
         },
         "continue": "Завантажити {count, plural, one {1 фотографію} other {# фотографій}}"
       },
+      "uploadStatus": {
+        "uploading": "Завантаження {current} з {total} фотографій",
+        "uploadComplete": "Завантаження завершено",
+        "uploadFailed": "Завантаження не вдалося",
+        "uploadFinished": "Завантаження завершено: {failed} не вдалося",
+        "timeLeft": "Залишилось {time}",
+        "calculatingTime": "Розрахунок часу, що залишився...",
+        "allUploaded": "Всі фотографії успішно завантажено",
+        "couldNotUpload": "Не вдалося завантажити {count, plural, one {# фотографію} few {# фотографії} other {# фотографій}}",
+        "uploadSummary": "{completed} успішно, {failed} не вдалося",
+        "processing": "Обробка...",
+        "completed": "{progress}% завершено",
+        "minutesAndSeconds": "{minutes}хв {seconds}с",
+        "seconds": "{count}с"
+      },
       "photoContextMenu": {
         "setAsCoverImage": "Зробити обкладинкою",
         "download": "Завантажити",
