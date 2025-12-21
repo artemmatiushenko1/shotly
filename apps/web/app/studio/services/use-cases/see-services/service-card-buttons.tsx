@@ -59,6 +59,7 @@ function ServiceCardActions(props: ServiceCardActionsProps) {
         actionSeverity="neutral"
         title={t('archiveDialog.title', { name: service.name })}
         description={t('archiveDialog.description')}
+        cancelLabel={t('archiveDialog.cancelLabel')}
         onConfirm={handleArchive}
         icon={<ArchiveIcon />}
         confirmLabel={t('archiveDialog.confirmLabel')}

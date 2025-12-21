@@ -395,6 +395,14 @@
             "private": {
               "label": "Private",
               "description": "Only visible to you and anyone with the private share link."
+            },
+            "toast": {
+              "success": "Collection privacy updated to {status}",
+              "error": "Failed to update collection privacy",
+              "status": {
+                "public": "Public",
+                "private": "Private"
+              }
             }
           },
           "dangerZone": {
@@ -547,7 +555,8 @@
     "actions": {
       "reject": "Reject",
       "accept": "Accept",
-      "complete": "Complete"
+      "complete": "Complete",
+      "messageClient": "Message Client"
     },
     "clientInfo": {
       "label": "Client",
@@ -714,6 +723,9 @@
       "portfolio": "Portfolio",
       "services": "Services",
       "reviews": "Reviews"
+    },
+    "collectionCard": {
+      "photosCount": "{count, plural, one {# Photo} other {# Photos}}"
     },
     "seeServices": {
       "bookButton": "Book"

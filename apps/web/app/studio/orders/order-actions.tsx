@@ -78,7 +78,7 @@ function OrderActions(props: OrderActionsProps) {
           href={`mailto:${clientEmail}`}
           className={cn(buttonVariants({ variant: 'outline' }))}
         >
-          <MessageSquareIcon /> Message Client
+          <MessageSquareIcon /> {t('messageClient')}
         </Link>
         <Button loading={isCompletingOrder} onClick={handleCompleteOrder}>
           <CheckIcon /> {t('complete')}

@@ -15,6 +15,7 @@ import {
 } from '@/entities/models/search';
 
 import { Button } from '@shotly/ui/components/button';
+import FadeIn from '@shotly/ui/components/fade-in';
 
 import { searchPhotographersAction } from './actions';
 import { DEFAULT_SEARCH_PARAMS } from './constants';
@@ -113,25 +114,27 @@ export default function SearchView({
             ))}
           </div>
         ) : results.length > 0 ? (
-          <div className="min-h-[300px] grid grid-cols-1 md:grid-cols-2 gap-4">
-            {results.map((result) => (
-              <PhotographerCard
-                key={result.id}
-                id={result.id}
-                name={result.name}
-                profileImageUrl={result.profileImageUrl}
-                location={result.locationName}
-                rating={result.rating}
-                username={result.username}
-                yearsOfExperience={result.yearsOfExperience}
-                startingPrice={result.startingPrice}
-                currency={result.currency}
-                categoryName={result.categoryName}
-                totalReviews={result.totalReviews}
-                portfolioImages={result.portfolioImages}
-              />
-            ))}
-          </div>
+          <FadeIn>
+            <div className="min-h-[300px] grid grid-cols-1 md:grid-cols-2 gap-4">
+              {results.map((result) => (
+                <PhotographerCard
+                  key={result.id}
+                  id={result.id}
+                  name={result.name}
+                  profileImageUrl={result.profileImageUrl}
+                  location={result.locationName}
+                  rating={result.rating}
+                  username={result.username}
+                  yearsOfExperience={result.yearsOfExperience}
+                  startingPrice={result.startingPrice}
+                  currency={result.currency}
+                  categoryName={result.categoryName}
+                  totalReviews={result.totalReviews}
+                  portfolioImages={result.portfolioImages}
+                />
+              ))}
+            </div>
+          </FadeIn>
         ) : (
           <EmptyState
             className="mt-20"

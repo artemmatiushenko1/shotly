@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import React from 'react';
 
 import { Category } from '@/entities/models/category';
@@ -20,6 +21,8 @@ function CollectionCard({
   photosCount,
   category,
 }: CollectionCardProps) {
+  const t = useTranslations('photographerProfile.collectionCard');
+
   return (
     <div key={id} className="group cursor-pointer flex flex-col gap-3">
       <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
@@ -38,7 +41,7 @@ function CollectionCard({
           {title}
         </h3>
         <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
-          <span>{photosCount} Photos</span>
+          <span>{t('photosCount', { count: photosCount })}</span>
           <span>•</span>
           <span>{category.name}</span>
         </div>

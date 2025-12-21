@@ -36,7 +36,13 @@ export const getProfilePageInfoByUsernameOrIdUseCase = async (
 
   return {
     photographerId: user.id,
-    profile,
+    profile: {
+      ...profile,
+      languages: profile.languages.map((language) => ({
+        ...language,
+        name: locale === 'uk' ? language.nameUk : language.name,
+      })),
+    },
     collections: collections.map((collection) => ({
       ...collection,
       category: {

@@ -46,11 +46,14 @@ function AccessAndVisibilitySettings(props: AccessAndVisibilitySettingsProps) {
       changeCollectionVisibilityStatusAction(collectionId, value)
         .then(() => {
           setVisibility(value);
-          toast.success(`Collection privacy updated to ${value}`);
+          const statusLabel = t(`tabs.visibility.toast.status.${value}`);
+          toast.success(
+            t('tabs.visibility.toast.success', { status: statusLabel }),
+          );
         })
         .catch(() => {
           dispatchOptimisticVisibility(visibility);
-          toast.error('Failed to update collection privacy');
+          toast.error(t('tabs.visibility.toast.error'));
         })
         .finally(() => {
           setLoading(false);
