@@ -20,6 +20,7 @@ import { searchPhotographersAction } from './actions';
 import { DEFAULT_SEARCH_PARAMS } from './constants';
 import Filters from './filters';
 import PhotographerCard from './photographer-card';
+import PhotographerCardSkeleton from './photographer-card-skeleton';
 import { serializeParams } from './utils';
 
 type SearchViewProps = {
@@ -105,7 +106,13 @@ export default function SearchView({
           </Button>
         </div>
 
-        {results.length > 0 && !isPending ? (
+        {isPending ? (
+          <div className="min-h-[300px] grid grid-cols-1 md:grid-cols-2 gap-4">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <PhotographerCardSkeleton key={i} />
+            ))}
+          </div>
+        ) : results.length > 0 ? (
           <div className="min-h-[300px] grid grid-cols-1 md:grid-cols-2 gap-4">
             {results.map((result) => (
               <PhotographerCard
